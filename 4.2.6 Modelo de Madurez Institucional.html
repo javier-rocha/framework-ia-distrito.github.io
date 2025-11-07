@@ -364,7 +364,7 @@
 <body>
     <div class="container">
         <div class="header">
-			<a href="4.2 Arquitectura Base.html" class="back-button">Atras</a>
+			<a href="javascript:history.back()" class="back-button">Atras</a>
             <h1>📊 Toolkit - Modelo de Madurez Institucional</h1>
             <p>Framework de cuatro niveles para evaluar y planificar la adopción progresiva de capacidades de gobernanza de IA en el Distrito Capital</p>
         </div>
@@ -728,6 +728,24 @@
             });
             document.querySelector(`[data-level="${level}"]`).classList.add('active');
         }
+        // Función para procesar parámetros de URL
+        function getUrlParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        // Función para mostrar una dimensión específica basada en parámetros de URL
+        function checkUrlParameters() {
+            const dimensionParam = getUrlParameter('dimension');
+            if (dimensionParam && maturityDetails[dimensionParam]) {
+                showDetail(parseInt(dimensionParam));
+            }
+        }
+
+        // Ejecutar al cargar la página
+        window.addEventListener('DOMContentLoaded', function() {
+            checkUrlParameters();
+        });
     </script>
 </body>
 </html>

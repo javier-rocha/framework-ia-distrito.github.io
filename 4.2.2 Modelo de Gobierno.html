@@ -345,7 +345,7 @@
 <body>
     <div class="container">
         <div class="header">
-			<a href="4.2 Arquitectura Base.html" class="back-button">Atras</a>
+			<a href="javascript:history.back()" class="back-button">Atras</a>
             <h1>🏛️ Toolkit - Capa 2: Modelo de Gobierno de IA</h1>
             <p>Estructura organizacional y mecanismos de decisión para implementar la gobernanza de IA en el Distrito Capital</p>
         </div>
@@ -687,6 +687,24 @@
             });
             document.querySelector(`[data-dimension="${dimension}"]`).classList.add('active');
         }
+        // Función para procesar parámetros de URL
+        function getUrlParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        // Función para mostrar una dimensión específica basada en parámetros de URL
+        function checkUrlParameters() {
+            const dimensionParam = getUrlParameter('dimension');
+            if (dimensionParam && governanceDetails[dimensionParam]) {
+                showDetail(parseInt(dimensionParam));
+            }
+        }
+
+        // Ejecutar al cargar la página
+        window.addEventListener('DOMContentLoaded', function() {
+            checkUrlParameters();
+        });
     </script>
 </body>
 </html>

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mapa de Arquitectura - Framework de Gobernanza de IA</title>
     <style>
+        /* Tus estilos CSS existentes permanecen igual */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -61,6 +62,11 @@
             transition: all 0.3s ease;
         }
         
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-50%) scale(1.05);
+        }
+        
         .architecture-map {
             padding: 30px;
             display: flex;
@@ -107,6 +113,26 @@
             font-size: 16px;
             color: #555;
             margin-bottom: 20px;
+        }
+
+        /* Estilos específicos para la Capa 3 */
+        .layer-3 .component-card {
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .layer-3 .component-title {
+            font-size: 14px;
+            line-height: 1.3;
+            margin-bottom: 8px;
+        }
+
+        .layer-3 .component-description {
+            font-size: 12px;
+            line-height: 1.4;
+            color: #555;
         }
         
         .components-grid {
@@ -230,7 +256,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <a href="4.2 Arquitectura Base.html" class="back-button">Atras</a>
+            <a href="javascript:history.back()" class="back-button">Atras</a>
             <h1>🏛️ Mapa de Arquitectura - Framework de Gobernanza de IA</h1>
             <p>Vista consolidada de las 5 capas y modelo de madurez para implementación de IA responsable en el Distrito Capital</p>
         </div>
@@ -326,37 +352,57 @@
             <div class="layer layer-3">
                 <div class="layer-header">
                     <div class="layer-icon">🔄</div>
-                    <div class="layer-title"><a href="4.2.3 Ciclo de vida IA.html"> 3: Ciclo de Vida de Gobernanza de IA</a></div>
+                    <div class="layer-title"><a href="4.2.3 Ciclo de vida IA.html">Capa 3: Ciclo de Vida de Gobernanza de IA</a></div>
                 </div>
                 <div class="layer-description">
                     Proceso integral para implementación responsable de sistemas de IA en el Distrito Capital
                 </div>
-                <div class="lifecycle-container">
-                    <!-- Fila 1 -->
-                    <div class="lifecycle-row">
-                        <div class="lifecycle-phase">1. INTAKE Y AI USE-CASE CANVAS<br>GATE 1 - Comité de IA</div>
-                        <div class="lifecycle-phase">2. CLASIFICACIÓN DE RIESGO<br>GATE 2 - Comité de IA</div>
-                        <div class="lifecycle-phase">3. ARA/DPIA<br>GATE 3 - DPO voto decisivo</div>
-                        <div class="lifecycle-phase">4. GOBIERNO DE DATOS<br>GATE 4 - Propietario y DPO</div>
+                <div class="components-grid">
+                    <div class="component-card">
+                        <div class="component-icon">📥</div>
+                        <div class="component-title">1. INTAKE Y AI USE-CASE CANVAS</div>
+                        <div class="component-description">GATE 1 - Comité de IA<br>Evaluación inicial y definición del caso de uso</div>
                     </div>
-                    <div class="lifecycle-arrow">↓</div>
-                    
-                    <!-- Fila 2 -->
-                    <div class="lifecycle-row">
-                        <div class="lifecycle-phase">5. DESARROLLO O ADQUISICIÓN<br>GATE 5 - Comité técnico</div>
-                        <div class="lifecycle-phase">6. PRUEBAS Y VALIDACIÓN<br>GATE 6 - Comité de IA</div>
-                        <div class="lifecycle-phase">7. DESPLIEGUE<br>GATE 7 - Comité y Sponsor</div>
-                        <div class="lifecycle-phase">8. MONITOREO Y AUDITORÍA<br>GATE 8 - Trimestral</div>
+                    <div class="component-card">
+                        <div class="component-icon">⚠️</div>
+                        <div class="component-title">2. CLASIFICACIÓN DE RIESGO</div>
+                        <div class="component-description">GATE 2 - Comité de IA<br>Evaluación de nivel de riesgo según framework</div>
                     </div>
-                    <div class="lifecycle-arrow">↓</div>
-                    
-                    <!-- Fase final -->
-                    <div class="lifecycle-row">
-                        <div class="lifecycle-phase" style="margin: 0 auto; max-width: 400px;">
-                            9. RETIRO O FIN DE VIDA<br>GATE 9 - Comité de IA y DPO
-                        </div>
+                    <div class="component-card">
+                        <div class="component-icon">📋</div>
+                        <div class="component-title">3. ARA/DPIA</div>
+                        <div class="component-description">GATE 3 - DPO voto decisivo<br>Evaluación de impacto en privacidad y protección de datos</div>
                     </div>
-                    <div class="lifecycle-arrow">↻ Nuevo Ciclo</div>
+                    <div class="component-card">
+                        <div class="component-icon">🗄️</div>
+                        <div class="component-title">4. GOBIERNO DE DATOS</div>
+                        <div class="component-description">GATE 4 - Propietario y DPO<br>Gestión de calidad, integridad y gobernanza de datos</div>
+                    </div>
+                    <div class="component-card">
+                        <div class="component-icon">⚙️</div>
+                        <div class="component-title">5. DESARROLLO O ADQUISICIÓN</div>
+                        <div class="component-description">GATE 5 - Comité técnico<br>Implementación técnica o selección de proveedores</div>
+                    </div>
+                    <div class="component-card">
+                        <div class="component-icon">🧪</div>
+                        <div class="component-title">6. PRUEBAS Y VALIDACIÓN</div>
+                        <div class="component-description">GATE 6 - Comité de IA<br>Validación técnica, ética y operativa del sistema</div>
+                    </div>
+                    <div class="component-card">
+                        <div class="component-icon">🚀</div>
+                        <div class="component-title">7. DESPLIEGUE</div>
+                        <div class="component-description">GATE 7 - Comité y Sponsor<br>Implementación en ambiente productivo</div>
+                    </div>
+                    <div class="component-card">
+                        <div class="component-icon">📊</div>
+                        <div class="component-title">8. MONITOREO Y AUDITORÍA</div>
+                        <div class="component-description">GATE 8 - Trimestral<br>Seguimiento continuo y evaluaciones periódicas</div>
+                    </div>
+                    <div class="component-card">
+                        <div class="component-icon">🔄</div>
+                        <div class="component-title">9. RETIRO O FIN DE VIDA</div>
+                        <div class="component-description">GATE 9 - Comité de IA y DPO<br>Desactivación controlada y gestión de datos residuales</div>
+                    </div>
                 </div>
             </div>
             
@@ -480,5 +526,90 @@
             </div>
         </div>
     </div>
+
+    <script>
+        // Mapeo de capas a dimensiones
+        const layerDimensions = {
+            '4.2.1 Principios y Políticas.html': {
+                count: 6,
+                baseUrl: '4.2.1 Principios y Políticas.html'
+            },
+            '4.2.2 Modelo de Gobierno.html': {
+                count: 6,
+                baseUrl: '4.2.2 Modelo de Gobierno.html'
+            },
+            '4.2.3 Ciclo de vida IA.html': {
+                count: 9,
+                baseUrl: '4.2.3 Ciclo de vida IA.html'
+            },
+            '4.2.4 Controles Clave IA.html': {
+                count: 6,
+                baseUrl: '4.2.4 Controles Clave IA.html'
+            },
+            '4.2.5 Métricas y KPI.html': {
+                count: 6,
+                baseUrl: '4.2.5 Métricas y KPI.html'
+            },
+            '4.2.6 Modelo de Madurez Institucional.html': {
+                count: 4,
+                baseUrl: '4.2.6 Modelo de Madurez Institucional.html'
+            }
+        };
+
+        // Función para enlazar los component-cards
+        function linkComponentCards() {
+            // Obtener todas las capas
+            const layers = document.querySelectorAll('.layer');
+            
+            layers.forEach(layer => {
+                // Obtener el enlace del layer-title
+                const layerLink = layer.querySelector('.layer-title a');
+                if (!layerLink) return;
+                
+                const layerHref = layerLink.getAttribute('href');
+                const layerConfig = layerDimensions[layerHref];
+                
+                if (!layerConfig) return;
+                
+                // Obtener todos los component-cards de esta capa
+                const componentCards = layer.querySelectorAll('.component-card');
+                
+                componentCards.forEach((card, index) => {
+                    // Crear número de dimensión (1-based)
+                    const dimensionNumber = index + 1;
+                    
+                    // Crear enlace
+                    const link = document.createElement('a');
+                    link.href = `${layerConfig.baseUrl}?dimension=${dimensionNumber}`;
+                    link.style.textDecoration = 'none';
+                    link.style.color = 'inherit';
+                    link.style.display = 'block';
+                    link.style.height = '100%';
+                    
+                    // Mover el contenido del card al enlace
+                    while (card.firstChild) {
+                        link.appendChild(card.firstChild);
+                    }
+                    
+                    // Agregar el enlace al card
+                    card.appendChild(link);
+                    
+                    // Agregar efecto hover mejorado
+                    card.style.cursor = 'pointer';
+                    card.addEventListener('mouseenter', function() {
+                        this.style.transform = 'translateY(-5px)';
+                        this.style.boxShadow = '0 8px 20px rgba(0,0,0,0.15)';
+                    });
+                    card.addEventListener('mouseleave', function() {
+                        this.style.transform = 'translateY(-3px)';
+                        this.style.boxShadow = '0 5px 15px rgba(0,0,0,0.1)';
+                    });
+                });
+            });
+        }
+
+        // Ejecutar cuando el DOM esté cargado
+        document.addEventListener('DOMContentLoaded', linkComponentCards);
+    </script>
 </body>
 </html>
