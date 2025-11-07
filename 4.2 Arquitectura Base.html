@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4.2 Arquitectura del Framework de Gobernanza de IA</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1a237e, #283593);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 36px;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header p {
+            font-size: 18px;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .architecture-overview {
+            padding: 40px;
+        }
+        
+        .framework-layers {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .layer-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            border: 3px solid #e0e0e0;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .layer-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+        }
+        
+        .layer-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .layer-card-1::before { background: linear-gradient(90deg, #1976D2, #64B5F6); }
+        .layer-card-2::before { background: linear-gradient(90deg, #388E3C, #66BB6A); }
+        .layer-card-3::before { background: linear-gradient(90deg, #F57C00, #FFA726); }
+        .layer-card-4::before { background: linear-gradient(90deg, #7B1FA2, #AB47BC); }
+        .layer-card-5::before { background: linear-gradient(90deg, #00897B, #26A69A); }
+        .layer-card-6::before { background: linear-gradient(90deg, #D32F2F, #EF5350); }
+        
+        .layer-icon {
+            font-size: 32px;
+            margin-bottom: 15px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #1a237e, #283593);
+            color: white;
+        }
+        
+        .layer-card-1 .layer-icon { background: linear-gradient(135deg, #1976D2, #64B5F6); }
+        .layer-card-2 .layer-icon { background: linear-gradient(135deg, #388E3C, #66BB6A); }
+        .layer-card-3 .layer-icon { background: linear-gradient(135deg, #F57C00, #FFA726); }
+        .layer-card-4 .layer-icon { background: linear-gradient(135deg, #7B1FA2, #AB47BC); }
+        .layer-card-5 .layer-icon { background: linear-gradient(135deg, #00897B, #26A69A); }
+        .layer-card-6 .layer-icon { background: linear-gradient(135deg, #D32F2F, #EF5350); }
+        
+        .layer-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #1a237e;
+            margin-bottom: 10px;
+        }
+        
+        .layer-filename {
+            font-size: 14px;
+            color: #666;
+            font-family: 'Courier New', monospace;
+            background: #f5f5f5;
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+        
+        .layer-description {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+        
+        .layer-link {
+            color: #1976D2;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.3s ease;
+        }
+        
+        .layer-link:hover {
+            color: #0D47A1;
+        }
+        
+        .architecture-diagram {
+            background: #f9f9f9;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            border: 2px dashed #1976D2;
+        }
+        
+        .diagram-title {
+            font-size: 24px;
+            color: #1a237e;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        
+        .diagram-placeholder {
+            background: linear-gradient(135deg, #E3F2FD, #BBDEFB);
+            border-radius: 10px;
+            padding: 60px 30px;
+            color: #1976D2;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .navigation-footer {
+            text-align: center;
+            padding: 30px;
+            background: #f5f5f5;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .nav-link {
+            color: #1976D2;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 20px;
+            border: 2px solid #1976D2;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            background: #1976D2;
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .framework-layers {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 28px;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .nav-link {
+                width: 200px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏛️ Arquitectura del Framework de Gobernanza de IA</h1>
+            <p>Estructura integral para la implementación responsable de Inteligencia Artificial en el Distrito Capital. Este framework establece los principios, procesos y controles necesarios para garantizar el uso ético y transparente de sistemas de IA.</p>
+        </div>
+        
+        <div class="architecture-overview">
+            <div class="framework-layers">
+                <!-- Capa 1 -->
+                <a href="4.2.1 Principios y Políticas.html" class="layer-card layer-card-1">
+                    <div class="layer-icon">📜</div>
+                    <div class="layer-title">Principios y Políticas</div>
+                    <div class="layer-filename">4.2.1 Principios y Políticas.html</div>
+                    <div class="layer-description">
+                        Establece los fundamentos éticos y normativos para el uso de IA, incluyendo la Carta de IA Responsable, políticas de gobierno de datos, gestión de riesgos y alineación con el CONPES 4144.
+                    </div>
+                    <div class="layer-link">
+                        Ver detalle →
+                    </div>
+                </a>
+                
+                <!-- Capa 2 -->
+                <a href="4.2.2 Modelo de Gobierno.html" class="layer-card layer-card-2">
+                    <div class="layer-icon">🏛️</div>
+                    <div class="layer-title">Modelo de Gobierno</div>
+                    <div class="layer-filename">4.2.2 Modelo de Gobierno.html</div>
+                    <div class="layer-description">
+                        Define la estructura organizacional, composición del Comité de IA, funciones, modalidades de implementación y mecanismos de vigilancia de cumplimiento.
+                    </div>
+                    <div class="layer-link">
+                        Ver detalle →
+                    </div>
+                </a>
+                
+                <!-- Capa 3 -->
+                <a href="4.2.3 Ciclo de vida IA.html" class="layer-card layer-card-3">
+                    <div class="layer-icon">🔄</div>
+                    <div class="layer-title">Ciclo de Vida de IA</div>
+                    <div class="layer-filename">4.2.3 Ciclo de vida IA.html</div>
+                    <div class="layer-description">
+                        Proceso integral de 9 fases para la implementación responsable de sistemas de IA, desde el intake hasta el retiro, con puntos de control (gates) definidos.
+                    </div>
+                    <div class="layer-link">
+                        Ver detalle →
+                    </div>
+                </a>
+                
+                <!-- Capa 4 -->
+                <a href="4.2.4 Controles Clave IA.html" class="layer-card layer-card-4">
+                    <div class="layer-icon">🔒</div>
+                    <div class="layer-title">Controles Clave de IA</div>
+                    <div class="layer-filename">4.2.4 Controles Clave IA.html</div>
+                    <div class="layer-description">
+                        Dimensiones técnicas y organizacionales para implementación ética y segura, incluyendo ética, privacidad, seguridad, transparencia y gestión de terceros.
+                    </div>
+                    <div class="layer-link">
+                        Ver detalle →
+                    </div>
+                </a>
+                
+                <!-- Capa 5 -->
+                <a href="4.2.5 Métricas y KPI.html" class="layer-card layer-card-5">
+                    <div class="layer-icon">📊</div>
+                    <div class="layer-title">Métricas y KPI</div>
+                    <div class="layer-filename">4.2.5 Métricas y KPI.html</div>
+                    <div class="layer-description">
+                        Indicadores para medir implementación, efectividad e impacto del framework en gobernanza institucional, cumplimiento normativo, gestión de riesgos y capacidades organizacionales.
+                    </div>
+                    <div class="layer-link">
+                        Ver detalle →
+                    </div>
+                </a>
+                
+                <!-- Capa 6 -->
+                <a href="4.2.6 Modelo de Madurez Institucional.html" class="layer-card layer-card-6">
+                    <div class="layer-icon">📈</div>
+                    <div class="layer-title">Modelo de Madurez Institucional</div>
+                    <div class="layer-filename">4.2.6 Modelo de Madurez Institucional.html</div>
+                    <div class="layer-description">
+                        Framework de cuatro niveles (0-3) para evaluar estado actual y planificar adopción progresiva de capacidades de gobernanza de IA en entidades distritales.
+                    </div>
+                    <div class="layer-link">
+                        Ver detalle →
+                    </div>
+                </a>
+            </div>
+            
+            
+        </div>
+        
+        <div class="navigation-footer">
+            <div class="nav-links">
+                <a href="#" class="nav-link">🏠 Página Principal</a>
+                <a href="#" class="nav-link">📚 Documentación Completa</a>
+                <a href="#" class="nav-link">🛠️ Toolkit de Implementación</a>
+                <a href="#" class="nav-link">📞 Soporte y Contacto</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
