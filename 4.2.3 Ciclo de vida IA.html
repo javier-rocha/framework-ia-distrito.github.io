@@ -45,8 +45,8 @@
             font-size: 16px;
             opacity: 0.9;
         }
-		
-		.back-button {
+        
+        .back-button {
             position: absolute;
             left: 30px;
             top: 50%;
@@ -66,34 +66,12 @@
             transform: translateY(-50%) scale(1.05);
         }
         
-        .view-image-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: 2px solid white;
-            border-radius: 50px;
-            padding: 10px 20px;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .view-image-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-2px);
-        }
-        
         .content {
-			padding: 30px;
-			display: grid;
-			grid-template-columns: 1fr 600px; /* Cambia 400px por 500px o más */
-			gap: 30px;
-		}
+            padding: 30px;
+            display: grid;
+            grid-template-columns: 1fr 600px;
+            gap: 30px;
+        }
         
         .left-panel {
             display: flex;
@@ -101,138 +79,86 @@
             gap: 20px;
         }
         
-        .flow-diagram {
-            display: flex;
-            flex-direction: column;
-            gap: 1px;
+        .components-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
         }
         
-        .phase-card {
+        .component-card {
             background: white;
             border-radius: 12px;
-            padding: 20px;
+            padding: 5px;
             border: 3px solid #e0e0e0;
             transition: all 0.3s ease;
             cursor: pointer;
             position: relative;
             overflow: hidden;
+            height: 130px;
+            display: flex;
+            flex-direction: column;
         }
         
-        .phase-card::before {
+        .component-card::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 4px;
-            background: linear-gradient(90deg, #1976D2, #64B5F6);
         }
         
-        .phase-card:hover {
+        .component-card:nth-child(1)::before { background: linear-gradient(90deg, #1976D2, #64B5F6); }
+        .component-card:nth-child(2)::before { background: linear-gradient(90deg, #388E3C, #66BB6A); }
+        .component-card:nth-child(3)::before { background: linear-gradient(90deg, #D32F2F, #EF5350); }
+        .component-card:nth-child(4)::before { background: linear-gradient(90deg, #7B1FA2, #AB47BC); }
+        .component-card:nth-child(5)::before { background: linear-gradient(90deg, #F57C00, #FFA726); }
+        .component-card:nth-child(6)::before { background: linear-gradient(90deg, #00897B, #26A69A); }
+        .component-card:nth-child(7)::before { background: linear-gradient(90deg, #5D4037, #8D6E63); }
+        .component-card:nth-child(8)::before { background: linear-gradient(90deg, #546E7A, #78909C); }
+        .component-card:nth-child(9)::before { background: linear-gradient(90deg, #37474F, #607D8B); }
+        
+        .component-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-            border-color: #1976D2;
         }
         
-        .phase-card.active {
+        .component-card.active {
             border-color: #1976D2;
             background: linear-gradient(135deg, #E3F2FD, #BBDEFB);
             box-shadow: 0 8px 20px rgba(25, 118, 210, 0.3);
         }
         
-        .phase-number {
-            display: inline-block;
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, #1976D2, #1565C0);
-            color: white;
-            border-radius: 50%;
-            text-align: center;
-            line-height: 40px;
-            font-weight: bold;
-            font-size: 18px;
+        .component-icon {
+            font-size: 24px;
             margin-bottom: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
         
-        .phase-title {
+        .component-title {
             font-size: 14px;
             font-weight: bold;
             color: #1a237e;
             margin-bottom: 8px;
         }
         
-        .phase-gate {
-            font-size: 12px;
-            color: #EF6C00;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        
-        .phase-deliverable {
-            font-size: 11px;
-            color: #388E3C;
-            font-style: italic;
-        }
-        
-        .flow-row {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-        }
-        
-        .arrow-down {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 30px;
-            color: #1976D2;
-            padding: 0px 0;
-        }
-        
-        .arrow-center {
-            text-align: center;
-            font-size: 30px;
-            color: #7B1FA2;
-            padding: 0px 0;
-        }
-        
-        .legend {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            padding: 20px;
-            background: #f5f5f5;
-            border-radius: 12px;
-            margin-top: 5px;
-        }
-        
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        .component-description {
             font-size: 13px;
-        }
-        
-        .legend-color {
-            width: 30px;
-            height: 30px;
-            border-radius: 6px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            color: #555;
+            line-height: 1.4;
         }
         
         .detail-panel {
-			background: #f9f9f9;
-			border: 3px solid #1976D2;
-			border-radius: 12px;
-			padding: 25px;
-			animation: slideIn 0.3s ease;
-			max-height: calc(145vh - 200px);
-			overflow-y: auto;
-			position: sticky;
-			top: 20px;
-			min-height: 600px; /* Añade una altura mínima */
-		}
+            background: #f9f9f9;
+            border: 3px solid #1976D2;
+            border-radius: 12px;
+            padding: 25px;
+            animation: slideIn 0.3s ease;
+            max-height: calc(100vh - 200px);
+            overflow-y: auto;
+            position: sticky;
+            top: 20px;
+            min-height: 600px;
+        }
         
         .detail-panel.empty {
             display: flex;
@@ -284,9 +210,16 @@
             gap: 8px;
         }
         
+        .detail-section h4 {
+            color: #1a237e;
+            margin: 15px 0 8px 0;
+            font-size: 15px;
+        }
+        
         .detail-section p {
             line-height: 1.6;
             color: #333;
+            margin-bottom: 10px;
         }
         
         .detail-section ul {
@@ -298,6 +231,7 @@
             padding: 8px 0;
             padding-left: 25px;
             position: relative;
+            line-height: 1.5;
         }
         
         .detail-section li::before {
@@ -308,102 +242,105 @@
             font-weight: bold;
         }
         
-        .risk-alert {
-            background: #ffebee;
-            border-left: 4px solid #c62828;
+        .activity-item {
+            background: white;
+            border-radius: 8px;
             padding: 15px;
-            border-radius: 6px;
-            margin: 20px 0;
+            margin-bottom: 15px;
+            border-left: 4px solid #1976D2;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
         
-        .risk-alert h4 {
-            color: #c62828;
+        .activity-title {
+            font-weight: bold;
+            color: #1a237e;
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+        
+        .activity-description {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #444;
+        }
+        
+        .deliverable-item {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #388E3C;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .deliverable-title {
+            font-weight: bold;
+            color: #1a237e;
             margin-bottom: 8px;
         }
         
-        /* Estilos para el modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            animation: fadeIn 0.3s ease;
+        .deliverable-description {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #444;
         }
         
-        .modal-content {
-            position: relative;
-            max-width: 90%;
-            max-height: 90%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        .gate-item {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #7B1FA2;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
         
-        .modal-image {
-            max-width: 100%;
-            max-height: 90vh;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        .gate-title {
+            font-weight: bold;
+            color: #1a237e;
+            margin-bottom: 8px;
         }
         
-        .close-modal {
-            position: absolute;
-            top: -40px;
-            right: 0;
-            color: white;
-            font-size: 30px;
-            cursor: pointer;
-            background: none;
-            border: none;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            transition: background 0.3s;
+        .gate-description {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #444;
         }
         
-        .close-modal:hover {
-            background: rgba(255, 255, 255, 0.2);
+        .risk-item {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #F57C00;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
         
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        .risk-title {
+            font-weight: bold;
+            color: #1a237e;
+            margin-bottom: 8px;
+        }
+        
+        .risk-description {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #444;
         }
         
         @media (max-width: 1200px) {
             .content {
-				grid-template-columns: 1fr;
-			}
-			
-			.detail-panel {
-				min-height: 400px; /* Altura menor en móvil */
-			}
-            
-            .flow-row {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .flow-row {
                 grid-template-columns: 1fr;
             }
             
-            .view-image-btn {
+            .detail-panel {
                 position: relative;
                 top: 0;
-                right: 0;
-                margin: 10px auto;
-                display: inline-flex;
+                max-height: none;
+                min-height: 400px;
+            }
+            
+            .components-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -411,257 +348,340 @@
 <body>
     <div class="container">
         <div class="header">
-			<a href="javascript:history.back()" class="back-button">Atras</a>
-            <h1>🔄 Toolkit - Capa 3: Ciclo de Vida de Gobernanza de IA</h1>
-            <p>Proceso integral para implementación responsable de sistemas de IA en el Distrito Capital</p>
-            <button class="view-image-btn" onclick="openModal()">
-                📋 Ver Diagrama Completo
-            </button>
+            <a href="javascript:history.back()" class="back-button">Atrás</a>
+            <h1>🔄 Toolkit - Capa 3: Flujo de Gobernanza de IA</h1>
+            <p>Nueve etapas sucesivas para garantizar una adopción responsable y estructurada de sistemas de IA</p>
         </div>
         
         <div class="content">
             <div class="left-panel">
-                <div class="flow-diagram" id="flowDiagram">
-                    <!-- Fila 1 -->
-                    <div class="flow-row">
-                        <div class="phase-card" onclick="showDetail(1)" data-phase="1">
-                            <div class="phase-number">1</div>
-                            <div class="phase-title">INTAKE Y AI USE-CASE CANVAS</div>
-                            <div class="phase-gate">GATE 1 - Comité de IA</div>
-                            <div class="phase-deliverable">✓ AI Use-Case Canvas Aprobado</div>
-                        </div>
-                        
-                        <div class="phase-card" onclick="showDetail(2)" data-phase="2">
-                            <div class="phase-number">2</div>
-                            <div class="phase-title">CLASIFICACIÓN DE RIESGO</div>
-                            <div class="phase-gate">GATE 2 - Comité de IA</div>
-                            <div class="phase-deliverable">✓ Ficha de Clasificación de Riesgo</div>
-                        </div>
-                        
-                        <div class="phase-card" onclick="showDetail(3)" data-phase="3">
-                            <div class="phase-number">3</div>
-                            <div class="phase-title">ARA/DPIA</div>
-                            <div class="phase-gate">GATE 3 - DPO voto decisivo</div>
-                            <div class="phase-deliverable">✓ ARA/DPIA Aprobado</div>
-                        </div>
-                        
-                        <div class="phase-card" onclick="showDetail(4)" data-phase="4">
-                            <div class="phase-number">4</div>
-                            <div class="phase-title">GOBIERNO DE DATOS</div>
-                            <div class="phase-gate">GATE 4 - Propietario y DPO</div>
-                            <div class="phase-deliverable">✓ Data Sheets Aprobados</div>
-                        </div>
+                <div class="components-grid">
+                    <div class="component-card" onclick="showDetail(1)" data-phase="1">
+                        <div class="component-icon">📥</div>
+                        <div class="component-title">1. INTAKE Y AI USE-CASE CANVAS</div>
+                        <div class="component-description">GATE 1 - Comité de IA<br>Evaluación inicial y definición del caso de uso</div>
                     </div>
-                    
-                    <div class="arrow-down">↓</div>
-                    
-                    <!-- Fila 2 -->
-                    <div class="flow-row">
-                        <div class="phase-card" onclick="showDetail(5)" data-phase="5">
-                            <div class="phase-number">5</div>
-                            <div class="phase-title">DESARROLLO O ADQUISICIÓN</div>
-                            <div class="phase-gate">GATE 5 - Comité técnico</div>
-                            <div class="phase-deliverable">✓ Sistema documentado</div>
-                        </div>
-                        
-                        <div class="phase-card" onclick="showDetail(6)" data-phase="6">
-                            <div class="phase-number">6</div>
-                            <div class="phase-title">PRUEBAS Y VALIDACIÓN</div>
-                            <div class="phase-gate">GATE 6 - Comité de IA</div>
-                            <div class="phase-deliverable">✓ Informe de Pruebas</div>
-                        </div>
-                        
-                        <div class="phase-card" onclick="showDetail(7)" data-phase="7">
-                            <div class="phase-number">7</div>
-                            <div class="phase-title">DESPLIEGUE</div>
-                            <div class="phase-gate">GATE 7 - Comité y Sponsor</div>
-                            <div class="phase-deliverable">✓ Sistema en Producción</div>
-                        </div>
-                        
-                        <div class="phase-card" onclick="showDetail(8)" data-phase="8">
-                            <div class="phase-number">8</div>
-                            <div class="phase-title">MONITOREO Y AUDITORÍA</div>
-                            <div class="phase-gate">GATE 8 - Trimestral</div>
-                            <div class="phase-deliverable">✓ Reportes de Monitoreo</div>
-                        </div>
+                    <div class="component-card" onclick="showDetail(2)" data-phase="2">
+                        <div class="component-icon">⚠️</div>
+                        <div class="component-title">2. CLASIFICACIÓN DE RIESGO</div>
+                        <div class="component-description">GATE 2 - Comité de IA<br>Evaluación de nivel de riesgo según framework</div>
                     </div>
-                    
-                    <div class="arrow-down">↓</div>
-                    
-                    <!-- Fase 9 -->
-                    <div class="phase-card" onclick="showDetail(9)" data-phase="9" style="margin: 0 auto; max-width: 400px;">
-                        <div class="phase-number">9</div>
-                        <div class="phase-title">RETIRO O FIN DE VIDA</div>
-                        <div class="phase-gate">GATE 9 - Comité de IA y DPO</div>
-                        <div class="phase-deliverable">✓ Sistema Retirado y Lecciones Aprendidas</div>
+                    <div class="component-card" onclick="showDetail(3)" data-phase="3">
+                        <div class="component-icon">📋</div>
+                        <div class="component-title">3. ARA/DPIA</div>
+                        <div class="component-description">GATE 3 - DPO voto decisivo<br>Evaluación de impacto en privacidad y protección de datos</div>
                     </div>
-                    
-                    <div class="arrow-center">↻ Nuevo Ciclo</div>
-                </div>
-                
-                <div class="legend">
-                    <div class="legend-item">
-                        <div class="legend-color" style="background: linear-gradient(135deg, #1976D2, #64B5F6);"></div>
-                        <span><strong>FASE:</strong> Proceso principal</span>
+                    <div class="component-card" onclick="showDetail(4)" data-phase="4">
+                        <div class="component-icon">🗄️</div>
+                        <div class="component-title">4. GOBIERNO DE DATOS</div>
+                        <div class="component-description">GATE 4 - Propietario y DPO<br>Gestión de calidad, integridad y gobernanza de datos</div>
                     </div>
-                    <div class="legend-item">
-                        <div class="legend-color" style="background: #EF6C00;"></div>
-                        <span><strong>GATE:</strong> Punto de control</span>
+                    <div class="component-card" onclick="showDetail(5)" data-phase="5">
+                        <div class="component-icon">⚙️</div>
+                        <div class="component-title">5. DESARROLLO O ADQUISICIÓN</div>
+                        <div class="component-description">GATE 5 - Comité técnico<br>Implementación técnica o selección de proveedores</div>
                     </div>
-                    <div class="legend-item">
-                        <div class="legend-color" style="background: #388E3C;"></div>
-                        <span><strong>ENTREGABLE:</strong> Resultado documental</span>
+                    <div class="component-card" onclick="showDetail(6)" data-phase="6">
+                        <div class="component-icon">🧪</div>
+                        <div class="component-title">6. PRUEBAS Y VALIDACIÓN</div>
+                        <div class="component-description">GATE 6 - Comité de IA<br>Validación técnica, ética y operativa del sistema</div>
                     </div>
-                    <div class="legend-item">
-                        <div class="legend-color" style="background: #C62828;"></div>
-                        <span><strong>RIESGO:</strong> Detención por riesgo inaceptable</span>
+                    <div class="component-card" onclick="showDetail(7)" data-phase="7">
+                        <div class="component-icon">🚀</div>
+                        <div class="component-title">7. DESPLIEGUE</div>
+                        <div class="component-description">GATE 7 - Comité y Sponsor<br>Implementación en ambiente productivo</div>
+                    </div>
+                    <div class="component-card" onclick="showDetail(8)" data-phase="8">
+                        <div class="component-icon">📊</div>
+                        <div class="component-title">8. MONITOREO Y AUDITORÍA</div>
+                        <div class="component-description">GATE 8 - Trimestral<br>Seguimiento continuo y evaluaciones periódicas</div>
+                    </div>
+                    <div class="component-card" onclick="showDetail(9)" data-phase="9">
+                        <div class="component-icon">🔄</div>
+                        <div class="component-title">9. RETIRO O FIN DE VIDA</div>
+                        <div class="component-description">GATE 9 - Comité de IA y DPO<br>Desactivación controlada y gestión de datos residuales</div>
                     </div>
                 </div>
             </div>
             
             <div class="detail-panel empty" id="detailPanel">
-                <p>👈 Selecciona una fase para ver sus detalles</p>
+                <p>👈 Selecciona una fase para ver los detalles del ciclo de vida de gobernanza de IA</p>
             </div>
         </div>
     </div>
 
-    <!-- Modal para mostrar la imagen -->
-    <div class="modal" id="imageModal">
-        <div class="modal-content">
-            <button class="close-modal" onclick="closeModal()">×</button>
-            <img src="ciclo-de-vida-gobierno-ia.png" alt="Ciclo de Vida de Gobernanza de IA" class="modal-image">
-        </div>
-    </div>
-
     <script>
-        const phaseDetails = {
+        const phasesDetails = {
             1: {
-                title: "Fase 1: Intake y AI Use-Case Canvas",
-                objective: "Estructurar y documentar la propuesta de caso de uso, asegurando claridad de propósito, viabilidad preliminar y alineación estratégica.",
+                title: "Fase 1 - Intake y AI Use-Case Canvas",
+                description: "En la fase inicial se formaliza la idea del caso de uso mediante el AI Use-Case Canvas (disponible en el toolkit, sección 4.2.1). El sponsor de negocio completa la plantilla describiendo el problema, los objetivos, los actores involucrados, los datos requeridos, los resultados esperados y las métricas de éxito.",
                 activities: [
-                    "Sponsor de Negocio completa el AI Use-Case Canvas",
-                    "Evaluación preliminar de viabilidad técnica, legal y presupuestal",
-                    "Identificación inicial de riesgos y stakeholders afectados"
+                    {
+                        title: "Completar AI Use-Case Canvas",
+                        description: "El sponsor de negocio completa la plantilla describiendo todos los aspectos del caso de uso."
+                    },
+                    {
+                        title: "Valoración de viabilidad",
+                        description: "El responsable técnico, el oficial de protección de datos (DPO) y el área de planeación realizan una primera valoración de viabilidad técnica, legal y presupuestal."
+                    },
+                    {
+                        title: "Identificación de riesgos y partes interesadas",
+                        description: "Se identifican riesgos potenciales y todas las partes interesadas en el proyecto."
+                    }
                 ],
-                gate: "GATE 1 - Comité de IA evalúa: alineación estratégica, viabilidad preliminar, claridad del propósito, disponibilidad de recursos",
-                deliverable: "AI Use-Case Canvas Aprobado",
-                decision: "Proceder a clasificación de riesgo o rechazar"
+                gate: {
+                    title: "Gate de Revisión G1 - Comité de IA",
+                    description: "El Comité de IA actúa como gate de revisión. Sus criterios (alineación estratégica, viabilidad preliminar, claridad del propósito y disponibilidad de recursos) determinan si el caso avanza a la clasificación de riesgo."
+                },
+                deliverable: {
+                    title: "AI Use-Case Canvas aprobado",
+                    description: "El entregable de esta fase es el AI Use-Case Canvas aprobado por el Comité de IA."
+                }
             },
             2: {
-                title: "Fase 2: Clasificación de Riesgo",
-                objective: "Determinar el nivel de riesgo del sistema según la taxonomía establecida (inaceptable, alto, limitado, mínimo).",
+                title: "Fase 2 - Clasificación de Riesgo",
+                description: "Esta etapa asigna un nivel de riesgo (inaceptable, alto, limitado o mínimo) siguiendo la taxonomía del AI Act. La matriz de clasificación evalúa propósito del sistema, tipo de decisiones, datos procesados, población afectada, reversibilidad y consecuencias de errores.",
                 activities: [
-                    "Aplicación de la matriz de clasificación de riesgo basada en criterios del AI Act",
-                    "Evaluación de categorías prohibidas (riesgo inaceptable)",
-                    "Para sistemas de alto riesgo: activación de obligaciones reforzadas",
-                    "Documentación de la clasificación y rationale"
+                    {
+                        title: "Evaluación de matriz de clasificación",
+                        description: "Se evalúa el sistema según propósito, tipo de decisiones, datos procesados, población afectada, reversibilidad y consecuencias de errores."
+                    },
+                    {
+                        title: "Asignación de nivel de riesgo",
+                        description: "Se asigna un nivel de riesgo: inaceptable, alto, limitado o mínimo."
+                    },
+                    {
+                        title: "Activación de obligaciones reforzadas",
+                        description: "Para casos de alto riesgo se activan obligaciones reforzadas (ARA/DPIA obligatorio, documentación técnica ampliada, supervisión humana y auditoría)."
+                    }
                 ],
-                gate: "GATE 2 - Validación de Clasificación",
-                deliverable: "Ficha de Clasificación de Riesgo",
-                decision: "Riesgo inaceptable: proceso se detiene | Alto riesgo: obligaciones reforzadas | Riesgo limitado/mínimo: procesos simplificados",
-                risk: true
+                gate: {
+                    title: "Gate de Revisión G2 - Comité de IA",
+                    description: "El Comité de IA revisa y valida la clasificación de riesgo."
+                },
+                deliverable: {
+                    title: "Ficha de Clasificación de Riesgo",
+                    description: "El resultado se plasma en la Ficha de Clasificación de Riesgo, que constituye el documento de referencia para las fases posteriores."
+                },
+                riskCategories: [
+                    "Inaceptable: Proceso se detiene",
+                    "Alto: Activan obligaciones reforzadas",
+                    "Limitado: Requisitos moderados",
+                    "Mínimo: Requisitos básicos"
+                ]
             },
             3: {
-                title: "Fase 3: ARA/DPIA",
-                objective: "Evaluar sistemáticamente impactos en derechos fundamentales y privacidad, identificar riesgos y definir mitigaciones.",
+                title: "Fase 3 - ARA/DPIA (alto riesgo o datos sensibles)",
+                description: "El objetivo es identificar y mitigar impactos sobre derechos fundamentales y la privacidad antes de la puesta en marcha. Se completa la Plantilla ARA/DPIA (toolkit, sección 4.2.3).",
                 activities: [
-                    "Completar la Plantilla ARA/DPIA",
-                    "Mapeo de flujos de datos",
-                    "Evaluación de impactos en derechos: privacidad, no discriminación, debido proceso",
-                    "Análisis de riesgos y definición de medidas de mitigación",
-                    "Consulta con stakeholders relevantes",
-                    "Revisión del DPO para conformidad legal"
+                    {
+                        title: "Completar Plantilla ARA/DPIA",
+                        description: "Incluye descripción del sistema, mapeo de flujos de datos, bases legales de tratamiento, evaluación de impactos en privacidad, no discriminación, debido proceso y acceso equitativo."
+                    },
+                    {
+                        title: "Análisis de riesgos",
+                        description: "Se realiza análisis de riesgos mediante la Matriz de Riesgos (sección 4.2.4)."
+                    },
+                    {
+                        title: "Propuestas de medidas",
+                        description: "Se definen propuestas de medidas técnicas y organizativas (minimización, seudonimización, cifrado, auditoría, supervisión humana)."
+                    }
                 ],
-                gate: "GATE 3 - Comité de IA, con voto decisivo del DPO",
-                deliverable: "ARA/DPIA Aprobado con Plan de Mitigación",
-                decision: "Aprobar (condicionado o no) o rechazar el ARA/DPIA"
+                gate: {
+                    title: "Gate de Revisión G3 - DPO",
+                    description: "El DPO, como voto decisivo dentro del Comité de IA, aprueba o rechaza el documento. Cuando la aprobación está condicionada, se establecen mitigaciones específicas que deben incorporarse antes de avanzar."
+                },
+                deliverable: {
+                    title: "ARA/DPIA aprobado con plan de mitigación",
+                    description: "El entregable es el ARA/DPIA aprobado con su plan de mitigación correspondiente."
+                }
             },
             4: {
-                title: "Fase 4: Gobierno de Datos",
-                objective: "Asegurar la calidad, representatividad y gobernanza ética de los datos que alimentarán el sistema de IA.",
+                title: "Fase 4 - Gobierno de Datos",
+                description: "En esta fase se asegura que los datos que alimentarán el modelo sean de alta calidad, representativos y gestionados éticamente.",
                 activities: [
-                    "Identificación y documentación de fuentes de datos",
-                    "Evaluación de calidad dimensional (completitud, precisión, consistencia)",
-                    "Análisis de representatividad demográfica y detección de sesgos",
-                    "Aplicación de técnicas de mitigación de sesgos",
-                    "Documentación mediante Data Sheets",
-                    "Establecimiento de procesos de actualización y monitoreo"
+                    {
+                        title: "Inventario y documentación de fuentes",
+                        description: "Se documentan fuentes internas, externas y de terceros."
+                    },
+                    {
+                        title: "Evaluación de calidad dimensional",
+                        description: "Se evalúa calidad mediante lista de verificación del toolkit (completitud, precisión, consistencia, actualidad)."
+                    },
+                    {
+                        title: "Análisis de representatividad y detección de sesgos",
+                        description: "Se analiza representatividad demográfica y se detectan posibles sesgos en los datos."
+                    },
+                    {
+                        title: "Aplicación de técnicas de mitigación",
+                        description: "Se aplican técnicas de mitigación (remuestreo, reponderación, recolección complementaria)."
+                    },
+                    {
+                        title: "Elaboración de Data Sheets",
+                        description: "Se elaboran Data Sheets siguiendo la plantilla de Gebru et al. (2018)."
+                    }
                 ],
-                gate: "GATE 4 - Propietario de Datos y DPO (para alto riesgo: auditoría independiente)",
-                deliverable: "Data Sheets Aprobados y Plan de Gobierno de Datos"
+                gate: {
+                    title: "Gate de Revisión G4 - Propietario de datos y DPO",
+                    description: "El propietario de datos y el DPO certifican la calidad y la gobernanza adecuada. En casos de alto riesgo, se puede requerir auditoría independiente o validación estadística formal."
+                },
+                deliverable: {
+                    title: "Data Sheets aprobados y plan de gobernanza de datos",
+                    description: "El resultado son los Data Sheets aprobados y el plan de gobernanza de datos."
+                }
             },
             5: {
-                title: "Fase 5: Desarrollo o Adquisición",
-                objective: "Garantizar que el desarrollo interno o la adquisición externa incorpore los requisitos de gobernanza, seguridad y calidad.",
-                activities: [
-                    "Desarrollo Interno: Traducción de requisitos a especificaciones técnicas, selección de arquitectura",
-                    "Adquisición Externa: Elaboración de términos de referencia, evaluación de propuestas",
-                    "Versionado de código, datos y modelos para trazabilidad",
-                    "Documentación técnica continua"
-                ],
-                gate: "GATE 5 - Revisión técnica de arquitectura/código o aprobación de contrato",
-                deliverable: "Sistema Desarrollado con Documentación Técnica o Contrato Aprobado"
+                title: "Fase 5 - Desarrollo o Adquisición",
+                description: "Esta etapa traduce los requisitos de gobernanza, seguridad y calidad en un producto técnico.",
+                development: {
+                    title: "Desarrollo interno",
+                    description: "Se convierten los requisitos funcionales y no funcionales (incluidos los de IA responsable) en especificaciones técnicas; se elige arquitectura, algoritmos y tecnologías que favorezcan la interpretabilidad sin sacrificar el desempeño crítico; se incorporan controles de privacidad por diseño y de seguridad."
+                },
+                acquisition: {
+                    title: "Adquisición externa",
+                    description: "Se redactan términos de referencia que integran el Checklist de Proveedores (toolkit, sección 4.2.5); se evalúan propuestas ponderando criterios técnicos, de conformidad regulatoria y experiencia del proveedor; y se negocian contratos que incluyan cláusulas de privacidad (DPA), seguridad, auditoría, SLA y gestión de cambios."
+                },
+                gate: {
+                    title: "Gate de Revisión G5 - Diferente según vía elegida",
+                    description: "Para desarrollo interno, el comité técnico verifica arquitectura y código; para adquisición, el área jurídica, el DPO y el Comité de IA aprueban el contrato y confirman que el sistema satisface el ARA/DPIA aprobado."
+                },
+                deliverable: {
+                    title: "Sistema con documentación técnica o contrato firmado",
+                    description: "El entregable es el sistema (con documentación técnica completa) o el contrato firmado."
+                }
             },
             6: {
-                title: "Fase 6: Pruebas y Validación",
-                objective: "Verificar que el sistema cumple con requisitos funcionales, técnicos, éticos y de usabilidad antes del despliegue.",
-                activities: [
-                    "Pruebas técnicas: Validación de desempeño, robustez, seguridad",
-                    "Pruebas de equidad: Cálculo de métricas de fairness",
-                    "Pruebas de explicabilidad: Verificación de mecanismos de explicación",
-                    "Pruebas de usabilidad: Evaluación con usuarios finales",
-                    "Pruebas de integración: Con sistemas legados y flujos de trabajo"
+                title: "Fase 6 - Pruebas y Validación",
+                description: "Antes del despliegue, el sistema debe demostrar cumplimiento con requisitos funcionales, técnicos, éticos y de usabilidad.",
+                tests: [
+                    {
+                        title: "Pruebas técnicas",
+                        description: "Se evalúan métricas objetivas (precisión, recall, F1, AUC-ROC), se utilizan conjuntos de validación independientes y se examina la robustez frente a datos fuera de distribución, ruido y pequeñas perturbaciones. Además, se realizan pruebas de seguridad (penetration testing) y de rendimiento (tiempo de respuesta, uso de recursos, escalabilidad)."
+                    },
+                    {
+                        title: "Pruebas de equidad",
+                        description: "Se calculan métricas de fairness (disparate impact, equal opportunity, predictive parity) y se desglosan los resultados por grupos demográficos relevantes. Cuando aparecen disparidades inaceptables, se aplican técnicas de mitigación (post-processing, optimización de umbrales) y se documentan los trade-offs entre equidad y desempeño."
+                    },
+                    {
+                        title: "Pruebas de explicabilidad",
+                        description: "Se verifica la presencia de mecanismos explicativos (LIME, SHAP, mapas de atención, contra-factuales) y se valida su comprensibilidad mediante pruebas con usuarios finales."
+                    },
+                    {
+                        title: "Pruebas de usabilidad y accesibilidad",
+                        description: "Se realizan sesiones con usuarios representativos (funcionarios, ciudadanos) siguiendo los principios de diseño centrado en el usuario y se asegura el cumplimiento de WCAG 2.1 nivel AA para personas con discapacidad."
+                    },
+                    {
+                        title: "Pruebas de integración",
+                        description: "Se comprueba la interoperabilidad con sistemas legados, la correcta exposición de APIs y la capacidad de recuperación ante fallos."
+                    }
                 ],
-                gate: "GATE 6 - Comité de IA basado en evidencia documentada",
-                deliverable: "Informe de Pruebas con Evidencia Documentada, Model Card Completo",
-                decision: "Aprobar despliegue, condicionar a mejoras o limitar alcance inicial"
+                gate: {
+                    title: "Gate de Revisión G6 - Comité de IA",
+                    description: "El responsable técnico presenta los resultados al Comité de IA. Para sistemas de alto riesgo, la aprobación depende de evidencia documental que demuestre el cumplimiento de umbrales predefinidos en desempeño, equidad, robustez y seguridad."
+                },
+                deliverable: {
+                    title: "Informe de pruebas y validación con Model Card",
+                    description: "El entregable es el Informe de pruebas y validación acompañado de una Model Card completa."
+                }
             },
             7: {
-                title: "Fase 7: Despliegue",
-                objective: "Poner el sistema en operación de manera controlada, asegurando que el personal está capacitado y los controles operativos están activos.",
+                title: "Fase 7 - Despliegue",
+                description: "El objetivo es poner el sistema en producción de forma controlada, garantizando que el personal esté preparado y que los controles operativos estén activos.",
                 activities: [
-                    "Capacitación de usuarios finales",
-                    "Configuración de controles operativos: logs, telemetría, alertas, dashboards",
-                    "Despliegue gradual (piloto con alcance limitado, escalamiento progresivo)",
-                    "Activación de canales de reporte de problemas y quejas",
-                    "Comunicación y divulgación a ciudadanos cuando corresponda",
-                    "Documentación de procedimientos operativos estándar (SOPs)"
+                    {
+                        title: "Capacitación de usuarios finales",
+                        description: "Capacitación de operadores y, cuando corresponda, ciudadanos sobre funcionamiento, limitaciones y procedimientos de supervisión humana."
+                    },
+                    {
+                        title: "Configuración de controles",
+                        description: "Configuración de logs de auditoría, telemetría, alertas y dashboards de monitoreo."
+                    },
+                    {
+                        title: "Despliegue gradual",
+                        description: "Despliegue gradual (piloto limitado seguido de escalamiento progresivo)."
+                    },
+                    {
+                        title: "Establecimiento de canales de reporte",
+                        description: "Establecimiento de canales de reporte de incidentes y quejas."
+                    },
+                    {
+                        title: "Comunicación transparente",
+                        description: "Comunicación transparente a la ciudadanía cuando el sistema interactúe con el público."
+                    }
                 ],
-                gate: "GATE 7 - Verificación de Preparación Operativa por Sponsor y Comité de IA",
-                deliverable: "Sistema en Producción con Controles Activos y Personal Capacitado"
+                gate: {
+                    title: "Gate de Revisión G7 - Comité de IA y Sponsor de Negocio",
+                    description: "El Comité de IA verifica la preparación operativa y el sponsor de negocio autoriza el go-live."
+                },
+                deliverable: {
+                    title: "Sistema en producción con controles activos",
+                    description: "El entregable es el sistema en producción con los controles operativos activos y el personal debidamente capacitado."
+                }
             },
             8: {
-                title: "Fase 8: Monitoreo y Auditoría",
-                objective: "Supervisar continuamente el desempeño, equidad, seguridad y cumplimiento del sistema.",
-                activities: [
-                    "Monitoreo técnico continuo: Métricas de desempeño, detección de drift",
-                    "Monitoreo de equidad: Cálculo periódico de métricas de fairness",
-                    "Monitoreo de seguridad: Detección de intentos de ataque, anomalías",
-                    "Gestión de incidentes: Registro, clasificación, respuesta y remediación",
-                    "Auditoría periódica: Revisión trimestral de cumplimiento de controles",
-                    "Gestión de cambios: Evaluación de impacto de actualizaciones"
+                title: "Fase 8 - Monitoreo y Auditoría",
+                description: "Una vez en funcionamiento, el sistema requiere supervisión continua para detectar desviaciones y aplicar correcciones.",
+                monitoringAreas: [
+                    {
+                        title: "Monitoreo técnico continuo",
+                        description: "Seguimiento de métricas de desempeño, detección de data drift y concept drift, cálculo periódico de métricas de equidad y vigilancia de intentos de ataque."
+                    },
+                    {
+                        title: "Gestión de incidentes",
+                        description: "Registro, clasificación y respuesta a incidentes (técnicos, de privacidad, de equidad, de seguridad o quejas ciudadanas) siguiendo protocolos de contención, investigación, remediación y comunicación."
+                    },
+                    {
+                        title: "Auditoría periódica",
+                        description: "Revisión trimestral (o con mayor frecuencia según el nivel de riesgo) del cumplimiento de los controles del ARA/DPIA, auditoría de logs para validar la supervisión humana y análisis de quejas. Los sistemas de alto riesgo requieren auditoría anual independiente que evalúe la conformidad técnica, ética y regulatoria."
+                    },
+                    {
+                        title: "Gestión de cambios",
+                        description: "Evaluación de impacto de actualizaciones (nuevas versiones del modelo, cambios en datos o código), re-ejecución de pruebas críticas y actualización de la documentación (Model Cards, Data Sheets)."
+                    }
                 ],
-                gate: "GATE 8 - Revisión Trimestral por Comité de IA",
-                deliverable: "Reportes de Monitoreo, Registros de Incidentes, Informes de Auditoría",
-                decision: "Continuar operación, implementar mejoras, o escalar a retiro"
+                gate: {
+                    title: "Gate de Revisión G8 - Comité de IA",
+                    description: "El Comité de IA revisa trimestralmente el dashboard de KPIs, incidentes y hallazgos de auditoría y decide si se mantiene la operación, se implementan mejoras o se procede al retiro."
+                },
+                deliverable: {
+                    title: "Reportes de monitoreo, registros de incidentes e informes de auditoría",
+                    description: "Los entregables son los reportes de monitoreo, los registros de incidentes y los informes de auditoría."
+                }
             },
             9: {
-                title: "Fase 9: Retiro o Fin de Vida",
-                objective: "Retirar ordenadamente sistemas que ya no sean necesarios, viables o conformes.",
+                title: "Fase 9 - Retiro o Fin de Vida",
+                description: "Cuando el sistema deja de ser necesario, viable o conforme, se lleva a cabo un retiro ordenado que preserve la continuidad del servicio y garantice una gestión adecuada de los datos.",
                 activities: [
-                    "Decisión de retiro basada en: obsolescencia técnica, cambios regulatorios, riesgos inaceptables",
-                    "Plan de transición que asegure continuidad del servicio",
-                    "Gestión de datos: exportación, anonimización o borrado seguro",
-                    "Documentación de lecciones aprendidas para futuros proyectos",
-                    "Comunicación a ciudadanos cuando el sistema sea retirado"
+                    {
+                        title: "Decisión de retiro",
+                        description: "Decisión basada en obsolescencia técnica, cambios regulatorios, riesgos inaceptables, fin del propósito o análisis costo-beneficio desfavorable."
+                    },
+                    {
+                        title: "Planificación de la transición",
+                        description: "Planificación de la transición (retorno a procesos manuales o sustitución por otro sistema)."
+                    },
+                    {
+                        title: "Gestión de datos",
+                        description: "Gestión de datos (exportación para fines legales, anonimización o borrado seguro conforme a la Ley 1581)."
+                    },
+                    {
+                        title: "Documentación de lecciones aprendidas",
+                        description: "Documentación de lecciones aprendidas y comunicación a los ciudadanos afectados."
+                    }
                 ],
-                gate: "GATE 9 - Aprobación del Plan de Retiro por Comité de IA y verificación del DPO",
-                deliverable: "Sistema Retirado, Datos Gestionados, Informe de Lecciones Aprendidas"
+                gate: {
+                    title: "Gate de Revisión G9 - Comité de IA y DPO",
+                    description: "El Comité de IA aprueba el plan de retiro y el DPO verifica el cumplimiento de la normativa de protección de datos."
+                },
+                deliverable: {
+                    title: "Sistema retirado, datos gestionados e informe de lecciones aprendidas",
+                    description: "El entregable final es el sistema retirado, los datos gestionados conforme a la normativa y un informe de lecciones aprendidas archivado."
+                }
             }
         };
 
         function showDetail(phase) {
-            const detail = phaseDetails[phase];
+            const detail = phasesDetails[phase];
             const panel = document.getElementById('detailPanel');
             
             panel.classList.remove('empty');
@@ -672,42 +692,140 @@
                 </div>
                 
                 <div class="detail-section">
-                    <h3>🎯 Objetivo</h3>
-                    <p>${detail.objective}</p>
-                </div>
-                
-                <div class="detail-section">
-                    <h3>📋 Actividades Principales</h3>
-                    <ul>
-                        ${detail.activities.map(a => `<li>${a}</li>`).join('')}
-                    </ul>
-                </div>
-                
-                <div class="detail-section">
-                    <h3>🚪 Gate de Revisión</h3>
-                    <p>${detail.gate}</p>
-                </div>
-                
-                <div class="detail-section">
-                    <h3>✅ Entregable</h3>
-                    <p>${detail.deliverable}</p>
+                    <p>${detail.description}</p>
                 </div>
             `;
             
-            if (detail.decision) {
+            // Activities
+            if (detail.activities) {
                 html += `
                     <div class="detail-section">
-                        <h3>⚖️ Decisiones Posibles</h3>
-                        <p>${detail.decision}</p>
+                        <h3>📋 Actividades Principales</h3>
+                        <div class="activities-list">
+                `;
+                
+                detail.activities.forEach(activity => {
+                    html += `
+                        <div class="activity-item">
+                            <div class="activity-title">${activity.title}</div>
+                            <div class="activity-description">${activity.description}</div>
+                        </div>
+                    `;
+                });
+                
+                html += `
+                        </div>
                     </div>
                 `;
             }
             
-            if (detail.risk) {
+            // Development and Acquisition (for phase 5)
+            if (detail.development && detail.acquisition) {
                 html += `
-                    <div class="risk-alert">
-                        <h4>⚠️ Punto Crítico de Decisión</h4>
-                        <p>En esta fase se determina si el proyecto puede continuar. Los sistemas de riesgo inaceptable son rechazados inmediatamente.</p>
+                    <div class="detail-section">
+                        <h3>⚙️ Desarrollo Interno</h3>
+                        <div class="activity-item">
+                            <div class="activity-title">${detail.development.title}</div>
+                            <div class="activity-description">${detail.development.description}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h3>🤝 Adquisición Externa</h3>
+                        <div class="activity-item">
+                            <div class="activity-title">${detail.acquisition.title}</div>
+                            <div class="activity-description">${detail.acquisition.description}</div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Tests (for phase 6)
+            if (detail.tests) {
+                html += `
+                    <div class="detail-section">
+                        <h3>🧪 Tipos de Pruebas</h3>
+                        <div class="activities-list">
+                `;
+                
+                detail.tests.forEach(test => {
+                    html += `
+                        <div class="activity-item">
+                            <div class="activity-title">${test.title}</div>
+                            <div class="activity-description">${test.description}</div>
+                        </div>
+                    `;
+                });
+                
+                html += `
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Monitoring Areas (for phase 8)
+            if (detail.monitoringAreas) {
+                html += `
+                    <div class="detail-section">
+                        <h3>📊 Áreas de Monitoreo</h3>
+                        <div class="activities-list">
+                `;
+                
+                detail.monitoringAreas.forEach(area => {
+                    html += `
+                        <div class="activity-item">
+                            <div class="activity-title">${area.title}</div>
+                            <div class="activity-description">${area.description}</div>
+                        </div>
+                    `;
+                });
+                
+                html += `
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Risk Categories (for phase 2)
+            if (detail.riskCategories) {
+                html += `
+                    <div class="detail-section">
+                        <h3>⚠️ Categorías de Riesgo</h3>
+                        <ul>
+                `;
+                
+                detail.riskCategories.forEach(category => {
+                    html += `<li>${category}</li>`;
+                });
+                
+                html += `
+                        </ul>
+                    </div>
+                `;
+            }
+            
+            // Gate
+            if (detail.gate) {
+                html += `
+                    <div class="detail-section">
+                        <h3>🚪 Gate de Revisión</h3>
+                        <div class="gate-item">
+                            <div class="gate-title">${detail.gate.title}</div>
+                            <div class="gate-description">${detail.gate.description}</div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Deliverable
+            if (detail.deliverable) {
+                html += `
+                    <div class="detail-section">
+                        <h3>📄 Entregable</h3>
+                        <div class="deliverable-item">
+                            <div class="deliverable-title">${detail.deliverable.title}</div>
+                            <div class="deliverable-description">${detail.deliverable.description}</div>
+                        </div>
                     </div>
                 `;
             }
@@ -721,32 +839,17 @@
             document.querySelector(`[data-phase="${phase}"]`).classList.add('active');
         }
 
-        // Funciones para el modal
-        function openModal() {
-            document.getElementById('imageModal').style.display = 'flex';
-        }
-
-        function closeModal() {
-            document.getElementById('imageModal').style.display = 'none';
-        }
-
-        // Cerrar modal al hacer clic fuera de la imagen
-        document.getElementById('imageModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeModal();
-            }
-        });
         // Función para procesar parámetros de URL
         function getUrlParameter(name) {
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get(name);
         }
 
-        // Función para mostrar una dimensión específica basada en parámetros de URL
+        // Función para mostrar una fase específica basada en parámetros de URL
         function checkUrlParameters() {
-            const dimensionParam = getUrlParameter('dimension');
-            if (dimensionParam && phaseDetails[dimensionParam]) {
-                showDetail(parseInt(dimensionParam));
+            const phaseParam = getUrlParameter('dimension');
+            if (phaseParam && phasesDetails[phaseParam]) {
+                showDetail(parseInt(phaseParam));
             }
         }
 
