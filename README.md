@@ -13,6 +13,9 @@ Este framework proporciona una estructura completa para gobernar sistemas de IA 
 
 El framework está organizado en **6 capas interconectadas** que cubren desde principios fundamentales hasta métricas de medición y madurez institucional.
 
+## Como se Navega el Framework?
+Ir a la URL: https://javier-rocha.github.io/framework-ia-distrito.github.io/
+
 ## 🏗️ Arquitectura del Framework
 
 ### Capa 1: Principios Rectores y Políticas
