@@ -86,6 +86,12 @@
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
         }
         
+        /* Estilos para la capa transversal */
+        .layer-card-transversal::before {
+            background: linear-gradient(90deg, #FF5722, #FF8A65);
+            height: 8px; /* Más gruesa para destacar */
+        }
+        
         .layer-card-1::before { background: linear-gradient(90deg, #1976D2, #64B5F6); }
         .layer-card-2::before { background: linear-gradient(90deg, #388E3C, #66BB6A); }
         .layer-card-3::before { background: linear-gradient(90deg, #F57C00, #FFA726); }
@@ -106,6 +112,18 @@
             color: white;
         }
         
+        /* Icono especial para capa transversal */
+        .layer-card-transversal .layer-icon {
+            background: linear-gradient(135deg, #FF5722, #FF8A65);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
         .layer-card-1 .layer-icon { background: linear-gradient(135deg, #1976D2, #64B5F6); }
         .layer-card-2 .layer-icon { background: linear-gradient(135deg, #388E3C, #66BB6A); }
         .layer-card-3 .layer-icon { background: linear-gradient(135deg, #F57C00, #FFA726); }
@@ -118,6 +136,12 @@
             font-weight: bold;
             color: #1a237e;
             margin-bottom: 10px;
+        }
+        
+        /* Título especial para capa transversal */
+        .layer-card-transversal .layer-title {
+            color: #FF5722;
+            font-size: 22px; /* Un poco más grande para destacar */
         }
         
         .layer-filename {
@@ -148,8 +172,17 @@
             transition: color 0.3s ease;
         }
         
+        /* Enlace especial para capa transversal */
+        .layer-card-transversal .layer-link {
+            color: #FF5722;
+        }
+        
         .layer-link:hover {
             color: #0D47A1;
+        }
+        
+        .layer-card-transversal .layer-link:hover {
+            color: #D84315;
         }
         
         .architecture-diagram {
@@ -235,6 +268,19 @@
         
         <div class="architecture-overview">
             <div class="framework-layers">
+                <!-- Capa Transversal -->
+                <a href="4.2 Arquitectura del Framework de Gobernanza de IA.html" class="layer-card layer-card-transversal">
+                    <div class="layer-icon">🌐</div>
+                    <div class="layer-title">Arquitectura del Framework de Gobernanza de IA</div>
+                    <div class="layer-filename">4.2 Arquitectura del Framework de Gobernanza de IA.html</div>
+                    <div class="layer-description">
+                        Vista general de la arquitectura completa del framework de gobernanza de IA, mostrando la interrelación entre todos los componentes y capas del sistema.
+                    </div>
+                    <div class="layer-link">
+                        Ver arquitectura completa →
+                    </div>
+                </a>
+                
                 <!-- Capa 1 -->
                 <a href="4.2.1 Principios y Políticas.html" class="layer-card layer-card-1">
                     <div class="layer-icon">📜</div>
