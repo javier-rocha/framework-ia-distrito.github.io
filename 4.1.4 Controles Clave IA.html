@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toolkit - Capa 4: Controles Clave de IA</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1a237e, #283593);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+		
+		.back-button {
+            position: absolute;
+            left: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-50%) scale(1.05);
+        }
+        
+        .content {
+            padding: 30px;
+            display: grid;
+            grid-template-columns: 1fr 700px;
+            gap: 30px;
+        }
+        
+        .left-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .dimensions-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        
+        .dimension-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            border: 3px solid #e0e0e0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            height: 180px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .dimension-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+        }
+        
+        .dimension-card:nth-child(1)::before { background: linear-gradient(90deg, #1976D2, #64B5F6); }
+        .dimension-card:nth-child(2)::before { background: linear-gradient(90deg, #388E3C, #66BB6A); }
+        .dimension-card:nth-child(3)::before { background: linear-gradient(90deg, #D32F2F, #EF5350); }
+        .dimension-card:nth-child(4)::before { background: linear-gradient(90deg, #7B1FA2, #AB47BC); }
+        .dimension-card:nth-child(5)::before { background: linear-gradient(90deg, #F57C00, #FFA726); }
+        .dimension-card:nth-child(6)::before { background: linear-gradient(90deg, #00897B, #26A69A); }
+        
+        .dimension-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .dimension-card.active {
+            border-color: #1976D2;
+            background: linear-gradient(135deg, #E3F2FD, #BBDEFB);
+            box-shadow: 0 8px 20px rgba(25, 118, 210, 0.3);
+        }
+        
+        .dimension-icon {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .dimension-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #1a237e;
+            margin-bottom: 8px;
+        }
+        
+        .dimension-description {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.4;
+        }
+        
+        .detail-panel {
+            background: #f9f9f9;
+            border: 3px solid #1976D2;
+            border-radius: 12px;
+            padding: 25px;
+            animation: slideIn 0.3s ease;
+            max-height: calc(100vh - 200px);
+            overflow-y: auto;
+            position: sticky;
+            top: 20px;
+            min-height: 600px;
+        }
+        
+        .detail-panel.empty {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            border-style: dashed;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #1976D2;
+        }
+        
+        .detail-title {
+            font-size: 20px;
+            color: #1a237e;
+            font-weight: bold;
+            line-height: 1.3;
+        }
+        
+        .detail-section {
+            margin-bottom: 20px;
+        }
+        
+        .detail-section h3 {
+            color: #1976D2;
+            margin-bottom: 10px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .detail-section p {
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .detail-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .detail-section li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .detail-section li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: #1976D2;
+            font-weight: bold;
+        }
+        
+        .control-item {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #1976D2;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .control-title {
+            font-weight: bold;
+            color: #1a237e;
+            margin-bottom: 8px;
+        }
+        
+        .control-description {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #444;
+        }
+        
+        @media (max-width: 1200px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+            
+            .detail-panel {
+                position: relative;
+                top: 0;
+                max-height: none;
+                min-height: 400px;
+            }
+            
+            .dimensions-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+			<a href="javascript:history.back()" class="back-button">Atras</a>
+            <h1>🔒 Toolkit - Capa 4: Controles Clave de IA</h1>
+            <p>Dimensiones técnicas y organizacionales para implementación ética y segura de IA en el Distrito Capital</p>
+        </div>
+        
+        <div class="content">
+            <div class="left-panel">
+                <div class="dimensions-grid" id="dimensionsGrid">
+                    <div class="dimension-card" onclick="showDetail(1)" data-dimension="1">
+                        <div class="dimension-icon">⚖️</div>
+                        <div class="dimension-title">Ética y Derechos Fundamentales</div>
+                        <div class="dimension-description">Supervisión humana, no discriminación, equidad y acceso inclusivo</div>
+                    </div>
+                    
+                    <div class="dimension-card" onclick="showDetail(2)" data-dimension="2">
+                        <div class="dimension-icon">🔐</div>
+                        <div class="dimension-title">Privacidad y Protección de Datos</div>
+                        <div class="dimension-description">Bases legales, minimización, anonimización y gestión de consentimiento</div>
+                    </div>
+                    
+                    <div class="dimension-card" onclick="showDetail(3)" data-dimension="3">
+                        <div class="dimension-icon">🛡️</div>
+                        <div class="dimension-title">Seguridad y Resiliencia</div>
+                        <div class="dimension-description">Robustez técnica, ciberseguridad y respuesta a incidentes</div>
+                    </div>
+                    
+                    <div class="dimension-card" onclick="showDetail(4)" data-dimension="4">
+                        <div class="dimension-icon">🔍</div>
+                        <div class="dimension-title">Transparencia y Explicabilidad</div>
+                        <div class="dimension-description">Divulgaciones, documentación técnica y trazabilidad</div>
+                    </div>
+                    
+                    <div class="dimension-card" onclick="showDetail(5)" data-dimension="5">
+                        <div class="dimension-icon">👥</div>
+                        <div class="dimension-title">Atención al Ciudadano</div>
+                        <div class="dimension-description">Canales de reclamación, integridad del servicio y accesibilidad</div>
+                    </div>
+                    
+                    <div class="dimension-card" onclick="showDetail(6)" data-dimension="6">
+                        <div class="dimension-icon">🤝</div>
+                        <div class="dimension-title">Gestión de Terceros</div>
+                        <div class="dimension-description">Debida diligencia, cláusulas contractuales y monitoreo</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="detail-panel empty" id="detailPanel">
+                <p>👈 Selecciona una dimensión para ver sus controles</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const dimensionDetails = {
+            1: {
+                title: "Ética y Derechos Fundamentales",
+                description: "Controles para garantizar la supervisión humana significativa, prevenir discriminación y asegurar acceso equitativo.",
+                controls: [
+                    {
+                        title: "Supervisión humana significativa",
+                        description: "Mecanismos que garantizan supervisión humana competente en decisiones que afecten derechos fundamentales o servicios esenciales, permitiendo comprender el sistema, monitorear su operación, intervenir o anular decisiones y activar protocolos de escalamiento."
+                    },
+                    {
+                        title: "No discriminación y equidad",
+                        description: "Análisis de sesgos en datos de entrenamiento, aplicación de técnicas de mitigación, pruebas de equidad durante desarrollo y monitoreo continuo de métricas de fairness. Establecimiento de umbrales máximos de disparidad según tipo de servicio."
+                    },
+                    {
+                        title: "Acceso equitativo",
+                        description: "Diseño inclusivo considerando accesibilidad para personas con discapacidad, canales alternativos de atención humana, adaptación de interfaces a diversos niveles de alfabetización digital y evitar condicionar servicios esenciales exclusivamente a sistemas digitales."
+                    }
+                ]
+            },
+            2: {
+                title: "Privacidad y Protección de Datos",
+                description: "Controles para garantizar el tratamiento adecuado de datos personales conforme a la Ley 1581 de 2012 y normativas complementarias.",
+                controls: [
+                    {
+                        title: "Bases legales claras",
+                        description: "Todo tratamiento de datos personales debe fundamentarse en una base legal válida como consentimiento informado, ejecución de contrato, cumplimiento de obligación legal, protección de intereses vitales o ejercicio de funciones públicas."
+                    },
+                    {
+                        title: "Minimización de datos",
+                        description: "Solo recolectar y procesar datos estrictamente necesarios para el propósito declarado, evaluar críticamente cada campo, preferir datos agregados o anonimizados, evitar recolección especulativa y realizar revisiones periódicas."
+                    },
+                    {
+                        title: "Anonimización y seudonimización",
+                        description: "Emplear técnicas de protección según proporcionalidad: anonimización irreversible para datos estadísticos y seudonimización cuando se requiera trazabilidad sin identificación rutinaria."
+                    },
+                    {
+                        title: "DPIA obligatorio",
+                        description: "Realizar Evaluación de Impacto en la Protección de Datos para tratamientos de alto riesgo según Circular 002/2024 de la SIC."
+                    },
+                    {
+                        title: "Gestión de consentimiento",
+                        description: "Cuando sea requerido, el consentimiento debe ser previo, informado, específico e inequívoco, permitiendo su retiro con la misma facilidad con que se otorgó."
+                    },
+                    {
+                        title: "Derechos de los titulares",
+                        description: "Procedimientos operativos para garantizar derechos de acceso, rectificación, supresión, oposición y portabilidad dentro de los marcos legales aplicables."
+                    }
+                ]
+            },
+            3: {
+                title: "Seguridad y Resiliencia",
+                description: "Controles para asegurar funcionamiento confiable, protección contra amenazas y capacidad de respuesta ante incidentes.",
+                controls: [
+                    {
+                        title: "Robustez técnica",
+                        description: "Asegurar funcionamiento confiable mediante manejo de errores y casos excepcionales, degradación graciosa hacia comportamientos seguros, pruebas con datos adversarios y monitoreo de drift en el desempeño."
+                    },
+                    {
+                        title: "Ciberseguridad",
+                        description: "Implementar protecciones contra amenazas basadas en mejores prácticas como NIST CSF o CIS Controls, incluyendo defensas contra ataques específicos de machine learning, validación robusta de entradas, cifrado de datos y gestión segura de credenciales."
+                    },
+                    {
+                        title: "Autenticación y procedencia de contenido (para GenAI)",
+                        description: "Incorporar marcas de agua o firmas digitales para detectar contenido sintético y mecanismos de procedencia que permitan rastrear su origen, reconociendo limitaciones tecnológicas actuales."
+                    },
+                    {
+                        title: "Telemetría y respuesta a incidentes",
+                        description: "Implementar logging comprehensivo, sistemas de alerta para eventos críticos y protocolos de respuesta con roles definidos, incluyendo notificación a autoridades y titulares en caso de brechas."
+                    }
+                ]
+            },
+            4: {
+                title: "Transparencia y Explicabilidad",
+                description: "Controles para garantizar divulgación adecuada, documentación técnica y capacidad de auditoría.",
+                controls: [
+                    {
+                        title: "Divulgaciones ciudadanas",
+                        description: "Notificar claramente cuando un ciudadano interactúe con un sistema de IA, informando sobre su propósito, tipo de decisiones que toma y derechos del ciudadano. Para sistemas de alto riesgo, publicar información adicional en portales institucionales."
+                    },
+                    {
+                        title: "Documentación técnica",
+                        description: "Elaborar Model Cards y Data Sheets documentando el modelo, datos, arquitectura y decisiones de diseño, incluyendo manejo de trade-offs."
+                    },
+                    {
+                        title: "Trazabilidad",
+                        description: "Mantener capacidad de auditoría mediante logging de entradas, salidas y versiones, junto con implementación de métodos de explicabilidad (SHAP, LIME) adecuados al modelo y usuario."
+                    },
+                    {
+                        title: "Inteligibilidad de explicaciones",
+                        description: "Adaptar las explicaciones al destinatario: simples y sin jerga para el ciudadano, técnicas para el operador y completas para el auditor."
+                    }
+                ]
+            },
+            5: {
+                title: "Atención al Ciudadano",
+                description: "Controles para garantizar mecanismos de reclamación, integridad del servicio y accesibilidad universal.",
+                controls: [
+                    {
+                        title: "Canales de reclamación y apelación",
+                        description: "Mecanismos accesibles, gratuitos y con plazos razonables para reportar problemas, apelar decisiones automatizadas y solicitar revisión humana, garantizando que las apelaciones sean resueltas por humanos con capacidad de decisión."
+                    },
+                    {
+                        title: "Integridad del servicio",
+                        description: "Monitorear satisfacción ciudadana y comparar calidad del servicio con línea base pre-IA, detectando exclusiones involuntarias y asegurando alternativas de servicio."
+                    },
+                    {
+                        title: "Accesibilidad universal",
+                        description: "Diseño que cumple con estándares WCAG 2.1 nivel AA, compatible con tecnologías asistivas y ofreciendo contenido comprensible y alternativas para población con baja alfabetización digital."
+                    }
+                ]
+            },
+            6: {
+                title: "Gestión de Terceros (Proveedores)",
+                description: "Controles para garantizar la debida diligencia en selección y monitoreo de proveedores de soluciones de IA.",
+                controls: [
+                    {
+                        title: "Debida diligencia en selección",
+                        description: "Aplicar checklist que evalúe conformidad regulatoria, madurez en IA responsable, calidad de documentación técnica, capacidades de seguridad y soporte para auditoría."
+                    },
+                    {
+                        title: "Cláusulas contractuales obligatorias",
+                        description: "Incluir Acuerdos de Procesamiento de Datos (DPA), claridad sobre propiedad intelectual, SLAs cuantificables, gestión de cambios, derecho a auditoría y cláusulas de continuidad y portabilidad."
+                    },
+                    {
+                        title: "Monitoreo de desempeño de proveedores",
+                        description: "Evaluar periódicamente cumplimiento de SLAs, revisar incidentes y tomar decisiones informadas sobre renovación o cambio de proveedor basadas en evidencia."
+                    }
+                ]
+            }
+        };
+
+        function showDetail(dimension) {
+            const detail = dimensionDetails[dimension];
+            const panel = document.getElementById('detailPanel');
+            
+            panel.classList.remove('empty');
+            
+            let html = `
+                <div class="detail-header">
+                    <h2 class="detail-title">${detail.title}</h2>
+                </div>
+                
+                <div class="detail-section">
+                    <p>${detail.description}</p>
+                </div>
+                
+                <div class="detail-section">
+                    <h3>🔧 Controles Específicos</h3>
+                    <div class="controls-list">
+            `;
+            
+            detail.controls.forEach(control => {
+                html += `
+                    <div class="control-item">
+                        <div class="control-title">${control.title}</div>
+                        <div class="control-description">${control.description}</div>
+                    </div>
+                `;
+            });
+            
+            html += `
+                    </div>
+                </div>
+            `;
+            
+            panel.innerHTML = html;
+            
+            // Highlight active dimension
+            document.querySelectorAll('.dimension-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            document.querySelector(`[data-dimension="${dimension}"]`).classList.add('active');
+        }
+        // Función para procesar parámetros de URL
+        function getUrlParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        // Función para mostrar una dimensión específica basada en parámetros de URL
+        function checkUrlParameters() {
+            const dimensionParam = getUrlParameter('dimension');
+            if (dimensionParam && dimensionDetails[dimensionParam]) {
+                showDetail(parseInt(dimensionParam));
+            }
+        }
+
+        // Ejecutar al cargar la página
+        window.addEventListener('DOMContentLoaded', function() {
+            checkUrlParameters();
+        });
+    </script>
+</body>
+</html>

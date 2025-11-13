@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa de Arquitectura - Framework de Gobernanza de IA</title>
+    <style>
+        /* Tus estilos CSS existentes permanecen igual */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1a237e, #283593);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+		
+		.back-button {
+            position: absolute;
+            left: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-50%) scale(1.05);
+        }
+        
+        .architecture-map {
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        .layer {
+            background: #f9f9f9;
+            border-radius: 12px;
+            padding: 25px;
+            border: 3px solid #e0e0e0;
+            transition: all 0.3s ease;
+        }
+        
+        .layer-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #1976D2;
+        }
+        
+        .layer-icon {
+            font-size: 28px;
+            background: linear-gradient(135deg, #1a237e, #283593);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .layer-title {
+            font-size: 22px;
+            color: #1a237e;
+            font-weight: bold;
+        }
+        
+        .layer-description {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        /* Estilos específicos para la Capa 3 */
+        .layer-3 .component-card {
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .layer-3 .component-title {
+            font-size: 14px;
+            line-height: 1.3;
+            margin-bottom: 8px;
+        }
+
+        .layer-3 .component-description {
+            font-size: 12px;
+            line-height: 1.4;
+            color: #555;
+        }
+        
+        .components-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .component-card {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            border-left: 4px solid #1976D2;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .component-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .component-icon {
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+        
+        .component-title {
+            font-weight: bold;
+            color: #1a237e;
+            margin-bottom: 5px;
+            font-size: 15px;
+        }
+        
+        .component-description {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.4;
+        }
+        
+        /* Colores específicos para cada capa */
+        .layer-1 .layer-icon { background: linear-gradient(135deg, #1976D2, #64B5F6); }
+        .layer-1 .component-card { border-left-color: #1976D2; }
+        
+        .layer-2 .layer-icon { background: linear-gradient(135deg, #388E3C, #66BB6A); }
+        .layer-2 .component-card { border-left-color: #388E3C; }
+        
+        .layer-3 .layer-icon { background: linear-gradient(135deg, #F57C00, #FFA726); }
+        .layer-3 .component-card { border-left-color: #F57C00; }
+        
+        .layer-4 .layer-icon { background: linear-gradient(135deg, #7B1FA2, #AB47BC); }
+        .layer-4 .component-card { border-left-color: #7B1FA2; }
+        
+        .layer-5 .layer-icon { background: linear-gradient(135deg, #00897B, #26A69A); }
+        .layer-5 .component-card { border-left-color: #00897B; }
+        
+        .layer-maturity .layer-icon { background: linear-gradient(135deg, #D32F2F, #EF5350); }
+        .layer-maturity .component-card { border-left-color: #D32F2F; }
+        
+        /* Estilos para el ciclo de vida */
+        .lifecycle-container {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 10px;
+        }
+        
+        .lifecycle-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .lifecycle-phase {
+            flex: 1;
+            background: #E3F2FD;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 0 5px;
+            text-align: center;
+            border: 2px solid #1976D2;
+            font-size: 12px;
+            font-weight: bold;
+            color: #1a237e;
+        }
+        
+        .lifecycle-arrow {
+            text-align: center;
+            font-size: 20px;
+            color: #1976D2;
+            margin: 5px 0;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .components-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+            
+            .lifecycle-row {
+                flex-wrap: wrap;
+            }
+            
+            .lifecycle-phase {
+                flex: 1 0 45%;
+                margin: 5px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .components-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .lifecycle-phase {
+                flex: 1 0 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="javascript:history.back()" class="back-button">Atras</a>
+            <h1>🏛️ Mapa de Arquitectura - Framework de Gobernanza de IA</h1>
+            <p>Vista consolidada de las 5 capas y modelo de madurez para implementación de IA responsable en el Distrito Capital</p>
+        </div>
+        
+        <div class="architecture-map">
+            <!-- Capa 1: Principios Rectores y Políticas -->
+            <div class="layer layer-1">
+                <div class="layer-header">
+                    <div class="layer-icon">📜</div>
+                    <div class="layer-title"><a href="4.1.1 Principios y Políticas.html">Capa 1: Principios Rectores y Políticas de IA</a></div>
+                </div>
+                <div class="layer-description">
+                    Componente estructural fundamental del Framework de Gobernanza de IA en el Distrito Capital
+                </div>
+                <div class="components-grid">
+                    <div class="component-card">
+                        <div class="component-icon">📜</div>
+                        <div class="component-title">Carta de IA Responsable</div>
+                        <div class="component-description">Principios fundamentales para implementación ética de IA en servicios públicos</div>
+                    </div>
+                    <div class="component-card">
+                        <div class="component-icon">🗄️</div>
+                        <div class="component-title">Política de Gobierno de Datos</div>
+                        <div class="component-description">Estándares para calidad, integridad y gestión adecuada de datos en sistemas de IA</div>
+                    </div>
+                    <div class="component-card">
+                        <div class="component-icon">⚠️</div>
+                        <div class="component-title">Política de Gestión de Riesgos</div>
+                        <div class="component-description">Marco para identificación, evaluación y gestión de riesgos en sistemas de IA</div>
+                    </div>
+                    <div class="component-card">
+                        <div class="component-icon">🤝</div>
+                        <div class="component-title">Política de Compras y Proveedores</div>
+                        <div class="component-description">Requisitos para debida diligencia y contratación de proveedores de soluciones de IA</div>
+                    </div>
+                    <div class="component-card">
+                        <div class="component-icon">🏢</div>
+                        <div class="component-title">Modelo de Gobierno</div>
+                        <div class="component-description">Estructura organizacional y mecanismos de decisión para gobernanza de IA</div>
+                    </div>
+                    <div class="component-card">
+                        <div class="component-icon">🔗</div>
+                        <div class="component-title">Alineación CONPES 4144</div>
+                        <div class="component-description">Mecanismos de trazabilidad y reporte para alineación con política nacional</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Capa 2: Modelo de Gobierno -->
+            <div class="layer layer-2">
+                <div class="layer-header">
+                    <div class="layer-icon">🏛️</div>
+                    <div class="layer-title"><a href="4.1.2 Modelo de Gobierno.html">Capa 2: Modelo de Gobierno de IA</a></div>
+                </div>
+                <div class="layer-description">
+                    Estructura organizacional y mecanismos de decisión para implementar la gobernanza de IA en el Distrito Capital
+                </div>
+                <div class="components-grid">
+                    <div class="component-card">
+                        <div class="component-icon">👥</div>
+                        <div class="component-title">Composición del Comité</div>
+                        <div class="component-description">Roles y responsabilidades de los miembros del Comité de IA</div>
+                    </div>
+                    <div class="component-card">
+                        <div class="component-icon">⚙️</div>
+                        <div class="component-title">Funciones del Comité</div>
+                        <div class="component-description">Atribuciones y responsabilidades del Comité de IA</div>
+                    </div>
+                    <div class="component-card">
+                        <div class="component-icon">🏢</div>
+                        <div class="component-title">Modalidades de Implementación</div>
+                        <div class="component-description">Comité Distrital centralizado vs Comités por Entidad</div>
+                    </div>
+                    <div class="component-card">
+                        <div class="component-icon">👤</div>
+                        <div class="component-title">Roles por Caso de Uso</div>
+                        <div class="component-description">Responsabilidades operativas para cada iniciativa de IA</div>
+                    </div>
+                    <div class="component-card">
+                        <div class="component-icon">🎯</div>
+                        <div class="component-title">Alineación CONPES 4144</div>
+                        <div class="component-description">Mecanismos de trazabilidad con los cinco ejes estratégicos</div>
+                    </div>
+                    <div class="component-card">
+                        <div class="component-icon">📊</div>
+                        <div class="component-title">Vigilancia de Cumplimiento</div>
+                        <div class="component-description">Calendario de revisiones y mecanismos de reporte</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Capa 3: Ciclo de Vida -->
+            <div class="layer layer-3">
+                <div class="layer-header">
+                    <div class="layer-icon">🔄</div>
+                    <div class="layer-title"><a href="4.1.3 Ciclo de vida IA.html">Capa 3: Ciclo de Vida de Gobernanza de IA</a></div>
+                </div>
+                <div class="layer-description">
+                    Proceso integral para implementación responsable de sistemas de IA en el Distrito Capital
+                </div>
+                <div class="components-grid">
+                    <div class="component-card">
+                        <div class="component-icon">📥</div>
+                        <div class="component-title">1. INTAKE Y AI USE-CASE CANVAS</div>
+                        <div class="component-description">GATE 1 - Comité de IA<br>Evaluación inicial y definición del caso de uso</div>
+                    </div>
+                    <div class="component-card">
+                        <div class="component-icon">⚠️</div>
+                        <div class="component-title">2. CLASIFICACIÓN DE RIESGO</div>
+                        <div class="component-description">GATE 2 - Comité de IA<br>Evaluación de nivel de riesgo según framework</div>
+                    </div>
+                    <div class="component-card">
+                        <div class="component-icon">📋</div>
+                        <div class="component-title">3. ARA/DPIA</div>
+                        <div class="component-description">GATE 3 - DPO voto decisivo<br>Evaluación de impacto en privacidad y protección de datos</div>
+                    </div>
+                    <div class="component-card">
+                        <div class="component-icon">🗄️</div>
+                        <div class="component-title">4. GOBIERNO DE DATOS</div>
+                        <div class="component-description">GATE 4 - Propietario y DPO<br>Gestión de calidad, integridad y gobernanza de datos</div>
+                    </div>
+                    <div class="component-card">
+                        <div class="component-icon">⚙️</div>
+                        <div class="component-title">5. DESARROLLO O ADQUISICIÓN</div>
+                        <div class="component-description">GATE 5 - Comité técnico<br>Implementación técnica o selección de proveedores</div>
+                    </div>
+                    <div class="component-card">
+                        <div class="component-icon">🧪</div>
+                        <div class="component-title">6. PRUEBAS Y VALIDACIÓN</div>
+                        <div class="component-description">GATE 6 - Comité de IA<br>Validación técnica, ética y operativa del sistema</div>
+                    </div>
+                    <div class="component-card">
+                        <div class="component-icon">🚀</div>
+                        <div class="component-title">7. DESPLIEGUE</div>
+                        <div class="component-description">GATE 7 - Comité y Sponsor<br>Implementación en ambiente productivo</div>
+                    </div>
+                    <div class="component-card">
+                        <div class="component-icon">📊</div>
+                        <div class="component-title">8. MONITOREO Y AUDITORÍA</div>
+                        <div class="component-description">GATE 8 - Trimestral<br>Seguimiento continuo y evaluaciones periódicas</div>
+                    </div>
+                    <div class="component-card">
+                        <div class="component-icon">🔄</div>
+                        <div class="component-title">9. RETIRO O FIN DE VIDA</div>
+                        <div class="component-description">GATE 9 - Comité de IA y DPO<br>Desactivación controlada y gestión de datos residuales</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Capa 4: Controles Clave -->
+            <div class="layer layer-4">
+                <div class="layer-header">
+                    <div class="layer-icon">🔒</div>
+                    <div class="layer-title"><a href="4.1.4 Controles Clave IA.html">Capa 4: Controles Clave de IA</a></div>
+                </div>
+                <div class="layer-description">
+                    Dimensiones técnicas y organizacionales para implementación ética y segura de IA en el Distrito Capital
+                </div>
+                <div class="components-grid">
+                    <div class="component-card">
+                        <div class="component-icon">⚖️</div>
+                        <div class="component-title">Ética y Derechos Fundamentales</div>
+                        <div class="component-description">Supervisión humana, no discriminación, equidad y acceso inclusivo</div>
+                    </div>
+                    <div class="component-card">
+                        <div class="component-icon">🔐</div>
+                        <div class="component-title">Privacidad y Protección de Datos</div>
+                        <div class="component-description">Bases legales, minimización, anonimización y gestión de consentimiento</div>
+                    </div>
+                    <div class="component-card">
+                        <div class="component-icon">🛡️</div>
+                        <div class="component-title">Seguridad y Resiliencia</div>
+                        <div class="component-description">Robustez técnica, ciberseguridad y respuesta a incidentes</div>
+                    </div>
+                    <div class="component-card">
+                        <div class="component-icon">🔍</div>
+                        <div class="component-title">Transparencia y Explicabilidad</div>
+                        <div class="component-description">Divulgaciones, documentación técnica y trazabilidad</div>
+                    </div>
+                    <div class="component-card">
+                        <div class="component-icon">👥</div>
+                        <div class="component-title">Atención al Ciudadano</div>
+                        <div class="component-description">Canales de reclamación, integridad del servicio y accesibilidad</div>
+                    </div>
+                    <div class="component-card">
+                        <div class="component-icon">🤝</div>
+                        <div class="component-title">Gestión de Terceros</div>
+                        <div class="component-description">Debida diligencia, cláusulas contractuales y monitoreo</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Capa 5: Métricas y KPIs (ACTUALIZADA) -->
+            <div class="layer layer-5">
+                <div class="layer-header">
+                    <div class="layer-icon">📊</div>
+                    <div class="layer-title"><a href="4.1.5 Métricas y KPI.html">Capa 5: Métricas y KPIs de IA</a></div>
+                </div>
+                <div class="layer-description">
+                    Indicadores para medir la implementación, efectividad e impacto del framework de gobernanza de IA en el Distrito Capital
+                </div>
+                <div class="components-grid">
+                    <div class="component-card">
+                        <div class="component-icon">⚖️</div>
+                        <div class="component-title">Cumplimiento Normativo</div>
+                        <div class="component-description">Métricas de ciclo de vida regulatorio</div>
+                    </div>
+                    
+                    <div class="component-card">
+                        <div class="component-icon">🛡️</div>
+                        <div class="component-title">Gestión de Riesgos</div>
+                        <div class="component-description">Monitoreo de incidentes y efectividad de controles</div>
+                    </div>
+                    
+                    <div class="component-card">
+                        <div class="component-icon">📈</div>
+                        <div class="component-title">Calidad de Datos</div>
+                        <div class="component-description">Confiabilidad de fuentes y representatividad</div>
+                    </div>
+                    
+                    <div class="component-card">
+                        <div class="component-icon">⚙️</div>
+                        <div class="component-title">Desempeño Técnico</div>
+                        <div class="component-description">Confiabilidad de modelos y métricas de equidad</div>
+                    </div>
+                    
+                    <div class="component-card">
+                        <div class="component-icon">🏛️</div>
+                        <div class="component-title">Impacto Público</div>
+                        <div class="component-description">Satisfacción ciudadana y eficiencia operativa</div>
+                    </div>
+                    
+                    <div class="component-card">
+                        <div class="component-icon">🏢</div>
+                        <div class="component-title">Madurez Institucional</div>
+                        <div class="component-description">Sostenibilidad y capacidades de gobernanza</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Modelo de Madurez (ACTUALIZADO) -->
+            <div class="layer layer-maturity">
+                <div class="layer-header">
+                    <div class="layer-icon">📊</div>
+                    <div class="layer-title"><a href="4.1.6 Modelo de Madurez Institucional.html">Modelo de Madurez Institucional</a></div>
+                </div>
+                <div class="layer-description">
+                    Framework de cuatro niveles para evaluar y planificar la adopción progresiva de capacidades de gobernanza de IA en el Distrito Capital
+                </div>
+                <div class="components-grid">
+                    <div class="component-card">
+                        <div class="component-icon">🌱</div>
+                        <div class="component-title">Nivel 0: Incipiente</div>
+                        <div class="component-description">Situación inicial sin gobernanza formal de IA</div>
+                    </div>
+                    
+                    <div class="component-card">
+                        <div class="component-icon">🚧</div>
+                        <div class="component-title">Nivel 1: Informal</div>
+                        <div class="component-description">Iniciativas coordinadas sin formalización completa</div>
+                    </div>
+                    
+                    <div class="component-card">
+                        <div class="component-icon">📋</div>
+                        <div class="component-title">Nivel 2: Documentado</div>
+                        <div class="component-description">Gobernanza parcialmente implementada y documentada</div>
+                    </div>
+                    
+                    <div class="component-card">
+                        <div class="component-icon">🚀</div>
+                        <div class="component-title">Nivel 3: Optimizado</div>
+                        <div class="component-description">Gobernanza completamente implementada y en mejora continua</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mapeo de capas a dimensiones
+        const layerDimensions = {
+            '4.2.1 Principios y Políticas.html': {
+                count: 6,
+                baseUrl: '4.1.1 Principios y Políticas.html'
+            },
+            '4.2.2 Modelo de Gobierno.html': {
+                count: 6,
+                baseUrl: '4.1.2 Modelo de Gobierno.html'
+            },
+            '4.2.3 Ciclo de vida IA.html': {
+                count: 9,
+                baseUrl: '4.1.3 Ciclo de vida IA.html'
+            },
+            '4.2.4 Controles Clave IA.html': {
+                count: 6,
+                baseUrl: '4.1.4 Controles Clave IA.html'
+            },
+            '4.2.5 Métricas y KPI.html': {
+                count: 6,
+                baseUrl: '4.1.5 Métricas y KPI.html'
+            },
+            '4.2.6 Modelo de Madurez Institucional.html': {
+                count: 4,
+                baseUrl: '4.1.6 Modelo de Madurez Institucional.html'
+            }
+        };
+
+        // Función para enlazar los component-cards
+        function linkComponentCards() {
+            // Obtener todas las capas
+            const layers = document.querySelectorAll('.layer');
+            
+            layers.forEach(layer => {
+                // Obtener el enlace del layer-title
+                const layerLink = layer.querySelector('.layer-title a');
+                if (!layerLink) return;
+                
+                const layerHref = layerLink.getAttribute('href');
+                const layerConfig = layerDimensions[layerHref];
+                
+                if (!layerConfig) return;
+                
+                // Obtener todos los component-cards de esta capa
+                const componentCards = layer.querySelectorAll('.component-card');
+                
+                componentCards.forEach((card, index) => {
+                    // Crear número de dimensión (1-based)
+                    const dimensionNumber = index + 1;
+                    
+                    // Crear enlace
+                    const link = document.createElement('a');
+                    link.href = `${layerConfig.baseUrl}?dimension=${dimensionNumber}`;
+                    link.style.textDecoration = 'none';
+                    link.style.color = 'inherit';
+                    link.style.display = 'block';
+                    link.style.height = '100%';
+                    
+                    // Mover el contenido del card al enlace
+                    while (card.firstChild) {
+                        link.appendChild(card.firstChild);
+                    }
+                    
+                    // Agregar el enlace al card
+                    card.appendChild(link);
+                    
+                    // Agregar efecto hover mejorado
+                    card.style.cursor = 'pointer';
+                    card.addEventListener('mouseenter', function() {
+                        this.style.transform = 'translateY(-5px)';
+                        this.style.boxShadow = '0 8px 20px rgba(0,0,0,0.15)';
+                    });
+                    card.addEventListener('mouseleave', function() {
+                        this.style.transform = 'translateY(-3px)';
+                        this.style.boxShadow = '0 5px 15px rgba(0,0,0,0.1)';
+                    });
+                });
+            });
+        }
+
+        // Ejecutar cuando el DOM esté cargado
+        document.addEventListener('DOMContentLoaded', linkComponentCards);
+    </script>
+</body>
+</html>

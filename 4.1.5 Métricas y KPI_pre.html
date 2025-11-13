@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Framework - Métricas y KPI de Gobernanza de IA</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1a237e, #283593);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .back-button {
+            position: absolute;
+            left: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-50%) scale(1.05);
+        }
+        
+        .architecture-map {
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        .layer {
+            background: #f9f9f9;
+            border-radius: 12px;
+            padding: 25px;
+            border: 3px solid #e0e0e0;
+            transition: all 0.3s ease;
+        }
+        
+        .layer-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #1976D2;
+        }
+        
+        .layer-icon {
+            font-size: 28px;
+            background: linear-gradient(135deg, #1a237e, #283593);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .layer-title {
+            font-size: 22px;
+            color: #1a237e;
+            font-weight: bold;
+        }
+        
+        .layer-description {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+        
+        .components-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .component-card {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            border-left: 4px solid #1976D2;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .component-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .component-icon {
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+        
+        .component-title {
+            font-weight: bold;
+            color: #1a237e;
+            margin-bottom: 5px;
+            font-size: 15px;
+        }
+        
+        .component-description {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.4;
+        }
+        
+        /* Colores específicos para cada dimensión */
+        .dimension-1 .layer-icon { background: linear-gradient(135deg, #1976D2, #64B5F6); }
+        .dimension-1 .component-card { border-left-color: #1976D2; }
+        
+        .dimension-2 .layer-icon { background: linear-gradient(135deg, #388E3C, #66BB6A); }
+        .dimension-2 .component-card { border-left-color: #388E3C; }
+        
+        .dimension-3 .layer-icon { background: linear-gradient(135deg, #F57C00, #FFA726); }
+        .dimension-3 .component-card { border-left-color: #F57C00; }
+        
+        .dimension-4 .layer-icon { background: linear-gradient(135deg, #7B1FA2, #AB47BC); }
+        .dimension-4 .component-card { border-left-color: #7B1FA2; }
+        
+        .dimension-5 .layer-icon { background: linear-gradient(135deg, #00897B, #26A69A); }
+        .dimension-5 .component-card { border-left-color: #00897B; }
+        
+        .dimension-6 .layer-icon { background: linear-gradient(135deg, #D32F2F, #EF5350); }
+        .dimension-6 .component-card { border-left-color: #D32F2F; }
+        
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .components-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .components-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="javascript:history.back()" class="back-button">Atrás</a>
+            <h1>📊 Framework - Métricas y KPI de Gobernanza de IA</h1>
+            <p>Sistema integral de métricas e indicadores clave para medir y monitorear la implementación de IA responsable en el Distrito Capital</p>
+        </div>
+        
+        <div class="architecture-map">
+            <!-- Dimensión 1: Cumplimiento Normativo -->
+            <div class="layer dimension-1">
+                <div class="layer-header">
+                    <div class="layer-icon">⚖️</div>
+                    <div class="layer-title">Cumplimiento Normativo</div>
+                </div>
+                <div class="layer-description">
+                    Métricas que verifican el cumplimiento de requisitos normativos del CONPES 4144, Ley 1581 de 2012, circulares de la SIC, y reglas del AI Act aplicables a sistemas de alto riesgo en entidades públicas.
+                </div>
+                <div class="components-grid">
+                    <div class="component-card" onclick="showMetricDetail('cumplimiento-1')">
+                        <div class="component-icon">📋</div>
+                        <div class="component-title">Casos de uso clasificados</div>
+                        <div class="component-description">Porcentaje de casos de uso de IA con clasificación de riesgo formalizada</div>
+                    </div>
+                    <div class="component-card" onclick="showMetricDetail('cumplimiento-2')">
+                        <div class="component-icon">⚠️</div>
+                        <div class="component-title">Sistemas alto riesgo con ARADPIA</div>
+                        <div class="component-description">Porcentaje de sistemas de alto riesgo con Análisis de Riesgos y Gestión de Datos Personales en IA completo</div>
+                    </div>
+                    <div class="component-card" onclick="showMetricDetail('cumplimiento-3')">
+                        <div class="component-icon">📄</div>
+                        <div class="component-title">Documentación técnica</div>
+                        <div class="component-description">Porcentaje de sistemas con documentación técnica completa (Model Cards y Data Sheets)</div>
+                    </div>
+                    <div class="component-card" onclick="showMetricDetail('cumplimiento-4')">
+                        <div class="component-icon">👥</div>
+                        <div class="component-title">Reuniones Comité IA</div>
+                        <div class="component-description">Porcentaje de reuniones del Comité de IA realizadas según calendario establecido</div>
+                    </div>
+                    <div class="component-card" onclick="showMetricDetail('cumplimiento-5')">
+                        <div class="component-icon">🎓</div>
+                        <div class="component-title">Cobertura capacitación</div>
+                        <div class="component-description">Porcentaje de funcionarios en roles clave capacitados en principios de IA responsable</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Dimensión 2: Gestión de Riesgos -->
+            <div class="layer dimension-2">
+                <div class="layer-header">
+                    <div class="layer-icon">🛡️</div>
+                    <div class="layer-title">Gestión de Riesgos</div>
+                </div>
+                <div class="layer-description">
+                    Métricas que hacen funcional el proceso de gestión de riesgos y permiten verificar cuantitativamente si los controles implementados están funcionando.
+                </div>
+                <div class="components-grid">
+                    <div class="component-card" onclick="showMetricDetail('riesgos-1')">
+                        <div class="component-icon">📊</div>
+                        <div class="component-title">Número de incidentes por tipología</div>
+                        <div class="component-description">Conteo y tendencia de incidentes de IA categorizados por tipo</div>
+                    </div>
+                    <div class="component-card" onclick="showMetricDetail('riesgos-2')">
+                        <div class="component-icon">⏱️</div>
+                        <div class="component-title">Tiempo medio de respuesta</div>
+                        <div class="component-description">Tiempo promedio desde la detección hasta la resolución completa de incidentes</div>
+                    </div>
+                    <div class="component-card" onclick="showMetricDetail('riesgos-3')">
+                        <div class="component-icon">📈</div>
+                        <div class="component-title">Tasa de materialización de riesgos</div>
+                        <div class="component-description">Porcentaje de riesgos identificados que efectivamente se materializaron</div>
+                    </div>
+                    <div class="component-card" onclick="showMetricDetail('riesgos-4')">
+                        <div class="component-icon">✅</div>
+                        <div class="component-title">Efectividad de controles</div>
+                        <div class="component-description">Porcentaje de controles evaluados como efectivos en auditorías</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Dimensión 3: Calidad de Datos -->
+            <div class="layer dimension-3">
+                <div class="layer-header">
+                    <div class="layer-icon">📈</div>
+                    <div class="layer-title">Calidad de Datos</div>
+                </div>
+                <div class="layer-description">
+                    Métricas que evalúan las dimensiones fundamentales del ciclo de vida de datos, reconociendo que la calidad de los datos determina críticamente la calidad, equidad y confiabilidad de los sistemas de IA.
+                </div>
+                <div class="components-grid">
+                    <div class="component-card" onclick="showMetricDetail('datos-1')">
+                        <div class="component-icon">📊</div>
+                        <div class="component-title">Completitud de datos</div>
+                        <div class="component-description">Porcentaje de registros que contienen valores válidos en campos críticos</div>
+                    </div>
+                    <div class="component-card" onclick="showMetricDetail('datos-2')">
+                        <div class="component-icon">🔄</div>
+                        <div class="component-title">Tasa de detección de drift</div>
+                        <div class="component-description">Capacidad del sistema para identificar cambios en la distribución de datos</div>
+                    </div>
+                    <div class="component-card" onclick="showMetricDetail('datos-3')">
+                        <div class="component-icon">👥</div>
+                        <div class="component-title">Representatividad demográfica</div>
+                        <div class="component-description">Evaluación de si la distribución de datos refleja adecuadamente la población objetivo</div>
+                    </div>
+                    <div class="component-card" onclick="showMetricDetail('datos-4')">
+                        <div class="component-icon">📄</div>
+                        <div class="component-title">Índice de calidad de documentación</div>
+                        <div class="component-description">Evaluación de la completitud de la documentación sobre datos utilizados</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Dimensión 4: Desempeño Técnico -->
+            <div class="layer dimension-4">
+                <div class="layer-header">
+                    <div class="layer-icon">⚙️</div>
+                    <div class="layer-title">Desempeño Técnico</div>
+                </div>
+                <div class="layer-description">
+                    Métricas que evalúan el rendimiento técnico de los sistemas de IA, asegurando que cumplan con estándares de precisión, equidad, disponibilidad y velocidad de respuesta apropiados para el contexto del servicio público distrital.
+                </div>
+                <div class="components-grid">
+                    <div class="component-card" onclick="showMetricDetail('tecnico-1')">
+                        <div class="component-icon">🎯</div>
+                        <div class="component-title">Precisión y desempeño de modelos</div>
+                        <div class="component-description">Métricas de precisión según tipo de sistema (clasificación, regresión, generación)</div>
+                    </div>
+                    <div class="component-card" onclick="showMetricDetail('tecnico-2')">
+                        <div class="component-icon">⚖️</div>
+                        <div class="component-title">Métricas de equidad</div>
+                        <div class="component-description">Evaluación del grado de discriminación potencial del sistema</div>
+                    </div>
+                    <div class="component-card" onclick="showMetricDetail('tecnico-3')">
+                        <div class="component-icon">🟢</div>
+                        <div class="component-title">Disponibilidad del sistema</div>
+                        <div class="component-description">Porcentaje de tiempo que el servicio de IA está activo y disponible</div>
+                    </div>
+                    <div class="component-card" onclick="showMetricDetail('tecnico-4')">
+                        <div class="component-icon">⚡</div>
+                        <div class="component-title">Tiempo de respuesta</div>
+                        <div class="component-description">Velocidad de respuesta del sistema a las solicitudes de usuarios</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Dimensión 5: Impacto Público -->
+            <div class="layer dimension-5">
+                <div class="layer-header">
+                    <div class="layer-icon">🏛️</div>
+                    <div class="layer-title">Impacto Público</div>
+                </div>
+                <div class="layer-description">
+                    Métricas que evalúan el valor real que generan los sistemas de IA, respondiendo a la pregunta fundamental: ¿está la IA mejorando efectivamente los servicios públicos y la experiencia ciudadana de manera medible?
+                </div>
+                <div class="components-grid">
+                    <div class="component-card" onclick="showMetricDetail('impacto-1')">
+                        <div class="component-icon">😊</div>
+                        <div class="component-title">Satisfacción ciudadana</div>
+                        <div class="component-description">Evaluación de la satisfacción de los ciudadanos con los servicios que utilizan IA</div>
+                    </div>
+                    <div class="component-card" onclick="showMetricDetail('impacto-2')">
+                        <div class="component-icon">📈</div>
+                        <div class="component-title">Eficiencia operativa</div>
+                        <div class="component-description">Comparación del desempeño operativo antes y después de implementar IA</div>
+                    </div>
+                    <div class="component-card" onclick="showMetricDetail('impacto-3')">
+                        <div class="component-icon">📊</div>
+                        <div class="component-title">Volumen de servicio</div>
+                        <div class="component-description">Capacidad de atender transacciones y resolver casos sin intervención humana</div>
+                    </div>
+                    <div class="component-card" onclick="showMetricDetail('impacto-4')">
+                        <div class="component-icon">👤</div>
+                        <div class="component-title">Tasa de escalamiento a humano</div>
+                        <div class="component-description">Balance entre automatización y supervisión humana necesaria</div>
+                    </div>
+                    <div class="component-card" onclick="showMetricDetail('impacto-5')">
+                        <div class="component-icon">🌐</div>
+                        <div class="component-title">Equidad de acceso</div>
+                        <div class="component-description">Evaluación de acceso equitativo a servicios por segmentos demográficos</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Dimensión 6: Madurez Institucional -->
+            <div class="layer dimension-6">
+                <div class="layer-header">
+                    <div class="layer-icon">🏢</div>
+                    <div class="layer-title">Madurez Institucional</div>
+                </div>
+                <div class="layer-description">
+                    Métricas que evalúan qué tan desarrolladas están las capacidades de gobernanza de IA dentro de la Secretaría, facilitando la planificación estratégica y la asignación de recursos a lo largo del tiempo.
+                </div>
+                <div class="components-grid">
+                    <div class="component-card" onclick="showMetricDetail('madurez-1')">
+                        <div class="component-icon">📊</div>
+                        <div class="component-title">Nivel de madurez institucional</div>
+                        <div class="component-description">Evaluación global del nivel de madurez en gobernanza de IA</div>
+                    </div>
+                    <div class="component-card" onclick="showMetricDetail('madurez-2')">
+                        <div class="component-icon">🎓</div>
+                        <div class="component-title">Cobertura de capacitación</div>
+                        <div class="component-description">Porcentaje de funcionarios en roles clave capacitados en gobernanza de IA</div>
+                    </div>
+                    <div class="component-card" onclick="showMetricDetail('madurez-3')">
+                        <div class="component-icon">🚀</div>
+                        <div class="component-title">Servicios con IA implementada</div>
+                        <div class="component-description">Porcentaje de servicios institucionales que incorporan componentes de IA</div>
+                    </div>
+                    <div class="component-card" onclick="showMetricDetail('madurez-4')">
+                        <div class="component-icon">💰</div>
+                        <div class="component-title">Relación costo-beneficio</div>
+                        <div class="component-description">Evaluación del retorno de inversión de las iniciativas de IA</div>
+                    </div>
+                    <div class="component-card" onclick="showMetricDetail('madurez-5')">
+                        <div class="component-icon">🌱</div>
+                        <div class="component-title">Índice de sostenibilidad</div>
+                        <div class="component-description">Evaluación cualitativa del grado de sostenibilidad de las iniciativas de IA</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para mostrar detalles de métricas -->
+    <div id="metricModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center;">
+        <div style="background: white; border-radius: 12px; padding: 30px; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #1976D2;">
+                <h2 id="modalTitle" style="color: #1a237e; font-size: 20px; margin: 0;"></h2>
+                <button onclick="closeModal()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #666;">×</button>
+            </div>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <script>
+        // Datos detallados de las métricas
+        const metricDetails = {
+            'cumplimiento-1': {
+                title: 'Casos de uso clasificados',
+                description: 'Porcentaje de casos de uso de IA con clasificación de riesgo formalizada según el marco de riesgos establecido.',
+                formula: '(Casos de uso con clasificación de riesgo formalizada / Total de casos de uso de IA) × 100',
+                frequency: 'Trimestral',
+                target: '100%',
+                levels: [
+                    { level: 'Nivel 0: Incipiente', value: '0-20%', color: '#ff4d4d' },
+                    { level: 'Nivel 1: Informal', value: '20-60%', color: '#ff9933' },
+                    { level: 'Nivel 2: Documentado', value: '60-90%', color: '#ffcc00' },
+                    { level: 'Nivel 3: Optimizado', value: '≥90%', color: '#4CAF50' }
+                ]
+            },
+            'cumplimiento-2': {
+                title: 'Sistemas alto riesgo con ARADPIA',
+                description: 'Porcentaje de sistemas de alto riesgo con Análisis de Riesgos y Gestión de Datos Personales en IA completo y aprobado.',
+                formula: '(Sistemas de alto riesgo con ARADPIA / Total de sistemas de alto riesgo) × 100',
+                frequency: 'Continua antes de despliegue, consolidado trimestral',
+                target: '100%',
+                levels: [
+                    { level: 'Nivel 0: Incipiente', value: '0-10%', color: '#ff4d4d' },
+                    { level: 'Nivel 1: Informal', value: '10-50%', color: '#ff9933' },
+                    { level: 'Nivel 2: Documentado', value: '50-90%', color: '#ffcc00' },
+                    { level: 'Nivel 3: Optimizado', value: '100%', color: '#4CAF50' }
+                ]
+            },
+            'riesgos-1': {
+                title: 'Número de incidentes por tipología',
+                description: 'Conteo y tendencia de incidentes de IA categorizados por tipo: técnico, privacidad, equidad, seguridad, ciudadanas.',
+                formula: 'Conteo mensual desagregado por tipo',
+                frequency: 'Registro continuo, reporte mensual',
+                target: 'Tendencia decreciente trimestral',
+                levels: [
+                    { level: 'Nivel 0: Incipiente', value: 'Creciente', color: '#ff4d4d' },
+                    { level: 'Nivel 1: Informal', value: 'Fluctuante', color: '#ff9933' },
+                    { level: 'Nivel 2: Documentado', value: 'Decreciente algunos tipos', color: '#ffcc00' },
+                    { level: 'Nivel 3: Optimizado', value: 'Decreciente todas las categorías', color: '#4CAF50' }
+                ]
+            },
+            'impacto-1': {
+                title: 'Satisfacción ciudadana',
+                description: 'Evaluación de la satisfacción de los ciudadanos con los servicios que utilizan IA, medida mediante CSAT y NPS.',
+                formula: 'CSAT: % satisfecho/muy satisfecho escala 1-5; NPS: (% promotores - % detractores)',
+                frequency: 'Captura continua, consolidación mensual',
+                target: '≥80% satisfecho/muy satisfecho; NPS ≥50',
+                levels: [
+                    { level: 'Nivel 0: Incipiente', value: '<60%', color: '#ff4d4d' },
+                    { level: 'Nivel 1: Informal', value: '60-75%', color: '#ff9933' },
+                    { level: 'Nivel 2: Documentado', value: '75-85%', color: '#ffcc00' },
+                    { level: 'Nivel 3: Optimizado', value: '≥80%', color: '#4CAF50' }
+                ]
+            },
+            'madurez-1': {
+                title: 'Nivel de madurez institucional',
+                description: 'Evaluación global del nivel de madurez en gobernanza de IA según el modelo establecido.',
+                formula: '0 (Incipiente), 1 (Informal), 2 (Documentado), 3 (Optimizado)',
+                frequency: 'Anual con autoevaluación y validación externa',
+                target: 'Avance mínimo de 1 nivel por año',
+                levels: [
+                    { level: 'Nivel 0: Incipiente', value: 'Incipiente', color: '#ff4d4d' },
+                    { level: 'Nivel 1: Informal', value: 'Informal', color: '#ff9933' },
+                    { level: 'Nivel 2: Documentado', value: 'Documentado', color: '#ffcc00' },
+                    { level: 'Nivel 3: Optimizado', value: 'Optimizado', color: '#4CAF50' }
+                ]
+            }
+        };
+
+        function showMetricDetail(metricId) {
+            const metric = metricDetails[metricId];
+            if (!metric) return;
+            
+            const modal = document.getElementById('metricModal');
+            const title = document.getElementById('modalTitle');
+            const content = document.getElementById('modalContent');
+            
+            title.textContent = metric.title;
+            
+            let html = `
+                <div style="margin-bottom: 20px;">
+                    <p style="color: #333; line-height: 1.6; margin-bottom: 15px;">${metric.description}</p>
+                    
+                    <div style="background: #f5f7fa; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                        <div style="display: flex; margin-bottom: 8px;">
+                            <div style="font-weight: bold; color: #1a237e; min-width: 80px;">Fórmula:</div>
+                            <div style="color: #333;">${metric.formula}</div>
+                        </div>
+                        <div style="display: flex; margin-bottom: 8px;">
+                            <div style="font-weight: bold; color: #1a237e; min-width: 80px;">Frecuencia:</div>
+                            <div style="color: #333;">${metric.frequency}</div>
+                        </div>
+                        <div style="display: flex;">
+                            <div style="font-weight: bold; color: #1a237e; min-width: 80px;">Meta:</div>
+                            <div style="color: #333;">${metric.target}</div>
+                        </div>
+                    </div>
+                    
+                    <h3 style="color: #1a237e; margin-bottom: 10px; font-size: 16px;">Niveles de Madurez</h3>
+                    <div style="display: flex; border-radius: 8px; overflow: hidden; margin-bottom: 15px;">
+            `;
+            
+            metric.levels.forEach(level => {
+                html += `
+                    <div style="flex: 1; text-align: center; padding: 10px 5px; font-size: 12px; font-weight: bold; color: white; background-color: ${level.color};">
+                        ${level.value}
+                    </div>
+                `;
+            });
+            
+            html += `
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+            `;
+            
+            metric.levels.forEach(level => {
+                html += `
+                    <div style="display: flex; align-items: center; margin-right: 15px; margin-bottom: 5px;">
+                        <div style="width: 15px; height: 15px; margin-right: 5px; background-color: ${level.color}; border-radius: 3px;"></div>
+                        <div style="font-size: 12px;">${level.level}</div>
+                    </div>
+                `;
+            });
+            
+            html += `
+                    </div>
+                </div>
+            `;
+            
+            content.innerHTML = html;
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('metricModal').style.display = 'none';
+        }
+
+        // Cerrar modal al hacer clic fuera del contenido
+        document.getElementById('metricModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

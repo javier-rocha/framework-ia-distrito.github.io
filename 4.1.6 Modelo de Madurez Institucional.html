@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capítulo 4.1.6 - Modelo de Madurez Institucional</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1a237e, #283593);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .back-button {
+            position: absolute;
+            left: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-50%) scale(1.05);
+        }
+        
+        .content {
+            padding: 30px;
+            display: grid;
+            grid-template-columns: 1fr 700px;
+            gap: 30px;
+        }
+        
+        .left-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .levels-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        
+        .level-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            border: 3px solid #e0e0e0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            height: 180px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .level-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+        }
+        
+        .level-card:nth-child(1)::before { background: linear-gradient(90deg, #D32F2F, #EF5350); }
+        .level-card:nth-child(2)::before { background: linear-gradient(90deg, #F57C00, #FFA726); }
+        .level-card:nth-child(3)::before { background: linear-gradient(90deg, #1976D2, #64B5F6); }
+        .level-card:nth-child(4)::before { background: linear-gradient(90deg, #388E3C, #66BB6A); }
+        
+        .level-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .level-card.active {
+            border-color: #1976D2;
+            background: linear-gradient(135deg, #E3F2FD, #BBDEFB);
+            box-shadow: 0 8px 20px rgba(25, 118, 210, 0.3);
+        }
+        
+        .level-icon {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .level-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #1a237e;
+            margin-bottom: 8px;
+        }
+        
+        .level-description {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.4;
+        }
+        
+        .detail-panel {
+            background: #f9f9f9;
+            border: 3px solid #1976D2;
+            border-radius: 12px;
+            padding: 25px;
+            animation: slideIn 0.3s ease;
+            max-height: calc(100vh - 200px);
+            overflow-y: auto;
+            position: sticky;
+            top: 20px;
+            min-height: 600px;
+        }
+        
+        .detail-panel.empty {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            border-style: dashed;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #1976D2;
+        }
+        
+        .detail-title {
+            font-size: 20px;
+            color: #1a237e;
+            font-weight: bold;
+            line-height: 1.3;
+        }
+        
+        .detail-section {
+            margin-bottom: 20px;
+        }
+        
+        .detail-section h3 {
+            color: #1976D2;
+            margin-bottom: 10px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .detail-section h4 {
+            color: #1a237e;
+            margin: 15px 0 8px 0;
+            font-size: 15px;
+        }
+        
+        .detail-section p {
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .detail-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .detail-section li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            line-height: 1.5;
+        }
+        
+        .detail-section li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: #1976D2;
+            font-weight: bold;
+        }
+        
+        .characteristics-list {
+            margin-top: 10px;
+        }
+        
+        .characteristic-item {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #1976D2;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .characteristic-title {
+            font-weight: bold;
+            color: #1a237e;
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+        
+        .characteristic-description {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #444;
+        }
+        
+        .transition-item {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #388E3C;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .transition-title {
+            font-weight: bold;
+            color: #1a237e;
+            margin-bottom: 8px;
+        }
+        
+        .transition-description {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #444;
+        }
+        
+        @media (max-width: 1200px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+            
+            .detail-panel {
+                position: relative;
+                top: 0;
+                max-height: none;
+                min-height: 400px;
+            }
+            
+            .levels-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="javascript:history.back()" class="back-button">Atrás</a>
+            <h1>📊 Capítulo 4.1.6 - Modelo de Madurez Institucional</h1>
+            <p>Marco de referencia para evaluar y orientar el progreso en la adopción responsable de IA</p>
+        </div>
+        
+        <div class="content">
+            <div class="left-panel">
+                <div class="levels-grid" id="levelsGrid">
+                    <div class="level-card" onclick="showDetail(1)" data-level="1">
+                        <div class="level-icon">🌱</div>
+                        <div class="level-title">Nivel 0: Incipiente</div>
+                        <div class="level-description">Situación inicial sin gobernanza formal de IA</div>
+                    </div>
+                    
+                    <div class="level-card" onclick="showDetail(2)" data-level="2">
+                        <div class="level-icon">🚧</div>
+                        <div class="level-title">Nivel 1: Informal</div>
+                        <div class="level-description">Iniciativas coordinadas sin formalización completa</div>
+                    </div>
+                    
+                    <div class="level-card" onclick="showDetail(3)" data-level="3">
+                        <div class="level-icon">📋</div>
+                        <div class="level-title">Nivel 2: Documentado</div>
+                        <div class="level-description">Gobernanza parcialmente implementada y documentada</div>
+                    </div>
+                    
+                    <div class="level-card" onclick="showDetail(4)" data-level="4">
+                        <div class="level-icon">🚀</div>
+                        <div class="level-title">Nivel 3: Optimizado</div>
+                        <div class="level-description">Gobernanza completamente implementada y en mejora continua</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="detail-panel empty" id="detailPanel">
+                <p>👈 Selecciona un nivel de madurez para ver los detalles del modelo institucional</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const maturityDetails = {
+            1: {
+                title: "Nivel 0: Incipiente",
+                description: "Representa la situación inicial donde no existe gobernanza formal de IA. A este nivel, las iniciativas de IA son aisladas, informales y carecen de coordinación institucional.",
+                characteristics: [
+                    {
+                        title: "Gobernanza",
+                        description: "No existen políticas documentadas ni procesos establecidos para la gestión de riesgos."
+                    },
+                    {
+                        title: "Decisiones",
+                        description: "La decisión de adoptar IA se toma de forma reactiva respecto a necesidades operativas puntuales sin evaluación comprehensiva de impacto."
+                    },
+                    {
+                        title: "Infraestructura",
+                        description: "La infraestructura de monitoreo no existe, o es mínima."
+                    },
+                    {
+                        title: "Capacidades Técnicas",
+                        description: "Las capacidades técnicas se concentran en individuos específicos sin transferencia de conocimiento."
+                    },
+                    {
+                        title: "Conformidad Normativa",
+                        description: "Los requisitos de conformidad normativa no se abordan de forma sistemática."
+                    }
+                ],
+                identification: "La Secretaría podría estar en este nivel si inicia exploraciones puntuales de IA sin estructura institucional, identificable cuando solo algunos departamentos experimentan con soluciones de IA sin coordinación central."
+            },
+            2: {
+                title: "Nivel 1: Informal",
+                description: "Marca el primer paso donde comienzan a surgir iniciativas coordinadas de IA pero sin formalización completa.",
+                characteristics: [
+                    {
+                        title: "Comité de IA",
+                        description: "Se establece un Comité de IA incipiente que se reúne de forma irregular."
+                    },
+                    {
+                        title: "Evaluación de Riesgos",
+                        description: "Se inician procesos de evaluación de riesgos pero de manera inconsistente, aplicados solo a algunos sistemas."
+                    },
+                    {
+                        title: "Documentación",
+                        description: "Existe documentación parcial de políticas y procedimientos, pero estos no se comunican ni se cumplen sistemáticamente."
+                    },
+                    {
+                        title: "Capacitación",
+                        description: "Se realizan algunas capacitaciones en IA responsable para ciertos grupos, pero sin cobertura integral."
+                    },
+                    {
+                        title: "Controles e Incidentes",
+                        description: "Los controles son parcialmente implementados y se detectan incidentes pero la respuesta es reactiva."
+                    }
+                ],
+                identification: "Este nivel refleja una transición donde la organización reconoce la necesidad de gobernanza pero aún opera con muchos aspectos informales y personas clave."
+            },
+            3: {
+                title: "Nivel 2: Documentado",
+                description: "Representa un punto de madurez intermedia donde la gobernanza de IA está parcialmente implementada y documentada.",
+                characteristics: [
+                    {
+                        title: "Comité de IA",
+                        description: "El Comité de IA funciona regularmente con actas y trazabilidad de decisiones."
+                    },
+                    {
+                        title: "Políticas",
+                        description: "Se cuenta con políticas formales de gobernanza de IA comunicadas a toda la organización, aunque su cumplimiento requiere supervisión activa."
+                    },
+                    {
+                        title: "Gestión de Riesgos",
+                        description: "Los procesos de gestión de riesgos están documentados y aplicados a todos los sistemas de alto riesgo, aunque con variabilidad en profundidad y calidad."
+                    },
+                    {
+                        title: "Documentación Técnica",
+                        description: "La documentación técnica de sistemas existe aunque puede presentar gaps."
+                    },
+                    {
+                        title: "Capacitación",
+                        description: "Se realiza capacitación sistemática en roles clave, con cobertura de ≥80% en roles de gobernanza."
+                    },
+                    {
+                        title: "Controles",
+                        description: "Los controles están implementados para sistemas críticos, monitoreados de forma regular."
+                    },
+                    {
+                        title: "Gestión de Incidentes",
+                        description: "Los incidentes se registran, clasifican y se inician protocolos de respuesta."
+                    },
+                    {
+                        title: "Infraestructura",
+                        description: "La infraestructura de monitoreo básica está en operación."
+                    }
+                ],
+                identification: "Este nivel es alcanzable en el mediano plazo con inversión en formalización de procesos."
+            },
+            4: {
+                title: "Nivel 3: Optimizado",
+                description: "Representa la madurez institucional objetivo a tres años, donde la gobernanza de IA está completamente implementada, documentada, monitoreada y sometida a mejora continua.",
+                characteristics: [
+                    {
+                        title: "Comité de IA",
+                        description: "El Comité de IA funciona operativamente con alta efectividad, tomando decisiones informadas con datos."
+                    },
+                    {
+                        title: "Políticas",
+                        description: "Las políticas están plenamente implementadas con cumplimiento ≥90%."
+                    },
+                    {
+                        title: "Gestión de Riesgos",
+                        description: "Los procesos de gestión de riesgos son robustos, aplicados consistentemente a todos los sistemas con documentación completa de ARA/DPIA y controles."
+                    },
+                    {
+                        title: "Documentación Técnica",
+                        description: "La documentación técnica es exhaustiva, actualizada y accesible."
+                    },
+                    {
+                        title: "Capacitación",
+                        description: "La capacitación alcanza 100% en roles clave con actualizaciones continuas."
+                    },
+                    {
+                        title: "Controles",
+                        description: "Los controles son altamente efectivos (≥85%), monitoreados en tiempo real."
+                    },
+                    {
+                        title: "Respuesta a Incidentes",
+                        description: "La respuesta a incidentes es ágil y efectiva."
+                    },
+                    {
+                        title: "Dashboard de Gobernanza",
+                        description: "El dashboard de gobernanza proporciona visibilidad en tiempo real de todas las dimensiones."
+                    },
+                    {
+                        title: "Cultura Organizacional",
+                        description: "La cultura organizacional valora la IA responsable."
+                    },
+                    {
+                        title: "Valor Público",
+                        description: "Se genera valor público cuantificable."
+                    },
+                    {
+                        title: "Sostenibilidad Institucional",
+                        description: "La sostenibilidad institucional es alta con apropiación de líderes, continuidad presupuestal y capacidades internas robustas."
+                    }
+                ],
+                identification: "Este nivel representa el objetivo estratégico a alcanzar en un plazo de tres años."
+            }
+        };
+
+        function showDetail(level) {
+            const detail = maturityDetails[level];
+            const panel = document.getElementById('detailPanel');
+            
+            panel.classList.remove('empty');
+            
+            let html = `
+                <div class="detail-header">
+                    <h2 class="detail-title">${detail.title}</h2>
+                </div>
+                
+                <div class="detail-section">
+                    <p>${detail.description}</p>
+                </div>
+            `;
+            
+            // Characteristics
+            if (detail.characteristics) {
+                html += `
+                    <div class="detail-section">
+                        <h3>📋 Características Principales</h3>
+                        <div class="characteristics-list">
+                `;
+                
+                detail.characteristics.forEach(char => {
+                    html += `
+                        <div class="characteristic-item">
+                            <div class="characteristic-title">${char.title}</div>
+                            <div class="characteristic-description">${char.description}</div>
+                        </div>
+                    `;
+                });
+                
+                html += `
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Identification
+            if (detail.identification) {
+                html += `
+                    <div class="detail-section">
+                        <h3>🔍 Identificación</h3>
+                        <p>${detail.identification}</p>
+                    </div>
+                `;
+            }
+            
+            // Transitions
+            html += `
+                <div class="detail-section">
+                    <h3>🔄 Progresión del Modelo</h3>
+                    <div class="transition-item">
+                        <div class="transition-title">Evaluación y Transición</div>
+                        <div class="transition-description">
+                            El movimiento entre niveles debe ser progresivo, con evaluaciones anuales formales mediante autoevaluación del Comité de IA validada por auditores externos independientes. Cada nivel incorpora las capacidades del anterior, generando una progresión que es realista pero ambiciosa.
+                        </div>
+                    </div>
+                    <div class="transition-item">
+                        <div class="transition-title">Alineación con CONPES 4144</div>
+                        <div class="transition-description">
+                            El CONPES 4144 enfatiza que la madurez institucional es determinante para la adopción responsable y sostenible de IA. El modelo propuesto permite a la Secretaría Distrital de Gobierno comunicar claramente dónde se encuentra, qué capacidades necesita desarrollar, y cuáles son los hitos de progreso esperados, facilitando la planificación estratégica y la asignación de recursos para convertir la gobernanza de IA en una capacidad institucional permanente y efectiva que genere confianza pública y valor sostenible.
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            panel.innerHTML = html;
+            
+            // Highlight active level
+            document.querySelectorAll('.level-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            document.querySelector(`[data-level="${level}"]`).classList.add('active');
+        }
+
+        // Función para procesar parámetros de URL
+        function getUrlParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        // Función para mostrar un nivel específico basado en parámetros de URL
+        function checkUrlParameters() {
+            const levelParam = getUrlParameter('dimension');
+            if (levelParam && maturityDetails[levelParam]) {
+                showDetail(parseInt(levelParam));
+            }
+        }
+
+        // Ejecutar al cargar la página
+        window.addEventListener('DOMContentLoaded', function() {
+            checkUrlParameters();
+        });
+    </script>
+</body>
+</html>

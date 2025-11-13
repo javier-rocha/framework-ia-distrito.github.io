@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toolkit - Capa 1: Principios Rectores y Políticas de IA</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1a237e, #283593);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+		
+		.back-button {
+            position: absolute;
+            left: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-50%) scale(1.05);
+        }
+        
+        .content {
+            padding: 30px;
+            display: grid;
+            grid-template-columns: 1fr 700px;
+            gap: 30px;
+        }
+        
+        .left-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .dimensions-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        
+        .dimension-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            border: 3px solid #e0e0e0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            height: 180px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .dimension-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+        }
+        
+        .dimension-card:nth-child(1)::before { background: linear-gradient(90deg, #1976D2, #64B5F6); }
+        .dimension-card:nth-child(2)::before { background: linear-gradient(90deg, #388E3C, #66BB6A); }
+        .dimension-card:nth-child(3)::before { background: linear-gradient(90deg, #D32F2F, #EF5350); }
+        .dimension-card:nth-child(4)::before { background: linear-gradient(90deg, #7B1FA2, #AB47BC); }
+        .dimension-card:nth-child(5)::before { background: linear-gradient(90deg, #F57C00, #FFA726); }
+        .dimension-card:nth-child(6)::before { background: linear-gradient(90deg, #00897B, #26A69A); }
+        
+        .dimension-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .dimension-card.active {
+            border-color: #1976D2;
+            background: linear-gradient(135deg, #E3F2FD, #BBDEFB);
+            box-shadow: 0 8px 20px rgba(25, 118, 210, 0.3);
+        }
+        
+        .dimension-icon {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .dimension-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #1a237e;
+            margin-bottom: 8px;
+        }
+        
+        .dimension-description {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.4;
+        }
+        
+        .detail-panel {
+            background: #f9f9f9;
+            border: 3px solid #1976D2;
+            border-radius: 12px;
+            padding: 25px;
+            animation: slideIn 0.3s ease;
+            max-height: calc(100vh - 200px);
+            overflow-y: auto;
+            position: sticky;
+            top: 20px;
+            min-height: 600px;
+        }
+        
+        .detail-panel.empty {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            border-style: dashed;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #1976D2;
+        }
+        
+        .detail-title {
+            font-size: 20px;
+            color: #1a237e;
+            font-weight: bold;
+            line-height: 1.3;
+        }
+        
+        .detail-section {
+            margin-bottom: 20px;
+        }
+        
+        .detail-section h3 {
+            color: #1976D2;
+            margin-bottom: 10px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .detail-section p {
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .detail-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .detail-section li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .detail-section li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: #1976D2;
+            font-weight: bold;
+        }
+        
+        .control-item {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #1976D2;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .control-title {
+            font-weight: bold;
+            color: #1a237e;
+            margin-bottom: 8px;
+        }
+        
+        .control-description {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #444;
+        }
+        
+        .policy-section {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #388E3C;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .policy-title {
+            font-weight: bold;
+            color: #1a237e;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+        
+        .policy-content {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #444;
+        }
+        
+        .principle-item {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #7B1FA2;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .principle-title {
+            font-weight: bold;
+            color: #1a237e;
+            margin-bottom: 8px;
+        }
+        
+        .principle-description {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #444;
+        }
+        
+        .risk-item {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #F57C00;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .risk-title {
+            font-weight: bold;
+            color: #1a237e;
+            margin-bottom: 8px;
+        }
+        
+        .risk-description {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #444;
+        }
+        
+        @media (max-width: 1200px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+            
+            .detail-panel {
+                position: relative;
+                top: 0;
+                max-height: none;
+                min-height: 400px;
+            }
+            
+            .dimensions-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+			<a href="javascript:history.back()" class="back-button">Atras</a>
+            <h1>🏛️ Toolkit - Capa 1: Principios Rectores y Políticas de IA</h1>
+            <p>Componente estructural fundamental del Framework de Gobernanza de IA en el Distrito Capital</p>
+        </div>
+        
+        <div class="content">
+            <div class="left-panel">
+                <div class="dimensions-grid" id="dimensionsGrid">
+                    <div class="dimension-card" onclick="showDetail(1)" data-dimension="1">
+                        <div class="dimension-icon">📜</div>
+                        <div class="dimension-title">Carta de IA Responsable</div>
+                        <div class="dimension-description">Principios fundamentales para implementación ética de IA en servicios públicos</div>
+                    </div>
+                    
+                    <div class="dimension-card" onclick="showDetail(2)" data-dimension="2">
+                        <div class="dimension-icon">🗄️</div>
+                        <div class="dimension-title">Política de Gobierno de Datos</div>
+                        <div class="dimension-description">Estándares para calidad, integridad y gestión adecuada de datos en sistemas de IA</div>
+                    </div>
+                    
+                    <div class="dimension-card" onclick="showDetail(3)" data-dimension="3">
+                        <div class="dimension-icon">⚠️</div>
+                        <div class="dimension-title">Política de Gestión de Riesgos</div>
+                        <div class="dimension-description">Marco para identificación, evaluación y gestión de riesgos en sistemas de IA</div>
+                    </div>
+                    
+                    <div class="dimension-card" onclick="showDetail(4)" data-dimension="4">
+                        <div class="dimension-icon">🤝</div>
+                        <div class="dimension-title">Política de Compras y Proveedores</div>
+                        <div class="dimension-description">Requisitos para debida diligencia y contratación de proveedores de soluciones de IA</div>
+                    </div>
+                    
+                    <div class="dimension-card" onclick="showDetail(5)" data-dimension="5">
+                        <div class="dimension-icon">🏢</div>
+                        <div class="dimension-title">Modelo de Gobierno</div>
+                        <div class="dimension-description">Estructura organizacional y mecanismos de decisión para gobernanza de IA</div>
+                    </div>
+                    
+                    <div class="dimension-card" onclick="showDetail(6)" data-dimension="6">
+                        <div class="dimension-icon">🔗</div>
+                        <div class="dimension-title">Alineación CONPES 4144</div>
+                        <div class="dimension-description">Mecanismos de trazabilidad y reporte para alineación con política nacional</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="detail-panel empty" id="detailPanel">
+                <p>👈 Selecciona un componente para ver sus detalles</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const toolkitDetails = {
+            1: {
+                title: "Carta de IA Responsable",
+                description: "Documento declarativo que establece el compromiso institucional del Distrito con una implementación ética de sistemas de IA, fundamentado en estándares internacionales adaptados al marco normativo colombiano.",
+                principles: [
+                    {
+                        title: "Respeto por los derechos humanos y dignidad",
+                        description: "Todo sistema de IA implementado en servicios públicos distritales debe respetar los derechos fundamentales consagrados en la Constitución, con especial énfasis en el derecho a la igualdad (Art. 13), habeas data (Art. 15), debido proceso (Art. 29) y acceso a servicios públicos (Art. 365). Se materializa mediante evaluaciones obligatorias de impacto antes del despliegue."
+                    },
+                    {
+                        title: "Transparencia y explicabilidad",
+                        description: "Las entidades distritales deberán implementar mecanismos de comunicación proactiva que informen a la ciudadanía cuando estén interactuando con sistemas de IA. Para sistemas de alto riesgo, se requiere documentación técnica accesible mediante Model Cards y Data Sheets, con explicaciones adaptadas a cada perfil de usuario."
+                    },
+                    {
+                        title: "Rendición de cuentas y supervisión humana",
+                        description: "Los sistemas de IA complementarán pero no reemplazarán el criterio humano en decisiones que afecten derechos fundamentales o servicios esenciales. Cada sistema deberá incorporar mecanismos de supervisión humana efectiva que permitan intervención, modificación o revocación de decisiones algorítmicas."
+                    },
+                    {
+                        title: "Equidad y no discriminación",
+                        description: "Los sistemas de IA deberán garantizar ausencia de sesgos discriminatorios basados en categorías protegidas por la normativa colombiana. Se implementan pruebas obligatorias de equidad en todas las fases del ciclo de vida, con definición de umbrales máximos de disparidad específicos para cada tipo de servicio."
+                    },
+                    {
+                        title: "Seguridad y robustez",
+                        description: "Los sistemas de IA deberán garantizar niveles adecuados de seguridad y resistencia técnica ante fallos operativos y amenazas cibernéticas, implementando controles basados en el marco NIST Cybersecurity Framework y realizando pruebas de robustez que incluyan escenarios de estrés operativo."
+                    },
+                    {
+                        title: "Privacidad por diseño y por defecto",
+                        description: "La protección de datos personales se integrará desde la fase inicial de diseño de todos los sistemas de IA, aplicando configuraciones predeterminadas que maximicen la privacidad de los ciudadanos. Incluye técnicas de minimización de datos, seudonimización y anonimización."
+                    }
+                ]
+            },
+            2: {
+                title: "Política de Gobierno de Datos",
+                description: "Establece los estándares y procedimientos para garantizar la calidad, integridad y gestión adecuada de los datos utilizados en sistemas de IA del Distrito, regulando todo el ciclo de vida de la información.",
+                components: [
+                    {
+                        title: "Calidad y representatividad de datos",
+                        description: "Establecimiento de estándares mínimos de calidad que garantizan completitud, precisión, consistencia, actualidad y validez. Para casos sensibles, se requiere análisis estadístico de representatividad demográfica y documentación de limitaciones mediante Data Sheets."
+                    },
+                    {
+                        title: "Minimización y propósito específico",
+                        description: "En cumplimiento de la Ley 1581, se recolectarán únicamente los datos estrictamente necesarios para el propósito declarado, evitando acumulación innecesaria. Se prohíbe el uso de datos para fines incompatibles sin la debida autorización legal."
+                    },
+                    {
+                        title: "Gestión de sesgos y discriminación",
+                        description: "Implementación de evaluación sistemática de sesgos en datos fuente, con documentación obligatoria de sesgos identificados y aplicación de técnicas de mitigación cuando sea viable. Se reconoce que no todos los sesgos son eliminables, requiriéndose transparencia sobre limitaciones residuales."
+                    },
+                    {
+                        title: "Evaluaciones de impacto en privacidad",
+                        description: "Siguiendo las directrices de la SIC Circular Externa 002/2024, se establece la obligatoriedad de realizar Análisis de Riesgos y Gestión (ARA) o Data Protection Impact Assessments (DPIA) para todo sistema de IA que procese datos personales."
+                    },
+                    {
+                        title: "Derechos de los titulares",
+                        description: "Establecimiento de mecanismos para garantizar el ejercicio efectivo de los derechos de habeas data (conocer, actualizar, rectificar, suprimir, revocar) en el contexto de sistemas de IA. Para sistemas con aprendizaje continuo, se documentan las implicaciones técnicas del derecho al olvido."
+                    },
+                    {
+                        title: "Localización y soberanía de datos",
+                        description: "Para datos sensibles o críticos, se establecen requisitos de localización en infraestructura nacional o con garantías contractuales estrictas de jurisdicción y protección legal. En transferencias internacionales, se exige cumplimiento del Decreto 1377 de 2013."
+                    }
+                ]
+            },
+            3: {
+                title: "Política de Gestión de Riesgos de IA",
+                description: "Marco integral para la identificación, evaluación y gestión de riesgos asociados a los sistemas de IA en el Distrito, integrando estándares internacionales con el enfoque de clasificación por niveles del AI Act.",
+                riskLevels: [
+                    {
+                        title: "Riesgo Inaceptable (Prohibido)",
+                        description: "Sistemas que vulneran derechos fundamentales o principios constitucionales: sistemas de puntuación social ciudadana, manipulación subliminal causante de daño, explotación de vulnerabilidades de grupos específicos, biometría remota en tiempo real para vigilancia masiva sin orden judicial."
+                    },
+                    {
+                        title: "Alto Riesgo",
+                        description: "Sistemas con impacto significativo en derechos fundamentales, seguridad o acceso a servicios esenciales: evaluación y priorización de beneficiarios de programas sociales, asistencia en decisiones judiciales o administrativas, sistemas biométricos de identificación, gestión de infraestructura crítica."
+                    },
+                    {
+                        title: "Riesgo Limitado",
+                        description: "Sistemas con requisitos de transparencia básicos: chatbots de atención ciudadana, recomendación de información pública y asistentes virtuales para trámites no sensibles. La obligación principal es la divulgación clara de la interacción con IA."
+                    },
+                    {
+                        title: "Riesgo Mínimo",
+                        description: "Sistemas sin impacto significativo en derechos o servicios esenciales: filtros de spam, optimización de rutas internas y herramientas de productividad. Aplican principios generales sin evaluaciones formales obligatorias."
+                    }
+                ],
+                methodology: [
+                    {
+                        title: "Identificación de riesgos",
+                        description: "Análisis sistemático que considera contexto de uso, actores afectados, datos utilizados y tipo de decisiones, identificando riesgos potenciales en categorías clave como sesgos, privacidad, seguridad, explicabilidad y robustez técnica."
+                    },
+                    {
+                        title: "Medición de riesgos",
+                        description: "Evaluación cuantitativa y cualitativa de probabilidad e impacto mediante matrices estandarizadas, considerando dimensiones críticas como afectación a derechos fundamentales, equidad, continuidad del servicio, seguridad y reputación institucional."
+                    },
+                    {
+                        title: "Gestión de riesgos",
+                        description: "Selección y aplicación de medidas proporcionales al nivel de riesgo identificado, que incluyen prevención, detección, mitigación, transferencia o aceptación de riesgos, documentadas en planes de mitigación específicos."
+                    },
+                    {
+                        title: "Gobernanza de riesgos",
+                        description: "Asignación clara de responsabilidades, procesos de escalamiento, y mecanismos de monitoreo continuo con revisiones periódicas y activación de protocolos de respuesta ante materialización de riesgos."
+                    }
+                ]
+            },
+            4: {
+                title: "Política de Compras y Proveedores de IA",
+                description: "Establece requisitos de debida diligencia y cláusulas contractuales mínimas para mitigar riesgos asociados a la cadena de suministro tecnológica, asegurando que los proveedores cumplan con los estándares éticos, técnicos y normativos del Distrito.",
+                requirements: [
+                    {
+                        title: "Requisitos de conformidad regulatoria",
+                        description: "Los proveedores deben demostrar cumplimiento con: marco regulatorio colombiano aplicable (Ley 1581/2012, normativa SIC, CONPES 4144); para sistemas de alto riesgo: conformidad con obligaciones equivalentes a las del AI Act; políticas públicas de IA responsable y transparencia; Sistema de Gestión de IA (AIMS) según ISO/IEC 42001."
+                    },
+                    {
+                        title: "Requisitos de documentación técnica",
+                        description: "Los proveedores deberán entregar: Model Cards describiendo arquitectura, propósito, datos de entrenamiento, métricas de desempeño y limitaciones; Data Sheets para todos los conjuntos de datos utilizados; documentación técnica detallada para auditoría; bitácoras de decisiones de diseño y gestión de sesgos."
+                    },
+                    {
+                        title: "Requisitos de privacidad y seguridad",
+                        description: "Incluyen: claridad sobre titularidad de datos; especificación de localización física y jurisdiccional; políticas de retención, borrado y portabilidad; Data Processing Agreements (DPA) para tratamiento de datos personales; certificaciones de seguridad relevantes (ISO 27001, SOC 2); compromiso de notificación de incidentes de seguridad."
+                    },
+                    {
+                        title: "Requisitos de auditoría y mejora continua",
+                        description: "Los contratos incorporarán: cláusulas de derecho a auditoría; implementación de sistemas de telemetría para detectar desviaciones; Acuerdos de Niveles de Servicio (SLA) con compromisos de disponibilidad; roadmap de producto, gestión de versiones y control de cambios con procesos de notificación."
+                    }
+                ]
+            },
+            5: {
+                title: "Modelo de Gobierno",
+                description: "Estructura organizacional y mecanismos de decisión para implementar la gobernanza de IA en el Distrito Capital, reconociendo las diferentes capacidades institucionales.",
+                committee: {
+                    title: "Comité de IA Distrital o por Entidad",
+                    description: "Máxima instancia de gobernanza para la inteligencia artificial en el Distrito Capital, responsable de la dirección estratégica, supervisión y coordinación de todas las iniciativas en esta materia.",
+                    composition: [
+                        "Alta Dirección (Presidente del Comité): Secretario, Director o nivel directivo equivalente",
+                        "Oficial de IA Responsable (Secretaría Técnica): Rol dedicado responsable de coordinación operativa",
+                        "Representante de Tecnologías de Información (TIC) y Seguridad: Perspectiva técnica sobre arquitectura y ciberseguridad",
+                        "Data Protection Officer (DPO) o Responsable de Habeas Data: Asegura cumplimiento de Ley 1581",
+                        "Representante Jurídico: Evalúa bases legales y conformidad regulatoria",
+                        "Representante de Planeación: Asegura alineación con plan estratégico institucional",
+                        "Representante de Control Interno: Perspectiva de gestión de riesgos institucionales",
+                        "Representante de Atención al Ciudadano o Área de Negocio: Comprensión del contexto de uso"
+                    ],
+                    functions: [
+                        "Aprobar o rechazar implementación de casos de uso de IA",
+                        "Supervisar el portafolio de iniciativas de IA",
+                        "Establecer y actualizar políticas institucionales de IA",
+                        "Revisar y aprobar ARA/DPIA para casos de alto riesgo",
+                        "Monitorear KPIs agregados y gestionar incidentes significativos",
+                        "Aprobar contratos con proveedores de IA",
+                        "Coordinar capacitación y gestión del cambio organizacional"
+                    ]
+                },
+                roles: [
+                    {
+                        title: "Sponsor de Negocio (Product Owner)",
+                        description: "Líder del área usuaria que impulsa la iniciativa de IA, definiendo su propósito estratégico y requisitos funcionales. Responsable último de los resultados."
+                    },
+                    {
+                        title: "Responsable Técnico (Technical Lead)",
+                        description: "Lidera desarrollo o implementación técnica, asegura calidad del sistema, supervisa pruebas, coordina con proveedores externos y es responsable del monitoreo técnico continuo."
+                    },
+                    {
+                        title: "Propietario de Datos (Data Steward)",
+                        description: "Gestiona integralmente el ciclo de vida de los datos utilizados por el sistema, garantizando su calidad, disponibilidad y gobierno."
+                    },
+                    {
+                        title: "Usuarios Finales y Representantes de Ciudadanía",
+                        description: "Participan activamente en diseño, validación y mejora continua del sistema, aportando perspectivas basadas en la experiencia real de uso."
+                    }
+                ]
+            },
+            6: {
+                title: "Alineación con CONPES 4144",
+                description: "Mecanismos específicos de trazabilidad y reporte que garantizan la alineación estratégica con los cinco ejes del CONPES 4144, integrando la gobernanza de IA con los sistemas de gestión existentes en el Distrito.",
+                alignment: [
+                    {
+                        title: "Eje de Ética y Gobernanza",
+                        description: "El Comité de IA supervisa la implementación de la Carta de IA Responsable y reporta trimestralmente el estado del portafolio, incidentes éticos y lecciones aprendidas, integrando estos indicadores al Sistema de Seguimiento a Metas del MIPG."
+                    },
+                    {
+                        title: "Eje de Datos e Infraestructura",
+                        description: "El DPO y el área TIC reportan trimestralmente sobre la madurez de la gobernanza de datos, calidad de conjuntos de datos utilizados y estado de la infraestructura tecnológica, información que se incorpora a los indicadores de gestión del MIPG."
+                    },
+                    {
+                        title: "Eje de Gestión de Riesgos",
+                        description: "Se mantiene un registro corporativo de riesgos de IA actualizado trimestralmente, el cual se articula con la matriz de riesgos del sistema de control interno, reportando riesgos materializados, efectividad de controles y necesidades de mejora."
+                    },
+                    {
+                        title: "Eje de Talento",
+                        description: "El área de Gestión Humana reporta semestralmente los avances del programa de capacitación en IA responsable, cobertura de formación y desarrollo de capacidades internas, integrando estas métricas al plan de desarrollo del talento humano."
+                    },
+                    {
+                        title: "Eje de Uso y Adopción",
+                        description: "Se cuantifica y reporta trimestralmente el avance en adopción mediante indicadores de casos de uso por fase del ciclo de vida, servicios transformados, beneficiarios impactados y resultados en eficiencia y calidad del servicio."
+                    }
+                ],
+                compliance: [
+                    "Cumplimiento de Ley 1581 y normativa SIC: revisión mensual de ARA/DPIA vigentes, atención de derechos de habeas data",
+                    "Conformidad con políticas de gobierno digital y transparencia: publicación de inventario de sistemas de IA, divulgaciones ciudadanas requeridas",
+                    "Seguimiento al plan de acción derivado del CONPES 4144 a nivel institucional, con reporte anual de avances al nivel distrital correspondiente"
+                ]
+            }
+        };
+
+        function showDetail(dimension) {
+            const detail = toolkitDetails[dimension];
+            const panel = document.getElementById('detailPanel');
+            
+            panel.classList.remove('empty');
+            
+            let html = `
+                <div class="detail-header">
+                    <h2 class="detail-title">${detail.title}</h2>
+                </div>
+                
+                <div class="detail-section">
+                    <p>${detail.description}</p>
+                </div>
+            `;
+            
+            // Principles (for dimension 1)
+            if (detail.principles) {
+                html += `
+                    <div class="detail-section">
+                        <h3>📋 Principios Fundamentales</h3>
+                        <div class="principles-list">
+                `;
+                
+                detail.principles.forEach(principle => {
+                    html += `
+                        <div class="principle-item">
+                            <div class="principle-title">${principle.title}</div>
+                            <div class="principle-description">${principle.description}</div>
+                        </div>
+                    `;
+                });
+                
+                html += `
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Components (for dimension 2)
+            if (detail.components) {
+                html += `
+                    <div class="detail-section">
+                        <h3>🧩 Componentes Principales</h3>
+                        <div class="components-list">
+                `;
+                
+                detail.components.forEach(component => {
+                    html += `
+                        <div class="policy-section">
+                            <div class="policy-title">${component.title}</div>
+                            <div class="policy-content">${component.description}</div>
+                        </div>
+                    `;
+                });
+                
+                html += `
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Risk Levels (for dimension 3)
+            if (detail.riskLevels) {
+                html += `
+                    <div class="detail-section">
+                        <h3>⚠️ Sistema de Clasificación de Riesgos</h3>
+                        <div class="risk-levels-list">
+                `;
+                
+                detail.riskLevels.forEach(risk => {
+                    html += `
+                        <div class="risk-item">
+                            <div class="risk-title">${risk.title}</div>
+                            <div class="risk-description">${risk.description}</div>
+                        </div>
+                    `;
+                });
+                
+                html += `
+                        </div>
+                    </div>
+                `;
+                
+                // Methodology (for dimension 3)
+                if (detail.methodology) {
+                    html += `
+                        <div class="detail-section">
+                            <h3>📊 Metodología de Evaluación de Riesgos</h3>
+                            <div class="methodology-list">
+                    `;
+                    
+                    detail.methodology.forEach(step => {
+                        html += `
+                            <div class="control-item">
+                                <div class="control-title">${step.title}</div>
+                                <div class="control-description">${step.description}</div>
+                            </div>
+                        `;
+                    });
+                    
+                    html += `
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+            
+            // Requirements (for dimension 4)
+            if (detail.requirements) {
+                html += `
+                    <div class="detail-section">
+                        <h3>📝 Requisitos para Proveedores</h3>
+                        <div class="requirements-list">
+                `;
+                
+                detail.requirements.forEach(requirement => {
+                    html += `
+                        <div class="policy-section">
+                            <div class="policy-title">${requirement.title}</div>
+                            <div class="policy-content">${requirement.description}</div>
+                        </div>
+                    `;
+                });
+                
+                html += `
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Committee Structure (for dimension 5)
+            if (detail.committee) {
+                html += `
+                    <div class="detail-section">
+                        <h3>🏛️ ${detail.committee.title}</h3>
+                        <p>${detail.committee.description}</p>
+                        
+                        <div class="detail-section">
+                            <h4>👥 Composición</h4>
+                            <ul>
+                `;
+                
+                detail.committee.composition.forEach(member => {
+                    html += `<li>${member}</li>`;
+                });
+                
+                html += `
+                            </ul>
+                        </div>
+                        
+                        <div class="detail-section">
+                            <h4>⚙️ Funciones</h4>
+                            <ul>
+                `;
+                
+                detail.committee.functions.forEach(func => {
+                    html += `<li>${func}</li>`;
+                });
+                
+                html += `
+                            </ul>
+                        </div>
+                    </div>
+                `;
+                
+                // Roles (for dimension 5)
+                if (detail.roles) {
+                    html += `
+                        <div class="detail-section">
+                            <h3>👤 Roles a Nivel de Caso de Uso</h3>
+                            <div class="roles-list">
+                    `;
+                    
+                    detail.roles.forEach(role => {
+                        html += `
+                            <div class="control-item">
+                                <div class="control-title">${role.title}</div>
+                                <div class="control-description">${role.description}</div>
+                            </div>
+                        `;
+                    });
+                    
+                    html += `
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+            
+            // Alignment with CONPES (for dimension 6)
+            if (detail.alignment) {
+                html += `
+                    <div class="detail-section">
+                        <h3>🎯 Alineación con Ejes del CONPES 4144</h3>
+                        <div class="alignment-list">
+                `;
+                
+                detail.alignment.forEach(axis => {
+                    html += `
+                        <div class="policy-section">
+                            <div class="policy-title">${axis.title}</div>
+                            <div class="policy-content">${axis.description}</div>
+                        </div>
+                    `;
+                });
+                
+                html += `
+                        </div>
+                    </div>
+                `;
+                
+                // Compliance (for dimension 6)
+                if (detail.compliance) {
+                    html += `
+                        <div class="detail-section">
+                            <h3>📅 Vigilancia de Cumplimiento</h3>
+                            <ul>
+                    `;
+                    
+                    detail.compliance.forEach(item => {
+                        html += `<li>${item}</li>`;
+                    });
+                    
+                    html += `
+                            </ul>
+                        </div>
+                    `;
+                }
+            }
+            
+            panel.innerHTML = html;
+            
+            // Highlight active dimension
+            document.querySelectorAll('.dimension-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            document.querySelector(`[data-dimension="${dimension}"]`).classList.add('active');
+        }
+        // Función para procesar parámetros de URL
+        function getUrlParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        // Función para mostrar una dimensión específica basada en parámetros de URL
+        function checkUrlParameters() {
+            const dimensionParam = getUrlParameter('dimension');
+            if (dimensionParam && toolkitDetails[dimensionParam]) {
+                showDetail(parseInt(dimensionParam));
+            }
+        }
+
+        // Ejecutar al cargar la página
+        window.addEventListener('DOMContentLoaded', function() {
+            checkUrlParameters();
+        });
+
+        
+    </script>
+</body>
+</html>

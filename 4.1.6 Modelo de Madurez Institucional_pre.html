@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toolkit - Modelo de Madurez Institucional</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1a237e, #283593);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+		
+		.back-button {
+            position: absolute;
+            left: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-50%) scale(1.05);
+        }
+        
+        .content {
+            padding: 30px;
+            display: grid;
+            grid-template-columns: 1fr 700px;
+            gap: 30px;
+        }
+        
+        .left-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .maturity-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        
+        .maturity-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            border: 3px solid #e0e0e0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            height: 180px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .maturity-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+        }
+        
+        .maturity-card:nth-child(1)::before { background: linear-gradient(90deg, #D32F2F, #EF5350); }
+        .maturity-card:nth-child(2)::before { background: linear-gradient(90deg, #F57C00, #FFA726); }
+        .maturity-card:nth-child(3)::before { background: linear-gradient(90deg, #1976D2, #64B5F6); }
+        .maturity-card:nth-child(4)::before { background: linear-gradient(90deg, #388E3C, #66BB6A); }
+        
+        .maturity-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .maturity-card.active {
+            border-color: #1976D2;
+            background: linear-gradient(135deg, #E3F2FD, #BBDEFB);
+            box-shadow: 0 8px 20px rgba(25, 118, 210, 0.3);
+        }
+        
+        .maturity-icon {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .maturity-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #1a237e;
+            margin-bottom: 8px;
+        }
+        
+        .maturity-description {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.4;
+        }
+        
+        .detail-panel {
+            background: #f9f9f9;
+            border: 3px solid #1976D2;
+            border-radius: 12px;
+            padding: 25px;
+            animation: slideIn 0.3s ease;
+            max-height: calc(100vh - 200px);
+            overflow-y: auto;
+            position: sticky;
+            top: 20px;
+            min-height: 600px;
+        }
+        
+        .detail-panel.empty {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            border-style: dashed;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #1976D2;
+        }
+        
+        .detail-title {
+            font-size: 20px;
+            color: #1a237e;
+            font-weight: bold;
+            line-height: 1.3;
+        }
+        
+        .detail-section {
+            margin-bottom: 20px;
+        }
+        
+        .detail-section h3 {
+            color: #1976D2;
+            margin-bottom: 10px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .detail-section h4 {
+            color: #1a237e;
+            margin: 15px 0 8px 0;
+            font-size: 15px;
+        }
+        
+        .detail-section p {
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .detail-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .detail-section li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            line-height: 1.5;
+        }
+        
+        .detail-section li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: #1976D2;
+            font-weight: bold;
+        }
+        
+        .characteristics-item {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #1976D2;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .characteristics-title {
+            font-weight: bold;
+            color: #1a237e;
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+        
+        .characteristics-description {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #444;
+        }
+        
+        .risks-item {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #D32F2F;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .risks-title {
+            font-weight: bold;
+            color: #1a237e;
+            margin-bottom: 8px;
+        }
+        
+        .risks-description {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #444;
+        }
+        
+        .recommendations-item {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #388E3C;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .recommendations-title {
+            font-weight: bold;
+            color: #1a237e;
+            margin-bottom: 8px;
+        }
+        
+        .recommendations-description {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #444;
+        }
+        
+        .capabilities-item {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #F57C00;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .capabilities-title {
+            font-weight: bold;
+            color: #1a237e;
+            margin-bottom: 8px;
+        }
+        
+        .capabilities-description {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #444;
+        }
+        
+        .limitations-item {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #7B1FA2;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .limitations-title {
+            font-weight: bold;
+            color: #1a237e;
+            margin-bottom: 8px;
+        }
+        
+        .limitations-description {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #444;
+        }
+        
+        @media (max-width: 1200px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+            
+            .detail-panel {
+                position: relative;
+                top: 0;
+                max-height: none;
+                min-height: 400px;
+            }
+            
+            .maturity-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+			<a href="javascript:history.back()" class="back-button">Atras</a>
+            <h1>📊 Toolkit - Modelo de Madurez Institucional</h1>
+            <p>Framework de cuatro niveles para evaluar y planificar la adopción progresiva de capacidades de gobernanza de IA en el Distrito Capital</p>
+        </div>
+        
+        <div class="content">
+            <div class="left-panel">
+                <div class="maturity-grid" id="maturityGrid">
+                    <div class="maturity-card" onclick="showDetail(0)" data-level="0">
+                        <div class="maturity-icon">🚧</div>
+                        <div class="maturity-title">Nivel 0 - Inicial (Ad-hoc)</div>
+                        <div class="maturity-description">Uso aislado y no sistematizado de IA, sin políticas específicas ni roles formales de gobernanza</div>
+                    </div>
+                    
+                    <div class="maturity-card" onclick="showDetail(1)" data-level="1">
+                        <div class="maturity-icon">📝</div>
+                        <div class="maturity-title">Nivel 1 - Básico (Definido)</div>
+                        <div class="maturity-description">Políticas mínimas adoptadas, Comité de IA constituido y procesos básicos establecidos</div>
+                    </div>
+                    
+                    <div class="maturity-card" onclick="showDetail(2)" data-level="2">
+                        <div class="maturity-icon">⚙️</div>
+                        <div class="maturity-title">Nivel 2 - Gestionado (Implementado)</div>
+                        <div class="maturity-description">Proceso de ciclo de vida implementado consistentemente, controles operativos funcionando</div>
+                    </div>
+                    
+                    <div class="maturity-card" onclick="showDetail(3)" data-level="3">
+                        <div class="maturity-icon">🏆</div>
+                        <div class="maturity-title">Nivel 3 - Optimizado (Líder)</div>
+                        <div class="maturity-description">Excelencia operativa, innovación en gobernanza y liderazgo reconocido en IA responsable</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="detail-panel empty" id="detailPanel">
+                <p>👈 Selecciona un nivel de madurez para ver las características detalladas</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const maturityDetails = {
+            0: {
+                title: "Nivel 0 - Inicial (Ad-hoc)",
+                description: "Las entidades en este nivel presentan un uso aislado y no sistematizado de IA, generalmente impulsado por iniciativas individuales o proyectos piloto sin coordinación.",
+                characteristics: [
+                    "Uso aislado y no sistematizado de IA, generalmente impulsado por iniciativas individuales o proyectos piloto sin coordinación",
+                    "Ausencia de políticas institucionales específicas para IA",
+                    "Sin roles formales de gobernanza (no hay Comité de IA, Oficial de IA Responsable, ni propietarios de casos de uso designados)",
+                    "No se realizan evaluaciones de impacto (ARA/DPIA) de manera sistemática",
+                    "Documentación técnica limitada o inexistente",
+                    "Formación en IA responsable incipiente o nula",
+                    "Gestión reactiva de riesgos (se abordan solo cuando se materializan)",
+                    "Dependencia alta de proveedores sin debida diligencia estructurada"
+                ],
+                risks: [
+                    "Violaciones inadvertidas de derechos fundamentales o normativa de privacidad",
+                    "Sesgos algorítmicos no detectados que perpetúan o amplifican discriminación",
+                    "Inversiones en soluciones no sostenibles o inadecuadas",
+                    "Falta de rendición de cuentas cuando ocurren problemas"
+                ],
+                recommendations: [
+                    "Designar un líder temporal de iniciativa de gobernanza de IA",
+                    "Realizar inventario de casos de uso existentes o en planificación",
+                    "Ejecutar diagnóstico rápido de madurez usando la encuesta del toolkit",
+                    "Definir roadmap de 12 meses para alcanzar Nivel 1",
+                    "Priorizar 1-2 casos de uso para aplicar el framework como piloto",
+                    "Iniciar programa de sensibilización para líderes institucionales"
+                ]
+            },
+            1: {
+                title: "Nivel 1 - Básico (Definido)",
+                description: "En este nivel se establecen las bases fundamentales de gobernanza con políticas mínimas, roles definidos y procesos básicos implementados.",
+                characteristics: [
+                    "Políticas mínimas de IA adoptadas formalmente (al menos Carta de IA Responsable y Política de Uso básica)",
+                    "Comité de IA constituido con roles clave representados (aunque puede reunirse con baja frecuencia)",
+                    "Oficial de IA Responsable designado (puede ser rol compartido con otras funciones)",
+                    "Se realizan ARA/DPIA para casos de alto riesgo en proyectos piloto",
+                    "Clasificación de riesgo aplicada a nuevos casos de uso",
+                    "Documentación técnica básica (Model Cards y Data Sheets) para casos críticos",
+                    "Programa de capacitación iniciado para roles clave",
+                    "KPIs básicos definidos y medidos manualmente",
+                    "Proceso de ciclo de vida documentado pero no completamente institucionalizado"
+                ],
+                capabilities: [
+                    "Visibilidad sobre el portafolio de iniciativas de IA",
+                    "Identificación temprana de riesgos críticos en nuevos proyectos",
+                    "Cumplimiento mínimo de Ley 1581 y normativa SIC en casos de IA",
+                    "Trazabilidad básica a CONPES 4144"
+                ],
+                limitations: [
+                    "Implementación inconsistente del proceso de ciclo de vida (varía por área)",
+                    "Monitoreo continuo limitado (revisiones periódicas pero no automatizadas)",
+                    "Debida diligencia de proveedores parcial",
+                    "Capacidad de auditoría limitada",
+                    "Mejora continua incipiente"
+                ],
+                recommendations: [
+                    "Completar el conjunto de políticas marco (Gobierno de Datos, Gestión de Riesgos, Compras)",
+                    "Formalizar procedimientos operativos estándar para el proceso de ciclo de vida",
+                    "Implementar sistema de gestión documental para artefactos de gobernanza",
+                    "Ampliar cobertura de capacitación a roles de soporte",
+                    "Establecer dashboard automatizado de KPIs básicos",
+                    "Ejecutar al menos una auditoría interna de cumplimiento",
+                    "Expandir aplicación del framework a todos los casos de uso nuevos"
+                ]
+            },
+            2: {
+                title: "Nivel 2 - Gestionado (Implementado)",
+                description: "Las entidades en este nivel han implementado consistentemente procesos de gobernanza de IA en toda la organización con controles operativos efectivos.",
+                characteristics: [
+                    "Proceso de ciclo de vida end-to-end implementado consistentemente en toda la organización",
+                    "Todas las políticas marco adoptadas y operativas",
+                    "Comité de IA activo con reuniones periódicas regulares (al menos mensual)",
+                    "ARA/DPIA realizados para el 100% de casos de alto riesgo y datos sensibles",
+                    "Controles operativos implementados y funcionando (supervisión humana, monitoreo de equidad, auditoría de logs)",
+                    "Monitoreo técnico continuo con telemetría y alertas automatizadas",
+                    "Programa de formación desplegado ampliamente con cobertura ≥ 80% de personal involucrado",
+                    "Debida diligencia estructurada de proveedores con checklist aplicado sistemáticamente",
+                    "Dashboard de KPIs automatizado con reportes periódicos a Alta Dirección",
+                    "Gestión activa de incidentes con protocolos definidos y tiempo de respuesta medido",
+                    "Registro corporativo de riesgos de IA actualizado"
+                ],
+                capabilities: [
+                    "Gobernanza efectiva y consistente de IA en toda la institución",
+                    "Cumplimiento robusto de requisitos normativos (Ley 1581, CONPES 4144, políticas distritales)",
+                    "Detección temprana de riesgos y respuesta ágil a incidentes",
+                    "Calidad técnica y ética de sistemas de IA asegurada",
+                    "Transparencia y rendición de cuentas operativas",
+                    "Gestión eficiente de proveedores con contratos sólidos",
+                    "Cultura organizacional con apropiación de IA responsable"
+                ],
+                limitations: [
+                    "Mejora continua basada principalmente en revisiones internas (auditoría externa limitada)",
+                    "Certificación formal (ISO/IEC 42001) no alcanzada",
+                    "Liderazgo regional limitado (aprendizaje confinado a la propia organización)",
+                    "Innovación en gobernanza incremental más que transformadora"
+                ],
+                recommendations: [
+                    "Implementar Sistema de Gestión de IA (AIMS) formal según ISO/IEC 42001",
+                    "Contratar auditorías externas independientes anuales",
+                    "Establecer programa de mejora continua basado en benchmarking con líderes regionales",
+                    "Publicar reporte anual de transparencia de IA para rendición de cuentas pública",
+                    "Participar activamente en comunidades de práctica distritales, nacionales o regionales",
+                    "Contribuir al desarrollo de estándares y mejores prácticas (publicaciones, casos de estudio)",
+                    "Explorar certificaciones internacionales para casos de uso críticos"
+                ]
+            },
+            3: {
+                title: "Nivel 3 - Optimizado (Líder)",
+                description: "Las entidades en este nivel han alcanzado excelencia operativa en gobernanza de IA y ejercen liderazgo en el ecosistema regional/nacional.",
+                characteristics: [
+                    "Sistema de Gestión de IA (AIMS) según ISO/IEC 42001 implementado y certificado (o en proceso avanzado de certificación)",
+                    "Auditorías externas independientes regulares (anuales) con hallazgos gestionados sistemáticamente",
+                    "Evaluación continua de desempeño con análisis predictivo para prevención de riesgos",
+                    "Reporte público de transparencia de IA publicado anualmente",
+                    "Mejora continua institucionalizada con ciclos de retroalimentación formales",
+                    "Innovación en prácticas de gobernanza que generan nuevo conocimiento",
+                    "Participación activa en el ecosistema regional/nacional de IA (comunidades de práctica, foros de política pública)",
+                    "Contribución a desarrollo de estándares, guías y casos de estudio",
+                    "Liderazgo reconocido en IA responsable en sector público"
+                ],
+                capabilities: [
+                    "Excelencia operativa en gobernanza de IA",
+                    "Resiliencia organizacional ante cambios tecnológicos o regulatorios",
+                    "Capacidad de innovación responsable (pilotos de tecnologías emergentes con gobernanza desde el diseño)",
+                    "Gestión avanzada de riesgos con modelado predictivo y escenarios",
+                    "Cultura organizacional madura con apropiación profunda de valores de IA responsable",
+                    "Independencia estratégica de proveedores con capacidades internas sólidas",
+                    "Impacto demostrable en eficiencia, calidad de servicio y confianza pública"
+                ],
+                sustainability: [
+                    "Presupuesto dedicado a gobernanza de IA institucionalmente garantizado",
+                    "Procesos documentados y roles formalizados en estructura organizacional",
+                    "Transferencia de conocimiento sistemática (no dependencia de personas clave)",
+                    "Planes de sucesión para roles críticos de gobernanza"
+                ],
+                ecosystem: [
+                    "Publicación de lecciones aprendidas, herramientas y metodologías para beneficio de otras entidades",
+                    "Mentoría a organizaciones en niveles de madurez inferior",
+                    "Colaboración con academia para investigación aplicada en IA pública",
+                    "Incidencia en desarrollo de política pública y marcos regulatorios"
+                ]
+            }
+        };
+
+        function showDetail(level) {
+            const detail = maturityDetails[level];
+            const panel = document.getElementById('detailPanel');
+            
+            panel.classList.remove('empty');
+            
+            let html = `
+                <div class="detail-header">
+                    <h2 class="detail-title">${detail.title}</h2>
+                </div>
+                
+                <div class="detail-section">
+                    <p>${detail.description}</p>
+                </div>
+            `;
+            
+            // Characteristics
+            if (detail.characteristics) {
+                html += `
+                    <div class="detail-section">
+                        <h3>📋 Características Principales</h3>
+                        <div class="characteristics-list">
+                `;
+                
+                detail.characteristics.forEach(char => {
+                    html += `
+                        <div class="characteristics-item">
+                            <div class="characteristics-description">${char}</div>
+                        </div>
+                    `;
+                });
+                
+                html += `
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Risks (for level 0)
+            if (detail.risks) {
+                html += `
+                    <div class="detail-section">
+                        <h3>⚠️ Riesgos Principales</h3>
+                        <div class="risks-list">
+                `;
+                
+                detail.risks.forEach(risk => {
+                    html += `
+                        <div class="risks-item">
+                            <div class="risks-description">${risk}</div>
+                        </div>
+                    `;
+                });
+                
+                html += `
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Capabilities (for levels 1, 2, 3)
+            if (detail.capabilities) {
+                html += `
+                    <div class="detail-section">
+                        <h3>✅ Capacidades Logradas</h3>
+                        <div class="capabilities-list">
+                `;
+                
+                detail.capabilities.forEach(cap => {
+                    html += `
+                        <div class="capabilities-item">
+                            <div class="capabilities-description">${cap}</div>
+                        </div>
+                    `;
+                });
+                
+                html += `
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Limitations (for levels 1, 2)
+            if (detail.limitations) {
+                html += `
+                    <div class="detail-section">
+                        <h3>📉 Limitaciones</h3>
+                        <div class="limitations-list">
+                `;
+                
+                detail.limitations.forEach(lim => {
+                    html += `
+                        <div class="limitations-item">
+                            <div class="limitations-description">${lim}</div>
+                        </div>
+                    `;
+                });
+                
+                html += `
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Recommendations
+            if (detail.recommendations) {
+                html += `
+                    <div class="detail-section">
+                        <h3>🎯 Recomendaciones de Avance</h3>
+                        <div class="recommendations-list">
+                `;
+                
+                detail.recommendations.forEach(rec => {
+                    html += `
+                        <div class="recommendations-item">
+                            <div class="recommendations-description">${rec}</div>
+                        </div>
+                    `;
+                });
+                
+                html += `
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Sustainability (for level 3)
+            if (detail.sustainability) {
+                html += `
+                    <div class="detail-section">
+                        <h3>🌱 Sostenibilidad</h3>
+                        <div class="characteristics-list">
+                `;
+                
+                detail.sustainability.forEach(item => {
+                    html += `
+                        <div class="characteristics-item">
+                            <div class="characteristics-description">${item}</div>
+                        </div>
+                    `;
+                });
+                
+                html += `
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Ecosystem contribution (for level 3)
+            if (detail.ecosystem) {
+                html += `
+                    <div class="detail-section">
+                        <h3>🤝 Contribución al Ecosistema</h3>
+                        <div class="characteristics-list">
+                `;
+                
+                detail.ecosystem.forEach(item => {
+                    html += `
+                        <div class="characteristics-item">
+                            <div class="characteristics-description">${item}</div>
+                        </div>
+                    `;
+                });
+                
+                html += `
+                        </div>
+                    </div>
+                `;
+            }
+            
+            panel.innerHTML = html;
+            
+            // Highlight active level
+            document.querySelectorAll('.maturity-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            document.querySelector(`[data-level="${level}"]`).classList.add('active');
+        }
+        // Función para procesar parámetros de URL
+        function getUrlParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        // Función para mostrar una dimensión específica basada en parámetros de URL
+        function checkUrlParameters() {
+            const dimensionParam = getUrlParameter('dimension');
+            if (dimensionParam && maturityDetails[dimensionParam]) {
+                showDetail(parseInt(dimensionParam));
+            }
+        }
+
+        // Ejecutar al cargar la página
+        window.addEventListener('DOMContentLoaded', function() {
+            checkUrlParameters();
+        });
+    </script>
+</body>
+</html>
