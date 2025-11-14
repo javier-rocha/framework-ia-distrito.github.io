@@ -177,6 +177,6 @@ Para soporte en la implementación, capacitación o adaptación del framework:
 
 ---
 
-**¿Listo para implementar?** Comience con el [Modelo de Madurez Institucional](4.2.6%20Modelo%20de%20Madurez%20Institucional.html) para evaluar su estado actual y definir su ruta de implementación.
+**¿Listo para implementar?** Comience con el [Modelo de Madurez Institucional](4.1.6%20Modelo%20de%20Madurez%20Institucional.html) para evaluar su estado actual y definir su ruta de implementación.
 
 *Última actualización: Noviembre 2025*
