@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matriz de Riesgos de IA - Toolkit de IA</title>
+    <style>
+        /* Estilos existentes se mantienen igual */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1a237e, #283593);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .back-button {
+            position: absolute;
+            left: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-50%) scale(1.05);
+        }
+        
+        .content {
+            padding: 30px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        .main-content {
+            grid-column: 1 / -1;
+        }
+        
+        .form-section {
+            background: #f9f9f9;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 3px solid #e0e0e0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .form-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #1976D2, #64B5F6);
+        }
+        
+        .form-title {
+            font-size: 18px;
+            color: #1a237e;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a237e;
+            margin-bottom: 5px;
+        }
+        
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 14px;
+        }
+        
+        .form-group textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+        
+        .full-width {
+            grid-column: 1 / -1;
+        }
+        
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #1a237e, #283593);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #333;
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #2e7d32, #4caf50);
+            color: white;
+        }
+        
+        .btn-warning {
+            background: linear-gradient(135deg, #f57c00, #ff9800);
+            color: white;
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #c62828, #f44336);
+            color: white;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .methodology-panel {
+            background: linear-gradient(135deg, #E3F2FD, #BBDEFB);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 3px solid #1976D2;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .methodology-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #1976D2, #64B5F6);
+        }
+        
+        .methodology-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .methodology-icon {
+            font-size: 24px;
+            margin-right: 12px;
+        }
+        
+        .methodology-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #1a237e;
+        }
+        
+        .methodology-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+        
+        .methodology-text {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .methodology-matrix {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(4, 1fr);
+            gap: 2px;
+            background: #1a237e;
+            border-radius: 8px;
+            padding: 3px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .matrix-cell {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 60px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 14px;
+            text-align: center;
+            padding: 5px;
+        }
+        
+        .matrix-cell.header {
+            background: #1a237e;
+            color: white;
+            font-size: 12px;
+        }
+        
+        .matrix-cell.impact-header {
+            background: #283593;
+            color: white;
+        }
+        
+        .matrix-cell.probability-header {
+            background: #283593;
+            color: white;
+        }
+        
+        .matrix-cell.risk-low {
+            background: #4caf50;
+            color: white;
+        }
+        
+        .matrix-cell.risk-medium {
+            background: #ffc107;
+            color: black;
+        }
+        
+        .matrix-cell.risk-high {
+            background: #f44336;
+            color: white;
+        }
+        
+        .info-panels {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .info-panel {
+            background: #f9f9f9;
+            border-radius: 12px;
+            padding: 20px;
+            border: 3px solid #e0e0e0;
+        }
+        
+        .info-panel h3 {
+            color: #1a237e;
+            margin-bottom: 15px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .info-panel ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .info-panel li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        
+        .info-panel li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: #1976D2;
+            font-weight: bold;
+        }
+        
+        .matrix-container {
+            overflow-x: auto;
+            margin-bottom: 30px;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 15px;
+            background: white;
+        }
+        
+        .risk-matrix {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1200px;
+        }
+        
+        .risk-matrix th {
+            background: #1a237e;
+            color: white;
+            padding: 12px 8px;
+            text-align: center;
+            font-size: 14px;
+            position: sticky;
+            top: 0;
+        }
+        
+        .risk-matrix td {
+            padding: 10px 8px;
+            border: 1px solid #e0e0e0;
+            font-size: 13px;
+            vertical-align: top;
+        }
+        
+        .risk-matrix tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .risk-matrix tr:hover {
+            background-color: #f0f7ff;
+        }
+        
+        .risk-id {
+            width: 50px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .risk-description {
+            width: 200px;
+        }
+        
+        .risk-category {
+            width: 120px;
+        }
+        
+        .risk-dimension {
+            width: 150px;
+        }
+        
+        .risk-probability, .risk-impact, .risk-rating, .risk-level {
+            width: 80px;
+            text-align: center;
+        }
+        
+        .risk-controls {
+            width: 150px;
+        }
+        
+        .risk-effectiveness {
+            width: 120px;
+        }
+        
+        .risk-additional {
+            width: 150px;
+        }
+        
+        .risk-responsible {
+            width: 120px;
+        }
+        
+        .risk-status {
+            width: 100px;
+        }
+        
+        .risk-actions {
+            width: 120px;
+            text-align: center;
+        }
+        
+        .risk-level-bajo {
+            background-color: #4caf50;
+            color: white;
+            font-weight: bold;
+            border-radius: 4px;
+            padding: 4px 8px;
+        }
+        
+        .risk-level-medio {
+            background-color: #ffc107;
+            color: black;
+            font-weight: bold;
+            border-radius: 4px;
+            padding: 4px 8px;
+        }
+        
+        .risk-level-alto {
+            background-color: #f44336;
+            color: white;
+            font-weight: bold;
+            border-radius: 4px;
+            padding: 4px 8px;
+        }
+        
+        .actions-section {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .action-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            border: 3px solid #e0e0e0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .action-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+        }
+        
+        .action-card:nth-child(1)::before { background: linear-gradient(90deg, #4caf50, #66bb6a); }
+        .action-card:nth-child(2)::before { background: linear-gradient(90deg, #ffc107, #ffd54f); }
+        .action-card:nth-child(3)::before { background: linear-gradient(90deg, #f44336, #ef5350); }
+        
+        .action-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #1a237e;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .action-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .action-list li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        
+        .action-list li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: #1976D2;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .collapsible {
+            margin-bottom: 20px;
+        }
+        
+        .collapsible-header {
+            background: linear-gradient(135deg, #1a237e, #283593);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .collapsible-header:hover {
+            background: linear-gradient(135deg, #283593, #3949ab);
+        }
+        
+        .collapsible-content {
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 0 0 8px 8px;
+            display: none;
+        }
+        
+        .collapsible.active .collapsible-content {
+            display: block;
+        }
+        
+        .collapsible-icon {
+            transition: transform 0.3s ease;
+        }
+        
+        .collapsible.active .collapsible-icon {
+            transform: rotate(180deg);
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .file-label {
+            display: inline-block;
+            padding: 8px 15px;
+            background: #e0e0e0;
+            color: #333;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .file-label:hover {
+            background: #d0d0d0;
+        }
+        
+        @media (max-width: 1400px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+            
+            .methodology-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .info-panels, .actions-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="javascript:history.back()" class="back-button">Atras</a>
+            <h1>📊 Matriz de Riesgos de IA</h1>
+            <p>Instrumento estandarizado para identificar, evaluar y priorizar riesgos de sistemas de IA</p>
+        </div>
+        <div class="collapsible">
+            <div class="collapsible-header" onclick="toggleCollapsible(this)">
+                <span>📐 Metodología de Evaluación 3x3</span>
+                <span class="collapsible-icon">▼</span>
+            </div>
+            <div class="collapsible-content">
+                <div class="methodology-content">
+                    <div class="methodology-text">
+                        <p>La metodología adoptada se estructura en una matriz de evaluación de 3x3, en la cual se cruzan los niveles de probabilidad e impacto, clasificados en tres categorías: bajo, medio y alto.</p>
+                        <p>Esta combinación genera una calificación de riesgo final que oscila entre 1 y 9, permitiendo su categorización en tres niveles: <strong>bajo (1-3)</strong>, <strong>medio (4-6)</strong> y <strong>alto (7-9)</strong>.</p>
+                        <p>Cada nivel de riesgo conlleva un conjunto específico de acciones requeridas, orientadas a mitigar sus posibles efectos adversos. En este sentido, la matriz no solo actúa como un mecanismo de diagnóstico, sino también como una guía para la toma de decisiones estratégicas en la gestión responsable de tecnologías basadas en IA.</p>
+                    </div>
+                    <div class="methodology-matrix">
+                        <!-- Fila 1: Encabezados -->
+                        <div class="matrix-cell header">Impacto →<br>Probabilidad ↓</div>
+                        <div class="matrix-cell impact-header">Bajo (1)</div>
+                        <div class="matrix-cell impact-header">Medio (2)</div>
+                        <div class="matrix-cell impact-header">Alto (3)</div>
+                        
+                        <!-- Fila 2: Probabilidad Alta -->
+                        <div class="matrix-cell probability-header">Alta (3)</div>
+                        <div class="matrix-cell risk-medium">Medio (3)</div>
+                        <div class="matrix-cell risk-high">Alto (6)</div>
+                        <div class="matrix-cell risk-high">Alto (9)</div>
+                        
+                        <!-- Fila 3: Probabilidad Media -->
+                        <div class="matrix-cell probability-header">Media (2)</div>
+                        <div class="matrix-cell risk-low">Bajo (2)</div>
+                        <div class="matrix-cell risk-medium">Medio (4)</div>
+                        <div class="matrix-cell risk-high">Alto (6)</div>
+                        
+                        <!-- Fila 4: Probabilidad Baja -->
+                        <div class="matrix-cell probability-header">Baja (1)</div>
+                        <div class="matrix-cell risk-low">Bajo (1)</div>
+                        <div class="matrix-cell risk-low">Bajo (2)</div>
+                        <div class="matrix-cell risk-medium">Medio (3)</div>
+                    </div>
+                </div>
+                
+                <div class="info-panels">
+                    <div class="info-panel">
+                        <h3>📈 Escala de Probabilidad</h3>
+                        <ul>
+                            <li><strong>Baja (1):</strong> Improbable que ocurra (&lt; 10% de probabilidad en el horizonte de operación del sistema)</li>
+                            <li><strong>Media (2):</strong> Posibilidad razonable de ocurrencia (10-50%)</li>
+                            <li><strong>Alta (3):</strong> Probable o altamente probable (&gt; 50%)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-panel">
+                        <h3>📏 Escala de Impacto</h3>
+                        <ul>
+                            <li><strong>Bajo (1):</strong> Consecuencias menores, localizadas, reversibles con esfuerzo mínimo</li>
+                            <li><strong>Medio (2):</strong> Consecuencias significativas que requieren esfuerzo sustancial para remediar</li>
+                            <li><strong>Alto (3):</strong> Consecuencias graves, irreversibles o difícilmente reversibles</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="collapsible-header" onclick="toggleCollapsible(this)">
+                <span>⚙️ Acciones por Nivel de Riesgo</span>
+                <span class="collapsible-icon">▼</span>
+            </div>
+            <div class="collapsible-content">
+                <div class="actions-section">
+                    <div class="action-card">
+                        <div class="action-title">🟢 Riesgo Bajo (1-3)</div>
+                        <ul class="action-list">
+                            <li>Monitoreo rutinario</li>
+                            <li>Controles básicos</li>
+                            <li>Revisión anual</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="action-card">
+                        <div class="action-title">🟡 Riesgo Medio (4-6)</div>
+                        <ul class="action-list">
+                            <li>Implementación de controles específicos</li>
+                            <li>Monitoreo mensual/trimestral</li>
+                            <li>Revisión semestral</li>
+                            <li>Aprobación de nivel gerencial</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="action-card">
+                        <div class="action-title">🔴 Riesgo Alto (7-9)</div>
+                        <ul class="action-list">
+                            <li>Controles reforzados obligatorios</li>
+                            <li>Mitigación antes de despliegue</li>
+                            <li>Monitoreo continuo</li>
+                            <li>Revisión frecuente</li>
+                            <li>Puede requerir rediseño del sistema o rechazo del caso de uso</li>
+                            <li>Aprobación de Alta Dirección/Comité de IA</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>               
+        </div>
+        <div class="content">
+            <!-- Formulario de registro de riesgos en posición destacada -->
+            
+            <div class="main-content">
+                <div class="form-section">
+                    <div class="form-title">➕ Registrar Nuevo Riesgo</div>
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label for="riskDescription">Descripción del Riesgo</label>
+                            <textarea id="riskDescription" placeholder="Describa el riesgo identificado"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="riskCategory">Categoría</label>
+                            <select id="riskCategory">
+                                <option value="">Seleccione una categoría</option>
+                                <option value="Privacidad">Privacidad</option>
+                                <option value="Equidad">Equidad</option>
+                                <option value="Seguridad">Seguridad</option>
+                                <option value="Transparencia">Transparencia</option>
+                                <option value="Rendición de cuentas">Rendición de cuentas</option>
+                                <option value="Continuidad del servicio">Continuidad del servicio</option>
+                                <option value="Cumplimiento">Cumplimiento</option>
+                                <option value="Reputación">Reputación</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="riskDimension">Dimensión(es) de Impacto</label>
+                            <select id="riskDimension">
+                                <option value="">Seleccione una dimensión</option>
+                                <option value="Derechos y libertades fundamentales">Derechos y libertades fundamentales</option>
+                                <option value="Equidad y no discriminación">Equidad y no discriminación</option>
+                                <option value="Continuidad y calidad del servicio">Continuidad y calidad del servicio</option>
+                                <option value="Seguridad y ciberseguridad">Seguridad y ciberseguridad</option>
+                                <option value="Reputación y confianza pública">Reputación y confianza pública</option>
+                                <option value="Cumplimiento regulatorio">Cumplimiento regulatorio</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="riskProbability">Probabilidad (1-3)</label>
+                            <select id="riskProbability">
+                                <option value="">Seleccione probabilidad</option>
+                                <option value="1">1 - Baja</option>
+                                <option value="2">2 - Media</option>
+                                <option value="3">3 - Alta</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="riskImpact">Impacto (1-3)</label>
+                            <select id="riskImpact">
+                                <option value="">Seleccione impacto</option>
+                                <option value="1">1 - Bajo</option>
+                                <option value="2">2 - Medio</option>
+                                <option value="3">3 - Alto</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="riskControls">Controles Existentes</label>
+                            <textarea id="riskControls" placeholder="Describa los controles existentes"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="riskEffectiveness">Efectividad de Controles</label>
+                            <select id="riskEffectiveness">
+                                <option value="">Seleccione efectividad</option>
+                                <option value="Alta">Alta</option>
+                                <option value="Media">Media</option>
+                                <option value="Baja">Baja</option>
+                                <option value="No aplica">No aplica</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group full-width">
+                            <label for="riskAdditional">Controles Adicionales Propuestos</label>
+                            <textarea id="riskAdditional" placeholder="Describa los controles adicionales propuestos"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="riskResponsible">Responsable</label>
+                            <input type="text" id="riskResponsible" placeholder="Nombre del responsable">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="riskStatus">Estado</label>
+                            <select id="riskStatus">
+                                <option value="">Seleccione estado</option>
+                                <option value="Pendiente">Pendiente</option>
+                                <option value="En progreso">En progreso</option>
+                                <option value="Mitigado">Mitigado</option>
+                                <option value="Aceptado">Aceptado</option>
+                                <option value="Cerrado">Cerrado</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="actions">
+                        <button class="btn btn-primary" onclick="agregarRiesgo()">Agregar Riesgo</button>
+                        <button class="btn btn-warning" id="btnEditar" onclick="guardarEdicion()" style="display:none">Guardar Cambios</button>
+                        <button class="btn btn-secondary" onclick="limpiarFormulario()">Limpiar Formulario</button>
+                        <button class="btn btn-secondary" onclick="cargarRiesgosEjemplo()">Cargar Riesgos de Ejemplo</button>
+                        <button class="btn btn-success" onclick="exportarRiesgos()">Exportar a JSON</button>
+                        <label for="fileInput" class="file-label">Cargar desde JSON</label>
+                        <input type="file" id="fileInput" class="file-input" accept=".json" onchange="cargarDesdeJSON(event)">
+                    </div>
+                </div>
+
+                <div class="content"></div>
+                    <div class="matrix-container">
+                        <h3 class="form-title">📋 Riesgos Registrados</h3>
+                        <table class="risk-matrix">
+                            <thead>
+                                <tr>
+                                    <th class="risk-id">ID</th>
+                                    <th class="risk-description">Descripción del Riesgo</th>
+                                    <th class="risk-category">Categoría</th>
+                                    <th class="risk-dimension">Dimensión(es) de Impacto</th>
+                                    <th class="risk-probability">Probabilidad (1-3)</th>
+                                    <th class="risk-impact">Impacto (1-3)</th>
+                                    <th class="risk-rating">Calificación (P×I)</th>
+                                    <th class="risk-level">Nivel de Riesgo</th>
+                                    <th class="risk-controls">Controles Existentes</th>
+                                    <th class="risk-effectiveness">Efectividad de Controles</th>
+                                    <th class="risk-additional">Controles Adicionales Propuestos</th>
+                                    <th class="risk-responsible">Responsable</th>
+                                    <th class="risk-status">Estado</th>
+                                    <th class="risk-actions">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="riskTableBody">
+                                <!-- Las filas se generarán dinámicamente con JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>           
+                </div>
+            </div>
+    </div>
+        
+
+    </div>
+
+    <script>
+        let riesgoId = 1;
+        let riesgos = [];
+        let editandoId = null;
+        
+        const riesgosEjemplo = [
+            {
+                descripcion: "Re-identificación de datos anonimizados",
+                categoria: "Privacidad",
+                dimension: "Derechos y libertades fundamentales",
+                probabilidad: 2,
+                impacto: 3,
+                controles: "Anonimización avanzada, controles de acceso",
+                efectividad: "Media",
+                adicional: "Auditorías periódicas de re-identificación",
+                responsable: "DPO",
+                estado: "Pendiente"
+            },
+            {
+                descripcion: "Sesgo histórico perpetuado o amplificado",
+                categoria: "Equidad",
+                dimension: "Equidad y no discriminación",
+                probabilidad: 3,
+                impacto: 3,
+                controles: "Evaluación de sesgos en datos de entrenamiento",
+                efectividad: "Baja",
+                adicional: "Implementación de técnicas de debiasing, auditorías de equidad",
+                responsable: "Responsable Técnico",
+                estado: "En progreso"
+            },
+            {
+                descripcion: "Envenenamiento de datos de entrenamiento",
+                categoria: "Seguridad",
+                dimension: "Seguridad y ciberseguridad",
+                probabilidad: 1,
+                impacto: 3,
+                controles: "Validación de fuentes de datos, controles de integridad",
+                efectividad: "Alta",
+                adicional: "Monitoreo continuo de calidad de datos",
+                responsable: "TIC/Seguridad",
+                estado: "Mitigado"
+            },
+            {
+                descripcion: "Opacidad en criterios de decisión (caja negra)",
+                categoria: "Transparencia",
+                dimension: "Reputación y confianza pública",
+                probabilidad: 3,
+                impacto: 2,
+                controles: "Documentación de criterios de decisión",
+                efectividad: "Media",
+                adicional: "Implementación de mecanismos de explicabilidad (XAI)",
+                responsable: "Responsable Técnico",
+                estado: "Pendiente"
+            },
+            {
+                descripcion: "Ausencia de supervisión humana efectiva",
+                categoria: "Rendición de cuentas",
+                dimension: "Cumplimiento regulatorio",
+                probabilidad: 2,
+                impacto: 2,
+                controles: "Procedimientos de revisión humana",
+                efectividad: "Baja",
+                adicional: "Definición clara de responsabilidades, capacitación",
+                responsable: "Sponsor de Negocio",
+                estado: "En progreso"
+            }
+        ];
+
+        function calcularNivelRiesgo(probabilidad, impacto) {
+            const calificacion = probabilidad * impacto;
+            if (calificacion <= 3) return { nivel: "Bajo", clase: "risk-level-bajo" };
+            if (calificacion <= 6) return { nivel: "Medio", clase: "risk-level-medio" };
+            return { nivel: "Alto", clase: "risk-level-alto" };
+        }
+
+        function agregarRiesgo() {
+            const descripcion = document.getElementById('riskDescription').value;
+            const categoria = document.getElementById('riskCategory').value;
+            const dimension = document.getElementById('riskDimension').value;
+            const probabilidad = parseInt(document.getElementById('riskProbability').value);
+            const impacto = parseInt(document.getElementById('riskImpact').value);
+            const controles = document.getElementById('riskControls').value;
+            const efectividad = document.getElementById('riskEffectiveness').value;
+            const adicional = document.getElementById('riskAdditional').value;
+            const responsable = document.getElementById('riskResponsible').value;
+            const estado = document.getElementById('riskStatus').value;
+
+            // Validación básica
+            if (!descripcion || !categoria || !dimension || isNaN(probabilidad) || isNaN(impacto)) {
+                alert('Por favor complete todos los campos obligatorios');
+                return;
+            }
+
+            const nivelRiesgo = calcularNivelRiesgo(probabilidad, impacto);
+            const calificacion = probabilidad * impacto;
+            
+            const riesgo = {
+                id: riesgoId,
+                descripcion,
+                categoria,
+                dimension,
+                probabilidad,
+                impacto,
+                calificacion,
+                nivelRiesgo,
+                controles,
+                efectividad,
+                adicional,
+                responsable,
+                estado
+            };
+            
+            riesgos.push(riesgo);
+            actualizarTabla();
+            riesgoId++;
+            limpiarFormulario();
+        }
+
+        function actualizarTabla() {
+            const tabla = document.getElementById('riskTableBody');
+            tabla.innerHTML = '';
+            
+            riesgos.forEach(riesgo => {
+                const nuevaFila = tabla.insertRow();
+                
+                nuevaFila.innerHTML = `
+                    <td class="risk-id">${riesgo.id}</td>
+                    <td class="risk-description">${riesgo.descripcion}</td>
+                    <td class="risk-category">${riesgo.categoria}</td>
+                    <td class="risk-dimension">${riesgo.dimension}</td>
+                    <td class="risk-probability">${riesgo.probabilidad}</td>
+                    <td class="risk-impact">${riesgo.impacto}</td>
+                    <td class="risk-rating">${riesgo.calificacion}</td>
+                    <td class="risk-level"><span class="${riesgo.nivelRiesgo.clase}">${riesgo.nivelRiesgo.nivel}</span></td>
+                    <td class="risk-controls">${riesgo.controles}</td>
+                    <td class="risk-effectiveness">${riesgo.efectividad}</td>
+                    <td class="risk-additional">${riesgo.adicional}</td>
+                    <td class="risk-responsible">${riesgo.responsable}</td>
+                    <td class="risk-status">${riesgo.estado}</td>
+                    <td class="risk-actions">
+                        <button class="btn btn-warning" onclick="editarRiesgo(${riesgo.id})">Editar</button>
+                        <button class="btn btn-danger" onclick="eliminarRiesgo(${riesgo.id})">Eliminar</button>
+                    </td>
+                `;
+            });
+        }
+
+        function editarRiesgo(id) {
+            const riesgo = riesgos.find(r => r.id === id);
+            if (!riesgo) return;
+            
+            document.getElementById('riskDescription').value = riesgo.descripcion;
+            document.getElementById('riskCategory').value = riesgo.categoria;
+            document.getElementById('riskDimension').value = riesgo.dimension;
+            document.getElementById('riskProbability').value = riesgo.probabilidad;
+            document.getElementById('riskImpact').value = riesgo.impacto;
+            document.getElementById('riskControls').value = riesgo.controles;
+            document.getElementById('riskEffectiveness').value = riesgo.efectividad;
+            document.getElementById('riskAdditional').value = riesgo.adicional;
+            document.getElementById('riskResponsible').value = riesgo.responsable;
+            document.getElementById('riskStatus').value = riesgo.estado;
+            
+            editandoId = id;
+            document.getElementById('btnEditar').style.display = 'inline-block';
+            document.querySelector('.btn-primary').style.display = 'none';
+        }
+
+        function guardarEdicion() {
+            if (editandoId === null) return;
+            
+            const descripcion = document.getElementById('riskDescription').value;
+            const categoria = document.getElementById('riskCategory').value;
+            const dimension = document.getElementById('riskDimension').value;
+            const probabilidad = parseInt(document.getElementById('riskProbability').value);
+            const impacto = parseInt(document.getElementById('riskImpact').value);
+            const controles = document.getElementById('riskControls').value;
+            const efectividad = document.getElementById('riskEffectiveness').value;
+            const adicional = document.getElementById('riskAdditional').value;
+            const responsable = document.getElementById('riskResponsible').value;
+            const estado = document.getElementById('riskStatus').value;
+
+            // Validación básica
+            if (!descripcion || !categoria || !dimension || isNaN(probabilidad) || isNaN(impacto)) {
+                alert('Por favor complete todos los campos obligatorios');
+                return;
+            }
+
+            const nivelRiesgo = calcularNivelRiesgo(probabilidad, impacto);
+            const calificacion = probabilidad * impacto;
+            
+            const riesgoIndex = riesgos.findIndex(r => r.id === editandoId);
+            if (riesgoIndex !== -1) {
+                riesgos[riesgoIndex] = {
+                    id: editandoId,
+                    descripcion,
+                    categoria,
+                    dimension,
+                    probabilidad,
+                    impacto,
+                    calificacion,
+                    nivelRiesgo,
+                    controles,
+                    efectividad,
+                    adicional,
+                    responsable,
+                    estado
+                };
+                
+                actualizarTabla();
+                limpiarFormulario();
+                editandoId = null;
+                document.getElementById('btnEditar').style.display = 'none';
+                document.querySelector('.btn-primary').style.display = 'inline-block';
+            }
+        }
+
+        function eliminarRiesgo(id) {
+            if (confirm('¿Está seguro de que desea eliminar este riesgo?')) {
+                riesgos = riesgos.filter(r => r.id !== id);
+                actualizarTabla();
+            }
+        }
+
+        function limpiarFormulario() {
+            document.getElementById('riskDescription').value = '';
+            document.getElementById('riskCategory').value = '';
+            document.getElementById('riskDimension').value = '';
+            document.getElementById('riskProbability').value = '';
+            document.getElementById('riskImpact').value = '';
+            document.getElementById('riskControls').value = '';
+            document.getElementById('riskEffectiveness').value = '';
+            document.getElementById('riskAdditional').value = '';
+            document.getElementById('riskResponsible').value = '';
+            document.getElementById('riskStatus').value = '';
+            
+            if (editandoId !== null) {
+                editandoId = null;
+                document.getElementById('btnEditar').style.display = 'none';
+                document.querySelector('.btn-primary').style.display = 'inline-block';
+            }
+        }
+
+        function cargarRiesgosEjemplo() {
+            if (confirm('¿Está seguro de que desea cargar riesgos de ejemplo? Se agregarán 5 riesgos predefinidos a la matriz.')) {
+                riesgosEjemplo.forEach(riesgo => {
+                    document.getElementById('riskDescription').value = riesgo.descripcion;
+                    document.getElementById('riskCategory').value = riesgo.categoria;
+                    document.getElementById('riskDimension').value = riesgo.dimension;
+                    document.getElementById('riskProbability').value = riesgo.probabilidad;
+                    document.getElementById('riskImpact').value = riesgo.impacto;
+                    document.getElementById('riskControls').value = riesgo.controles;
+                    document.getElementById('riskEffectiveness').value = riesgo.efectividad;
+                    document.getElementById('riskAdditional').value = riesgo.adicional;
+                    document.getElementById('riskResponsible').value = riesgo.responsable;
+                    document.getElementById('riskStatus').value = riesgo.estado;
+                    
+                    agregarRiesgo();
+                });
+            }
+        }
+
+        function exportarRiesgos() {
+            if (riesgos.length === 0) {
+                alert('No hay riesgos para exportar');
+                return;
+            }
+            
+            const datosExportar = {
+                fechaExportacion: new Date().toISOString(),
+                riesgos: riesgos
+            };
+            
+            const datosJSON = JSON.stringify(datosExportar, null, 2);
+            const blob = new Blob([datosJSON], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `matriz-riesgos-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function cargarDesdeJSON(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const datos = JSON.parse(e.target.result);
+                    
+                    if (!datos.riesgos || !Array.isArray(datos.riesgos)) {
+                        alert('El archivo no contiene datos válidos de riesgos');
+                        return;
+                    }
+                    
+                    if (confirm(`Se van a cargar ${datos.riesgos.length} riesgos. ¿Desea continuar?`)) {
+                        // Reiniciar la matriz actual
+                        riesgos = [];
+                        riesgoId = 1;
+                        
+                        // Cargar los nuevos riesgos
+                        datos.riesgos.forEach(riesgo => {
+                            const nivelRiesgo = calcularNivelRiesgo(riesgo.probabilidad, riesgo.impacto);
+                            const calificacion = riesgo.probabilidad * riesgo.impacto;
+                            
+                            riesgos.push({
+                                id: riesgoId,
+                                descripcion: riesgo.descripcion,
+                                categoria: riesgo.categoria,
+                                dimension: riesgo.dimension,
+                                probabilidad: riesgo.probabilidad,
+                                impacto: riesgo.impacto,
+                                calificacion,
+                                nivelRiesgo,
+                                controles: riesgo.controles,
+                                efectividad: riesgo.efectividad,
+                                adicional: riesgo.adicional,
+                                responsable: riesgo.responsable,
+                                estado: riesgo.estado
+                            });
+                            
+                            riesgoId++;
+                        });
+                        
+                        actualizarTabla();
+                        alert(`Se han cargado ${datos.riesgos.length} riesgos correctamente`);
+                    }
+                } catch (error) {
+                    alert('Error al leer el archivo JSON: ' + error.message);
+                }
+            };
+            
+            reader.readAsText(file);
+            // Limpiar el input para permitir cargar el mismo archivo de nuevo
+            event.target.value = '';
+        }
+
+        function toggleCollapsible(element) {
+            const collapsible = element.parentElement;
+            collapsible.classList.toggle('active');
+        }
+
+        // Función para procesar parámetros de URL
+        function getUrlParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        // Ejecutar al cargar la página
+        window.addEventListener('DOMContentLoaded', function() {
+            // Aquí se podría cargar datos preexistentes si se está editando una matriz
+            const matrizId = getUrlParameter('id');
+            if (matrizId) {
+                console.log('Cargando matriz con ID:', matrizId);
+                // En una implementación real, se cargarían los datos desde el servidor
+            }
+        });
+    </script>
+</body>
+</html>

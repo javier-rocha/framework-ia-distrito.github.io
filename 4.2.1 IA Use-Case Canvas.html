@@ -1,0 +1,1954 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Use-Case Canvas - Toolkit de IA</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1a237e, #283593);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            grid-column: 1 / -1;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .back-button {
+            position: absolute;
+            left: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-50%) scale(1.05);
+        }
+        
+        .sidebar {
+            background: #f5f7fa;
+            padding: 20px;
+            border-right: 1px solid #e0e0e0;
+            overflow-y: auto;
+            max-height: calc(100vh - 200px);
+            position: sticky;
+            top: 0;
+        }
+        
+        .sidebar-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #1a237e;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #1a237e;
+        }
+        
+        .nav-section {
+            margin-bottom: 25px;
+        }
+        
+        .nav-section-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #1a237e;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .nav-item {
+            display: block;
+            padding: 10px 15px;
+            margin-bottom: 5px;
+            background: white;
+            border-radius: 6px;
+            text-decoration: none;
+            color: #333;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+        
+        .nav-item:hover {
+            background: #e3f2fd;
+            border-left-color: #1976D2;
+        }
+        
+        .nav-item.active {
+            background: #e3f2fd;
+            border-left-color: #1976D2;
+            font-weight: bold;
+            color: #1a237e;
+        }
+        
+        .json-panel {
+            background: #fff3e0;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+            border: 1px solid #ffb74d;
+        }
+        
+        .json-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #e65100;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .json-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .json-btn {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .json-btn.import {
+            background: #4caf50;
+            color: white;
+        }
+        
+        .json-btn.export {
+            background: #2196f3;
+            color: white;
+        }
+        
+        .json-btn.print {
+            background: #ff9800;
+            color: white;
+        }
+        
+        .json-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        .content {
+            padding: 30px;
+            overflow-y: auto;
+            max-height: calc(100vh - 200px);
+        }
+        
+        .canvas-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        
+        .section-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            border: 3px solid #e0e0e0;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 300px;
+        }
+        
+        .section-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #1976D2, #64B5F6);
+        }
+        
+        .section-card:nth-child(2)::before { background: linear-gradient(90deg, #388E3C, #66BB6A); }
+        .section-card:nth-child(3)::before { background: linear-gradient(90deg, #D32F2F, #EF5350); }
+        .section-card:nth-child(4)::before { background: linear-gradient(90deg, #7B1FA2, #AB47BC); }
+        .section-card:nth-child(5)::before { background: linear-gradient(90deg, #F57C00, #FFA726); }
+        .section-card:nth-child(6)::before { background: linear-gradient(90deg, #00897B, #26A69A); }
+        .section-card:nth-child(7)::before { background: linear-gradient(90deg, #1976D2, #64B5F6); }
+        .section-card:nth-child(8)::before { background: linear-gradient(90deg, #388E3C, #66BB6A); }
+        .section-card:nth-child(9)::before { background: linear-gradient(90deg, #D32F2F, #EF5350); }
+        .section-card:nth-child(10)::before { background: linear-gradient(90deg, #7B1FA2, #AB47BC); }
+        .section-card:nth-child(11)::before { background: linear-gradient(90deg, #F57C00, #FFA726); }
+        .section-card:nth-child(12)::before { background: linear-gradient(90deg, #00897B, #26A69A); }
+        
+        .section-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .section-icon {
+            font-size: 20px;
+            margin-right: 10px;
+        }
+        
+        .section-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #1a237e;
+        }
+        
+        .section-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a237e;
+            margin-bottom: 5px;
+        }
+        
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 14px;
+        }
+        
+        .form-group textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 5px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 13px;
+        }
+        
+        .checkbox-item input {
+            width: auto;
+        }
+        
+        .risk-levels {
+            display: flex;
+            gap: 10px;
+            margin-top: 5px;
+        }
+        
+        .risk-level {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .risk-level.inaceptable { background-color: #f44336; color: white; }
+        .risk-level.alto { background-color: #ff9800; color: white; }
+        .risk-level.limitado { background-color: #ffc107; color: black; }
+        .risk-level.minimo { background-color: #4caf50; color: white; }
+        
+        .risk-level.selected {
+            transform: scale(1.05);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .approval-section {
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+        
+        .approval-item {
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .approval-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .approval-title {
+            font-weight: bold;
+            color: #1a237e;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #1a237e, #283593);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #333;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        @media (max-width: 1200px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                display: none;
+            }
+            
+            .canvas-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Estilos para impresión */
+        @media print {
+            body {
+                background: white !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            
+            .container {
+                max-width: 100% !important;
+                box-shadow: none !important;
+                border-radius: 0 !important;
+                grid-template-columns: 1fr !important;
+            }
+            
+            .header {
+                background: #1a237e !important;
+                padding: 15px !important;
+                margin-bottom: 10px !important;
+            }
+            
+            .header h1 {
+                font-size: 24px !important;
+                margin-bottom: 5px !important;
+            }
+            
+            .header p {
+                font-size: 14px !important;
+            }
+            
+            .back-button, .sidebar, .json-panel, .actions {
+                display: none !important;
+            }
+            
+            .content {
+                padding: 10px !important;
+                max-height: none !important;
+                overflow: visible !important;
+            }
+            
+            .canvas-grid {
+                grid-template-columns: 1fr !important;
+                gap: 10px !important;
+            }
+            
+            .section-card {
+                page-break-inside: avoid;
+                border: 1px solid #ccc !important;
+                border-radius: 5px !important;
+                padding: 15px !important;
+                min-height: auto !important;
+                margin-bottom: 10px !important;
+                box-shadow: none !important;
+                transform: none !important;
+            }
+            
+            .section-card::before {
+                height: 3px !important;
+            }
+            
+            .section-header {
+                margin-bottom: 10px !important;
+                padding-bottom: 5px !important;
+            }
+            
+            .section-title {
+                font-size: 14px !important;
+            }
+            
+            .form-group {
+                margin-bottom: 10px !important;
+            }
+            
+            .form-group label {
+                font-size: 12px !important;
+            }
+            
+            .form-group input, .form-group textarea, .form-group select {
+                padding: 5px 8px !important;
+                font-size: 12px !important;
+                border: 1px solid #999 !important;
+            }
+            
+            .form-group textarea {
+                min-height: 60px !important;
+            }
+            
+            .checkbox-group {
+                gap: 5px !important;
+            }
+            
+            .checkbox-item {
+                font-size: 11px !important;
+            }
+            
+            .risk-levels {
+                gap: 5px !important;
+            }
+            
+            .risk-level {
+                padding: 3px 6px !important;
+                font-size: 10px !important;
+            }
+            
+            .approval-section {
+                padding: 10px !important;
+            }
+            
+            .approval-item {
+                margin-bottom: 8px !important;
+                padding-bottom: 8px !important;
+            }
+            
+            .approval-title {
+                font-size: 12px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="javascript:history.back()" class="back-button">Atras</a>
+            <h1>📋 AI Use-Case Canvas</h1>
+            <p>Estructurar y documentar la propuesta de caso de uso en la fase inicial (Intake)</p>
+        </div>
+        
+        <div class="sidebar">
+            <div class="sidebar-title">Navegación Rápida</div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">📋 Secciones del Canvas</div>
+                <a href="#seccion1" class="nav-item active">1. Identificación del Caso de Uso</a>
+                <a href="#seccion2" class="nav-item">2. Contexto y Propósito</a>
+                <a href="#seccion3" class="nav-item">3. Actores Involucrados</a>
+                <a href="#seccion4" class="nav-item">4. Datos Requeridos</a>
+                <a href="#seccion5" class="nav-item">5. Revisión Legal</a>
+                <a href="#seccion6" class="nav-item">6. Clasificación de Riesgo</a>
+                <a href="#seccion7" class="nav-item">7. Identificación de Riesgos</a>
+                <a href="#seccion8" class="nav-item">8. Métricas de Éxito</a>
+                <a href="#seccion9" class="nav-item">9. Plan de Despliegue</a>
+                <a href="#seccion10" class="nav-item">10. Monitoreo y Auditoría</a>
+                <a href="#seccion11" class="nav-item">11. Plan de Fin de Vida</a>
+                <a href="#seccion12" class="nav-item">12. Aprobaciones</a>
+            </div>
+            
+            <div class="json-panel">
+                <div class="json-title">🔄 Gestión de Datos</div>
+                <div class="json-actions">
+                    <input type="file" id="jsonFileInput" accept=".json" style="display: none;">
+                    <button class="json-btn import" onclick="document.getElementById('jsonFileInput').click()">Importar desde JSON</button>
+                    <button class="json-btn export" onclick="exportarJSON()">Exportar a JSON</button>
+                    <button class="json-btn print" onclick="imprimirFormulario()">🖨️ Imprimir Formulario</button>
+                    <button class="json-btn" onclick="cargarEjemplo()" style="background: #9c27b0; color: white;">Cargar Ejemplo</button>
+                    <button class="json-btn" onclick="limpiarFormulario()" style="background: #f44336; color: white;">Limpiar Todo</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <div class="canvas-grid">
+                <!-- Sección 1: Identificación del Caso de Uso -->
+                <div class="section-card" id="seccion1">
+                    <div class="section-header">
+                        <div class="section-icon">📝</div>
+                        <div class="section-title">Sección 1: Identificación del Caso de Uso</div>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label for="titulo">Título descriptivo del caso de uso</label>
+                            <input type="text" id="titulo" placeholder="Ej: Sistema de clasificación automática de solicitudes ciudadanas">
+                        </div>
+                        <div class="form-group">
+                            <label for="entidad">Entidad y unidad organizacional responsable</label>
+                            <input type="text" id="entidad" placeholder="Ej: Secretaría de Gobierno - Dirección de Atención al Ciudadano">
+                        </div>
+                        <div class="form-group">
+                            <label for="sponsor">Sponsor de Negocio (nombre, cargo, contacto)</label>
+                            <input type="text" id="sponsor" placeholder="Ej: María González, Directora de Atención al Ciudadano, mgonzalez@entidad.gov.co">
+                        </div>
+                        <div class="form-group">
+                            <label for="responsable">Responsable Técnico (nombre, cargo, contacto)</label>
+                            <input type="text" id="responsable" placeholder="Ej: Carlos López, Jefe de Desarrollo, clopez@entidad.gov.co">
+                        </div>
+                        <div class="form-group">
+                            <label for="fecha">Fecha de elaboración y versión</label>
+                            <input type="text" id="fecha" placeholder="Ej: 15/10/2023 - v1.0">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sección 2: Contexto y Propósito -->
+                <div class="section-card" id="seccion2">
+                    <div class="section-header">
+                        <div class="section-icon">🎯</div>
+                        <div class="section-title">Sección 2: Contexto y Propósito</div>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label for="problema">Descripción del problema o necesidad (máximo 200 palabras)</label>
+                            <textarea id="problema" placeholder="Describa el problema específico que busca resolver con esta solución de IA"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="servicio">Servicio, trámite o proceso al que aplica</label>
+                            <input type="text" id="servicio" placeholder="Ej: Proceso de recepción y clasificación de PQRS">
+                        </div>
+                        <div class="form-group">
+                            <label for="proposito">Propósito específico del sistema de IA</label>
+                            <input type="text" id="proposito" placeholder="¿Qué debe hacer el sistema de IA?">
+                        </div>
+                        <div class="form-group">
+                            <label for="tipo">Tipo de sistema de IA</label>
+                            <select id="tipo">
+                                <option value="">Seleccione una opción</option>
+                                <option value="clasificacion">Clasificación</option>
+                                <option value="regresion">Regresión</option>
+                                <option value="generacion">Generación de lenguaje</option>
+                                <option value="recomendacion">Recomendación</option>
+                                <option value="vision">Visión por computadora</option>
+                                <option value="procesamiento">Procesamiento de lenguaje natural</option>
+                                <option value="otros">Otros</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="resultados">Resultados esperados (cuantificables cuando sea posible)</label>
+                            <textarea id="resultados" placeholder="Ej: Reducción del 40% en tiempo de clasificación, aumento del 25% en precisión de categorización"></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sección 3: Actores Involucrados -->
+                <div class="section-card" id="seccion3">
+                    <div class="section-header">
+                        <div class="section-icon">👥</div>
+                        <div class="section-title">Sección 3: Actores Involucrados</div>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label for="usuarios">Usuarios finales del sistema</label>
+                            <input type="text" id="usuarios" placeholder="Ej: Funcionarios de atención al ciudadano, ciudadanos">
+                        </div>
+                        <div class="form-group">
+                            <label for="perfil">Perfil de usuarios (nivel de alfabetización digital, accesibilidad, diversidad)</label>
+                            <textarea id="perfil" placeholder="Describa el perfil de los usuarios finales"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="propietario">Propietario de Datos (responsable de datos utilizados)</label>
+                            <input type="text" id="propietario" placeholder="Ej: Dirección de Sistemas - Base de datos de PQRS">
+                        </div>
+                        <div class="form-group">
+                            <label for="stakeholders">Stakeholders afectados por decisiones del sistema</label>
+                            <textarea id="stakeholders" placeholder="Liste los stakeholders que pueden verse afectados por las decisiones del sistema"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Roles de gobernanza involucrados</label>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="dpo" name="rolesGobernanza" value="dpo">
+                                    <label for="dpo">DPO</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="tic" name="rolesGobernanza" value="tic">
+                                    <label for="tic">TIC/Seguridad</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="juridica" name="rolesGobernanza" value="juridica">
+                                    <label for="juridica">Jurídica</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="comite" name="rolesGobernanza" value="comite">
+                                    <label for="comite">Comité de IA</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sección 4: Datos Requeridos -->
+                <div class="section-card" id="seccion4">
+                    <div class="section-header">
+                        <div class="section-icon">📊</div>
+                        <div class="section-title">Sección 4: Datos Requeridos</div>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label for="fuentes">Fuentes de datos</label>
+                            <textarea id="fuentes" placeholder="Internas, externas, terceros"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Categorías de datos</label>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="personales" name="categoriasDatos" value="personales">
+                                    <label for="personales">Personales</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="sensibles" name="categoriasDatos" value="sensibles">
+                                    <label for="sensibles">Sensibles</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="publicos" name="categoriasDatos" value="publicos">
+                                    <label for="publicos">Públicos</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="volumen">Volumen estimado de datos y frecuencia de actualización</label>
+                            <input type="text" id="volumen" placeholder="Ej: 50,000 registros, actualización mensual">
+                        </div>
+                        <div class="form-group">
+                            <label for="calidad">Evaluación preliminar de calidad y representatividad de datos</label>
+                            <textarea id="calidad" placeholder="Describa la calidad y representatividad de los datos disponibles"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="privacidad">Evaluación preliminar de privacidad</label>
+                            <textarea id="privacidad" placeholder="¿Incluye datos personales? ¿datos sensibles?"></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sección 5: Revisión Legal y Bases Jurídicas -->
+                <div class="section-card" id="seccion5">
+                    <div class="section-header">
+                        <div class="section-icon">⚖️</div>
+                        <div class="section-title">Sección 5: Revisión Legal y Bases Jurídicas</div>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label for="baseServicio">Base legal para la prestación del servicio público correspondiente</label>
+                            <textarea id="baseServicio" placeholder="Describa la base legal para el servicio público"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Base legal para tratamiento de datos personales (si aplica)</label>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="consentimiento" name="baseLegal" value="consentimiento">
+                                    <label for="consentimiento">Consentimiento</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="contrato" name="baseLegal" value="contrato">
+                                    <label for="contrato">Ejecución de contrato</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="cumplimiento" name="baseLegal" value="cumplimiento">
+                                    <label for="cumplimiento">Cumplimiento legal</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="interes" name="baseLegal" value="interes">
+                                    <label for="interes">Interés legítimo</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="funcion" name="baseLegal" value="funcion">
+                                    <label for="funcion">Función pública</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="normativa">Identificación de normativa específica aplicable (sectorial, territorial)</label>
+                            <textarea id="normativa" placeholder="Liste la normativa aplicable"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="evaluacionLegal">Evaluación preliminar de conformidad legal por área Jurídica</label>
+                            <textarea id="evaluacionLegal" placeholder="Describa la evaluación preliminar de conformidad legal"></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sección 6: Clasificación Preliminar de Riesgo -->
+                <div class="section-card" id="seccion6">
+                    <div class="section-header">
+                        <div class="section-icon">⚠️</div>
+                        <div class="section-title">Sección 6: Clasificación Preliminar de Riesgo</div>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label>Aplicación de criterios de clasificación (AI Act)</label>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="derechos" name="criteriosClasificacion" value="derechos">
+                                    <label for="derechos">¿Afecta derechos fundamentales?</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="servicios" name="criteriosClasificacion" value="servicios">
+                                    <label for="servicios">¿Servicios esenciales?</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="decisiones" name="criteriosClasificacion" value="decisiones">
+                                    <label for="decisiones">¿Decisiones sobre personas?</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="biometria" name="criteriosClasificacion" value="biometria">
+                                    <label for="biometria">¿Biometría?</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Clasificación preliminar</label>
+                            <div class="risk-levels">
+                                <div class="risk-level inaceptable" data-level="inaceptable">Inaceptable</div>
+                                <div class="risk-level alto" data-level="alto">Alto</div>
+                                <div class="risk-level limitado" data-level="limitado">Limitado</div>
+                                <div class="risk-level minimo" data-level="minimo">Mínimo</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="justificacion">Justificación de la clasificación</label>
+                            <textarea id="justificacion" placeholder="Explique la justificación para la clasificación seleccionada"></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sección 7: Identificación Preliminar de Riesgos -->
+                <div class="section-card" id="seccion7">
+                    <div class="section-header">
+                        <div class="section-icon">🔍</div>
+                        <div class="section-title">Sección 7: Identificación Preliminar de Riesgos</div>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label for="riesgosEticos">Riesgos éticos (discriminación, autonomía, dignidad)</label>
+                            <textarea id="riesgosEticos" placeholder="Identifique riesgos éticos potenciales"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="riesgosPrivacidad">Riesgos de privacidad (re-identificación, uso secundario, brechas)</label>
+                            <textarea id="riesgosPrivacidad" placeholder="Identifique riesgos de privacidad potenciales"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="riesgosSeguridad">Riesgos de seguridad (ataques, fallos, manipulación)</label>
+                            <textarea id="riesgosSeguridad" placeholder="Identifique riesgos de seguridad potenciales"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="riesgosEquidad">Riesgos de equidad (sesgos, exclusión de grupos)</label>
+                            <textarea id="riesgosEquidad" placeholder="Identifique riesgos de equidad potenciales"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="riesgosOperativos">Riesgos operativos (dependencia de proveedor, sostenibilidad, obsolescencia)</label>
+                            <textarea id="riesgosOperativos" placeholder="Identifique riesgos operativos potenciales"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="riesgosReputacionales">Riesgos reputacionales (confianza pública, controversias)</label>
+                            <textarea id="riesgosReputacionales" placeholder="Identifique riesgos reputacionales potenciales"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="mitigaciones">Mitigaciones preliminares identificadas</label>
+                            <textarea id="mitigaciones" placeholder="Describa las mitigaciones preliminares identificadas"></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sección 8: Métricas de Éxito e Indicadores de Impacto -->
+                <div class="section-card" id="seccion8">
+                    <div class="section-header">
+                        <div class="section-icon">📈</div>
+                        <div class="section-title">Sección 8: Métricas de Éxito e Indicadores de Impacto</div>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label for="kpiTecnicos">KPIs de desempeño técnico (precisión, disponibilidad, tiempo de respuesta)</label>
+                            <textarea id="kpiTecnicos" placeholder="Defina los KPIs técnicos"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="kpiImpacto">KPIs de impacto en servicio (eficiencia, satisfacción, cobertura)</label>
+                            <textarea id="kpiImpacto" placeholder="Defina los KPIs de impacto en servicio"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="kpiCumplimiento">KPIs de cumplimiento (ARA/DPIA, controles, auditoría)</label>
+                            <textarea id="kpiCumplimiento" placeholder="Defina los KPIs de cumplimiento"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="lineaBase">Línea base actual (para medir mejora)</label>
+                            <textarea id="lineaBase" placeholder="Describa la línea base actual"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="metas">Metas cuantificables a 6 y 12 meses</label>
+                            <textarea id="metas" placeholder="Defina las metas cuantificables a 6 y 12 meses"></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sección 9: Plan de Despliegue, Formación y Comunicación -->
+                <div class="section-card" id="seccion9">
+                    <div class="section-header">
+                        <div class="section-icon">🚀</div>
+                        <div class="section-title">Sección 9: Plan de Despliegue, Formación y Comunicación</div>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label>Estrategia de implementación</label>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="radio" id="piloto" name="estrategia" value="piloto">
+                                    <label for="piloto">Piloto</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="radio" id="gradual" name="estrategia" value="gradual">
+                                    <label for="gradual">Despliegue gradual</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="radio" id="bigbang" name="estrategia" value="bigbang">
+                                    <label for="bigbang">Big bang</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="alcance">Alcance inicial y escalamiento planificado</label>
+                            <textarea id="alcance" placeholder="Describa el alcance inicial y el plan de escalamiento"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="capacitacion">Necesidades de capacitación identificadas (funcionarios, ciudadanos)</label>
+                            <textarea id="capacitacion" placeholder="Describa las necesidades de capacitación identificadas"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="comunicacion">Plan de comunicación y divulgación ciudadana (si aplica)</label>
+                            <textarea id="comunicacion" placeholder="Describa el plan de comunicación y divulgación"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="cronograma">Cronograma estimado de implementación</label>
+                            <textarea id="cronograma" placeholder="Describa el cronograma estimado de implementación"></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sección 10: Monitoreo, Auditoría y Respuesta a Incidentes -->
+                <div class="section-card" id="seccion10">
+                    <div class="section-header">
+                        <div class="section-icon">🔒</div>
+                        <div class="section-title">Sección 10: Monitoreo, Auditoría y Respuesta a Incidentes</div>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label for="controles">Controles de monitoreo continuo propuestos (técnicos, de equidad, de privacidad)</label>
+                            <textarea id="controles" placeholder="Describa los controles de monitoreo continuo propuestos"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="frecuencia">Frecuencia de revisiones y auditorías</label>
+                            <input type="text" id="frecuencia" placeholder="Ej: Trimestral, Semestral, Anual">
+                        </div>
+                        <div class="form-group">
+                            <label for="protocolo">Protocolo de respuesta a incidentes</label>
+                            <textarea id="protocolo" placeholder="Describa el protocolo de respuesta a incidentes"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="canales">Canales de reclamación ciudadana (si aplica)</label>
+                            <textarea id="canales" placeholder="Describa los canales de reclamación ciudadana"></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sección 11: Criterios y Plan de Fin de Vida -->
+                <div class="section-card" id="seccion11">
+                    <div class="section-header">
+                        <div class="section-icon">⏹️</div>
+                        <div class="section-title">Sección 11: Criterios y Plan de Fin de Vida</div>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label for="criterios">Condiciones que activarían el retiro del sistema</label>
+                            <textarea id="criterios" placeholder="Obsolescencia, riesgos inaceptables, costo-beneficio desfavorable, cambios regulatorios"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="planDatos">Plan preliminar de gestión de datos al final de vida</label>
+                            <textarea id="planDatos" placeholder="Describa el plan de gestión de datos al final de vida"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="planTransicion">Plan de transición a alternativas</label>
+                            <textarea id="planTransicion" placeholder="Describa el plan de transición a alternativas"></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sección 12: Aprobaciones y Decisión -->
+                <div class="section-card" id="seccion12">
+                    <div class="section-header">
+                        <div class="section-icon">✅</div>
+                        <div class="section-title">Sección 12: Aprobaciones y Decisión</div>
+                    </div>
+                    <div class="section-content">
+                        <div class="approval-section">
+                            <div class="approval-item">
+                                <div class="approval-title">Evaluación de viabilidad por Responsable Técnico</div>
+                                <div class="checkbox-group">
+                                    <div class="checkbox-item">
+                                        <input type="radio" id="tecnicaViable" name="tecnica" value="tecnicaViable">
+                                        <label for="tecnicaViable">Viable</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="radio" id="tecnicaCondiciones" name="tecnica" value="tecnicaCondiciones">
+                                        <label for="tecnicaCondiciones">Viable con condiciones</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="radio" id="tecnicaNo" name="tecnica" value="tecnicaNo">
+                                        <label for="tecnicaNo">No viable</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="approval-item">
+                                <div class="approval-title">Evaluación de conformidad legal por Jurídica</div>
+                                <div class="checkbox-group">
+                                    <div class="checkbox-item">
+                                        <input type="radio" id="juridicaConforme" name="juridica" value="juridicaConforme">
+                                        <label for="juridicaConforme">Conforme</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="radio" id="juridicaAjustes" name="juridica" value="juridicaAjustes">
+                                        <label for="juridicaAjustes">Requiere ajustes</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="radio" id="juridicaNo" name="juridica" value="juridicaNo">
+                                        <label for="juridicaNo">No conforme</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="approval-item">
+                                <div class="approval-title">Evaluación de privacidad por DPO</div>
+                                <div class="checkbox-group">
+                                    <div class="checkbox-item">
+                                        <input type="radio" id="dpoAprobado" name="dpo" value="dpoAprobado">
+                                        <label for="dpoAprobado">Aprobado</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="radio" id="dpoDpia" name="dpo" value="dpoDpia">
+                                        <label for="dpoDpia">Requiere DPIA</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="radio" id="dpoNo" name="dpo" value="dpoNo">
+                                        <label for="dpoNo">No aprobado</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="approval-item">
+                                <div class="approval-title">Evaluación presupuestal por Planeación</div>
+                                <div class="checkbox-group">
+                                    <div class="checkbox-item">
+                                        <input type="radio" id="planeacionDisponibles" name="planeacion" value="planeacionDisponibles">
+                                        <label for="planeacionDisponibles">Recursos disponibles</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="radio" id="planeacionGestion" name="planeacion" value="planeacionGestion">
+                                        <label for="planeacionGestion">Requiere gestión</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="radio" id="planeacionNo" name="planeacion" value="planeacionNo">
+                                        <label for="planeacionNo">No viable</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="approval-item">
+                                <div class="approval-title">Decisión del Comité de IA</div>
+                                <div class="checkbox-group">
+                                    <div class="checkbox-item">
+                                        <input type="radio" id="comiteAprobado" name="comite" value="comiteAprobado">
+                                        <label for="comiteAprobado">Aprobado para proceder a Fase 2</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="radio" id="comiteCondiciones" name="comite" value="comiteCondiciones">
+                                        <label for="comiteCondiciones">Aprobado con condiciones</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="radio" id="comiteRechazado" name="comite" value="comiteRechazado">
+                                        <label for="comiteRechazado">Rechazado</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="radio" id="comiteInfo" name="comite" value="comiteInfo">
+                                        <label for="comiteInfo">Requiere más información</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="firma">Firma del Presidente del Comité y fecha</label>
+                                <input type="text" id="firma" placeholder="Nombre, firma y fecha">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Función para manejar la selección de niveles de riesgo
+        document.querySelectorAll('.risk-level').forEach(level => {
+            level.addEventListener('click', function() {
+                document.querySelectorAll('.risk-level').forEach(l => l.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+        
+        // Función para navegar entre secciones
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    // Actualizar navegación activa
+                    document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Desplazar a la sección
+                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+        
+        // Función para exportar a JSON
+        function exportarJSON() {
+            const canvasData = recopilarDatosCanvas();
+            const jsonString = JSON.stringify(canvasData, null, 2);
+            const blob = new Blob([jsonString], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'ai-use-case-canvas.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            alert('Canvas exportado exitosamente como JSON.');
+        }
+        
+        // Función para importar desde JSON
+        document.getElementById('jsonFileInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const canvasData = JSON.parse(e.target.result);
+                    cargarDatosCanvas(canvasData);
+                    alert('Canvas importado exitosamente desde JSON.');
+                } catch (error) {
+                    alert('Error al importar el archivo JSON: ' + error.message);
+                }
+            };
+            reader.readAsText(file);
+            
+            // Limpiar el input para permitir cargar el mismo archivo de nuevo
+            e.target.value = '';
+        });
+        
+        // Función para recopilar todos los datos del canvas
+        function recopilarDatosCanvas() {
+            const canvasData = {};
+            
+            // Recopilar datos de campos de texto, textarea y select
+            document.querySelectorAll('input[type="text"], textarea, select').forEach(element => {
+                canvasData[element.id] = element.value;
+            });
+            
+            // Recopilar datos de checkbox agrupados por nombre
+            document.querySelectorAll('input[type="checkbox"]').forEach(element => {
+                const name = element.name;
+                if (name) {
+                    if (!canvasData[name]) {
+                        canvasData[name] = [];
+                    }
+                    if (element.checked) {
+                        canvasData[name].push(element.value);
+                    }
+                }
+            });
+            
+            // Recopilar datos de radio buttons
+            document.querySelectorAll('input[type="radio"]').forEach(element => {
+                if (element.checked) {
+                    canvasData[element.name] = element.value;
+                }
+            });
+            
+            // Recopilar nivel de riesgo seleccionado
+            const riesgoSeleccionado = document.querySelector('.risk-level.selected');
+            canvasData.nivelRiesgo = riesgoSeleccionado ? riesgoSeleccionado.getAttribute('data-level') : null;
+            
+            // Agregar metadatos
+            canvasData.fechaExportacion = new Date().toISOString();
+            canvasData.versionCanvas = '1.0';
+            
+            return canvasData;
+        }
+        
+        // Función para cargar datos en el canvas desde un objeto
+        function cargarDatosCanvas(canvasData) {
+            // Limpiar formulario primero
+            limpiarFormulario();
+            
+            // Cargar datos en campos de texto, textarea y select
+            for (const key in canvasData) {
+                const element = document.getElementById(key);
+                if (element && (element.type === 'text' || element.type === 'textarea' || element.tagName === 'SELECT')) {
+                    element.value = canvasData[key];
+                }
+            }
+            
+            // Cargar datos de checkbox agrupados por nombre
+            for (const key in canvasData) {
+                if (Array.isArray(canvasData[key])) {
+                    // Es un grupo de checkbox
+                    canvasData[key].forEach(value => {
+                        const checkbox = document.querySelector(`input[name="${key}"][value="${value}"]`);
+                        if (checkbox) {
+                            checkbox.checked = true;
+                        }
+                    });
+                }
+            }
+            
+            // Cargar datos de radio buttons - CORRECCIÓN APLICADA
+            for (const key in canvasData) {
+                if (typeof canvasData[key] === 'string') {
+                    // Buscar radio buttons por name y value
+                    const radio = document.querySelector(`input[name="${key}"][value="${canvasData[key]}"]`);
+                    if (radio) {
+                        radio.checked = true;
+                    }
+                    
+                    // También intentar buscar por ID directo (para compatibilidad)
+                    const elementById = document.getElementById(key);
+                    if (elementById && elementById.type === 'radio') {
+                        elementById.checked = true;
+                    }
+                }
+            }
+            
+            // Cargar nivel de riesgo
+            if (canvasData.nivelRiesgo) {
+                document.querySelectorAll('.risk-level').forEach(level => {
+                    if (level.getAttribute('data-level') === canvasData.nivelRiesgo) {
+                        level.classList.add('selected');
+                    }
+                });
+            }
+        }
+        
+        // Función para cargar un ejemplo de canvas
+        function cargarEjemplo() {
+            const ejemploCanvas = {
+                titulo: "Sistema de clasificación automática de solicitudes ciudadanas",
+                entidad: "Secretaría de Gobierno - Dirección de Atención al Ciudadano",
+                sponsor: "María González, Directora de Atención al Ciudadano, mgonzalez@entidad.gov.co",
+                responsable: "Carlos López, Jefe de Desarrollo, clopez@entidad.gov.co",
+                fecha: "15/10/2023 - v1.0",
+                problema: "Actualmente, el proceso de clasificación manual de PQRS (Peticiones, Quejas, Reclamos y Sugerencias) consume aproximadamente 40 horas semanales de trabajo administrativo y presenta un índice de error del 15% en la categorización, lo que genera retrasos en la atención y respuestas incorrectas a los ciudadanos.",
+                servicio: "Proceso de recepción y clasificación de PQRS",
+                proposito: "Clasificar automáticamente las solicitudes ciudadanas en categorías predefinidas para optimizar su distribución a las áreas responsables",
+                tipo: "clasificacion",
+                resultados: "Reducción del 40% en tiempo de clasificación, aumento del 25% en precisión de categorización, reducción del 30% en tiempo de respuesta a ciudadanos",
+                usuarios: "Funcionarios de atención al ciudadano, ciudadanos",
+                perfil: "Funcionarios con nivel básico de alfabetización digital, ciudadanos con diversos niveles de acceso y competencia tecnológica",
+                propietario: "Dirección de Sistemas - Base de datos de PQRS",
+                stakeholders: "Ciudadanos, funcionarios de atención al ciudadano, áreas responsables de atender las solicitudes, Defensoría del Pueblo",
+                rolesGobernanza: ["dpo", "tic", "juridica", "comite"],
+                fuentes: "Base de datos histórica de PQRS (interna), datos abiertos de la entidad (pública)",
+                categoriasDatos: ["personales", "publicos"],
+                volumen: "50,000 registros históricos, actualización mensual con aproximadamente 2,000 nuevas solicitudes",
+                calidad: "Datos históricos con buena calidad en general, aunque con algunas inconsistencias en categorización manual que requerirán limpieza",
+                privacidad: "Incluye datos personales básicos (nombre, identificación, contacto) pero no datos sensibles",
+                baseServicio: "Ley 1755 de 2015 - Derecho de Petición, Ley 1437 de 2011 - Código de Procedimiento Administrativo",
+                baseLegal: ["consentimiento", "funcion"],
+                normativa: "Ley 1581 de 2012 - Protección de datos personales, Decreto 1074 de 2015 - Sector TIC",
+                evaluacionLegal: "El sistema cumple con los requisitos legales para el tratamiento de datos personales en el marco de la función pública",
+                criteriosClasificacion: ["derechos", "servicios", "decisiones"],
+                nivelRiesgo: "limitado",
+                justificacion: "El sistema clasifica solicitudes pero no toma decisiones finales que afecten directamente derechos fundamentales. Existe supervisión humana en el proceso.",
+                riesgosEticos: "Posible sesgo en la clasificación que podría afectar a grupos vulnerables",
+                riesgosPrivacidad: "Re-identificación de datos anonimizados, uso no autorizado de información personal",
+                riesgosSeguridad: "Ataques de envenenamiento de datos, manipulación de clasificaciones",
+                riesgosEquidad: "Sesgo histórico perpetuado en los datos de entrenamiento",
+                riesgosOperativos: "Dependencia de proveedor externo para mantenimiento del modelo",
+                riesgosReputacionales: "Pérdida de confianza ciudadana por clasificaciones erróneas",
+                mitigaciones: "Auditorías periódicas de equidad, validación humana de clasificaciones críticas, transparencia en el funcionamiento",
+                kpiTecnicos: "Precisión > 90%, Tiempo de respuesta < 2 segundos, Disponibilidad > 99%",
+                kpiImpacto: "Reducción del 40% en tiempo de clasificación, Aumento del 25% en satisfacción ciudadana",
+                kpiCumplimiento: "100% de revisiones de equidad trimestrales, 0 incidentes de seguridad reportados",
+                lineaBase: "Clasificación manual con 85% de precisión, tiempo promedio de clasificación: 5 minutos por solicitud",
+                metas: "6 meses: 80% de precisión, 12 meses: 90% de precisión con reducción del 30% en tiempo de respuesta",
+                estrategia: "piloto",
+                alcance: "Fase piloto: 2 áreas de la entidad, Escalamiento: todas las áreas en 6 meses",
+                capacitacion: "Capacitación a funcionarios en uso del sistema, guías para ciudadanos sobre el proceso",
+                comunicacion: "Comunicado oficial sobre implementación, sesiones informativas para ciudadanos",
+                cronograma: "Mes 1-2: Desarrollo, Mes 3: Pruebas piloto, Mes 4-6: Implementación gradual",
+                controles: "Monitoreo continuo de precisión, auditorías de equidad trimestrales, revisiones de seguridad",
+                frecuencia: "Trimestral para auditorías de equidad, Semestral para revisiones de seguridad",
+                protocolo: "Escalamiento inmediato a supervisor en caso de clasificación dudosa, notificación a DPO en caso de incidente de privacidad",
+                canales: "Línea de atención al ciudadano, correo electrónico, formulario web",
+                criterios: "Precisión inferior al 70%, incidentes de seguridad graves, cambios regulatorios que impidan su uso",
+                planDatos: "Eliminación segura de datos personales, conservación de datos anonimizados para análisis",
+                planTransicion: "Retorno gradual al proceso manual, capacitación de personal para transición",
+                tecnica: "tecnicaViable",
+                juridica: "juridicaConforme",
+                dpo: "dpoAprobado",
+                planeacion: "planeacionDisponibles",
+                comite: "comiteAprobado",
+                firma: "Dr. Roberto Silva, Presidente Comité de IA - 15/10/2023"
+            };
+            
+            cargarDatosCanvas(ejemploCanvas);
+            alert('Ejemplo de canvas cargado exitosamente.');
+            
+        }
+        
+        // Función para limpiar el formulario
+        function limpiarFormulario() {
+            document.querySelectorAll('input, textarea, select').forEach(element => {
+                if (element.type === 'checkbox' || element.type === 'radio') {
+                    element.checked = false;
+                } else {
+                    element.value = '';
+                }
+            });
+            
+            document.querySelectorAll('.risk-level').forEach(level => {
+                level.classList.remove('selected');
+            });           
+        }
+        
+        // Función para imprimir el formulario
+        function imprimirFormulario() {
+            // Crear una ventana de impresión
+            const ventanaImpresion = window.open('', '_blank');
+            ventanaImpresion.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>AI Use-Case Canvas - Impresión</title>
+                    <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            margin: 0;
+                            padding: 15px;
+                            font-size: 12px;
+                            color: #000;
+                            line-height: 1.4;
+                        }
+                        .header {
+                            text-align: center;
+                            margin-bottom: 20px;
+                            border-bottom: 2px solid #1a237e;
+                            padding-bottom: 10px;
+                        }
+                        .header h1 {
+                            color: #1a237e;
+                            margin: 0 0 5px 0;
+                            font-size: 20px;
+                        }
+                        .header p {
+                            margin: 0;
+                            font-size: 12px;
+                        }
+                        .canvas-grid {
+                            display: grid;
+                            grid-template-columns: 1fr;
+                            gap: 10px;
+                        }
+                        .section-card {
+                            border: 1px solid #ccc;
+                            border-radius: 5px;
+                            padding: 10px;
+                            margin-bottom: 10px;
+                            page-break-inside: avoid;
+                        }
+                        .section-header {
+                            display: flex;
+                            align-items: center;
+                            margin-bottom: 8px;
+                            padding-bottom: 5px;
+                            border-bottom: 1px solid #e0e0e0;
+                        }
+                        .section-title {
+                            font-weight: bold;
+                            color: #1a237e;
+                            font-size: 13px;
+                        }
+                        .form-group {
+                            margin-bottom: 8px;
+                        }
+                        .form-group label {
+                            display: block;
+                            font-weight: bold;
+                            color: #1a237e;
+                            margin-bottom: 3px;
+                            font-size: 11px;
+                        }
+                        .form-group input, .form-group textarea, .form-group select {
+                            width: 100%;
+                            border: 1px solid #999;
+                            padding: 4px 6px;
+                            font-size: 11px;
+                            background: white;
+                        }
+                        .form-group textarea {
+                            min-height: 50px;
+                        }
+                        .checkbox-group {
+                            display: flex;
+                            flex-wrap: wrap;
+                            gap: 5px;
+                            margin-top: 3px;
+                        }
+                        .checkbox-item {
+                            display: flex;
+                            align-items: center;
+                            gap: 3px;
+                            font-size: 10px;
+                        }
+                        .risk-levels {
+                            display: flex;
+                            gap: 5px;
+                            margin-top: 3px;
+                        }
+                        .risk-level {
+                            padding: 2px 5px;
+                            border-radius: 3px;
+                            font-size: 9px;
+                            font-weight: bold;
+                        }
+                        .risk-level.inaceptable { background-color: #f44336; color: white; }
+                        .risk-level.alto { background-color: #ff9800; color: white; }
+                        .risk-level.limitado { background-color: #ffc107; color: black; }
+                        .risk-level.minimo { background-color: #4caf50; color: white; }
+                        .risk-level.selected {
+                            transform: scale(1.05);
+                            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+                        }
+                        .approval-section {
+                            background: #f9f9f9;
+                            border-radius: 5px;
+                            padding: 8px;
+                            margin-top: 5px;
+                        }
+                        .approval-item {
+                            margin-bottom: 8px;
+                            padding-bottom: 8px;
+                            border-bottom: 1px solid #e0e0e0;
+                        }
+                        .approval-item:last-child {
+                            margin-bottom: 0;
+                            padding-bottom: 0;
+                            border-bottom: none;
+                        }
+                        .approval-title {
+                            font-weight: bold;
+                            color: #1a237e;
+                            margin-bottom: 3px;
+                            font-size: 11px;
+                        }
+                        @media print {
+                            body {
+                                padding: 10px;
+                            }
+                            .section-card {
+                                page-break-inside: avoid;
+                            }
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="header">
+                        <h1>📋 AI Use-Case Canvas</h1>
+                        <p>Estructurar y documentar la propuesta de caso de uso en la fase inicial (Intake)</p>
+                    </div>
+                    <div class="canvas-grid">
+            `);
+            
+            // Obtener todos los datos del formulario
+            const canvasData = recopilarDatosCanvas();
+            
+            // Mapeo de valores a labels humanos
+            const labelMappings = {
+                // Roles de gobernanza
+                'dpo': 'DPO',
+                'tic': 'TIC/Seguridad',
+                'juridica': 'Jurídica',
+                'comite': 'Comité de IA',
+                
+                // Categorías de datos
+                'personales': 'Personales',
+                'sensibles': 'Sensibles',
+                'publicos': 'Públicos',
+                
+                // Base legal
+                'consentimiento': 'Consentimiento',
+                'contrato': 'Ejecución de contrato',
+                'cumplimiento': 'Cumplimiento legal',
+                'interes': 'Interés legítimo',
+                'funcion': 'Función pública',
+                
+                // Criterios de clasificación
+                'derechos': 'Afecta derechos fundamentales',
+                'servicios': 'Servicios esenciales',
+                'decisiones': 'Decisiones sobre personas',
+                'biometria': 'Biometría',
+                
+                // Estrategia de implementación
+                'piloto': 'Piloto',
+                'gradual': 'Despliegue gradual',
+                'bigbang': 'Big bang',
+                
+                // Evaluación técnica
+                'tecnicaViable': 'Viable',
+                'tecnicaCondiciones': 'Viable con condiciones',
+                'tecnicaNo': 'No viable',
+                
+                // Evaluación jurídica
+                'juridicaConforme': 'Conforme',
+                'juridicaAjustes': 'Requiere ajustes',
+                'juridicaNo': 'No conforme',
+                
+                // Evaluación DPO
+                'dpoAprobado': 'Aprobado',
+                'dpoDpia': 'Requiere DPIA',
+                'dpoNo': 'No aprobado',
+                
+                // Evaluación presupuestal
+                'planeacionDisponibles': 'Recursos disponibles',
+                'planeacionGestion': 'Requiere gestión',
+                'planeacionNo': 'No viable',
+                
+                // Decisión del comité
+                'comiteAprobado': 'Aprobado para proceder a Fase 2',
+                'comiteCondiciones': 'Aprobado con condiciones',
+                'comiteRechazado': 'Rechazado',
+                'comiteInfo': 'Requiere más información',
+                
+                // Tipo de sistema de IA
+                'clasificacion': 'Clasificación',
+                'regresion': 'Regresión',
+                'generacion': 'Generación de lenguaje',
+                'recomendacion': 'Recomendación',
+                'vision': 'Visión por computadora',
+                'procesamiento': 'Procesamiento de lenguaje natural',
+                'otros': 'Otros'
+            };
+            
+            // Función para obtener label humano
+            function getHumanLabel(value) {
+                return labelMappings[value] || value;
+            }
+            
+            // Construir el contenido para impresión
+            let contenidoImpresion = '';
+            
+            // Sección 1: Identificación del Caso de Uso
+            contenidoImpresion += `
+                <div class="section-card">
+                    <div class="section-header">
+                        <div class="section-title">Sección 1: Identificación del Caso de Uso</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Título descriptivo del caso de uso</label>
+                        <div>${canvasData.titulo || ''}</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Entidad y unidad organizacional responsable</label>
+                        <div>${canvasData.entidad || ''}</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Sponsor de Negocio (nombre, cargo, contacto)</label>
+                        <div>${canvasData.sponsor || ''}</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Responsable Técnico (nombre, cargo, contacto)</label>
+                        <div>${canvasData.responsable || ''}</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Fecha de elaboración y versión</label>
+                        <div>${canvasData.fecha || ''}</div>
+                    </div>
+                </div>
+            `;
+            
+            // Sección 2: Contexto y Propósito
+            contenidoImpresion += `
+                <div class="section-card">
+                    <div class="section-header">
+                        <div class="section-title">Sección 2: Contexto y Propósito</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Descripción del problema o necesidad</label>
+                        <div>${canvasData.problema || ''}</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Servicio, trámite o proceso al que aplica</label>
+                        <div>${canvasData.servicio || ''}</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Propósito específico del sistema de IA</label>
+                        <div>${canvasData.proposito || ''}</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Tipo de sistema de IA</label>
+                        <div>${getHumanLabel(canvasData.tipo) || ''}</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Resultados esperados</label>
+                        <div>${canvasData.resultados || ''}</div>
+                    </div>
+                </div>
+            `;
+            
+            // Sección 3: Actores Involucrados
+            contenidoImpresion += `
+                <div class="section-card">
+                    <div class="section-header">
+                        <div class="section-title">Sección 3: Actores Involucrados</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Usuarios finales del sistema</label>
+                        <div>${canvasData.usuarios || ''}</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Perfil de usuarios</label>
+                        <div>${canvasData.perfil || ''}</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Propietario de Datos</label>
+                        <div>${canvasData.propietario || ''}</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Stakeholders afectados</label>
+                        <div>${canvasData.stakeholders || ''}</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Roles de gobernanza involucrados</label>
+                        <div class="checkbox-group">
+                            ${canvasData.rolesGobernanza && canvasData.rolesGobernanza.length > 0 ? 
+                                canvasData.rolesGobernanza.map(rol => 
+                                    `<div class="checkbox-item">✓ ${getHumanLabel(rol)}</div>`
+                                ).join('') : 
+                                '<div>No seleccionado</div>'
+                            }
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Sección 4: Datos Requeridos
+            contenidoImpresion += `
+                <div class="section-card">
+                    <div class="section-header">
+                        <div class="section-title">Sección 4: Datos Requeridos</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Fuentes de datos</label>
+                        <div>${canvasData.fuentes || ''}</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Categorías de datos</label>
+                        <div class="checkbox-group">
+                            ${canvasData.categoriasDatos && canvasData.categoriasDatos.length > 0 ? 
+                                canvasData.categoriasDatos.map(cat => 
+                                    `<div class="checkbox-item">✓ ${getHumanLabel(cat)}</div>`
+                                ).join('') : 
+                                '<div>No seleccionado</div>'
+                            }
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Volumen estimado de datos</label>
+                        <div>${canvasData.volumen || ''}</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Evaluación preliminar de calidad</label>
+                        <div>${canvasData.calidad || ''}</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Evaluación preliminar de privacidad</label>
+                        <div>${canvasData.privacidad || ''}</div>
+                    </div>
+                </div>
+            `;
+            
+            // Sección 5: Revisión Legal y Bases Jurídicas
+            contenidoImpresion += `
+                <div class="section-card">
+                    <div class="section-header">
+                        <div class="section-title">Sección 5: Revisión Legal y Bases Jurídicas</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Base legal para la prestación del servicio público</label>
+                        <div>${canvasData.baseServicio || ''}</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Base legal para tratamiento de datos personales</label>
+                        <div class="checkbox-group">
+                            ${canvasData.baseLegal && canvasData.baseLegal.length > 0 ? 
+                                canvasData.baseLegal.map(base => 
+                                    `<div class="checkbox-item">✓ ${getHumanLabel(base)}</div>`
+                                ).join('') : 
+                                '<div>No seleccionado</div>'
+                            }
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Normativa específica aplicable</label>
+                        <div>${canvasData.normativa || ''}</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Evaluación preliminar de conformidad legal</label>
+                        <div>${canvasData.evaluacionLegal || ''}</div>
+                    </div>
+                </div>
+            `;
+            
+            // Sección 6: Clasificación Preliminar de Riesgo
+            contenidoImpresion += `
+                <div class="section-card">
+                    <div class="section-header">
+                        <div class="section-title">Sección 6: Clasificación Preliminar de Riesgo</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Aplicación de criterios de clasificación (AI Act)</label>
+                        <div class="checkbox-group">
+                            ${canvasData.criteriosClasificacion && canvasData.criteriosClasificacion.length > 0 ? 
+                                canvasData.criteriosClasificacion.map(criterio => 
+                                    `<div class="checkbox-item">✓ ${getHumanLabel(criterio)}</div>`
+                                ).join('') : 
+                                '<div>No seleccionado</div>'
+                            }
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Clasificación preliminar</label>
+                        <div class="risk-levels">
+                            <div class="risk-level ${canvasData.nivelRiesgo === 'inaceptable' ? 'inaceptable selected' : 'inaceptable'}">Inaceptable</div>
+                            <div class="risk-level ${canvasData.nivelRiesgo === 'alto' ? 'alto selected' : 'alto'}">Alto</div>
+                            <div class="risk-level ${canvasData.nivelRiesgo === 'limitado' ? 'limitado selected' : 'limitado'}">Limitado</div>
+                            <div class="risk-level ${canvasData.nivelRiesgo === 'minimo' ? 'minimo selected' : 'minimo'}">Mínimo</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Justificación de la clasificación</label>
+                        <div>${canvasData.justificacion || ''}</div>
+                    </div>
+                </div>
+            `;
+            
+            // Sección 7: Identificación Preliminar de Riesgos
+            contenidoImpresion += `
+                <div class="section-card">
+                    <div class="section-header">
+                        <div class="section-title">Sección 7: Identificación Preliminar de Riesgos</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Riesgos éticos</label>
+                        <div>${canvasData.riesgosEticos || ''}</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Riesgos de privacidad</label>
+                        <div>${canvasData.riesgosPrivacidad || ''}</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Riesgos de seguridad</label>
+                        <div>${canvasData.riesgosSeguridad || ''}</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Riesgos de equidad</label>
+                        <div>${canvasData.riesgosEquidad || ''}</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Riesgos operativos</label>
+                        <div>${canvasData.riesgosOperativos || ''}</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Riesgos reputacionales</label>
+                        <div>${canvasData.riesgosReputacionales || ''}</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Mitigaciones preliminares identificadas</label>
+                        <div>${canvasData.mitigaciones || ''}</div>
+                    </div>
+                </div>
+            `;
+            
+            // Sección 8: Métricas de Éxito e Indicadores de Impacto
+            contenidoImpresion += `
+                <div class="section-card">
+                    <div class="section-header">
+                        <div class="section-title">Sección 8: Métricas de Éxito e Indicadores de Impacto</div>
+                    </div>
+                    <div class="form-group">
+                        <label>KPIs de desempeño técnico</label>
+                        <div>${canvasData.kpiTecnicos || ''}</div>
+                    </div>
+                    <div class="form-group">
+                        <label>KPIs de impacto en servicio</label>
+                        <div>${canvasData.kpiImpacto || ''}</div>
+                    </div>
+                    <div class="form-group">
+                        <label>KPIs de cumplimiento</label>
+                        <div>${canvasData.kpiCumplimiento || ''}</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Línea base actual</label>
+                        <div>${canvasData.lineaBase || ''}</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Metas cuantificables a 6 y 12 meses</label>
+                        <div>${canvasData.metas || ''}</div>
+                    </div>
+                </div>
+            `;
+            
+            // Sección 9: Plan de Despliegue, Formación y Comunicación
+            contenidoImpresion += `
+                <div class="section-card">
+                    <div class="section-header">
+                        <div class="section-title">Sección 9: Plan de Despliegue, Formación y Comunicación</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Estrategia de implementación</label>
+                        <div>${getHumanLabel(canvasData.estrategia) || 'No seleccionado'}</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Alcance inicial y escalamiento planificado</label>
+                        <div>${canvasData.alcance || ''}</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Necesidades de capacitación identificadas</label>
+                        <div>${canvasData.capacitacion || ''}</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Plan de comunicación y divulgación ciudadana</label>
+                        <div>${canvasData.comunicacion || ''}</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Cronograma estimado de implementación</label>
+                        <div>${canvasData.cronograma || ''}</div>
+                    </div>
+                </div>
+            `;
+            
+            // Sección 10: Monitoreo, Auditoría y Respuesta a Incidentes
+            contenidoImpresion += `
+                <div class="section-card">
+                    <div class="section-header">
+                        <div class="section-title">Sección 10: Monitoreo, Auditoría y Respuesta a Incidentes</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Controles de monitoreo continuo propuestos</label>
+                        <div>${canvasData.controles || ''}</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Frecuencia de revisiones y auditorías</label>
+                        <div>${canvasData.frecuencia || ''}</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Protocolo de respuesta a incidentes</label>
+                        <div>${canvasData.protocolo || ''}</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Canales de reclamación ciudadana</label>
+                        <div>${canvasData.canales || ''}</div>
+                    </div>
+                </div>
+            `;
+            
+            // Sección 11: Criterios y Plan de Fin de Vida
+            contenidoImpresion += `
+                <div class="section-card">
+                    <div class="section-header">
+                        <div class="section-title">Sección 11: Criterios y Plan de Fin de Vida</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Condiciones que activarían el retiro del sistema</label>
+                        <div>${canvasData.criterios || ''}</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Plan preliminar de gestión de datos al final de vida</label>
+                        <div>${canvasData.planDatos || ''}</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Plan de transición a alternativas</label>
+                        <div>${canvasData.planTransicion || ''}</div>
+                    </div>
+                </div>
+            `;
+            
+            // Sección 12: Aprobaciones y Decisión
+            contenidoImpresion += `
+                <div class="section-card">
+                    <div class="section-header">
+                        <div class="section-title">Sección 12: Aprobaciones y Decisión</div>
+                    </div>
+                    <div class="approval-section">
+                        <div class="approval-item">
+                            <div class="approval-title">Evaluación de viabilidad por Responsable Técnico</div>
+                            <div>${getHumanLabel(canvasData.tecnica) || 'No seleccionado'}</div>
+                        </div>
+                        <div class="approval-item">
+                            <div class="approval-title">Evaluación de conformidad legal por Jurídica</div>
+                            <div>${getHumanLabel(canvasData.juridica) || 'No seleccionado'}</div>
+                        </div>
+                        <div class="approval-item">
+                            <div class="approval-title">Evaluación de privacidad por DPO</div>
+                            <div>${getHumanLabel(canvasData.dpo) || 'No seleccionado'}</div>
+                        </div>
+                        <div class="approval-item">
+                            <div class="approval-title">Evaluación presupuestal por Planeación</div>
+                            <div>${getHumanLabel(canvasData.planeacion) || 'No seleccionado'}</div>
+                        </div>
+                        <div class="approval-item">
+                            <div class="approval-title">Decisión del Comité de IA</div>
+                            <div>${getHumanLabel(canvasData.comite) || 'No seleccionado'}</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Firma del Presidente del Comité y fecha</label>
+                            <div>${canvasData.firma || ''}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            ventanaImpresion.document.write(contenidoImpresion);
+            ventanaImpresion.document.write('</div></body></html>');
+            ventanaImpresion.document.close();
+            
+            // Esperar a que se cargue el contenido y luego imprimir
+            ventanaImpresion.onload = function() {
+                ventanaImpresion.print();
+                // Cerrar la ventana después de imprimir
+                ventanaImpresion.onafterprint = function() {
+                    ventanaImpresion.close();
+                };
+            };
+        }
+        
+        // Función para procesar parámetros de URL
+        function getUrlParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+        
+        // Ejecutar al cargar la página
+        window.addEventListener('DOMContentLoaded', function() {
+            // Aquí se podría cargar datos preexistentes si se está editando un canvas
+            const canvasId = getUrlParameter('id');
+            if (canvasId) {
+                console.log('Cargando canvas con ID:', canvasId);
+                // En una implementación real, se cargarían los datos desde el servidor
+            }
+        });
+    </script>
+</body>
+</html>
