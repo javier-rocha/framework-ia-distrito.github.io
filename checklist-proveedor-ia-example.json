@@ -1,0 +1,83 @@
+{
+  "proveedor": "TechAI Solutions",
+  "casoUso": "Sistema de clasificación automática de solicitudes ciudadanas",
+  "nivelRiesgo": "alto",
+  "checklistAplicado": "estandar",
+  "puntuaciones": {
+    "1.1": 2,
+    "1.2": 1,
+    "1.3": 2,
+    "1.4": 1,
+    "2.1": 2,
+    "2.2": 1,
+    "2.3": 2,
+    "3.1": 2,
+    "3.2": 2,
+    "3.3": 1,
+    "3.4": 2,
+    "4.1": 2,
+    "4.2": 1,
+    "4.3": 2,
+    "5.1": 2,
+    "5.2": 2,
+    "6.1": 2,
+    "6.2": 1,
+    "6.3": 2
+  },
+  "evidencias": {
+    "1.1": "Política de privacidad en sitio web",
+    "1.2": "Borrador de política de IA ética",
+    "1.3": "Certificación ISO/IEC 42001",
+    "1.4": "Proceso documentado en manual",
+    "2.1": "Model Card completo",
+    "2.2": "Data Sheet básico",
+    "2.3": "Documentación técnica detallada",
+    "3.1": "Cláusula contractual clara",
+    "3.2": "DPA alineado con Ley 1581",
+    "3.3": "Procedimientos establecidos",
+    "3.4": "Políticas específicas",
+    "4.1": "Certificación ISO 27001",
+    "4.2": "Reporte de pruebas",
+    "4.3": "Protocolo completo",
+    "5.1": "Cláusula de auditoría",
+    "5.2": "Sistema de logs",
+    "6.1": "SLA con métricas",
+    "6.2": "Soporte estándar",
+    "6.3": "Roadmap detallado"
+  },
+  "proveedorFinal": "TechAI Solutions",
+  "casoUsoFinal": "Sistema de clasificación automática de solicitudes ciudadanas",
+  "nivelRiesgoFinal": "alto",
+  "checklistAplicadoFinal": "estandar",
+  "criteriosMandatorios": [
+    {
+      "id": "1.1",
+      "cumplido": true
+    },
+    {
+      "id": "3.2",
+      "cumplido": true
+    },
+    {
+      "id": "4.1",
+      "cumplido": true
+    },
+    {
+      "id": "6.1",
+      "cumplido": true
+    }
+  ],
+  "resultadoMandatorios": "cumple",
+  "dictamenFinal": "recomendado",
+  "observaciones": "El proveedor cumple con todos los criterios mandatorios y obtiene una puntuación superior a 8.0. Se recomienda su selección.",
+  "evaluadores": {
+    "responsableTecnico": "Ing. Carlos López",
+    "fechaTecnico": "15/10/2023",
+    "dpoJuridica": "Dra. Ana Martínez",
+    "fechaDpo": "15/10/2023",
+    "comiteIa": "Dr. Roberto Silva",
+    "fechaComite": "16/10/2023"
+  },
+  "fechaExportacion": "2025-11-17T02:54:33.712Z",
+  "versionChecklist": "2.0"
+}

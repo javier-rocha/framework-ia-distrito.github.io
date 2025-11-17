@@ -26,7 +26,7 @@
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             overflow: hidden;
             display: grid;
-            grid-template-columns: 280px 1fr;
+            grid-template-columns: 350px 1fr;
         }
         
         .header {
@@ -104,7 +104,7 @@
         
         .nav-item {
             display: block;
-            padding: 10px 15px;
+            padding: 5px 5px;
             margin-bottom: 5px;
             background: white;
             border-radius: 6px;
@@ -130,8 +130,8 @@
         .json-panel {
             background: #fff3e0;
             border-radius: 8px;
-            padding: 15px;
-            margin-top: 20px;
+            padding: 10px;
+            margin-top: 10px;
             border: 1px solid #ffb74d;
         }
         
@@ -152,7 +152,7 @@
         }
         
         .json-btn {
-            padding: 8px 12px;
+            padding: 5px 5px;
             border: none;
             border-radius: 4px;
             font-size: 13px;
@@ -184,7 +184,7 @@
         .content {
             padding: 30px;
             overflow-y: auto;
-            max-height: calc(100vh - 200px);
+            max-height: calc(100vh - 170px);
         }
         
         .canvas-grid {
@@ -325,6 +325,7 @@
         .risk-level.selected {
             transform: scale(1.05);
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            border: 2px solid #333;
         }
         
         .approval-section {
@@ -527,8 +528,6 @@
         </div>
         
         <div class="sidebar">
-            <div class="sidebar-title">Navegación Rápida</div>
-            
             <div class="nav-section">
                 <div class="nav-section-title">📋 Secciones del Canvas</div>
                 <a href="#seccion1" class="nav-item active">1. Identificación del Caso de Uso</a>
