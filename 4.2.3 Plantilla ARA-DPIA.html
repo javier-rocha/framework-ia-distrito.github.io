@@ -1,0 +1,2130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario ARA/DPIA - Evaluación de Riesgos Algorítmicos</title>
+    <style>
+        :root {
+            --primary-color: #1a237e;
+            --secondary-color: #283593;
+            --accent-color: #1976D2;
+            --success-color: #4caf50;
+            --warning-color: #ff9800;
+            --danger-color: #f44336;
+            --light-bg: #f5f7fa;
+            --card-bg: white;
+            --border-color: #e0e0e0;
+            --text-color: #333;
+            --text-light: #555;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+            color: var(--text-color);
+        }
+        
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 350px 1fr;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            grid-column: 1 / -1;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: var(--border-color);
+            color: var(--text-color);
+        }
+        
+        .back-button {
+            position: absolute;
+            left: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        
+        .sidebar {
+            background: var(--light-bg);
+            padding: 20px;
+            border-right: 1px solid var(--border-color);
+            overflow-y: auto;
+            max-height: calc(100vh - 200px);
+            position: sticky;
+            top: 0;
+        }
+        
+        .sidebar-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-color);
+        }
+        
+        .nav-section {
+            margin-bottom: 25px;
+        }
+        
+        .nav-section-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .nav-item {
+            display: block;
+            padding: 5px;
+            margin-bottom: 5px;
+            background: var(--card-bg);
+            border-radius: 6px;
+            text-decoration: none;
+            color: var(--text-color);
+            font-size: 14px;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+        
+        .nav-item:hover, .nav-item.active {
+            background: #e3f2fd;
+            border-left-color: var(--accent-color);
+        }
+        
+        .nav-item.active {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .panel {
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+        
+        .json-panel {
+            background: #fff3e0;
+            border: 1px solid #ffb74d;
+        }
+        
+        .json-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #e65100;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .json-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .json-btn {
+            padding: 5px;
+            border: none;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .json-btn.import { background: var(--success-color); color: white; }
+        .json-btn.export { background: var(--accent-color); color: white; }
+        .json-btn.print { background: var(--warning-color); color: white; }
+        
+        .json-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        .content {
+            padding: 30px;
+            overflow-y: auto;
+            max-height: calc(100vh - 170px);
+        }
+        
+        .section-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            border: 3px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        
+        .section-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), #64B5F6);
+        }
+        
+        .section-card:nth-child(2)::before { background: linear-gradient(90deg, #388E3C, #66BB6A); }
+        .section-card:nth-child(3)::before { background: linear-gradient(90deg, #D32F2F, #EF5350); }
+        .section-card:nth-child(4)::before { background: linear-gradient(90deg, #7B1FA2, #AB47BC); }
+        .section-card:nth-child(5)::before { background: linear-gradient(90deg, #F57C00, #FFA726); }
+        .section-card:nth-child(6)::before { background: linear-gradient(90deg, #00897B, #26A69A); }
+        .section-card:nth-child(7)::before { background: linear-gradient(90deg, var(--accent-color), #64B5F6); }
+        .section-card:nth-child(8)::before { background: linear-gradient(90deg, #C62828, #EF5350); }
+        .section-card:nth-child(9)::before { background: linear-gradient(90deg, #388E3C, #66BB6A); }
+        .section-card:nth-child(10)::before { background: linear-gradient(90deg, #D32F2F, #EF5350); }
+        .section-card:nth-child(11)::before { background: linear-gradient(90deg, #7B1FA2, #AB47BC); }
+        .section-card:nth-child(12)::before { background: linear-gradient(90deg, #F57C00, #FFA726); }
+        
+        .section-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .section-icon {
+            font-size: 20px;
+            margin-right: 10px;
+        }
+        
+        .section-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .section-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+            position: relative;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+        
+        .helper-icon {
+            cursor: help;
+            margin-left: 5px;
+            font-size: 12px;
+            opacity: 0.7;
+        }
+        
+        .helper-text {
+            display: none;
+            position: absolute;
+            background: #333;
+            color: white;
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            z-index: 1000;
+            width: 300px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            top: 100%;
+            left: 0;
+        }
+        
+        .helper-icon:hover + .helper-text {
+            display: block;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 14px;
+        }
+        
+        textarea.form-control {
+            min-height: 80px;
+            resize: vertical;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 5px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 13px;
+        }
+        
+        .checkbox-item input {
+            width: auto;
+        }
+        
+        .risk-levels {
+            display: flex;
+            gap: 10px;
+            margin-top: 5px;
+        }
+        
+        .risk-level {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .risk-level.bajo { background-color: #C6EFCE; color: black; }
+        .risk-level.medio { background-color: #FFEB9C; color: black; }
+        .risk-level.alto { background-color: #FFC7CE; color: black; }
+        
+        .risk-level.selected {
+            transform: scale(1.05);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            border: 2px solid #333;
+        }
+        
+        .required-field {
+            background-color: #FFF2CC;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            margin-top: 10px;
+            position: relative;
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+        
+        .data-table th {
+            background-color: var(--light-bg);
+            padding: 10px;
+            text-align: left;
+            font-weight: bold;
+            color: var(--primary-color);
+            border: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+        }
+        
+        .data-table td {
+            padding: 8px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .data-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .data-table tr:hover {
+            background-color: #e3f2fd;
+        }
+        
+        .data-table input, .data-table textarea, .data-table select {
+            width: 100%;
+            padding: 6px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 12px;
+            box-sizing: border-box;
+        }
+        
+        .data-table textarea {
+            min-height: 60px;
+            resize: vertical;
+        }
+        
+        .table-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 10px;
+        }
+        
+        .table-btn {
+            padding: 5px 10px;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-left: 5px;
+        }
+        
+        .table-btn:hover {
+            background-color: var(--primary-color);
+        }
+        
+        .table-btn.remove {
+            background-color: var(--danger-color);
+        }
+        
+        .approval-section {
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+        
+        .approval-item {
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .approval-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .approval-title {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .risk-matrix-info {
+            background: #f0f8ff;
+            border: 1px solid #b3d9ff;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            font-size: 13px;
+        }
+        
+        .risk-matrix-info h4 {
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+        
+        .risk-matrix-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 12px;
+        }
+        
+        .risk-matrix-table th, .risk-matrix-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        
+        .risk-matrix-table th {
+            background-color: #e6f2ff;
+        }
+        
+        .risk-bajo { background-color: #C6EFCE; }
+        .risk-medio { background-color: #FFEB9C; }
+        .risk-alto { background-color: #FFC7CE; }
+        
+        @media (max-width: 1200px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                display: none;
+            }
+        }
+        
+        @media print {
+            body {
+                background: white !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            
+            .container {
+                max-width: 100% !important;
+                box-shadow: none !important;
+                border-radius: 0 !important;
+                grid-template-columns: 1fr !important;
+            }
+            
+            .header {
+                background: var(--primary-color) !important;
+                padding: 15px !important;
+                margin-bottom: 10px !important;
+            }
+            
+            .header h1 {
+                font-size: 24px !important;
+                margin-bottom: 5px !important;
+            }
+            
+            .header p {
+                font-size: 14px !important;
+            }
+            
+            .back-button, .sidebar, .json-panel, .actions, .table-actions {
+                display: none !important;
+            }
+            
+            .content {
+                padding: 10px !important;
+                max-height: none !important;
+                overflow: visible !important;
+            }
+            
+            .section-card {
+                page-break-inside: avoid;
+                border: 1px solid #ccc !important;
+                border-radius: 5px !important;
+                padding: 15px !important;
+                min-height: auto !important;
+                margin-bottom: 10px !important;
+                box-shadow: none !important;
+                transform: none !important;
+            }
+            
+            .section-card::before {
+                height: 3px !important;
+            }
+            
+            .section-header {
+                margin-bottom: 10px !important;
+                padding-bottom: 5px !important;
+            }
+            
+            .section-title {
+                font-size: 14px !important;
+            }
+            
+            .form-group {
+                margin-bottom: 10px !important;
+            }
+            
+            .form-group label {
+                font-size: 12px !important;
+            }
+            
+            .form-control {
+                padding: 5px 8px !important;
+                font-size: 12px !important;
+                border: 1px solid #999 !important;
+            }
+            
+            textarea.form-control {
+                min-height: 60px !important;
+            }
+            
+            .checkbox-group {
+                gap: 5px !important;
+            }
+            
+            .checkbox-item {
+                font-size: 11px !important;
+            }
+            
+            .risk-levels {
+                gap: 5px !important;
+            }
+            
+            .risk-level {
+                padding: 3px 6px !important;
+                font-size: 10px !important;
+            }
+            
+            .approval-section {
+                padding: 10px !important;
+            }
+            
+            .approval-item {
+                margin-bottom: 8px !important;
+                padding-bottom: 8px !important;
+            }
+            
+            .approval-title {
+                font-size: 12px !important;
+            }
+            
+            .data-table th, .data-table td {
+                padding: 5px !important;
+                font-size: 10px !important;
+            }
+            
+            .helper-icon, .helper-text, .risk-matrix-info {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="javascript:history.back()" class="btn back-button">← Atrás</a>
+            <h1>📋 Formulario ARA/DPIA</h1>
+            <p>Evaluación de Riesgos Algorítmicos / Data Protection Impact Assessment</p>
+        </div>
+        
+        <div class="sidebar">
+            <div class="nav-section">
+                <div class="nav-section-title">📋 Secciones del Formulario</div>
+                <a href="#seccion1" class="nav-item active">1. Información General</a>
+                <a href="#seccion2" class="nav-item">2. Descripción del Sistema y Alcance</a>
+                <a href="#seccion3" class="nav-item">3. Datos y Origen de la Información</a>
+                <a href="#seccion4" class="nav-item">4. Base Legal y Consentimiento</a>
+                <a href="#seccion5" class="nav-item">5. Evaluación de Impactos en Derechos</a>
+                <a href="#seccion6" class="nav-item">6. Matriz de Riesgos Algorítmicos</a>
+                <a href="#seccion7" class="nav-item">7. Medidas de Mitigación y Controles</a>
+                <a href="#seccion8" class="nav-item">8. Supervisión Humana</a>
+                <a href="#seccion9" class="nav-item">9. Monitoreo Continuo y KPIs</a>
+                <a href="#seccion10" class="nav-item">10. Comunicación y Transparencia</a>
+                <a href="#seccion11" class="nav-item">11. Auditoría y Actualizaciones</a>
+                <a href="#seccion12" class="nav-item">12. Aprobaciones y Decisión</a>
+            </div>
+            
+            <div class="panel json-panel">
+                <div class="json-title">📄 Gestión de Datos</div>
+                <div class="json-actions">
+                    <input type="file" id="jsonFileInput" accept=".json" style="display: none;">
+                    <button class="json-btn import" onclick="document.getElementById('jsonFileInput').click()">Importar desde JSON</button>
+                    <button class="json-btn export" onclick="exportarJSON()">Exportar a JSON</button>
+                    <button class="json-btn print" onclick="imprimirFormulario()">🖨️ Imprimir Formulario</button>
+                    <button class="json-btn" onclick="cargarEjemplo()" style="background: #9c27b0; color: white;">Cargar Ejemplo</button>
+                    <button class="json-btn" onclick="limpiarFormulario()" style="background: #f44336; color: white;">Limpiar Todo</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <!-- Sección 1: Información General -->
+            <div class="section-card" id="seccion1">
+                <div class="section-header">
+                    <div class="section-icon">📝</div>
+                    <div class="section-title">Sección 1: Información General</div>
+                </div>
+                <div class="section-content">
+                    <div class="form-group">
+                        <label for="entidad">
+                            Entidad
+                            <span class="helper-icon" title="Nombre completo de la entidad responsable del sistema de IA">ℹ️</span>
+                        </label>
+                        <input type="text" id="entidad" class="form-control required-field" placeholder="Nombre de entidad responsable">
+                    </div>
+                    <div class="form-group">
+                        <label for="unidad">
+                            Unidad responsable
+                            <span class="helper-icon" title="Dependencia o área que lidera la implementación y gestión del sistema">ℹ️</span>
+                        </label>
+                        <input type="text" id="unidad" class="form-control required-field" placeholder="Dependencia que lidera el sistema">
+                    </div>
+                    <div class="form-group">
+                        <label for="titulo">
+                            Título del sistema
+                            <span class="helper-icon" title="Nombre oficial del sistema de inteligencia artificial">ℹ️</span>
+                        </label>
+                        <input type="text" id="titulo" class="form-control required-field" placeholder="Nombre del sistema de IA">
+                    </div>
+                    <div class="form-group">
+                        <label for="responsable">
+                            Responsable ARA/DPIA
+                            <span class="helper-icon" title="Persona responsable de realizar la evaluación de riesgos algorítmicos">ℹ️</span>
+                        </label>
+                        <input type="text" id="responsable" class="form-control required-field" placeholder="Nombre y cargo">
+                    </div>
+                    <div class="form-group">
+                        <label for="responsableTecnico">
+                            Responsable técnico
+                            <span class="helper-icon" title="Persona responsable de los aspectos técnicos del sistema">ℹ️</span>
+                        </label>
+                        <input type="text" id="responsableTecnico" class="form-control required-field" placeholder="Nombre y rol">
+                    </div>
+                    <div class="form-group">
+                        <label for="fechaElaboracion">
+                            Fecha de elaboración
+                            <span class="helper-icon" title="Fecha en que se realiza esta evaluación">ℹ️</span>
+                        </label>
+                        <input type="date" id="fechaElaboracion" class="form-control required-field">
+                    </div>
+                    <div class="form-group">
+                        <label for="version">
+                            Versión
+                            <span class="helper-icon" title="Número de versión de este documento de evaluación">ℹ️</span>
+                        </label>
+                        <input type="text" id="version" class="form-control required-field" placeholder="Número de versión">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sección 2: Descripción del Sistema y Alcance -->
+            <div class="section-card" id="seccion2">
+                <div class="section-header">
+                    <div class="section-icon">🎯</div>
+                    <div class="section-title">Sección 2: Descripción del Sistema y Alcance</div>
+                </div>
+                <div class="section-content">
+                    <div class="form-group">
+                        <label for="descripcionTecnica">
+                            Descripción técnica del sistema
+                            <span class="helper-icon" title="Describa la arquitectura, componentes principales, tecnologías utilizadas, proveedor del sistema y cualquier aspecto técnico relevante">ℹ️</span>
+                        </label>
+                        <textarea id="descripcionTecnica" class="form-control required-field" placeholder="Arquitectura, componentes, proveedor..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="finalidad">
+                            Finalidad específica
+                            <span class="helper-icon" title="Objetivo principal del uso de IA, qué problema resuelve o qué proceso mejora">ℹ️</span>
+                        </label>
+                        <textarea id="finalidad" class="form-control required-field" placeholder="Objetivo del uso de IA"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="baseLegal">
+                            Base legal
+                            <span class="helper-icon" title="Normas, leyes o disposiciones que habilitan el uso del sistema de IA">ℹ️</span>
+                        </label>
+                        <input type="text" id="baseLegal" class="form-control required-field" placeholder="Normas habilitantes">
+                    </div>
+                    <div class="form-group">
+                        <label for="poblacion">
+                            Población objetivo
+                            <span class="helper-icon" title="Grupos de personas que serán afectados o interactuarán con el sistema">ℹ️</span>
+                        </label>
+                        <input type="text" id="poblacion" class="form-control required-field" placeholder="Grupos afectados">
+                    </div>
+                    <div class="form-group">
+                        <label for="casosPermitidos">
+                            Casos de uso permitidos
+                            <span class="helper-icon" title="Lista de situaciones o escenarios en los que está autorizado el uso del sistema">ℹ️</span>
+                        </label>
+                        <textarea id="casosPermitidos" class="form-control required-field" placeholder="Lista estructurada"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="casosNoPermitidos">
+                            Casos de uso no permitidos
+                            <span class="helper-icon" title="Situaciones o usos expresamente prohibidos para el sistema">ℹ️</span>
+                        </label>
+                        <textarea id="casosNoPermitidos" class="form-control required-field" placeholder="Riesgos por uso indebido"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="tipoDecisiones">
+                            Tipo de decisiones
+                            <span class="helper-icon" title="Nivel de autonomía del sistema en la toma de decisiones">ℹ️</span>
+                        </label>
+                        <select id="tipoDecisiones" class="form-control required-field">
+                            <option value="">Seleccione una opción</option>
+                            <option value="info">Información</option>
+                            <option value="recomendacion">Recomendación</option>
+                            <option value="decision">Decisión automatizada</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="contextoUso">
+                            Contexto de uso
+                            <span class="helper-icon" title="Descripción del entorno operativo, canales de interacción, horarios y volumen estimado de uso">ℹ️</span>
+                        </label>
+                        <textarea id="contextoUso" class="form-control" placeholder="Canales, horarios, volumen estimado"></textarea>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sección 3: Datos y Origen de la Información -->
+            <div class="section-card" id="seccion3">
+                <div class="section-header">
+                    <div class="section-icon">📊</div>
+                    <div class="section-title">Sección 3: Datos y Origen de la Información</div>
+                </div>
+                <div class="section-content">
+                    <div class="form-group">
+                        <label>Tabla de Mapeo de Datos</label>
+                        <div class="table-actions">
+                            <button class="table-btn" onclick="agregarFila('tablaMapeoDatos')">+ Agregar Fila</button>
+                        </div>
+                        <div class="table-container">
+                            <table class="data-table" id="tablaMapeoDatos">
+                                <thead>
+                                    <tr>
+                                        <th>Categoría</th>
+                                        <th>Tipo de dato</th>
+                                        <th>Fuente</th>
+                                        <th>Dato personal</th>
+                                        <th>Base de licitud</th>
+                                        <th>Finalidad</th>
+                                        <th>Técnicas</th>
+                                        <th>Sesgos</th>
+                                        <th>Observaciones</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <select>
+                                                <option value="">Seleccione</option>
+                                                <option value="identificacion">Identificación</option>
+                                                <option value="contacto">Contacto</option>
+                                                <option value="demografico">Demográfico</option>
+                                                <option value="comportamiento">Comportamiento</option>
+                                                <option value="transaccional">Transaccional</option>
+                                                <option value="biometrico">Biométrico</option>
+                                                <option value="ubicacion">Ubicación</option>
+                                                <option value="preferencias">Preferencias</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select>
+                                                <option value="">Seleccione</option>
+                                                <option value="texto">Texto</option>
+                                                <option value="numero">Número</option>
+                                                <option value="fecha">Fecha</option>
+                                                <option value="booleano">Booleano</option>
+                                                <option value="categorico">Categórico</option>
+                                                <option value="imagen">Imagen</option>
+                                                <option value="audio">Audio</option>
+                                                <option value="video">Video</option>
+                                            </select>
+                                        </td>
+                                        <td><input type="text" placeholder="Fuente"></td>
+                                        <td>
+                                            <select>
+                                                <option value="">Seleccione</option>
+                                                <option value="si">Sí</option>
+                                                <option value="no">No</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select>
+                                                <option value="">Seleccione</option>
+                                                <option value="consentimiento">Consentimiento</option>
+                                                <option value="interes">Interés público</option>
+                                                <option value="obligacion">Obligación legal</option>
+                                                <option value="contrato">Contrato</option>
+                                                <option value="vital">Interés vital</option>
+                                                <option value="legitimo">Interés legítimo</option>
+                                            </select>
+                                        </td>
+                                        <td><input type="text" placeholder="Finalidad"></td>
+                                        <td>
+                                            <select>
+                                                <option value="">Seleccione</option>
+                                                <option value="recopilacion">Recopilación directa</option>
+                                                <option value="procesamiento">Procesamiento automático</option>
+                                                <option value="analitica">Análitica</option>
+                                                <option value="agregacion">Agregación</option>
+                                                <option value="anonimizacion">Anonimización</option>
+                                                <option value="seudonimizacion">Seudonimización</option>
+                                            </select>
+                                        </td>
+                                        <td><input type="text" placeholder="Sesgos"></td>
+                                        <td><input type="text" placeholder="Observaciones"></td>
+                                        <td><button class="table-btn remove" onclick="eliminarFila(this)">✕</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Documentación de Dataset (Datasheet Simplificada)</label>
+                        <div class="form-group">
+                            <label for="nombreDataset">
+                                Nombre del dataset
+                                <span class="helper-icon" title="Identificador único del conjunto de datos utilizado">ℹ️</span>
+                            </label>
+                            <input type="text" id="nombreDataset" class="form-control" placeholder="Nombre del dataset">
+                        </div>
+                        <div class="form-group">
+                            <label for="origenDataset">
+                                Origen
+                                <span class="helper-icon" title="Fuente de donde se obtuvieron los datos">ℹ️</span>
+                            </label>
+                            <input type="text" id="origenDataset" class="form-control" placeholder="Origen del dataset">
+                        </div>
+                        <div class="form-group">
+                            <label for="motivacionDataset">
+                                Motivación
+                                <span class="helper-icon" title="Razón o justificación para la recolección y uso de este dataset">ℹ️</span>
+                            </label>
+                            <input type="text" id="motivacionDataset" class="form-control" placeholder="Motivación del dataset">
+                        </div>
+                        <div class="form-group">
+                            <label for="recoleccionDataset">
+                                Proceso de recolección
+                                <span class="helper-icon" title="Métodos y procedimientos utilizados para recopilar los datos">ℹ️</span>
+                            </label>
+                            <textarea id="recoleccionDataset" class="form-control" placeholder="Proceso de recolección"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="limpiezaDataset">
+                                Procesos de limpieza y anonimización
+                                <span class="helper-icon" title="Técnicas aplicadas para garantizar calidad y privacidad de los datos">ℹ️</span>
+                            </label>
+                            <textarea id="limpiezaDataset" class="form-control" placeholder="Procesos de limpieza y anonimización"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="usosPrevistosDataset">
+                                Usos previstos
+                                <span class="helper-icon" title="Aplicaciones autorizadas para este conjunto de datos">ℹ️</span>
+                            </label>
+                            <textarea id="usosPrevistosDataset" class="form-control" placeholder="Usos previstos"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="usosNoPrevistosDataset">
+                                Usos no previstos
+                                <span class="helper-icon" title="Aplicaciones expresamente prohibidas para este conjunto de datos">ℹ️</span>
+                            </label>
+                            <textarea id="usosNoPrevistosDataset" class="form-control" placeholder="Usos no previstos"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sección 4: Base Legal y Consentimiento -->
+            <div class="section-card" id="seccion4">
+                <div class="section-header">
+                    <div class="section-icon">⚖️</div>
+                    <div class="section-title">Sección 4: Base Legal y Consentimiento</div>
+                </div>
+                <div class="section-content">
+                    <div class="form-group">
+                        <label for="baseLegalPrincipal">
+                            Base legal principal
+                            <span class="helper-icon" title="Fundamento jurídico principal que legitima el tratamiento de datos">ℹ️</span>
+                        </label>
+                        <select id="baseLegalPrincipal" class="form-control required-field">
+                            <option value="">Seleccione una opción</option>
+                            <option value="consentimiento">Consentimiento</option>
+                            <option value="interes-publico">Interés público</option>
+                            <option value="obligacion-legal">Obligación legal</option>
+                            <option value="contrato">Contrato</option>
+                            <option value="interes-vital">Interés vital</option>
+                            <option value="interes-legitimo">Interés legítimo</option>
+                            <option value="ejercicio-funciones">Ejercicio de funciones públicas</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="basesLegalesComplementarias">
+                            Bases legales complementarias
+                            <span class="helper-icon" title="Otros fundamentos jurídicos aplicables al tratamiento">ℹ️</span>
+                        </label>
+                        <textarea id="basesLegalesComplementarias" class="form-control" placeholder="Bases legales complementarias"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="consentimientoExplicito">
+                            ¿Se requiere consentimiento explícito?
+                            <span class="helper-icon" title="Indica si es necesario obtener consentimiento específico e informado de los titulares">ℹ️</span>
+                        </label>
+                        <select id="consentimientoExplicito" class="form-control required-field">
+                            <option value="">Seleccione una opción</option>
+                            <option value="si">Sí</option>
+                            <option value="no">No</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="mecanismoConsentimiento">
+                            Mecanismo de obtención de consentimiento
+                            <span class="helper-icon" title="Procedimientos establecidos para obtener y registrar el consentimiento">ℹ️</span>
+                        </label>
+                        <textarea id="mecanismoConsentimiento" class="form-control" placeholder="Mecanismo de obtención de consentimiento"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="alternativasSinConsentimiento">
+                            Alternativas sin consentimiento
+                            <span class="helper-icon" title="Opciones disponibles para usuarios que no otorguen consentimiento">ℹ️</span>
+                        </label>
+                        <textarea id="alternativasSinConsentimiento" class="form-control required-field" placeholder="Alternativas sin consentimiento"></textarea>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sección 5: Evaluación de Impactos en Derechos -->
+            <div class="section-card" id="seccion5">
+                <div class="section-header">
+                    <div class="section-icon">🔍</div>
+                    <div class="section-title">Sección 5: Evaluación de Impactos en Derechos</div>
+                </div>
+                <div class="section-content">
+                    <div class="risk-matrix-info">
+                        <h4>📊 Matriz de Evaluación de Riesgos</h4>
+                        <p>La metodología se estructura en una matriz 3x3 que combina probabilidad e impacto para determinar el nivel de riesgo:</p>
+                        <table class="risk-matrix-table">
+                            <thead>
+                                <tr>
+                                    <th>Probabilidad ↓ / Impacto →</th>
+                                    <th>Bajo (1)</th>
+                                    <th>Medio (2)</th>
+                                    <th>Alto (3)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Alta (3)</td>
+                                    <td class="risk-medio">Medio (3)</td>
+                                    <td class="risk-alto">Alto (6)</td>
+                                    <td class="risk-alto">Alto (9)</td>
+                                </tr>
+                                <tr>
+                                    <td>Media (2)</td>
+                                    <td class="risk-bajo">Bajo (2)</td>
+                                    <td class="risk-medio">Medio (4)</td>
+                                    <td class="risk-alto">Alto (6)</td>
+                                </tr>
+                                <tr>
+                                    <td>Baja (1)</td>
+                                    <td class="risk-bajo">Bajo (1)</td>
+                                    <td class="risk-bajo">Bajo (2)</td>
+                                    <td class="risk-medio">Medio (3)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p style="margin-top: 10px;">
+                            <span style="background-color: #C6EFCE; padding: 2px 5px;">🟢 Riesgo Bajo (1-3)</span>
+                            <span style="background-color: #FFEB9C; padding: 2px 5px; margin-left: 10px;">🟡 Riesgo Medio (4-6)</span>
+                            <span style="background-color: #FFC7CE; padding: 2px 5px; margin-left: 10px;">🔴 Riesgo Alto (7-9)</span>
+                        </p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Evaluación de Impactos en Derechos</label>
+                        <div class="table-actions">
+                            <button class="table-btn" onclick="agregarFila('tablaImpactosDerechos')">+ Agregar Fila</button>
+                        </div>
+                        <div class="table-container">
+                            <table class="data-table" id="tablaImpactosDerechos">
+                                <thead>
+                                    <tr>
+                                        <th>Derecho</th>
+                                        <th>Pregunta guía</th>
+                                        <th>Respuesta</th>
+                                        <th>Riesgo</th>
+                                        <th>Prob. (1–3)</th>
+                                        <th>Impacto (1–3)</th>
+                                        <th>Nivel</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <select>
+                                                <option value="privacidad">Privacidad y habeas data</option>
+                                                <option value="igualdad">Igualdad y no discriminación</option>
+                                                <option value="debido-proceso">Debido proceso</option>
+                                                <option value="acceso-servicios">Acceso a servicios públicos</option>
+                                                <option value="libertad-expresion">Libertad de expresión</option>
+                                                <option value="proteccion-menores">Protección de menores</option>
+                                                <option value="otros">Otros derechos fundamentales</option>
+                                            </select>
+                                        </td>
+                                        <td><input type="text" placeholder="Pregunta guía"></td>
+                                        <td><input type="text" placeholder="Respuesta"></td>
+                                        <td><input type="text" placeholder="Riesgo"></td>
+                                        <td><input type="number" min="1" max="3" placeholder="1-3" class="probabilidad-input"></td>
+                                        <td><input type="number" min="1" max="3" placeholder="1-3" class="impacto-input"></td>
+                                        <td>
+                                            <select class="nivel-riesgo-select">
+                                                <option value="">Seleccione</option>
+                                                <option value="bajo">BAJO</option>
+                                                <option value="medio">MEDIO</option>
+                                                <option value="alto">ALTO</option>
+                                            </select>
+                                        </td>
+                                        <td><button class="table-btn remove" onclick="eliminarFila(this)">✕</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sección 6: Matriz de Riesgos Algorítmicos -->
+            <div class="section-card" id="seccion6">
+                <div class="section-header">
+                    <div class="section-icon">⚠️</div>
+                    <div class="section-title">Sección 6: Matriz de Riesgos Algorítmicos</div>
+                </div>
+                <div class="section-content">
+                    <div class="form-group">
+                        <label>Matriz de Riesgos Algorítmicos</label>
+                        <div class="table-actions">
+                            <button class="table-btn" onclick="agregarFila('tablaMatrizRiesgos')">+ Agregar Fila</button>
+                        </div>
+                        <div class="table-container">
+                            <table class="data-table" id="tablaMatrizRiesgos">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Descripción</th>
+                                        <th>Categoría</th>
+                                        <th>Prob.</th>
+                                        <th>Impacto</th>
+                                        <th>Punt. (P×I)</th>
+                                        <th>Nivel</th>
+                                        <th>Controles</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><input type="text" placeholder="ID"></td>
+                                        <td><textarea placeholder="Descripción"></textarea></td>
+                                        <td>
+                                            <select>
+                                                <option value="">Seleccione</option>
+                                                <option value="privacidad">Privacidad</option>
+                                                <option value="equidad">Equidad</option>
+                                                <option value="seguridad">Seguridad</option>
+                                                <option value="transparencia">Transparencia</option>
+                                                <option value="rendicion-cuentas">Rendición de cuentas</option>
+                                                <option value="robustez">Robustez</option>
+                                                <option value="gobernanza">Gobernanza</option>
+                                            </select>
+                                        </td>
+                                        <td><input type="number" min="1" max="3" placeholder="1-3" class="probabilidad-input"></td>
+                                        <td><input type="number" min="1" max="3" placeholder="1-3" class="impacto-input"></td>
+                                        <td><input type="number" placeholder="Puntaje" class="puntuacion-input"></td>
+                                        <td>
+                                            <select class="nivel-riesgo-select">
+                                                <option value="">Seleccione</option>
+                                                <option value="bajo">BAJO</option>
+                                                <option value="medio">MEDIO</option>
+                                                <option value="alto">ALTO</option>
+                                            </select>
+                                        </td>
+                                        <td><textarea placeholder="Controles"></textarea></td>
+                                        <td><button class="table-btn remove" onclick="eliminarFila(this)">✕</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sección 7: Medidas de Mitigación y Controles -->
+            <div class="section-card" id="seccion7">
+                <div class="section-header">
+                    <div class="section-icon">🛡️</div>
+                    <div class="section-title">Sección 7: Medidas de Mitigación y Controles</div>
+                </div>
+                <div class="section-content">
+                    <div class="form-group">
+                        <label>Medidas de Mitigación y Controles</label>
+                        <div class="table-actions">
+                            <button class="table-btn" onclick="agregarFila('tablaMedidasMitigacion')">+ Agregar Fila</button>
+                        </div>
+                        <div class="table-container">
+                            <table class="data-table" id="tablaMedidasMitigacion">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Medida</th>
+                                        <th>Tipo</th>
+                                        <th>Responsable</th>
+                                        <th>Plazo</th>
+                                        <th>Estado</th>
+                                        <th>Indicador</th>
+                                        <th>Comentarios</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><input type="text" placeholder="ID"></td>
+                                        <td><textarea placeholder="Medida"></textarea></td>
+                                        <td>
+                                            <select>
+                                                <option value="">Seleccione</option>
+                                                <option value="tecnico">Técnico</option>
+                                                <option value="organizativo">Organizativo</option>
+                                            </select>
+                                        </td>
+                                        <td><input type="text" placeholder="Responsable"></td>
+                                        <td><input type="date"></td>
+                                        <td>
+                                            <select>
+                                                <option value="">Seleccione</option>
+                                                <option value="planificado">Planificado</option>
+                                                <option value="en_curso">En curso</option>
+                                                <option value="implementado">Implementado</option>
+                                            </select>
+                                        </td>
+                                        <td><input type="text" placeholder="Indicador"></td>
+                                        <td><textarea placeholder="Comentarios"></textarea></td>
+                                        <td><button class="table-btn remove" onclick="eliminarFila(this)">✕</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sección 8: Supervisión Humana -->
+            <div class="section-card" id="seccion8">
+                <div class="section-header">
+                    <div class="section-icon">👤</div>
+                    <div class="section-title">Sección 8: Supervisión Humana</div>
+                </div>
+                <div class="section-content">
+                    <div class="form-group">
+                        <label for="mecanismosIntervencion">
+                            Mecanismos de intervención humana
+                            <span class="helper-icon" title="Procedimientos establecidos para que personas intervengan en el funcionamiento del sistema">ℹ️</span>
+                        </label>
+                        <textarea id="mecanismosIntervencion" class="form-control" placeholder="Mecanismos de intervención humana"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="criteriosEscalamiento">
+                            Criterios de escalamiento
+                            <span class="helper-icon" title="Condiciones que activan la revisión o intervención humana">ℹ️</span>
+                        </label>
+                        <textarea id="criteriosEscalamiento" class="form-control" placeholder="Criterios de escalamiento"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="rolesResponsables">
+                            Roles responsables
+                            <span class="helper-icon" title="Personas o equipos encargados de la supervisión y revisión">ℹ️</span>
+                        </label>
+                        <textarea id="rolesResponsables" class="form-control" placeholder="Roles responsables"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="frecuenciaRevision">
+                            Frecuencia de revisión de casos
+                            <span class="helper-icon" title="Periodicidad con la que se revisan las decisiones o funcionamiento del sistema">ℹ️</span>
+                        </label>
+                        <select id="frecuenciaRevision" class="form-control">
+                            <option value="">Seleccione</option>
+                            <option value="tiempo-real">Tiempo real</option>
+                            <option value="diaria">Diaria</option>
+                            <option value="semanal">Semanal</option>
+                            <option value="mensual">Mensual</option>
+                            <option value="trimestral">Trimestral</option>
+                            <option value="muestra-aleatoria">Muestra aleatoria</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="procedimientoDesacuerdo">
+                            Procedimiento ante desacuerdo con el sistema
+                            <span class="helper-icon" title="Pasos a seguir cuando hay discrepancia entre la decisión del sistema y la humana">ℹ️</span>
+                        </label>
+                        <textarea id="procedimientoDesacuerdo" class="form-control" placeholder="Procedimiento ante desacuerdo con el sistema"></textarea>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sección 9: Monitoreo Continuo y KPIs -->
+            <div class="section-card" id="seccion9">
+                <div class="section-header">
+                    <div class="section-icon">📈</div>
+                    <div class="section-title">Sección 9: Monitoreo Continuo y KPIs</div>
+                </div>
+                <div class="section-content">
+                    <div class="form-group">
+                        <label>Monitoreo Continuo y KPIs</label>
+                        <div class="table-actions">
+                            <button class="table-btn" onclick="agregarFila('tablaMonitoreoKPIs')">+ Agregar Fila</button>
+                        </div>
+                        <div class="table-container">
+                            <table class="data-table" id="tablaMonitoreoKPIs">
+                                <thead>
+                                    <tr>
+                                        <th>Categoría</th>
+                                        <th>Indicador</th>
+                                        <th>Definición</th>
+                                        <th>Fórmula</th>
+                                        <th>Valor objetivo</th>
+                                        <th>Valor actual</th>
+                                        <th>Frecuencia</th>
+                                        <th>Responsable</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <select>
+                                                <option value="">Seleccione</option>
+                                                <option value="tecnica">Técnica</option>
+                                                <option value="equidad">Equidad</option>
+                                                <option value="privacidad">Privacidad</option>
+                                                <option value="rendimiento">Rendimiento</option>
+                                                <option value="seguridad">Seguridad</option>
+                                                <option value="calidad-datos">Calidad de datos</option>
+                                            </select>
+                                        </td>
+                                        <td><input type="text" placeholder="Indicador"></td>
+                                        <td><textarea placeholder="Definición"></textarea></td>
+                                        <td><input type="text" placeholder="Fórmula"></td>
+                                        <td><input type="text" placeholder="Valor objetivo"></td>
+                                        <td><input type="text" placeholder="Valor actual"></td>
+                                        <td>
+                                            <select>
+                                                <option value="">Seleccione</option>
+                                                <option value="tiempo-real">Tiempo real</option>
+                                                <option value="diaria">Diaria</option>
+                                                <option value="semanal">Semanal</option>
+                                                <option value="mensual">Mensual</option>
+                                                <option value="trimestral">Trimestral</option>
+                                            </select>
+                                        </td>
+                                        <td><input type="text" placeholder="Responsable"></td>
+                                        <td><button class="table-btn remove" onclick="eliminarFila(this)">✕</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sección 10: Comunicación y Transparencia -->
+            <div class="section-card" id="seccion10">
+                <div class="section-header">
+                    <div class="section-icon">📢</div>
+                    <div class="section-title">Sección 10: Comunicación y Transparencia</div>
+                </div>
+                <div class="section-content">
+                    <div class="form-group">
+                        <label for="mensajesAviso">
+                            Mensajes de aviso a usuarios
+                            <span class="helper-icon" title="Comunicaciones que reciben los usuarios sobre el uso de IA en el sistema">ℹ️</span>
+                        </label>
+                        <textarea id="mensajesAviso" class="form-control" placeholder="Mensajes de aviso a usuarios"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="documentosPublicados">
+                            Documentos publicados
+                            <span class="helper-icon" title="Documentación disponible para el público sobre el sistema de IA">ℹ️</span>
+                        </label>
+                        <textarea id="documentosPublicados" class="form-control" placeholder="Documentos publicados"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="canalesConsulta">
+                            Canales de consulta ciudadana
+                            <span class="helper-icon" title="Mecanismos disponibles para que los ciudadanos realicen consultas sobre el sistema">ℹ️</span>
+                        </label>
+                        <textarea id="canalesConsulta" class="form-control" placeholder="Canales de consulta ciudadana"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="canalesReporte">
+                            Canales de reporte de problemas
+                            <span class="helper-icon" title="Vías para reportar fallos, sesgos o problemas con el sistema">ℹ️</span>
+                        </label>
+                        <textarea id="canalesReporte" class="form-control" placeholder="Canales de reporte de problemas"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="planDivulgacion">
+                            Plan de divulgación
+                            <span class="helper-icon" title="Estrategia para informar a stakeholders sobre el uso del sistema de IA">ℹ️</span>
+                        </label>
+                        <textarea id="planDivulgacion" class="form-control" placeholder="Plan de divulgación"></textarea>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sección 11: Auditoría y Actualizaciones -->
+            <div class="section-card" id="seccion11">
+                <div class="section-header">
+                    <div class="section-icon">🔍</div>
+                    <div class="section-title">Sección 11: Auditoría y Actualizaciones</div>
+                </div>
+                <div class="section-content">
+                    <div class="form-group">
+                        <label>Auditoría y Actualizaciones</label>
+                        <div class="table-actions">
+                            <button class="table-btn" onclick="agregarFila('tablaAuditoriaActualizaciones')">+ Agregar Fila</button>
+                        </div>
+                        <div class="table-container">
+                            <table class="data-table" id="tablaAuditoriaActualizaciones">
+                                <thead>
+                                    <tr>
+                                        <th>Tipo</th>
+                                        <th>Alcance</th>
+                                        <th>Frecuencia</th>
+                                        <th>Fecha próxima</th>
+                                        <th>Responsable</th>
+                                        <th>Hallazgos</th>
+                                        <th>Acción</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <select>
+                                                <option value="">Seleccione</option>
+                                                <option value="interna">Interna</option>
+                                                <option value="externa">Externa</option>
+                                            </select>
+                                        </td>
+                                        <td><textarea placeholder="Alcance"></textarea></td>
+                                        <td>
+                                            <select>
+                                                <option value="">Seleccione</option>
+                                                <option value="anual">Anual</option>
+                                                <option value="semestral">Semestral</option>
+                                                <option value="trimestral">Trimestral</option>
+                                                <option value="mensual">Mensual</option>
+                                                <option value="evento">Por evento específico</option>
+                                            </select>
+                                        </td>
+                                        <td><input type="date"></td>
+                                        <td><input type="text" placeholder="Responsable"></td>
+                                        <td><textarea placeholder="Hallazgos"></textarea></td>
+                                        <td><textarea placeholder="Acción"></textarea></td>
+                                        <td><button class="table-btn remove" onclick="eliminarFila(this)">✕</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sección 12: Aprobaciones y Decisión -->
+            <div class="section-card" id="seccion12">
+                <div class="section-header">
+                    <div class="section-icon">✅</div>
+                    <div class="section-title">Sección 12: Aprobaciones y Decisión</div>
+                </div>
+                <div class="section-content">
+                    <div class="approval-section">
+                        <div class="approval-item">
+                            <div class="approval-title">
+                                Evaluación DPO
+                                <span class="helper-icon" title="Evaluación del Delegado de Protección de Datos sobre el cumplimiento normativo">ℹ️</span>
+                            </div>
+                            <textarea id="evaluacionDPO" class="form-control" placeholder="Evaluación DPO"></textarea>
+                        </div>
+                        
+                        <div class="approval-item">
+                            <div class="approval-title">
+                                Evaluación responsable técnico
+                                <span class="helper-icon" title="Evaluación del responsable técnico sobre el funcionamiento del sistema">ℹ️</span>
+                            </div>
+                            <textarea id="evaluacionResponsableTecnico" class="form-control" placeholder="Evaluación responsable técnico"></textarea>
+                        </div>
+                        
+                        <div class="approval-item">
+                            <div class="approval-title">
+                                Evaluación jurídica
+                                <span class="helper-icon" title="Evaluación del área jurídica sobre el cumplimiento del marco legal">ℹ️</span>
+                            </div>
+                            <textarea id="evaluacionJuridica" class="form-control" placeholder="Evaluación jurídica"></textarea>
+                        </div>
+                        
+                        <div class="approval-item">
+                            <div class="approval-title">
+                                Decisión del Comité de IA
+                                <span class="helper-icon" title="Decisión final del Comité de IA sobre la implementación del sistema">ℹ️</span>
+                            </div>
+                            <select id="decisionComiteIA" class="form-control">
+                                <option value="">Seleccione</option>
+                                <option value="aprobado">Aprobado</option>
+                                <option value="aprobado-condiciones">Aprobado con condiciones</option>
+                                <option value="rechazado">Rechazado</option>
+                                <option value="pendiente">Pendiente de información</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="fechaAprobacion">
+                                Fecha de aprobación
+                                <span class="helper-icon" title="Fecha en que se aprueba formalmente el sistema">ℹ️</span>
+                            </label>
+                            <input type="date" id="fechaAprobacion" class="form-control">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="condicionesReservas">
+                                Condiciones o reservas
+                                <span class="helper-icon" title="Condiciones específicas o reservas aplicables a la aprobación">ℹ️</span>
+                            </label>
+                            <textarea id="condicionesReservas" class="form-control" placeholder="Condiciones o reservas"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="fechaProximaRevision">
+                                Fecha de próxima revisión
+                                <span class="helper-icon" title="Fecha programada para la siguiente revisión del sistema">ℹ️</span>
+                            </label>
+                            <input type="date" id="fechaProximaRevision" class="form-control">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    // Objeto global para almacenar los datos
+    let araDpiaData = {};
+    
+    // Tablas del formulario
+    const tablasFormulario = [
+        'tablaMapeoDatos',
+        'tablaImpactosDerechos', 
+        'tablaMatrizRiesgos',
+        'tablaMedidasMitigacion',
+        'tablaMonitoreoKPIs',
+        'tablaAuditoriaActualizaciones'
+    ];
+
+    // Inicialización al cargar la página
+    window.addEventListener('DOMContentLoaded', function() {
+        inicializarEventListeners();
+        console.log('Formulario ARA/DPIA cargado correctamente');
+    });
+
+    // Función para inicializar todos los event listeners
+    function inicializarEventListeners() {
+        // Manejar niveles de riesgo
+        document.querySelectorAll('.risk-level').forEach(level => {
+            level.addEventListener('click', function() {
+                const parent = this.closest('.risk-levels');
+                parent.querySelectorAll('.risk-level').forEach(l => l.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+        
+        // Navegación entre secciones
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+                    this.classList.add('active');
+                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Importar desde JSON
+        document.getElementById('jsonFileInput').addEventListener('change', importarDesdeJSON);
+        
+        // Calcular puntuación automática en tablas
+        document.addEventListener('input', function(e) {
+            if (e.target.classList.contains('probabilidad-input') || e.target.classList.contains('impacto-input')) {
+                calcularRiesgoAutomatico(e.target);
+            }
+        });
+    }
+
+    // Función para calcular nivel de riesgo según matriz 3x3
+    function calcularNivelRiesgo(probabilidad, impacto) {
+        const puntuacion = probabilidad * impacto;
+        
+        if (puntuacion >= 7 && puntuacion <= 9) {
+            return {nivel: 'alto', puntuacion: puntuacion};
+        } else if (puntuacion >= 4 && puntuacion <= 6) {
+            return {nivel: 'medio', puntuacion: puntuacion};
+        } else if (puntuacion >= 1 && puntuacion <= 3) {
+            return {nivel: 'bajo', puntuacion: puntuacion};
+        } else {
+            return {nivel: '', puntuacion: 0};
+        }
+    }
+
+    // Función para calcular riesgo automáticamente
+    function calcularRiesgoAutomatico(elemento) {
+        const fila = elemento.closest('tr');
+        if (!fila) return;
+        
+        const probabilidadInput = fila.querySelector('.probabilidad-input');
+        const impactoInput = fila.querySelector('.impacto-input');
+        const puntuacionInput = fila.querySelector('.puntuacion-input');
+        const nivelSelect = fila.querySelector('.nivel-riesgo-select');
+        
+        if (probabilidadInput && impactoInput) {
+            const probabilidad = parseInt(probabilidadInput.value) || 0;
+            const impacto = parseInt(impactoInput.value) || 0;
+            
+            const resultado = calcularNivelRiesgo(probabilidad, impacto);
+            
+            if (puntuacionInput) {
+                puntuacionInput.value = resultado.puntuacion;
+            }
+            
+            if (nivelSelect) {
+                nivelSelect.value = resultado.nivel;
+                
+                // Aplicar color de fondo según nivel de riesgo
+                const celdaNivel = nivelSelect.closest('td');
+                celdaNivel.className = '';
+                if (resultado.nivel) {
+                    celdaNivel.classList.add('risk-' + resultado.nivel);
+                }
+            }
+        }
+    }
+
+    // Función para exportar a JSON
+    function exportarJSON() {
+        recopilarDatosAraDpia();
+        const jsonString = JSON.stringify(araDpiaData, null, 2);
+        const blob = new Blob([jsonString], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `ara-dpia-${new Date().toISOString().split('T')[0]}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        alert('Formulario ARA/DPIA exportado exitosamente como JSON.');
+    }
+
+    // Función para importar desde JSON
+    function importarDesdeJSON(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                const datosImportados = JSON.parse(e.target.result);
+                cargarDatosAraDpia(datosImportados);
+                alert('Formulario ARA/DPIA importado exitosamente desde JSON.');
+            } catch (error) {
+                alert('Error al importar el archivo JSON: ' + error.message);
+            }
+        };
+        reader.readAsText(file);
+        e.target.value = '';
+    }
+
+    // Función optimizada para recopilar datos
+    function recopilarDatosAraDpia() {
+        araDpiaData = {
+            metadata: {
+                fechaExportacion: new Date().toISOString(),
+                versionFormulario: '2.0'
+            },
+            campos: {},
+            tablas: {}
+        };
+
+        // Recopilar campos individuales
+        document.querySelectorAll('input[type="text"], input[type="number"], input[type="date"], textarea, select').forEach(element => {
+            if (element.id && !element.closest('.data-table')) {
+                araDpiaData.campos[element.id] = element.value;
+            }
+        });
+
+        // Recopilar datos de tablas
+        tablasFormulario.forEach(tablaId => {
+            const tabla = document.getElementById(tablaId);
+            if (tabla) {
+                araDpiaData.tablas[tablaId] = obtenerDatosTabla(tabla);
+            }
+        });
+
+        return araDpiaData;
+    }
+
+    // Función auxiliar para obtener datos de tabla
+    function obtenerDatosTabla(table) {
+        const tableData = [];
+        const headers = Array.from(table.querySelectorAll('thead th')).map(th => th.textContent.trim());
+        
+        table.querySelectorAll('tbody tr').forEach(row => {
+            const rowData = {};
+            const cells = row.querySelectorAll('td');
+            
+            cells.forEach((cell, cellIndex) => {
+                const header = headers[cellIndex];
+                const input = cell.querySelector('input, textarea, select');
+                
+                if (input && header && header !== 'Acciones') {
+                    rowData[header] = input.value;
+                }
+            });
+            
+            if (Object.keys(rowData).length > 0) {
+                tableData.push(rowData);
+            }
+        });
+        
+        return tableData;
+    }
+
+    // Función optimizada para cargar datos
+    function cargarDatosAraDpia(datos) {
+        limpiarFormulario();
+        
+        // Cargar campos individuales
+        if (datos.campos) {
+            for (const [key, value] of Object.entries(datos.campos)) {
+                const element = document.getElementById(key);
+                if (element) {
+                    element.value = value;
+                }
+            }
+        }
+
+        // Cargar datos de tablas
+        if (datos.tablas) {
+            for (const [tablaId, tablaDatos] of Object.entries(datos.tablas)) {
+                const tabla = document.getElementById(tablaId);
+                if (tabla && Array.isArray(tablaDatos)) {
+                    cargarDatosTabla(tabla, tablaDatos);
+                }
+            }
+        }
+        
+        // Recalcular riesgos después de cargar datos
+        recalcularTodosLosRiesgos();
+    }
+
+    // Función auxiliar para cargar datos en tabla
+    function cargarDatosTabla(table, datosTabla) {
+        const tbody = table.querySelector('tbody');
+        const filaOriginal = tbody.querySelector('tr');
+        
+        // Limpiar tabla (excepto primera fila)
+        while (tbody.children.length > 1) {
+            tbody.removeChild(tbody.lastChild);
+        }
+        
+        // Cargar datos en filas existentes o crear nuevas
+        datosTabla.forEach((fila, index) => {
+            let filaElement;
+            
+            if (index === 0) {
+                filaElement = tbody.querySelector('tr');
+            } else {
+                filaElement = filaOriginal.cloneNode(true);
+                tbody.appendChild(filaElement);
+            }
+            
+            // Limpiar valores de la fila
+            filaElement.querySelectorAll('input, textarea, select').forEach(input => {
+                if (input.type !== 'button') {
+                    input.value = '';
+                }
+            });
+            
+            // Cargar datos en la fila
+            for (const [header, valor] of Object.entries(fila)) {
+                const indiceHeader = Array.from(table.querySelectorAll('thead th'))
+                    .findIndex(th => th.textContent.trim() === header);
+                
+                if (indiceHeader !== -1) {
+                    const celda = filaElement.querySelectorAll('td')[indiceHeader];
+                    if (celda) {
+                        const input = celda.querySelector('input, textarea, select');
+                        if (input) {
+                            if (input.tagName === 'SELECT') {
+                                // Para selects, buscar la opción que coincida con el valor
+                                const options = input.querySelectorAll('option');
+                                let found = false;
+                                options.forEach(option => {
+                                    if (option.value === valor || option.textContent.trim() === valor) {
+                                        input.value = option.value;
+                                        found = true;
+                                    }
+                                });
+                                if (!found) {
+                                    input.value = valor; // Fallback
+                                }
+                            } else {
+                                input.value = valor;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+    
+    // Función para recalcular todos los riesgos después de cargar datos
+    function recalcularTodosLosRiesgos() {
+        document.querySelectorAll('.probabilidad-input, .impacto-input').forEach(input => {
+            calcularRiesgoAutomatico(input);
+        });
+    }
+
+    // Función para agregar fila a tabla
+    function agregarFila(tablaId) {
+        const tabla = document.getElementById(tablaId);
+        if (!tabla) return;
+        
+        const tbody = tabla.querySelector('tbody');
+        const ultimaFila = tbody.querySelector('tr:last-child');
+        const nuevaFila = ultimaFila.cloneNode(true);
+        
+        // Limpiar valores de la nueva fila
+        nuevaFila.querySelectorAll('input, textarea, select').forEach(input => {
+            if (input.type !== 'button') {
+                input.value = '';
+            }
+        });
+        
+        tbody.appendChild(nuevaFila);
+    }
+
+    // Función para eliminar fila de tabla
+    function eliminarFila(boton) {
+        const fila = boton.closest('tr');
+        const tbody = fila.parentElement;
+        
+        // No eliminar si es la única fila
+        if (tbody.children.length > 1) {
+            fila.remove();
+        } else {
+            alert('No se puede eliminar la última fila de la tabla.');
+        }
+    }
+
+    // Función para cargar ejemplo completo
+    function cargarEjemplo() {
+        const ejemploCompleto = {
+            campos: {
+                // Sección 1: Información General
+                entidad: "Secretaría Distrital de Gobierno",
+                unidad: "Dirección de Atención al Ciudadano",
+                titulo: "Sistema de clasificación automática de PQRS",
+                responsable: "María González, Directora de Atención al Ciudadano",
+                responsableTecnico: "Carlos López, Jefe de Desarrollo",
+                fechaElaboracion: "2023-10-15",
+                version: "v1.0",
+                
+                // Sección 2: Descripción del Sistema
+                descripcionTecnica: "Sistema basado en modelo BERT para clasificación de texto, implementado como API REST con interfaz web",
+                finalidad: "Clasificar automáticamente las solicitudes ciudadanas en categorías predefinidas para optimizar su distribución",
+                baseLegal: "Ley 1755 de 2015 - Derecho de Petición, Ley 1437 de 2011 - Código de Procedimiento Administrativo",
+                poblacion: "Ciudadanos que presentan PQRS a la entidad",
+                casosPermitidos: "Clasificación de PQRS por categoría temática, análisis estadístico de tendencias",
+                casosNoPermitidos: "Toma de decisiones automatizadas sin supervisión humana, perfilamiento de ciudadanos",
+                tipoDecisiones: "recomendacion",
+                contextoUso: "Plataforma web interna, horario de oficina, volumen estimado: 2,000 solicitudes mensuales",
+                
+                // Sección 3: Datasets
+                nombreDataset: "PQRS_Historico_2020_2023",
+                origenDataset: "Sistema interno de PQRS",
+                motivacionDataset: "Mejorar eficiencia en clasificación de solicitudes",
+                recoleccionDataset: "Recolección automática desde sistema de PQRS",
+                limpiezaDataset: "Limpieza de datos duplicados, anonimización de datos personales sensibles",
+                usosPrevistosDataset: "Entrenamiento y validación del modelo de clasificación",
+                usosNoPrevistosDataset: "Análisis de comportamiento individual, perfilamiento",
+                
+                // Sección 4: Base Legal
+                baseLegalPrincipal: "ejercicio-funciones",
+                basesLegalesComplementarias: "Consentimiento informado para uso de datos en mejora de servicios",
+                consentimientoExplicito: "no",
+                mecanismoConsentimiento: "Aviso de privacidad en plataforma con opción de objeción",
+                alternativasSinConsentimiento: "Proceso manual de clasificación manteniendo la funcionalidad básica del servicio",
+                
+                // Sección 8: Supervisión Humana
+                mecanismosIntervencion: "Revisión manual de clasificaciones con confianza baja (<80%), panel de supervisión para casos complejos",
+                criteriosEscalamiento: "Confianza del modelo <80%, discrepancia entre categorías, solicitud explícita de revisión",
+                rolesResponsables: "Supervisor de PQRS - Revisión diaria, Coordinador de área - Casos complejos",
+                frecuenciaRevision: "diaria",
+                procedimientoDesacuerdo: "El supervisor puede sobreescribir la clasificación, registro de discrepancias para mejora del modelo",
+                
+                // Sección 10: Comunicación
+                mensajesAviso: "Este sistema utiliza IA para clasificar su solicitud. Todas las decisiones son supervisadas por personal humano",
+                documentosPublicados: "Política de uso de IA, Aviso de privacidad, Manual de procedimientos",
+                canalesConsulta: "Línea 195, correo consultas@entidad.gov.co, oficina de atención presencial",
+                canalesReporte: "Formulario web de reportes, correo soporte-ia@entidad.gov.co",
+                planDivulgacion: "Comunicación interna a funcionarios, información en portal web ciudadano",
+                
+                // Sección 12: Aprobaciones
+                evaluacionDPO: "El sistema cumple con los principios de protección de datos. Se recomienda revisión semestral.",
+                evaluacionResponsableTecnico: "El sistema funciona según especificaciones técnicas. Rendimiento dentro de parámetros aceptables.",
+                evaluacionJuridica: "Cumple con el marco normativo aplicable. Base legal adecuada para el tratamiento.",
+                decisionComiteIA: "aprobado",
+                fechaAprobacion: "2023-10-20",
+                condicionesReservas: "Revisión trimestral de métricas de equidad, auditoría semestral de desempeño",
+                fechaProximaRevision: "2024-01-20"
+            },
+            tablas: {
+                tablaMapeoDatos: [
+                    {
+                        "Categoría": "identificacion",
+                        "Tipo de dato": "texto",
+                        "Fuente": "Formulario PQRS",
+                        "Dato personal": "si",
+                        "Base de licitud": "interes",
+                        "Finalidad": "Clasificación y atención",
+                        "Técnicas": "procesamiento",
+                        "Sesgos": "Posible sesgo lingüístico",
+                        "Observaciones": "Se excluyen datos sensibles"
+                    },
+                    {
+                        "Categoría": "contacto", 
+                        "Tipo de dato": "texto",
+                        "Fuente": "Formulario PQRS",
+                        "Dato personal": "si",
+                        "Base de licitud": "interes",
+                        "Finalidad": "Comunicación con el ciudadano",
+                        "Técnicas": "procesamiento",
+                        "Sesgos": "Ninguno identificado",
+                        "Observaciones": "Datos necesarios para respuesta"
+                    }
+                ],
+                tablaImpactosDerechos: [
+                    {
+                        "Derecho": "privacidad",
+                        "Pregunta guía": "¿Se procesan datos personales?",
+                        "Respuesta": "Sí, datos de identificación básicos",
+                        "Riesgo": "Exposición indebida de información",
+                        "Prob. (1–3)": "2",
+                        "Impacto (1–3)": "2",
+                        "Nivel": "medio"
+                    },
+                    {
+                        "Derecho": "igualdad",
+                        "Pregunta guía": "¿Existen sesgos en datos o modelo?",
+                        "Respuesta": "Posible sesgo por variaciones lingüísticas",
+                        "Riesgo": "Clasificación desigual por región",
+                        "Prob. (1–3)": "1",
+                        "Impacto (1–3)": "3",
+                        "Nivel": "medio"
+                    }
+                ],
+                tablaMatrizRiesgos: [
+                    {
+                        "ID": "R-001",
+                        "Descripción": "Clasificación errónea de PQRS críticas",
+                        "Categoría": "equidad",
+                        "Prob.": "2",
+                        "Impacto": "3",
+                        "Punt. (P×I)": "6",
+                        "Nivel": "alto",
+                        "Controles": "Revisión humana de casos de baja confianza"
+                    },
+                    {
+                        "ID": "R-002",
+                        "Descripción": "Fuga de datos personales",
+                        "Categoría": "seguridad",
+                        "Prob.": "1",
+                        "Impacto": "3",
+                        "Punt. (P×I)": "3",
+                        "Nivel": "medio",
+                        "Controles": "Cifrado de datos, controles de acceso"
+                    }
+                ],
+                tablaMedidasMitigacion: [
+                    {
+                        "ID": "M-001",
+                        "Medida": "Implementar panel de supervisión humana",
+                        "Tipo": "organizativo",
+                        "Responsable": "María González",
+                        "Plazo": "2023-10-30",
+                        "Estado": "implementado",
+                        "Indicador": "100% casos revisados",
+                        "Comentarios": "En funcionamiento"
+                    },
+                    {
+                        "ID": "M-002",
+                        "Medida": "Auditoría de sesgos trimestral",
+                        "Tipo": "tecnico",
+                        "Responsable": "Carlos López",
+                        "Plazo": "2023-11-15",
+                        "Estado": "en_curso",
+                        "Indicador": "Reporte de auditoría",
+                        "Comentarios": "Primera auditoría en proceso"
+                    }
+                ],
+                tablaMonitoreoKPIs: [
+                    {
+                        "Categoría": "equidad",
+                        "Indicador": "Tasa de error por grupo demográfico",
+                        "Definición": "Porcentaje de clasificaciones incorrectas por grupo",
+                        "Fórmula": "(Errores grupo / Total grupo) * 100",
+                        "Valor objetivo": "<5%",
+                        "Valor actual": "3.2%",
+                        "Frecuencia": "mensual",
+                        "Responsable": "Carlos López"
+                    },
+                    {
+                        "Categoría": "rendimiento",
+                        "Indicador": "Precisión general del modelo",
+                        "Definición": "Porcentaje de clasificaciones correctas",
+                        "Fórmula": "(Correctas / Total) * 100",
+                        "Valor objetivo": ">90%",
+                        "Valor actual": "92.5%",
+                        "Frecuencia": "semanal",
+                        "Responsable": "Carlos López"
+                    }
+                ],
+                tablaAuditoriaActualizaciones: [
+                    {
+                        "Tipo": "interna",
+                        "Alcance": "Desempeño y equidad del modelo",
+                        "Frecuencia": "semestral",
+                        "Fecha próxima": "2024-04-15",
+                        "Responsable": "Auditor interno",
+                        "Hallazgos": "Ninguno significativo",
+                        "Acción": "Mantenimiento preventivo"
+                    }
+                ]
+            }
+        };
+
+        cargarDatosAraDpia(ejemploCompleto);
+        alert('Ejemplo completo de formulario ARA/DPIA cargado exitosamente.');
+    }
+
+    // Función para limpiar el formulario
+    function limpiarFormulario() {
+        document.querySelectorAll('input, textarea, select').forEach(element => {
+            if (element.type !== 'button') {
+                element.value = '';
+            }
+        });
+        
+        document.querySelectorAll('.risk-level').forEach(level => {
+            level.classList.remove('selected');
+        });
+        
+        // Limpiar tablas (dejar solo una fila)
+        tablasFormulario.forEach(tablaId => {
+            const tabla = document.getElementById(tablaId);
+            if (tabla) {
+                const tbody = tabla.querySelector('tbody');
+                while (tbody.children.length > 1) {
+                    tbody.removeChild(tbody.lastChild);
+                }
+                
+                // Limpiar la primera fila
+                tbody.querySelectorAll('input, textarea, select').forEach(input => {
+                    if (input.type !== 'button') {
+                        input.value = '';
+                    }
+                });
+            }
+        });
+        
+        araDpiaData = {};
+    }
+
+    // Función para imprimir el formulario
+    function imprimirFormulario() {
+        window.print();
+    }
+
+    // Función para validar campos requeridos antes de enviar
+    function validarFormulario() {
+        const camposRequeridos = document.querySelectorAll('.required-field');
+        let valido = true;
+        
+        camposRequeridos.forEach(campo => {
+            if (!campo.value.trim()) {
+                campo.style.borderColor = 'red';
+                valido = false;
+            } else {
+                campo.style.borderColor = '';
+            }
+        });
+        
+        if (!valido) {
+            alert('Por favor complete todos los campos requeridos marcados en rojo.');
+        }
+        
+        return valido;
+    }
+</script>
+</body>
+</html>

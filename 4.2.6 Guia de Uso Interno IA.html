@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía de Uso Interno de IA Generativa - Distrito Capital</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1a237e, #283593);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .back-button {
+            position: absolute;
+            left: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-50%) scale(1.05);
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .section:last-child {
+            border-bottom: none;
+        }
+        
+        h2 {
+            color: #1a237e;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e3f2fd;
+            font-size: 24px;
+        }
+        
+        h3 {
+            color: #1976D2;
+            margin: 20px 0 15px;
+            font-size: 18px;
+        }
+        
+        h4 {
+            color: #1a237e;
+            margin: 15px 0 8px;
+            font-size: 16px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #1976D2;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        th {
+            background-color: #e3f2fd;
+            color: #1a237e;
+            font-weight: 600;
+        }
+        
+        tr:hover {
+            background-color: #f5f9ff;
+        }
+        
+        .risk-matrix {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .risk-level {
+            border-radius: 12px;
+            padding: 20px;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .risk-level:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .risk-low {
+            background: linear-gradient(135deg, #388E3C, #66BB6A);
+        }
+        
+        .risk-medium {
+            background: linear-gradient(135deg, #F57C00, #FFA726);
+        }
+        
+        .risk-high {
+            background: linear-gradient(135deg, #D32F2F, #EF5350);
+        }
+        
+        .risk-very-high {
+            background: linear-gradient(135deg, #7B1FA2, #AB47BC);
+        }
+        
+        .incident-procedure {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .incident-type {
+            flex: 1;
+            min-width: 300px;
+            background-color: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-top: 4px solid #F57C00;
+            transition: all 0.3s ease;
+        }
+        
+        .incident-type:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+        }
+        
+        .incident-type h4 {
+            color: #1a237e;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .incident-type h4:before {
+            content: "⚠️";
+            margin-right: 10px;
+        }
+        
+        .step-list {
+            list-style-type: none;
+            counter-reset: step-counter;
+        }
+        
+        .step-list li {
+            counter-increment: step-counter;
+            margin-bottom: 15px;
+            padding-left: 40px;
+            position: relative;
+            line-height: 1.5;
+        }
+        
+        .step-list li:before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: linear-gradient(135deg, #1976D2, #64B5F6);
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .summary-box {
+            background: linear-gradient(to right, #e3f2fd, #f3f9ff);
+            border-left: 5px solid #1a237e;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 30px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        
+        .summary-box h3 {
+            color: #1a237e;
+            margin-top: 0;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #1a237e, #283593);
+            color: white;
+            margin-top: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .risk-matrix, .incident-procedure {
+                grid-template-columns: 1fr;
+            }
+            
+            .incident-type {
+                min-width: 100%;
+            }
+            
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .back-button {
+                position: relative;
+                left: auto;
+                top: auto;
+                transform: none;
+                margin: 10px 5px;
+                display: inline-block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="javascript:history.back()" class="back-button">Atrás</a>
+            <h1>Guía de Uso Interno de IA Generativa</h1>
+            <p>Establece los lineamientos, responsabilidades y protocolos para un uso seguro, ético y jurídicamente adecuado de las herramientas de IA generativa en las entidades públicas del Distrito Capital.</p>
+        </div>
+        
+        <div class="content">
+            <div class="section">
+                <h2>Principales Riesgos Asociados</h2>
+                <div class="card">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tipo de Riesgo</th>
+                                <th>Descripción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Errores formales</strong></td>
+                                <td>La IA puede generar información incorrecta o inventada, afectando decisiones administrativas, comunicaciones oficiales o análisis para políticas públicas.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Riesgos de privacidad</strong></td>
+                                <td>Si se ingresan datos personales, reservados o clasificados, existe riesgo de filtración, tratamiento indebido o uso no autorizado, vulnerando la Ley 1581 de 2012.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Sesgos y discriminación</strong></td>
+                                <td>Los modelos pueden reproducir sesgos históricos, afectando grupos vulnerables, especialmente crítico en entidades que atienden poblaciones específicas.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Dependencia tecnológica</strong></td>
+                                <td>Puede generarse dependencia excesiva de plataformas de terceros, afectando la soberanía tecnológica y continuidad del servicio.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Riesgos reputacionales</strong></td>
+                                <td>La generación de textos erróneos, inadecuados o discriminatorios puede comprometer la imagen institucional.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Automatización sin supervisión</strong></td>
+                                <td>La ejecución automática de decisiones sin intervención humana puede generar fallas graves en trámites y servicios públicos.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Casos de Uso Relevantes en el Distrito Capital</h2>
+                <div class="card">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Entidad / Dependencia</th>
+                                <th>Caso de Uso Permitido</th>
+                                <th>Nivel de Riesgo</th>
+                                <th>Condiciones de Uso</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Secretaría General</td>
+                                <td>Redacción de borradores de documentos no sensibles</td>
+                                <td>Bajo</td>
+                                <td>Supervisión humana obligatoria</td>
+                            </tr>
+                            <tr>
+                                <td>Sector Gobierno</td>
+                                <td>Resúmenes preliminares de normativa o jurisprudencia</td>
+                                <td>Bajo/Medio</td>
+                                <td>Verificación jurídica posterior</td>
+                            </tr>
+                            <tr>
+                                <td>DTI Distrital</td>
+                                <td>Automatización de reportes técnicos o analíticos</td>
+                                <td>Medio</td>
+                                <td>Validación de datos por expertos</td>
+                            </tr>
+                            <tr>
+                                <td>Secretaría de Salud</td>
+                                <td>Guías informativas al ciudadano</td>
+                                <td>Bajo</td>
+                                <td>No ingresar datos clínicos ni reservados</td>
+                            </tr>
+                            <tr>
+                                <td>Secretaría de Movilidad</td>
+                                <td>Chatbots informativos de normas y servicios</td>
+                                <td>Medio/Alto</td>
+                                <td>Pruebas piloto + Comité de IA</td>
+                            </tr>
+                            <tr>
+                                <td>Uaesp / Ambiente</td>
+                                <td>Análisis preliminar de datos abiertos</td>
+                                <td>Bajo</td>
+                                <td>Solo usar datos públicos</td>
+                            </tr>
+                            <tr>
+                                <td>Jurídica Distrital</td>
+                                <td>Borradores de conceptos no vinculantes</td>
+                                <td>Bajo</td>
+                                <td>Revisión posterior por abogado responsable</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Obligaciones Mínimas del Proveedor</h2>
+                <div class="card">
+                    <h3>Protección de datos (Ley 1581)</h3>
+                    <ul class="step-list">
+                        <li>Prohibición contractual de almacenar prompts con datos personales</li>
+                        <li>Prohibición de entrenar modelos con información del Distrito</li>
+                        <li>Garantía de ubicación de datos en jurisdicciones compatibles (no exige nube nacional, pero sí cumplimiento estricto)</li>
+                    </ul>
+                    
+                    <h3>Seguridad</h3>
+                    <ul class="step-list">
+                        <li>Medidas razonables equivalentes a controles ISO 27001 (sin exigir certificación)</li>
+                        <li>Reporte de incidentes de seguridad en máximo 72 horas</li>
+                    </ul>
+                    
+                    <h3>Transparencia y trazabilidad</h3>
+                    <ul class="step-list">
+                        <li>Registro básico de versiones y actualizaciones</li>
+                        <li>Descripción clara de limitaciones y alcances de la herramienta</li>
+                    </ul>
+                    
+                    <h3>Condiciones contractuales</h3>
+                    <ul class="step-list">
+                        <li>Prohibición de reutilizar información institucional</li>
+                        <li>Cláusula de confidencialidad reforzada para datos sensibles</li>
+                        <li>Destrucción de datos una vez finalice el contrato</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Matriz de Clasificación de Riesgos</h2>
+                <div class="card">
+                    <p>La siguiente matriz permite clasificar rápidamente el nivel de riesgo del caso de uso:</p>
+                    
+                    <div class="risk-matrix">
+                        <div class="risk-level risk-low">
+                            <h3>Bajo</h3>
+                            <p><strong>Características:</strong> Borradores, textos no sensibles, información pública</p>
+                            <p><strong>Requisitos:</strong> Supervisión humana</p>
+                        </div>
+                        
+                        <div class="risk-level risk-medium">
+                            <h3>Medio</h3>
+                            <p><strong>Características:</strong> Trámites administrativos, datos semisensibles</p>
+                            <p><strong>Requisitos:</strong> Validación técnica + supervisor</p>
+                        </div>
+                        
+                        <div class="risk-level risk-high">
+                            <h3>Alto</h3>
+                            <p><strong>Características:</strong> Impacto sobre derechos ciudadanos, automatización</p>
+                            <p><strong>Requisitos:</strong> Piloto + Aprobación Comité IA</p>
+                        </div>
+                        
+                        <div class="risk-level risk-very-high">
+                            <h3>Muy Alto</h3>
+                            <p><strong>Características:</strong> Datos personales sensibles, decisiones automáticas, impacto jurídico</p>
+                            <p><strong>Requisitos:</strong> Prohibido</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Procedimiento de Respuesta ante Incidentes</h2>
+                <div class="card">
+                    <div class="incident-procedure">
+                        <div class="incident-type">
+                            <h4>Ingreso de información personal por error</h4>
+                            <ol class="step-list">
+                                <li>Cerrar el prompt</li>
+                                <li>Reportar inmediatamente al Delegado de Protección de Datos (DPO)</li>
+                                <li>Registrar el incidente en el sistema interno</li>
+                                <li>Evaluar si se requiere notificación al titular del dato</li>
+                                <li>El Comité de IA revisa el caso y emite recomendaciones</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="incident-type">
+                            <h4>La IA genera contenido inapropiado</h4>
+                            <ol class="step-list">
+                                <li>No copiar ni distribuir el contenido</li>
+                                <li>Registrar captura interna para soporte</li>
+                                <li>Reportar al Comité de IA</li>
+                                <li>Ajustar configuraciones o bloquear temporalmente la herramienta</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="incident-type">
+                            <h4>Se detecta error grave o alucinación</h4>
+                            <ol class="step-list">
+                                <li>No utilizar la salida generada</li>
+                                <li>Reportar al supervisor o líder del proceso</li>
+                                <li>Documentar el caso para mejorar el protocolo</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="summary-box">
+                <h3>Resumen Ejecutivo</h3>
+                <p>Esta guía constituye un instrumento estructural que habilita una adopción responsable, progresiva y segura de las tecnologías de IA generativa dentro del Distrito Capital. Más que un documento normativo, es un mecanismo de gestión del cambio que articula la protección de derechos, la eficiencia administrativa y la innovación pública.</p>
+                <p>Su diseño flexible permite actualizar fácilmente los lineamientos conforme evolucione la regulación nacional y las capacidades institucionales, consolidando al Distrito como referente nacional en prácticas de IA responsable.</p>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Guía de Uso Interno de IA Generativa - Framework de Gobernanza de IA - Distrito Capital</p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -5,6 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checklist de Evaluación de Proveedores de IA</title>
     <style>
+        :root {
+            --primary-color: #1a237e;
+            --secondary-color: #283593;
+            --accent-color: #1976D2;
+            --success-color: #4caf50;
+            --warning-color: #ff9800;
+            --danger-color: #f44336;
+            --light-bg: #f5f7fa;
+            --card-bg: white;
+            --border-color: #e0e0e0;
+            --text-color: #333;
+            --text-light: #555;
+        }
+        
         * {
             box-sizing: border-box;
             margin: 0;
@@ -16,12 +30,13 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             padding: 20px;
             min-height: 100vh;
+            color: var(--text-color);
         }
         
         .container {
             max-width: 1800px;
             margin: 0 auto;
-            background: white;
+            background: var(--card-bg);
             border-radius: 20px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             overflow: hidden;
@@ -30,7 +45,7 @@
         }
         
         .header {
-            background: linear-gradient(135deg, #1a237e, #283593);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
             padding: 30px;
             text-align: center;
@@ -49,6 +64,34 @@
             opacity: 0.9;
         }
         
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: var(--border-color);
+            color: var(--text-color);
+        }
+        
         .back-button {
             position: absolute;
             left: 30px;
@@ -59,20 +102,13 @@
             border: 1px solid rgba(255, 255, 255, 0.3);
             padding: 8px 15px;
             border-radius: 5px;
-            text-decoration: none;
             font-size: 14px;
-            transition: all 0.3s ease;
-        }
-        
-        .back-button:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-50%) scale(1.05);
         }
         
         .sidebar {
-            background: #f5f7fa;
+            background: var(--light-bg);
             padding: 20px;
-            border-right: 1px solid #e0e0e0;
+            border-right: 1px solid var(--border-color);
             overflow-y: auto;
             max-height: calc(100vh - 200px);
             position: sticky;
@@ -82,10 +118,10 @@
         .sidebar-title {
             font-size: 18px;
             font-weight: bold;
-            color: #1a237e;
+            color: var(--primary-color);
             margin-bottom: 20px;
             padding-bottom: 10px;
-            border-bottom: 2px solid #1a237e;
+            border-bottom: 2px solid var(--primary-color);
         }
         
         .nav-section {
@@ -95,7 +131,7 @@
         .nav-section-title {
             font-size: 16px;
             font-weight: bold;
-            color: #1a237e;
+            color: var(--primary-color);
             margin-bottom: 10px;
             display: flex;
             align-items: center;
@@ -104,34 +140,35 @@
         
         .nav-item {
             display: block;
-            padding: 5px 5px;
+            padding: 5px;
             margin-bottom: 5px;
-            background: white;
+            background: var(--card-bg);
             border-radius: 6px;
             text-decoration: none;
-            color: #333;
+            color: var(--text-color);
             font-size: 14px;
             transition: all 0.2s ease;
             border-left: 3px solid transparent;
         }
         
-        .nav-item:hover {
+        .nav-item:hover, .nav-item.active {
             background: #e3f2fd;
-            border-left-color: #1976D2;
+            border-left-color: var(--accent-color);
         }
         
         .nav-item.active {
-            background: #e3f2fd;
-            border-left-color: #1976D2;
             font-weight: bold;
-            color: #1a237e;
+            color: var(--primary-color);
+        }
+        
+        .panel {
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 10px;
         }
         
         .json-panel {
             background: #fff3e0;
-            border-radius: 8px;
-            padding: 10px;
-            margin-top: 10px;
             border: 1px solid #ffb74d;
         }
         
@@ -152,7 +189,7 @@
         }
         
         .json-btn {
-            padding: 5px 5px;
+            padding: 5px;
             border: none;
             border-radius: 4px;
             font-size: 13px;
@@ -161,20 +198,9 @@
             transition: all 0.2s ease;
         }
         
-        .json-btn.import {
-            background: #4caf50;
-            color: white;
-        }
-        
-        .json-btn.export {
-            background: #2196f3;
-            color: white;
-        }
-        
-        .json-btn.print {
-            background: #ff9800;
-            color: white;
-        }
+        .json-btn.import { background: var(--success-color); color: white; }
+        .json-btn.export { background: var(--accent-color); color: white; }
+        .json-btn.print { background: var(--warning-color); color: white; }
         
         .json-btn:hover {
             opacity: 0.9;
@@ -188,10 +214,10 @@
         }
         
         .section-card {
-            background: white;
+            background: var(--card-bg);
             border-radius: 12px;
             padding: 20px;
-            border: 3px solid #e0e0e0;
+            border: 3px solid var(--border-color);
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
@@ -205,7 +231,7 @@
             left: 0;
             width: 100%;
             height: 4px;
-            background: linear-gradient(90deg, #1976D2, #64B5F6);
+            background: linear-gradient(90deg, var(--accent-color), #64B5F6);
         }
         
         .section-card:nth-child(2)::before { background: linear-gradient(90deg, #388E3C, #66BB6A); }
@@ -213,7 +239,7 @@
         .section-card:nth-child(4)::before { background: linear-gradient(90deg, #7B1FA2, #AB47BC); }
         .section-card:nth-child(5)::before { background: linear-gradient(90deg, #F57C00, #FFA726); }
         .section-card:nth-child(6)::before { background: linear-gradient(90deg, #00897B, #26A69A); }
-        .section-card:nth-child(7)::before { background: linear-gradient(90deg, #1976D2, #64B5F6); }
+        .section-card:nth-child(7)::before { background: linear-gradient(90deg, var(--accent-color), #64B5F6); }
         .section-card:nth-child(8)::before { background: linear-gradient(90deg, #C62828, #EF5350); }
         
         .section-card:hover {
@@ -226,7 +252,7 @@
             align-items: center;
             margin-bottom: 15px;
             padding-bottom: 10px;
-            border-bottom: 1px solid #e0e0e0;
+            border-bottom: 1px solid var(--border-color);
         }
         
         .section-icon {
@@ -237,7 +263,7 @@
         .section-title {
             font-size: 16px;
             font-weight: bold;
-            color: #1a237e;
+            color: var(--primary-color);
         }
         
         .section-content {
@@ -254,11 +280,11 @@
             display: block;
             font-size: 13px;
             font-weight: bold;
-            color: #1a237e;
+            color: var(--primary-color);
             margin-bottom: 5px;
         }
         
-        .form-group input, .form-group textarea, .form-group select {
+        .form-control {
             width: 100%;
             padding: 8px 12px;
             border: 1px solid #ddd;
@@ -267,7 +293,7 @@
             font-size: 14px;
         }
         
-        .form-group textarea {
+        textarea.form-control {
             min-height: 80px;
             resize: vertical;
         }
@@ -305,10 +331,10 @@
             transition: all 0.2s;
         }
         
-        .risk-level.inaceptable { background-color: #f44336; color: white; }
-        .risk-level.alto { background-color: #ff9800; color: white; }
+        .risk-level.inaceptable { background-color: var(--danger-color); color: white; }
+        .risk-level.alto { background-color: var(--warning-color); color: white; }
         .risk-level.limitado { background-color: #ffc107; color: black; }
-        .risk-level.minimo { background-color: #4caf50; color: white; }
+        .risk-level.minimo { background-color: var(--success-color); color: white; }
         
         .risk-level.selected {
             transform: scale(1.05);
@@ -326,7 +352,7 @@
         .approval-item {
             margin-bottom: 10px;
             padding-bottom: 10px;
-            border-bottom: 1px solid #e0e0e0;
+            border-bottom: 1px solid var(--border-color);
         }
         
         .approval-item:last-child {
@@ -337,7 +363,7 @@
         
         .approval-title {
             font-weight: bold;
-            color: #1a237e;
+            color: var(--primary-color);
             margin-bottom: 5px;
             font-size: 14px;
         }
@@ -347,31 +373,6 @@
             justify-content: center;
             gap: 15px;
             margin-top: 30px;
-        }
-        
-        .btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, #1a237e, #283593);
-            color: white;
-        }
-        
-        .btn-secondary {
-            background: #e0e0e0;
-            color: #333;
-        }
-        
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
         
         .checklist-table {
@@ -387,9 +388,9 @@
         }
         
         .checklist-table th {
-            background-color: #f5f7fa;
+            background-color: var(--light-bg);
             font-weight: bold;
-            color: #1a237e;
+            color: var(--primary-color);
         }
         
         .checklist-table tr:nth-child(even) {
@@ -406,23 +407,22 @@
             text-align: center;
             font-size: 18px;
             font-weight: bold;
-            border: 2px solid #1976D2;
+            border: 2px solid var(--accent-color);
             border-radius: 8px;
             background: linear-gradient(135deg, #e3f2fd, #ffffff);
-            color: #1a237e;
+            color: var(--primary-color);
             transition: all 0.3s ease;
             cursor: pointer;
         }
         
-        .score-input:hover {
+        .score-input:hover, .score-input:focus {
             border-color: #0d47a1;
             box-shadow: 0 0 10px rgba(25, 118, 210, 0.3);
             transform: scale(1.05);
+            outline: none;
         }
         
         .score-input:focus {
-            outline: none;
-            border-color: #0d47a1;
             box-shadow: 0 0 15px rgba(25, 118, 210, 0.5);
             background: linear-gradient(135deg, #bbdefb, #ffffff);
         }
@@ -437,7 +437,7 @@
             font-size: 13px;
             line-height: 1.5;
             background: linear-gradient(135deg, #f5f9ff, #ffffff);
-            color: #333;
+            color: var(--text-color);
             resize: vertical;
             transition: all 0.3s ease;
         }
@@ -449,7 +449,7 @@
         
         .evidence-textarea:focus {
             outline: none;
-            border-color: #1976D2;
+            border-color: var(--accent-color);
             box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
             background: #ffffff;
         }
@@ -461,14 +461,14 @@
         
         .section-score {
             font-weight: bold;
-            color: #1a237e;
+            color: var(--primary-color);
             margin-top: 10px;
         }
         
         .total-score {
             font-size: 18px;
             font-weight: bold;
-            color: #1a237e;
+            color: var(--primary-color);
             text-align: center;
             margin: 20px 0;
             padding: 10px;
@@ -533,7 +533,7 @@
         }
 
         .mandatory-criteria-card.checked {
-            border-left-color: #4caf50;
+            border-left-color: var(--success-color);
             background-color: #f1f8e9;
             box-shadow: 0 4px 8px rgba(76, 175, 80, 0.2);
         }
@@ -545,13 +545,13 @@
         
         .mandatory-criteria-card-title {
             font-weight: bold;
-            color: #1a237e;
+            color: var(--primary-color);
             font-size: 14px;
         }
         
         .mandatory-criteria-card-description {
             font-size: 13px;
-            color: #555;
+            color: var(--text-light);
             margin-bottom: 10px;
         }
         
@@ -561,12 +561,12 @@
             align-items: center;
             margin-top: 15px;
             padding-top: 15px;
-            border-top: 1px solid #e0e0e0;
+            border-top: 1px solid var(--border-color);
         }
         
         .mandatory-criteria-result-title {
             font-weight: bold;
-            color: #1a237e;
+            color: var(--primary-color);
         }
         
         .mandatory-criteria-result-options {
@@ -600,7 +600,7 @@
             border-radius: 10px;
             padding: 20px;
             margin: 20px 0;
-            border: 2px solid #4caf50;
+            border: 2px solid var(--success-color);
         }
         
         .dictamen-title {
@@ -625,7 +625,7 @@
             background: white;
             border-radius: 8px;
             padding: 15px;
-            border-left: 4px solid #4caf50;
+            border-left: 4px solid var(--success-color);
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
             cursor: pointer;
@@ -649,13 +649,13 @@
         
         .dictamen-option-title {
             font-weight: bold;
-            color: #1a237e;
+            color: var(--primary-color);
             font-size: 14px;
         }
         
         .dictamen-option-description {
             font-size: 13px;
-            color: #555;
+            color: var(--text-light);
         }
 
         /* Estilos para el panel de información de versión */
@@ -663,20 +663,20 @@
             background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
             border-radius: 10px;
             padding: 15px;
-            border-left: 4px solid #2196F3;
+            border-left: 4px solid var(--accent-color);
             margin: 10px 0;
         }
 
         .version-title {
             font-size: 18px;
             font-weight: bold;
-            color: #1a237e;
+            color: var(--primary-color);
             margin-bottom: 5px;
         }
 
         .version-description {
             font-size: 14px;
-            color: #555;
+            color: var(--text-light);
             margin-bottom: 8px;
         }
 
@@ -697,9 +697,52 @@
             color: white;
         }
 
-        .badge-basico { background: #4CAF50; }
-        .badge-estandar { background: #2196F3; }
-        .badge-reforzado { background: #F44336; }
+        .badge-basico { background: var(--success-color); }
+        .badge-estandar { background: var(--accent-color); }
+        .badge-reforzado { background: var(--danger-color); }
+        
+        /* Nuevos estilos para el resumen */
+        .summary-panel {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid #e9ecef;
+            margin-bottom: 20px;
+        }
+
+        .summary-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .summary-content {
+            display: grid;
+            gap: 10px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+        }
+
+        .summary-label {
+            font-weight: bold;
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        .summary-value {
+            color: var(--primary-color);
+            font-weight: bold;
+            font-size: 14px;
+            text-align: right;
+        }
         
         @media (max-width: 1200px) {
             .container {
@@ -726,7 +769,7 @@
             }
             
             .header {
-                background: #1a237e !important;
+                background: var(--primary-color) !important;
                 padding: 15px !important;
                 margin-bottom: 10px !important;
             }
@@ -782,13 +825,13 @@
                 font-size: 12px !important;
             }
             
-            .form-group input, .form-group textarea, .form-group select {
+            .form-control {
                 padding: 5px 8px !important;
                 font-size: 12px !important;
                 border: 1px solid #999 !important;
             }
             
-            .form-group textarea {
+            textarea.form-control {
                 min-height: 60px !important;
             }
             
@@ -827,7 +870,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <a href="javascript:history.back()" class="back-button">← Atrás</a>
+            <a href="javascript:history.back()" class="btn back-button">← Atrás</a>
             <h1>📋 Checklist de Evaluación de Proveedores de IA</h1>
             <p>Herramienta operativa del Framework de Gobernanza de IA para selección y contratación de proveedores</p>
         </div>
@@ -846,7 +889,7 @@
                 <a href="#seccion-final" class="nav-item">Informe Final de Evaluación</a>
             </div>
             
-            <div class="json-panel">
+            <div class="panel json-panel">
                 <div class="json-title">📄 Gestión de Datos</div>
                 <div class="json-actions">
                     <input type="file" id="jsonFileInput" accept=".json" style="display: none;">
@@ -864,16 +907,16 @@
             <div class="section-card" id="seccion-info">
                 <div class="section-header">
                     <div class="section-icon">📝</div>
-                    <div class="section-title">Información General</div>
+                    <div class="section-title">Información General de la Evaluación</div>
                 </div>
                 <div class="section-content">
                     <div class="form-group">
                         <label for="proveedor">Proveedor Evaluado</label>
-                        <input type="text" id="proveedor" placeholder="Nombre del proveedor">
+                        <input type="text" id="proveedor" class="form-control" placeholder="Nombre del proveedor">
                     </div>
                     <div class="form-group">
                         <label for="caso-uso">Caso de Uso</label>
-                        <input type="text" id="caso-uso" placeholder="Descripción del caso de uso">
+                        <input type="text" id="caso-uso" class="form-control" placeholder="Descripción del caso de uso">
                     </div>
                     <div class="form-group">
                         <label>Nivel de Riesgo</label>
@@ -1312,37 +1355,25 @@
                     <div class="section-title">INFORME FINAL DE EVALUACIÓN</div>
                 </div>
                 <div class="section-content">
-                    <div class="form-group">
-                        <label for="proveedor-final">Proveedor Evaluado</label>
-                        <input type="text" id="proveedor-final" placeholder="Nombre del proveedor">
-                    </div>
-                    <div class="form-group">
-                        <label for="caso-uso-final">Caso de Uso</label>
-                        <input type="text" id="caso-uso-final" placeholder="Descripción del caso de uso">
-                    </div>
-                    <div class="form-group">
-                        <label>Nivel de Riesgo</label>
-                        <div class="risk-levels">
-                            <div class="risk-level inaceptable" data-level="inaceptable">Inaceptable</div>
-                            <div class="risk-level alto" data-level="alto">Alto</div>
-                            <div class="risk-level limitado" data-level="limitado">Limitado</div>
-                            <div class="risk-level minimo" data-level="minimo">Mínimo</div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Checklist Aplicado</label>
-                        <div class="checkbox-group">
-                            <div class="checkbox-item">
-                                <input type="radio" id="checklist-basico-final" name="checklist-final" value="basico">
-                                <label for="checklist-basico-final">Básico</label>
+                    <!-- Resumen de información general (solo lectura) -->
+                    <div class="summary-panel">
+                        <div class="summary-title">Resumen de la Evaluación</div>
+                        <div class="summary-content">
+                            <div class="summary-item">
+                                <span class="summary-label">Proveedor Evaluado:</span>
+                                <span class="summary-value" id="summary-proveedor">-</span>
                             </div>
-                            <div class="checkbox-item">
-                                <input type="radio" id="checklist-estandar-final" name="checklist-final" value="estandar" checked>
-                                <label for="checklist-estandar-final">Estándar</label>
+                            <div class="summary-item">
+                                <span class="summary-label">Caso de Uso:</span>
+                                <span class="summary-value" id="summary-caso-uso">-</span>
                             </div>
-                            <div class="checkbox-item">
-                                <input type="radio" id="checklist-reforzado-final" name="checklist-final" value="reforzado">
-                                <label for="checklist-reforzado-final">Reforzado</label>
+                            <div class="summary-item">
+                                <span class="summary-label">Nivel de Riesgo:</span>
+                                <span class="summary-value" id="summary-riesgo">-</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Checklist Aplicado:</span>
+                                <span class="summary-value" id="summary-checklist">-</span>
                             </div>
                         </div>
                     </div>
@@ -1357,45 +1388,7 @@
                         </div>
                         
                         <div class="mandatory-criteria-grid" id="mandatory-criteria-container">
-                            <div class="mandatory-criteria-card" id="criterio-card-1.1">
-                                <div class="mandatory-criteria-card-header">
-                                    <input type="checkbox" id="criterio-1.1" name="criterios-mandatorios" value="1.1">
-                                    <div class="mandatory-criteria-card-title">Criterio 1.1: Cumplimiento de la Ley 1581 de 2012</div>
-                                </div>
-                                <div class="mandatory-criteria-card-description">
-                                    Verificar que el proveedor tiene política de privacidad robusta, actualizada y claramente alineada con la Ley 1581 de 2012.
-                                </div>
-                            </div>
-                            
-                            <div class="mandatory-criteria-card" id="criterio-card-3.2">
-                                <div class="mandatory-criteria-card-header">
-                                    <input type="checkbox" id="criterio-3.2" name="criterios-mandatorios" value="3.2">
-                                    <div class="mandatory-criteria-card-title">Criterio 3.2: Capacidad de suscribir un DPA</div>
-                                </div>
-                                <div class="mandatory-criteria-card-description">
-                                    Verificar que el proveedor ofrece un Data Processing Agreement robusto, alineado con la Ley 1581.
-                                </div>
-                            </div>
-                            
-                            <div class="mandatory-criteria-card" id="criterio-card-4.1">
-                                <div class="mandatory-criteria-card-header">
-                                    <input type="checkbox" id="criterio-4.1" name="criterios-mandatorios" value="4.1">
-                                    <div class="mandatory-criteria-card-title">Criterio 4.1: Certificación de seguridad básica</div>
-                                </div>
-                                <div class="mandatory-criteria-card-description">
-                                    Verificar que el proveedor tiene certificación de seguridad básica o evidencia equivalente aceptable.
-                                </div>
-                            </div>
-                            
-                            <div class="mandatory-criteria-card" id="criterio-card-6.1">
-                                <div class="mandatory-criteria-card-header">
-                                    <input type="checkbox" id="criterio-6.1" name="criterios-mandatorios" value="6.1">
-                                    <div class="mandatory-criteria-card-title">Criterio 6.1: SLA con compromisos cuantificables</div>
-                                </div>
-                                <div class="mandatory-criteria-card-description">
-                                    Verificar que el proveedor ofrece SLA con métricas clave y compensaciones definidas por incumplimiento.
-                                </div>
-                            </div>
+                            <!-- Criterios mandatorios se generan dinámicamente -->
                         </div>
                         
                         <div class="mandatory-criteria-result">
@@ -1455,7 +1448,7 @@
                     
                     <div class="form-group">
                         <label for="observaciones">Observaciones y Recomendaciones Finales</label>
-                        <textarea id="observaciones" placeholder="Observaciones y recomendaciones finales"></textarea>
+                        <textarea id="observaciones" class="form-control" placeholder="Observaciones y recomendaciones finales"></textarea>
                     </div>
                     
                     <div class="form-group">
@@ -1463,18 +1456,18 @@
                         <div class="approval-section">
                             <div class="approval-item">
                                 <div class="approval-title">Responsable Técnico</div>
-                                <input type="text" id="responsable-tecnico" placeholder="Nombre y firma">
-                                <input type="text" id="fecha-tecnico" placeholder="Fecha">
+                                <input type="text" id="responsable-tecnico" class="form-control" placeholder="Nombre y firma">
+                                <input type="text" id="fecha-tecnico" class="form-control" placeholder="Fecha">
                             </div>
                             <div class="approval-item">
                                 <div class="approval-title">DPO/Área Jurídica</div>
-                                <input type="text" id="dpo-juridica" placeholder="Nombre y firma">
-                                <input type="text" id="fecha-dpo" placeholder="Fecha">
+                                <input type="text" id="dpo-juridica" class="form-control" placeholder="Nombre y firma">
+                                <input type="text" id="fecha-dpo" class="form-control" placeholder="Fecha">
                             </div>
                             <div class="approval-item">
                                 <div class="approval-title">Comité de IA (Visto Bueno)</div>
-                                <input type="text" id="comite-ia" placeholder="Nombre y firma">
-                                <input type="text" id="fecha-comite" placeholder="Fecha">
+                                <input type="text" id="comite-ia" class="form-control" placeholder="Nombre y firma">
+                                <input type="text" id="fecha-comite" class="form-control" placeholder="Fecha">
                             </div>
                         </div>
                     </div>
@@ -1546,6 +1539,24 @@
                 '1': 0.20, '2': 0.15, '3': 0.15, '4': 0.15, '5': 0.10, '6': 0.10, '7': 0.15
             }
         };
+
+        // Función para actualizar el resumen en el informe final
+        function actualizarResumenFinal() {
+            document.getElementById('summary-proveedor').textContent = 
+                document.getElementById('proveedor').value || '-';
+            
+            document.getElementById('summary-caso-uso').textContent = 
+                document.getElementById('caso-uso').value || '-';
+            
+            const riesgoSeleccionado = document.querySelector('#seccion-info .risk-level.selected');
+            document.getElementById('summary-riesgo').textContent = 
+                riesgoSeleccionado ? riesgoSeleccionado.textContent : '-';
+            
+            const checklistSeleccionado = document.querySelector('input[name="checklist"]:checked');
+            document.getElementById('summary-checklist').textContent = 
+                checklistSeleccionado ? 
+                (checklistSeleccionado.nextElementSibling.textContent) : '-';
+        }
 
         // Función principal para gestionar versiones
         function gestionarVersionChecklist() {
@@ -1620,11 +1631,7 @@
                 checkbox.addEventListener('change', function() {
                     const card = document.getElementById(`criterio-card-${this.value}`);
                     if (card) {
-                        if (this.checked) {
-                            card.classList.add('checked');
-                        } else {
-                            card.classList.remove('checked');
-                        }
+                        card.classList.toggle('checked', this.checked);
                     }
                     verificarCriteriosMandatorios();
                 });
@@ -1837,15 +1844,6 @@
                 }
             });
             
-            checklistData.proveedorFinal = document.getElementById('proveedor-final').value;
-            checklistData.casoUsoFinal = document.getElementById('caso-uso-final').value;
-            
-            const riesgoFinalSeleccionado = document.querySelector('#seccion-final .risk-level.selected');
-            checklistData.nivelRiesgoFinal = riesgoFinalSeleccionado ? riesgoFinalSeleccionado.getAttribute('data-level') : null;
-            
-            const checklistFinalAplicado = document.querySelector('input[name="checklist-final"]:checked');
-            checklistData.checklistAplicadoFinal = checklistFinalAplicado ? checklistFinalAplicado.value : null;
-            
             checklistData.criteriosMandatorios = [];
             document.querySelectorAll('input[name="criterios-mandatorios"]').forEach(checkbox => {
                 checklistData.criteriosMandatorios.push({
@@ -1912,21 +1910,6 @@
                 }
             }
             
-            document.getElementById('proveedor-final').value = checklistData.proveedorFinal || '';
-            document.getElementById('caso-uso-final').value = checklistData.casoUsoFinal || '';
-            
-            if (checklistData.nivelRiesgoFinal) {
-                document.querySelectorAll('#seccion-final .risk-level').forEach(level => {
-                    if (level.getAttribute('data-level') === checklistData.nivelRiesgoFinal) {
-                        level.classList.add('selected');
-                    }
-                });
-            }
-            
-            if (checklistData.checklistAplicadoFinal) {
-                document.getElementById(`checklist-${checklistData.checklistAplicadoFinal}-final`).checked = true;
-            }
-            
             if (checklistData.criteriosMandatorios) {
                 if (Array.isArray(checklistData.criteriosMandatorios) && checklistData.criteriosMandatorios[0] && typeof checklistData.criteriosMandatorios[0] === 'object') {
                     checklistData.criteriosMandatorios.forEach(criterio => {
@@ -1935,11 +1918,7 @@
                             checkbox.checked = criterio.cumplido;
                             const card = document.getElementById(`criterio-card-${criterio.id}`);
                             if (card) {
-                                if (criterio.cumplido) {
-                                    card.classList.add('checked');
-                                } else {
-                                    card.classList.remove('checked');
-                                }
+                                card.classList.toggle('checked', criterio.cumplido);
                             }
                         }
                     });
@@ -1992,6 +1971,7 @@
             setTimeout(() => {
                 calcularPuntuaciones();
                 verificarCriteriosMandatorios();
+                actualizarResumenFinal();
             }, 100);
         }
 
@@ -2006,7 +1986,6 @@
             });
             
             document.getElementById('checklist-estandar').checked = true;
-            document.getElementById('checklist-estandar-final').checked = true;
             
             document.querySelectorAll('.risk-level').forEach(level => {
                 level.classList.remove('selected');
@@ -2022,6 +2001,7 @@
             
             gestionarVersionChecklist();
             calcularPuntuaciones();
+            actualizarResumenFinal();
         }
 
         // Cargar ejemplo
@@ -2060,10 +2040,6 @@
                     "6.2": "Soporte estándar",
                     "6.3": "Roadmap detallado"
                 },
-                proveedorFinal: "TechAI Solutions",
-                casoUsoFinal: "Sistema de clasificación automática de solicitudes ciudadanas",
-                nivelRiesgoFinal: "alto",
-                checklistAplicadoFinal: "estandar",
                 criteriosMandatorios: [
                     { id: "1.1", cumplido: true },
                     { id: "3.2", cumplido: true },
@@ -2096,15 +2072,11 @@
         window.addEventListener('DOMContentLoaded', function() {
             gestionarVersionChecklist();
             calcularPuntuaciones();
+            actualizarResumenFinal();
             
-            // Sincronizar información general con informe final
-            document.getElementById('proveedor').addEventListener('change', function() {
-                document.getElementById('proveedor-final').value = this.value;
-            });
-            
-            document.getElementById('caso-uso').addEventListener('change', function() {
-                document.getElementById('caso-uso-final').value = this.value;
-            });
+            // Actualizar resumen cuando cambien los campos
+            document.getElementById('proveedor').addEventListener('input', actualizarResumenFinal);
+            document.getElementById('caso-uso').addEventListener('input', actualizarResumenFinal);
             
             // Event listeners para niveles de riesgo
             document.querySelectorAll('.risk-level').forEach(level => {
@@ -2119,16 +2091,10 @@
                     
                     if (!group.closest('#seccion-final')) {
                         document.getElementById(`checklist-${versionRecomendada}`).checked = true;
-                        document.getElementById(`checklist-${versionRecomendada}-final`).checked = true;
                         gestionarVersionChecklist();
                         
-                        // Sincronizar con sección final
-                        document.querySelectorAll('#seccion-final .risk-level').forEach(finalLevel => {
-                            finalLevel.classList.remove('selected');
-                            if (finalLevel.getAttribute('data-level') === nivelRiesgo) {
-                                finalLevel.classList.add('selected');
-                            }
-                        });
+                        // Actualizar resumen
+                        actualizarResumenFinal();
                     }
                 });
             });
@@ -2137,7 +2103,7 @@
             document.querySelectorAll('input[name="checklist"]').forEach(radio => {
                 radio.addEventListener('change', function() {
                     gestionarVersionChecklist();
-                    document.getElementById(`checklist-${this.value}-final`).checked = true;
+                    actualizarResumenFinal();
                 });
             });
             

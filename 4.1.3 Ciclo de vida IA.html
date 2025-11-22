@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Toolkit - Capa 3: Flujo de Gobernanza de IA</title>
     <style>
+        /* Estilos existentes (se mantienen igual) */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -412,6 +413,32 @@
             }
         }
         
+        /* Nuevos estilos para enlaces de herramientas */
+        .tool-link {
+            display: inline-block;
+            background: #1976D2;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 12px;
+            margin: 0 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .tool-link:hover {
+            background: #1565C0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .tool-links-container {
+            margin: 10px 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+        
         @media (max-width: 1200px) {
             .content {
                 grid-template-columns: 1fr;
@@ -550,7 +577,13 @@
                 deliverable: {
                     title: "AI Use-Case Canvas aprobado",
                     description: "El entregable de esta fase es el AI Use-Case Canvas aprobado por el Comité de IA."
-                }
+                },
+                tools: [
+                    {
+                        name: "IA Use-Case Canvas",
+                        link: "4.2.1 IA Use-Case Canvas.html"
+                    }
+                ]
             },
             2: {
                 title: "Fase 2 - Clasificación de Riesgo",
@@ -582,6 +615,12 @@
                     "Alto: Activan obligaciones reforzadas",
                     "Limitado: Requisitos moderados",
                     "Mínimo: Requisitos básicos"
+                ],
+                tools: [
+                    {
+                        name: "Matriz de Riesgo",
+                        link: "4.2.2 Matriz de Riesgo.html"
+                    }
                 ]
             },
             3: {
@@ -608,7 +647,13 @@
                 deliverable: {
                     title: "ARA/DPIA aprobado con plan de mitigación",
                     description: "El entregable es el ARA/DPIA aprobado con su plan de mitigación correspondiente."
-                }
+                },
+                tools: [
+                    {
+                        name: "Plantilla ARA-DPIA",
+                        link: "4.2.3 Plantilla ARA-DPIA.html"
+                    }
+                ]
             },
             4: {
                 title: "Fase 4 - Gobierno de Datos",
@@ -642,7 +687,13 @@
                 deliverable: {
                     title: "Data Sheets aprobados y plan de gobernanza de datos",
                     description: "El resultado son los Data Sheets aprobados y el plan de gobernanza de datos."
-                }
+                },
+                tools: [
+                    {
+                        name: "DataSheet",
+                        link: "4.2.4 DataSheet.html"
+                    }
+                ]
             },
             5: {
                 title: "Fase 5 - Desarrollo o Adquisición",
@@ -662,7 +713,13 @@
                 deliverable: {
                     title: "Sistema con documentación técnica o contrato firmado",
                     description: "El entregable es el sistema (con documentación técnica completa) o el contrato firmado."
-                }
+                },
+                tools: [
+                    {
+                        name: "Checklist de Proveedores",
+                        link: "4.2.5 Checklist de Proveedores.html"
+                    }
+                ]
             },
             6: {
                 title: "Fase 6 - Pruebas y Validación",
@@ -696,7 +753,13 @@
                 deliverable: {
                     title: "Informe de pruebas y validación con Model Card",
                     description: "El entregable es el Informe de pruebas y validación acompañado de una Model Card completa."
-                }
+                },
+                tools: [
+                    {
+                        name: "ModelCard",
+                        link: "4.2.4 ModelCard.html"
+                    }
+                ]
             },
             7: {
                 title: "Fase 7 - Despliegue",
@@ -730,7 +793,13 @@
                 deliverable: {
                     title: "Sistema en producción con controles activos",
                     description: "El entregable es el sistema en producción con los controles operativos activos y el personal debidamente capacitado."
-                }
+                },
+                tools: [
+                    {
+                        name: "Guia de Uso Interno IA",
+                        link: "4.2.6 Guia de Uso Interno IA.html"
+                    }
+                ]
             },
             8: {
                 title: "Fase 8 - Monitoreo y Auditoría",
@@ -760,7 +829,13 @@
                 deliverable: {
                     title: "Reportes de monitoreo, registros de incidentes e informes de auditoría",
                     description: "Los entregables son los reportes de monitoreo, los registros de incidentes y los informes de auditoría."
-                }
+                },
+                tools: [
+                    {
+                        name: "Guia de Uso Interno IA",
+                        link: "4.2.6 Guia de Uso Interno IA.html"
+                    }
+                ]
             },
             9: {
                 title: "Fase 9 - Retiro o Fin de Vida",
@@ -790,7 +865,8 @@
                 deliverable: {
                     title: "Sistema retirado, datos gestionados e informe de lecciones aprendidas",
                     description: "El entregable final es el sistema retirado, los datos gestionados conforme a la normativa y un informe de lecciones aprendidas archivado."
-                }
+                },
+                tools: []
             }
         };
 
@@ -809,6 +885,26 @@
                     <p>${detail.description}</p>
                 </div>
             `;
+            
+            // Herramientas relacionadas
+            if (detail.tools && detail.tools.length > 0) {
+                html += `
+                    <div class="detail-section">
+                        <h3>🛠️ Herramientas Relacionadas</h3>
+                        <div class="tool-links-container">
+                `;
+                
+                detail.tools.forEach(tool => {
+                    html += `
+                        <a href="${tool.link}" class="tool-link" target="_blank">${tool.name}</a>
+                    `;
+                });
+                
+                html += `
+                        </div>
+                    </div>
+                `;
+            }
             
             // Activities
             if (detail.activities) {

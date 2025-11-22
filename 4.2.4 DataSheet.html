@@ -1,0 +1,1572 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toolkit - Data Sheets</title>
+    <style>
+        :root {
+            --primary-color: #1a237e;
+            --secondary-color: #283593;
+            --accent-color: #1976D2;
+            --success-color: #4caf50;
+            --warning-color: #ff9800;
+            --danger-color: #f44336;
+            --light-bg: #f5f7fa;
+            --card-bg: white;
+            --border-color: #e0e0e0;
+            --text-color: #333;
+            --text-light: #555;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+            color: var(--text-color);
+        }
+        
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 350px 1fr;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            grid-column: 1 / -1;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: var(--border-color);
+            color: var(--text-color);
+        }
+        
+        .back-button {
+            position: absolute;
+            left: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        
+        .sidebar {
+            background: var(--light-bg);
+            padding: 20px;
+            border-right: 1px solid var(--border-color);
+            overflow-y: auto;
+            max-height: calc(100vh - 200px);
+            position: sticky;
+            top: 0;
+        }
+        
+        .sidebar-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-color);
+        }
+        
+        .nav-section {
+            margin-bottom: 25px;
+        }
+        
+        .nav-section-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .nav-item {
+            display: block;
+            padding: 5px;
+            margin-bottom: 5px;
+            background: var(--card-bg);
+            border-radius: 6px;
+            text-decoration: none;
+            color: var(--text-color);
+            font-size: 14px;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+        
+        .nav-item:hover, .nav-item.active {
+            background: #e3f2fd;
+            border-left-color: var(--accent-color);
+        }
+        
+        .nav-item.active {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .panel {
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+        
+        .json-panel {
+            background: #fff3e0;
+            border: 1px solid #ffb74d;
+        }
+        
+        .json-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #e65100;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .json-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .json-btn {
+            padding: 5px;
+            border: none;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .json-btn.import { background: var(--success-color); color: white; }
+        .json-btn.export { background: var(--accent-color); color: white; }
+        .json-btn.print { background: var(--warning-color); color: white; }
+        
+        .json-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        .content {
+            padding: 30px;
+            overflow-y: auto;
+            max-height: calc(100vh - 170px);
+        }
+        
+        .section-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            border: 3px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        
+        .section-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), #64B5F6);
+        }
+        
+        .section-card:nth-child(2)::before { background: linear-gradient(90deg, #388E3C, #66BB6A); }
+        .section-card:nth-child(3)::before { background: linear-gradient(90deg, #D32F2F, #EF5350); }
+        .section-card:nth-child(4)::before { background: linear-gradient(90deg, #7B1FA2, #AB47BC); }
+        .section-card:nth-child(5)::before { background: linear-gradient(90deg, #F57C00, #FFA726); }
+        .section-card:nth-child(6)::before { background: linear-gradient(90deg, #00897B, #26A69A); }
+        .section-card:nth-child(7)::before { background: linear-gradient(90deg, var(--accent-color), #64B5F6); }
+        .section-card:nth-child(8)::before { background: linear-gradient(90deg, #C62828, #EF5350); }
+        .section-card:nth-child(9)::before { background: linear-gradient(90deg, #388E3C, #66BB6A); }
+        .section-card:nth-child(10)::before { background: linear-gradient(90deg, #D32F2F, #EF5350); }
+        .section-card:nth-child(11)::before { background: linear-gradient(90deg, #7B1FA2, #AB47BC); }
+        .section-card:nth-child(12)::before { background: linear-gradient(90deg, #F57C00, #FFA726); }
+        .section-card:nth-child(13)::before { background: linear-gradient(90deg, var(--accent-color), #64B5F6); }
+        
+        .section-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .section-icon {
+            font-size: 20px;
+            margin-right: 10px;
+        }
+        
+        .section-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .section-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+            position: relative;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+        
+        .helper-icon {
+            cursor: help;
+            margin-left: 5px;
+            font-size: 12px;
+            opacity: 0.7;
+        }
+        
+        .helper-text {
+            display: none;
+            position: absolute;
+            background: #333;
+            color: white;
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            z-index: 1000;
+            width: 300px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            top: 100%;
+            left: 0;
+        }
+        
+        .helper-icon:hover + .helper-text {
+            display: block;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 14px;
+        }
+        
+        textarea.form-control {
+            min-height: 80px;
+            resize: vertical;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 5px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 13px;
+        }
+        
+        .checkbox-item input {
+            width: auto;
+        }
+        
+        .required-field {
+            background-color: #FFF2CC;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            margin-top: 10px;
+            position: relative;
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+        
+        .data-table th {
+            background-color: var(--light-bg);
+            padding: 10px;
+            text-align: left;
+            font-weight: bold;
+            color: var(--primary-color);
+            border: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+        }
+        
+        .data-table td {
+            padding: 8px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .data-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .data-table tr:hover {
+            background-color: #e3f2fd;
+        }
+        
+        .data-table input, .data-table textarea, .data-table select {
+            width: 100%;
+            padding: 6px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 12px;
+            box-sizing: border-box;
+        }
+        
+        .data-table textarea {
+            min-height: 60px;
+            resize: vertical;
+        }
+        
+        .table-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 10px;
+        }
+        
+        .table-btn {
+            padding: 5px 10px;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-left: 5px;
+        }
+        
+        .table-btn:hover {
+            background-color: var(--primary-color);
+        }
+        
+        .table-btn.remove {
+            background-color: var(--danger-color);
+        }
+        
+        .approval-section {
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+        
+        .approval-item {
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .approval-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .approval-title {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        @media (max-width: 1200px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                display: none;
+            }
+        }
+        
+        @media print {
+            body {
+                background: white !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            
+            .container {
+                max-width: 100% !important;
+                box-shadow: none !important;
+                border-radius: 0 !important;
+                grid-template-columns: 1fr !important;
+            }
+            
+            .header {
+                background: var(--primary-color) !important;
+                padding: 15px !important;
+                margin-bottom: 10px !important;
+            }
+            
+            .header h1 {
+                font-size: 24px !important;
+                margin-bottom: 5px !important;
+            }
+            
+            .header p {
+                font-size: 14px !important;
+            }
+            
+            .back-button, .sidebar, .json-panel, .actions, .table-actions {
+                display: none !important;
+            }
+            
+            .content {
+                padding: 10px !important;
+                max-height: none !important;
+                overflow: visible !important;
+            }
+            
+            .section-card {
+                page-break-inside: avoid;
+                border: 1px solid #ccc !important;
+                border-radius: 5px !important;
+                padding: 15px !important;
+                min-height: auto !important;
+                margin-bottom: 10px !important;
+                box-shadow: none !important;
+                transform: none !important;
+            }
+            
+            .section-card::before {
+                height: 3px !important;
+            }
+            
+            .section-header {
+                margin-bottom: 10px !important;
+                padding-bottom: 5px !important;
+            }
+            
+            .section-title {
+                font-size: 14px !important;
+            }
+            
+            .form-group {
+                margin-bottom: 10px !important;
+            }
+            
+            .form-group label {
+                font-size: 12px !important;
+            }
+            
+            .form-control {
+                padding: 5px 8px !important;
+                font-size: 12px !important;
+                border: 1px solid #999 !important;
+            }
+            
+            textarea.form-control {
+                min-height: 60px !important;
+            }
+            
+            .checkbox-group {
+                gap: 5px !important;
+            }
+            
+            .checkbox-item {
+                font-size: 11px !important;
+            }
+            
+            .approval-section {
+                padding: 10px !important;
+            }
+            
+            .approval-item {
+                margin-bottom: 8px !important;
+                padding-bottom: 8px !important;
+            }
+            
+            .approval-title {
+                font-size: 12px !important;
+            }
+            
+            .data-table th, .data-table td {
+                padding: 5px !important;
+                font-size: 10px !important;
+            }
+            
+            .helper-icon, .helper-text {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="javascript:history.back()" class="btn back-button">← Atrás</a>
+            <h1>🛠️ Toolkit - Data Sheets</h1>
+            <p>Documentación estandarizada para conjuntos de datos</p>
+        </div>
+        
+        <div class="sidebar">
+            <div class="nav-section">
+                <div class="nav-section-title">📋 Secciones del Data Sheet</div>
+                <a href="#ds-seccion1" class="nav-item active">📝 Información General del Dataset</a>
+                <a href="#ds-seccion2" class="nav-item">🎯 Descripción y Propósito</a>
+                <a href="#ds-seccion3" class="nav-item">📥 Origen y Método de Recolección</a>
+                <a href="#ds-seccion4" class="nav-item">📊 Composición del Dataset</a>
+                <a href="#ds-seccion5" class="nav-item">🔒 Presencia de Datos Personales y Sensibles</a>
+                <a href="#ds-seccion6" class="nav-item">📏 Calidad del Dataset</a>
+                <a href="#ds-seccion7" class="nav-item">⚖️ Evaluación de Sesgos y Representatividad</a>
+                <a href="#ds-seccion8" class="nav-item">🔄 Procesamiento y Transformaciones Aplicadas</a>
+                <a href="#ds-seccion9" class="nav-item">⚖️ Riesgos Éticos y Legales</a>
+                <a href="#ds-seccion10" class="nav-item">📋 Uso Permitido y No Permitido</a>
+                <a href="#ds-seccion11" class="nav-item">🔐 Seguridad del Dataset</a>
+                <a href="#ds-seccion12" class="nav-item">📚 Historial del Dataset</a>
+                <a href="#ds-seccion13" class="nav-item">✅ Aprobaciones Institucionales</a>
+            </div>
+            
+            <div class="panel json-panel">
+                <div class="json-title">📄 Gestión de Datos</div>
+                <div class="json-actions">
+                    <input type="file" id="jsonFileInput" accept=".json" style="display: none;">
+                    <button class="json-btn import" onclick="document.getElementById('jsonFileInput').click()">Importar desde JSON</button>
+                    <button class="json-btn export" onclick="exportarJSON()">Exportar a JSON</button>
+                    <button class="json-btn print" onclick="imprimirFormulario()">🖨️ Imprimir Formulario</button>
+                    <button class="json-btn" onclick="cargarEjemplo()" style="background: #9c27b0; color: white;">Cargar Ejemplo</button>
+                    <button class="json-btn" onclick="limpiarFormulario()" style="background: #f44336; color: white;">Limpiar Todo</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <!-- Data Sheet Content -->
+            <div id="data-sheet-content">
+                <!-- Sección 1: Información General del Dataset -->
+                <div class="section-card" id="ds-seccion1">
+                    <div class="section-header">
+                        <div class="section-icon">📝</div>
+                        <div class="section-title">1. Información General del Dataset</div>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label for="dsNombre">
+                                Nombre del dataset
+                                <span class="helper-icon" title="Identificador único del conjunto de datos">ℹ️</span>
+                            </label>
+                            <input type="text" id="dsNombre" class="form-control required-field" placeholder="Ej: Dataset de Solicitudes Ciudadanas Bogotá 2018-2024">
+                        </div>
+                        <div class="form-group">
+                            <label for="dsEntidadPropietaria">
+                                Entidad propietaria
+                                <span class="helper-icon" title="Organización propietaria del dataset">ℹ️</span>
+                            </label>
+                            <input type="text" id="dsEntidadPropietaria" class="form-control required-field" placeholder="Ej: Secretaría Distrital de Gobierno">
+                        </div>
+                        <div class="form-group">
+                            <label for="dsAreaResponsable">
+                                Área responsable
+                                <span class="helper-icon" title="Departamento o área responsable del dataset">ℹ️</span>
+                            </label>
+                            <input type="text" id="dsAreaResponsable" class="form-control required-field" placeholder="Ej: Dirección de Atención al Ciudadano">
+                        </div>
+                        <div class="form-group">
+                            <label for="dsVersion">
+                                Versión
+                                <span class="helper-icon" title="Versión actual del dataset">ℹ️</span>
+                            </label>
+                            <input type="text" id="dsVersion" class="form-control required-field" placeholder="Ej: v1.0">
+                        </div>
+                        <div class="form-group">
+                            <label for="dsFechaCreacion">
+                                Fecha de creación
+                                <span class="helper-icon" title="Fecha en que se creó el dataset">ℹ️</span>
+                            </label>
+                            <input type="date" id="dsFechaCreacion" class="form-control required-field">
+                        </div>
+                        <div class="form-group">
+                            <label for="dsFechaActualizacion">
+                                Fecha de actualización
+                                <span class="helper-icon" title="Última fecha de modificación del dataset">ℹ️</span>
+                            </label>
+                            <input type="date" id="dsFechaActualizacion" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="dsContacto">
+                                Contacto institucional
+                                <span class="helper-icon" title="Persona o departamento de contacto">ℹ️</span>
+                            </label>
+                            <input type="text" id="dsContacto" class="form-control required-field" placeholder="Ej: datagob@bogota.gov.co">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sección 2: Descripción y Propósito -->
+                <div class="section-card" id="ds-seccion2">
+                    <div class="section-header">
+                        <div class="section-icon">🎯</div>
+                        <div class="section-title">2. Descripción y Propósito</div>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label for="dsDescripcion">
+                                Descripción del contenido
+                                <span class="helper-icon" title="Descripción detallada de lo que contiene el dataset">ℹ️</span>
+                            </label>
+                            <textarea id="dsDescripcion" class="form-control required-field" placeholder="Describa el contenido del dataset"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="dsFinalidad">
+                                Finalidad del dataset
+                                <span class="helper-icon" title="Propósito principal del dataset">ℹ️</span>
+                            </label>
+                            <textarea id="dsFinalidad" class="form-control required-field" placeholder="Describa la finalidad del dataset"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="dsProcesosServicios">
+                                Procesos o servicios públicos que soporta
+                                <span class="helper-icon" title="Procesos institucionales que utilizan este dataset">ℹ️</span>
+                            </label>
+                            <textarea id="dsProcesosServicios" class="form-control required-field" placeholder="Liste los procesos o servicios"></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sección 3: Origen y Método de Recolección -->
+                <div class="section-card" id="ds-seccion3">
+                    <div class="section-header">
+                        <div class="section-icon">📥</div>
+                        <div class="section-title">3. Origen y Método de Recolección</div>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label for="dsFuente">
+                                Fuente de los datos
+                                <span class="helper-icon" title="Origen principal de los datos">ℹ️</span>
+                            </label>
+                            <textarea id="dsFuente" class="form-control required-field" placeholder="Ej: Sistemas internos, sensores, encuestas, terceros autorizados"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="dsMetodoCaptura">
+                                Método de captura
+                                <span class="helper-icon" title="Procedimiento para recopilar los datos">ℹ️</span>
+                            </label>
+                            <textarea id="dsMetodoCaptura" class="form-control required-field" placeholder="Describa el método de captura"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="dsFrecuenciaActualizacion">
+                                Frecuencia de actualización
+                                <span class="helper-icon" title="Periodicidad con que se actualiza el dataset">ℹ️</span>
+                            </label>
+                            <input type="text" id="dsFrecuenciaActualizacion" class="form-control required-field" placeholder="Ej: Diaria, Semanal, Mensual">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sección 4: Composición del Dataset -->
+                <div class="section-card" id="ds-seccion4">
+                    <div class="section-header">
+                        <div class="section-icon">📊</div>
+                        <div class="section-title">4. Composición del Dataset</div>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label for="dsNumeroRegistros">
+                                Número de registros
+                                <span class="helper-icon" title="Cantidad total de registros en el dataset">ℹ️</span>
+                            </label>
+                            <input type="number" id="dsNumeroRegistros" class="form-control required-field" placeholder="Ej: 1200000">
+                        </div>
+                        <div class="form-group">
+                            <label for="dsNumeroVariables">
+                                Número de variables
+                                <span class="helper-icon" title="Cantidad total de variables/columnas en el dataset">ℹ️</span>
+                            </label>
+                            <input type="number" id="dsNumeroVariables" class="form-control required-field" placeholder="Ej: 18">
+                        </div>
+                        <div class="form-group">
+                            <label for="dsTiposDatos">
+                                Tipos de datos
+                                <span class="helper-icon" title="Tipos de datos presentes en el dataset">ℹ️</span>
+                            </label>
+                            <textarea id="dsTiposDatos" class="form-control required-field" placeholder="Ej: texto libre, fechas, categóricos, identificadores"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="dsRepresentatividadPoblacional">
+                                Representatividad poblacional
+                                <span class="helper-icon" title="Cobertura poblacional del dataset">ℹ️</span>
+                            </label>
+                            <textarea id="dsRepresentatividadPoblacional" class="form-control required-field" placeholder="Describa la representatividad poblacional"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Diccionario de Datos</label>
+                            <div class="table-actions">
+                                <button class="table-btn" onclick="agregarFila('tablaDiccionarioDatos')">+ Agregar Fila</button>
+                            </div>
+                            <div class="table-container">
+                                <table class="data-table" id="tablaDiccionarioDatos">
+                                    <thead>
+                                        <tr>
+                                            <th>Nombre variable</th>
+                                            <th>Descripción</th>
+                                            <th>Tipo de dato</th>
+                                            <th>Valores permitidos / rango</th>
+                                            <th>¿Dato personal?</th>
+                                            <th>¿Sensible?</th>
+                                            <th>Obligatorio</th>
+                                            <th>Observaciones</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><input type="text" placeholder="Nombre de variable"></td>
+                                            <td><input type="text" placeholder="Descripción"></td>
+                                            <td>
+                                                <select>
+                                                    <option value="">Seleccione</option>
+                                                    <option value="texto">Texto</option>
+                                                    <option value="numero">Número</option>
+                                                    <option value="fecha">Fecha</option>
+                                                    <option value="booleano">Booleano</option>
+                                                </select>
+                                            </td>
+                                            <td><input type="text" placeholder="Valores permitidos"></td>
+                                            <td>
+                                                <select>
+                                                    <option value="">Seleccione</option>
+                                                    <option value="si">Sí</option>
+                                                    <option value="no">No</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select>
+                                                    <option value="">Seleccione</option>
+                                                    <option value="si">Sí</option>
+                                                    <option value="no">No</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select>
+                                                    <option value="">Seleccione</option>
+                                                    <option value="si">Sí</option>
+                                                    <option value="no">No</option>
+                                                </select>
+                                            </td>
+                                            <td><input type="text" placeholder="Observaciones"></td>
+                                            <td><button class="table-btn remove" onclick="eliminarFila(this)">✕</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sección 5: Presencia de Datos Personales y Sensibles -->
+                <div class="section-card" id="ds-seccion5">
+                    <div class="section-header">
+                        <div class="section-icon">🔒</div>
+                        <div class="section-title">5. Presencia de Datos Personales y Sensibles</div>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label for="dsDatosPersonales">
+                                Identificación del tipo de datos personales/sensibles
+                                <span class="helper-icon" title="Tipos de datos personales y sensibles presentes">ℹ️</span>
+                            </label>
+                            <textarea id="dsDatosPersonales" class="form-control required-field" placeholder="Describa los tipos de datos personales y sensibles"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="dsJustificacion">
+                                Justificación
+                                <span class="helper-icon" title="Razón para incluir datos personales/sensibles">ℹ️</span>
+                            </label>
+                            <textarea id="dsJustificacion" class="form-control required-field" placeholder="Justifique la inclusión de datos personales/sensibles"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="dsBaseLegal">
+                                Base legal del tratamiento
+                                <span class="helper-icon" title="Fundamento jurídico para el tratamiento de datos">ℹ️</span>
+                            </label>
+                            <textarea id="dsBaseLegal" class="form-control required-field" placeholder="Describa la base legal"></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sección 6: Calidad del Dataset -->
+                <div class="section-card" id="ds-seccion6">
+                    <div class="section-header">
+                        <div class="section-icon">📏</div>
+                        <div class="section-title">6. Calidad del Dataset</div>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label for="dsDatosFaltantes">
+                                Datos faltantes
+                                <span class="helper-icon" title="Porcentaje y distribución de datos faltantes">ℹ️</span>
+                            </label>
+                            <textarea id="dsDatosFaltantes" class="form-control" placeholder="Describa los datos faltantes"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="dsInconsistencias">
+                                Inconsistencias
+                                <span class="helper-icon" title="Problemas de consistencia identificados">ℹ️</span>
+                            </label>
+                            <textarea id="dsInconsistencias" class="form-control" placeholder="Describa las inconsistencias"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="dsProcesosLimpieza">
+                                Procesos de limpieza aplicados
+                                <span class="helper-icon" title="Técnicas utilizadas para limpiar los datos">ℹ️</span>
+                            </label>
+                            <textarea id="dsProcesosLimpieza" class="form-control" placeholder="Describa los procesos de limpieza"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="dsControlesCalidad">
+                                Controles de calidad
+                                <span class="helper-icon" title="Mecanismos para garantizar la calidad de datos">ℹ️</span>
+                            </label>
+                            <textarea id="dsControlesCalidad" class="form-control" placeholder="Describa los controles de calidad"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="dsValidaciones">
+                                Validaciones aplicadas
+                                <span class="helper-icon" title="Procesos de validación de datos">ℹ️</span>
+                            </label>
+                            <textarea id="dsValidaciones" class="form-control" placeholder="Describa las validaciones aplicadas"></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sección 7: Evaluación de Sesgos y Representatividad -->
+                <div class="section-card" id="ds-seccion7">
+                    <div class="section-header">
+                        <div class="section-icon">⚖️</div>
+                        <div class="section-title">7. Evaluación de Sesgos y Representatividad</div>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label for="dsSesgosIdentificados">
+                                Sesgos identificados
+                                <span class="helper-icon" title="Sesgos potenciales detectados en el dataset">ℹ️</span>
+                            </label>
+                            <textarea id="dsSesgosIdentificados" class="form-control" placeholder="Describa los sesgos identificados"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="dsDistribucionVariables">
+                                Distribución de variables sensibles
+                                <span class="helper-icon" title="Distribución de variables que podrían generar sesgos">ℹ️</span>
+                            </label>
+                            <textarea id="dsDistribucionVariables" class="form-control" placeholder="Describa la distribución de variables sensibles"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="dsRiesgosPoblacionesVulnerables">
+                                Riesgos para poblaciones vulnerables
+                                <span class="helper-icon" title="Riesgos identificados para grupos vulnerables">ℹ️</span>
+                            </label>
+                            <textarea id="dsRiesgosPoblacionesVulnerables" class="form-control" placeholder="Describa los riesgos para poblaciones vulnerables"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="dsLimitaciones">
+                                Limitaciones y riesgos identificados
+                                <span class="helper-icon" title="Limitaciones generales del dataset">ℹ️</span>
+                            </label>
+                            <textarea id="dsLimitaciones" class="form-control" placeholder="Describa las limitaciones y riesgos"></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sección 8: Procesamiento y Transformaciones Aplicadas -->
+                <div class="section-card" id="ds-seccion8">
+                    <div class="section-header">
+                        <div class="section-icon">🔄</div>
+                        <div class="section-title">8. Procesamiento y Transformaciones Aplicadas</div>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label for="dsNormalizacion">
+                                Normalización
+                                <span class="helper-icon" title="Procesos de normalización aplicados">ℹ️</span>
+                            </label>
+                            <textarea id="dsNormalizacion" class="form-control" placeholder="Describa los procesos de normalización"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="dsImputacion">
+                                Imputación
+                                <span class="helper-icon" title="Métodos para manejar datos faltantes">ℹ️</span>
+                            </label>
+                            <textarea id="dsImputacion" class="form-control" placeholder="Describa los métodos de imputación"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="dsBalanceo">
+                                Balanceo
+                                <span class="helper-icon" title="Técnicas de balanceo aplicadas">ℹ️</span>
+                            </label>
+                            <textarea id="dsBalanceo" class="form-control" placeholder="Describa las técnicas de balanceo"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="dsAnonimizacion">
+                                Anonimización/seudonimización
+                                <span class="helper-icon" title="Métodos para proteger la privacidad">ℹ️</span>
+                            </label>
+                            <textarea id="dsAnonimizacion" class="form-control" placeholder="Describa los métodos de anonimización"></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sección 9: Riesgos Éticos y Legales -->
+                <div class="section-card" id="ds-seccion9">
+                    <div class="section-header">
+                        <div class="section-icon">⚖️</div>
+                        <div class="section-title">9. Riesgos Éticos y Legales</div>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label for="dsRiesgosDiscriminacion">
+                                Riesgos de discriminación
+                                <span class="helper-icon" title="Riesgos de discriminación identificados">ℹ️</span>
+                            </label>
+                            <textarea id="dsRiesgosDiscriminacion" class="form-control" placeholder="Describa los riesgos de discriminación"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="dsRiesgosReidentificacion">
+                                Riesgos de reidentificación
+                                <span class="helper-icon" title="Riesgos de reidentificación de datos anonimizados">ℹ️</span>
+                            </label>
+                            <textarea id="dsRiesgosReidentificacion" class="form-control" placeholder="Describa los riesgos de reidentificación"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="dsRiesgosUsoIndebido">
+                                Riesgos de uso indebido
+                                <span class="helper-icon" title="Riesgos de uso inapropiado del dataset">ℹ️</span>
+                            </label>
+                            <textarea id="dsRiesgosUsoIndebido" class="form-control" placeholder="Describa los riesgos de uso indebido"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="dsRiesgosSesgosEstructurales">
+                                Riesgos de sesgos estructurales
+                                <span class="helper-icon" title="Sesgos estructurales en el dataset">ℹ️</span>
+                            </label>
+                            <textarea id="dsRiesgosSesgosEstructurales" class="form-control" placeholder="Describa los riesgos de sesgos estructurales"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="dsRiesgosVulneracionDerechos">
+                                Riesgos de vulneración de derechos
+                                <span class="helper-icon" title="Riesgos de afectación a derechos fundamentales">ℹ️</span>
+                            </label>
+                            <textarea id="dsRiesgosVulneracionDerechos" class="form-control" placeholder="Describa los riesgos de vulneración de derechos"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="dsCumplimientoNormativo">
+                                Cumplimiento normativo
+                                <span class="helper-icon" title="Evaluación del cumplimiento de normativas aplicables">ℹ️</span>
+                            </label>
+                            <textarea id="dsCumplimientoNormativo" class="form-control" placeholder="Describa el cumplimiento normativo"></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sección 10: Uso Permitido y No Permitido -->
+                <div class="section-card" id="ds-seccion10">
+                    <div class="section-header">
+                        <div class="section-icon">📋</div>
+                        <div class="section-title">10. Uso Permitido y No Permitido</div>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label for="dsFinalidadAutorizada">
+                                Finalidad autorizada
+                                <span class="helper-icon" title="Usos específicos autorizados para el dataset">ℹ️</span>
+                            </label>
+                            <textarea id="dsFinalidadAutorizada" class="form-control required-field" placeholder="Describa la finalidad autorizada"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="dsRestricciones">
+                                Restricciones
+                                <span class="helper-icon" title="Limitaciones específicas de uso">ℹ️</span>
+                            </label>
+                            <textarea id="dsRestricciones" class="form-control" placeholder="Describa las restricciones"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="dsUsosIndebidos">
+                                Usos indebidos
+                                <span class="helper-icon" title="Usos expresamente prohibidos">ℹ️</span>
+                            </label>
+                            <textarea id="dsUsosIndebidos" class="form-control required-field" placeholder="Liste los usos indebidos"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="dsCondicionesAcceso">
+                                Condiciones de acceso
+                                <span class="helper-icon" title="Requisitos para acceder al dataset">ℹ️</span>
+                            </label>
+                            <textarea id="dsCondicionesAcceso" class="form-control required-field" placeholder="Describa las condiciones de acceso"></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sección 11: Seguridad del Dataset -->
+                <div class="section-card" id="ds-seccion11">
+                    <div class="section-header">
+                        <div class="section-icon">🔐</div>
+                        <div class="section-title">11. Seguridad del Dataset</div>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label for="dsControlesSeguridad">
+                                Controles de seguridad
+                                <span class="helper-icon" title="Mecanismos de seguridad implementados">ℹ️</span>
+                            </label>
+                            <textarea id="dsControlesSeguridad" class="form-control required-field" placeholder="Describa los controles de seguridad"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="dsCifrado">
+                                Cifrado
+                                <span class="helper-icon" title="Métodos de cifrado aplicados">ℹ️</span>
+                            </label>
+                            <textarea id="dsCifrado" class="form-control" placeholder="Describa los métodos de cifrado"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="dsCustodia">
+                                Custodia
+                                <span class="helper-icon" title="Responsables y procedimientos de custodia">ℹ️</span>
+                            </label>
+                            <textarea id="dsCustodia" class="form-control" placeholder="Describa los procedimientos de custodia"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="dsPoliticasAcceso">
+                                Políticas de acceso
+                                <span class="helper-icon" title="Políticas para controlar el acceso al dataset">ℹ️</span>
+                            </label>
+                            <textarea id="dsPoliticasAcceso" class="form-control" placeholder="Describa las políticas de acceso"></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sección 12: Historial del Dataset -->
+                <div class="section-card" id="ds-seccion12">
+                    <div class="section-header">
+                        <div class="section-icon">📚</div>
+                        <div class="section-title">12. Historial del Dataset</div>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label>Registro de Versiones</label>
+                            <div class="table-actions">
+                                <button class="table-btn" onclick="agregarFila('tablaHistorialDataset')">+ Agregar Fila</button>
+                            </div>
+                            <div class="table-container">
+                                <table class="data-table" id="tablaHistorialDataset">
+                                    <thead>
+                                        <tr>
+                                            <th>Versión</th>
+                                            <th>Fecha</th>
+                                            <th>Cambios realizados</th>
+                                            <th>Responsable</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><input type="text" placeholder="Ej: v1.0"></td>
+                                            <td><input type="date"></td>
+                                            <td><textarea placeholder="Describa los cambios"></textarea></td>
+                                            <td><input type="text" placeholder="Responsable"></td>
+                                            <td><button class="table-btn remove" onclick="eliminarFila(this)">✕</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sección 13: Aprobaciones Institucionales -->
+                <div class="section-card" id="ds-seccion13">
+                    <div class="section-header">
+                        <div class="section-icon">✅</div>
+                        <div class="section-title">13. Aprobaciones Institucionales</div>
+                    </div>
+                    <div class="section-content">
+                        <div class="approval-section">
+                            <div class="approval-item">
+                                <div class="approval-title">
+                                    Equipo de datos
+                                    <span class="helper-icon" title="Aprobación del equipo de datos">ℹ️</span>
+                                </div>
+                                <textarea id="dsAprobacionEquipoDatos" class="form-control" placeholder="Evaluación y aprobación del equipo de datos"></textarea>
+                            </div>
+                            
+                            <div class="approval-item">
+                                <div class="approval-title">
+                                    Área jurídica
+                                    <span class="helper-icon" title="Aprobación del área jurídica">ℹ️</span>
+                                </div>
+                                <textarea id="dsAprobacionJuridica" class="form-control" placeholder="Evaluación y aprobación del área jurídica"></textarea>
+                            </div>
+                            
+                            <div class="approval-item">
+                                <div class="approval-title">
+                                    Comité Distrital de IA
+                                    <span class="helper-icon" title="Aprobación del Comité Distrital de IA">ℹ️</span>
+                                </div>
+                                <textarea id="dsAprobacionComiteIA" class="form-control" placeholder="Evaluación y aprobación del Comité de IA"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    // Objeto global para almacenar los datos
+    let dataSheetData = {};
+
+    // Tablas del formulario
+    const tablasDataSheet = [
+        'tablaDiccionarioDatos',
+        'tablaHistorialDataset'
+    ];
+
+    // Inicialización al cargar la página
+    window.addEventListener('DOMContentLoaded', function() {
+        inicializarEventListeners();
+        console.log('Toolkit Data Sheets cargado correctamente');
+    });
+
+    // Función para inicializar todos los event listeners
+    function inicializarEventListeners() {
+        // Navegación entre secciones
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+                    this.classList.add('active');
+                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Importar desde JSON
+        document.getElementById('jsonFileInput').addEventListener('change', importarDesdeJSON);
+    }
+
+    // Función para exportar a JSON
+    function exportarJSON() {
+        recopilarDatosDataSheet();
+        const jsonString = JSON.stringify(dataSheetData, null, 2);
+        const blob = new Blob([jsonString], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `data-sheet-${new Date().toISOString().split('T')[0]}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        alert('Data Sheet exportado exitosamente como JSON.');
+    }
+
+    // Función para importar desde JSON
+    function importarDesdeJSON(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                const datosImportados = JSON.parse(e.target.result);
+                cargarDatosDataSheet(datosImportados);
+                alert('Data Sheet importado exitosamente desde JSON.');
+            } catch (error) {
+                alert('Error al importar el archivo JSON: ' + error.message);
+            }
+        };
+        reader.readAsText(file);
+        e.target.value = '';
+    }
+
+    // Función para recopilar datos del Data Sheet
+    function recopilarDatosDataSheet() {
+        dataSheetData = {};
+
+        // Recopilar campos individuales
+        document.querySelectorAll('#data-sheet-content input, #data-sheet-content textarea, #data-sheet-content select').forEach(element => {
+            if (element.id && !element.closest('.data-table')) {
+                dataSheetData[element.id] = element.value;
+            }
+        });
+
+        // Recopilar datos de tablas Data Sheet
+        tablasDataSheet.forEach(tablaId => {
+            const tabla = document.getElementById(tablaId);
+            if (tabla) {
+                dataSheetData[tablaId] = obtenerDatosTabla(tabla);
+            }
+        });
+
+        return dataSheetData;
+    }
+
+    // Función auxiliar para obtener datos de tabla
+    function obtenerDatosTabla(table) {
+        const tableData = [];
+        const headers = Array.from(table.querySelectorAll('thead th')).map(th => th.textContent.trim());
+        
+        table.querySelectorAll('tbody tr').forEach(row => {
+            const rowData = {};
+            const cells = row.querySelectorAll('td');
+            
+            cells.forEach((cell, cellIndex) => {
+                const header = headers[cellIndex];
+                const input = cell.querySelector('input, textarea, select');
+                
+                if (input && header && header !== 'Acciones') {
+                    rowData[header] = input.value;
+                }
+            });
+            
+            if (Object.keys(rowData).length > 0) {
+                tableData.push(rowData);
+            }
+        });
+        
+        return tableData;
+    }
+
+    // Función para cargar datos en el Data Sheet
+    function cargarDatosDataSheet(datos) {
+        limpiarFormulario();
+        
+        // Cargar datos
+        for (const [key, value] of Object.entries(datos)) {
+            if (tablasDataSheet.includes(key)) {
+                // Es una tabla
+                const tabla = document.getElementById(key);
+                if (tabla && Array.isArray(value)) {
+                    cargarDatosTabla(tabla, value);
+                }
+            } else {
+                // Es un campo individual
+                const element = document.getElementById(key);
+                if (element) {
+                    if (element.tagName === 'SELECT') {
+                        // Para selects, buscar la opción que coincida con el valor
+                        const options = element.querySelectorAll('option');
+                        let found = false;
+                        options.forEach(option => {
+                            if (option.value === value || option.textContent.trim() === value) {
+                                element.value = option.value;
+                                found = true;
+                            }
+                        });
+                        if (!found) {
+                            element.value = value; // Fallback
+                        }
+                    } else {
+                        element.value = value;
+                    }
+                }
+            }
+        }
+    }
+
+    // Función auxiliar para cargar datos en tabla
+    function cargarDatosTabla(table, datosTabla) {
+        const tbody = table.querySelector('tbody');
+        const filaOriginal = tbody.querySelector('tr');
+        
+        // Limpiar tabla (excepto primera fila)
+        while (tbody.children.length > 1) {
+            tbody.removeChild(tbody.lastChild);
+        }
+        
+        // Cargar datos en filas existentes o crear nuevas
+        datosTabla.forEach((fila, index) => {
+            let filaElement;
+            
+            if (index === 0) {
+                filaElement = tbody.querySelector('tr');
+            } else {
+                filaElement = filaOriginal.cloneNode(true);
+                tbody.appendChild(filaElement);
+            }
+            
+            // Limpiar valores de la fila
+            filaElement.querySelectorAll('input, textarea, select').forEach(input => {
+                if (input.type !== 'button') {
+                    input.value = '';
+                }
+            });
+            
+            // Cargar datos en la fila
+            for (const [header, valor] of Object.entries(fila)) {
+                const indiceHeader = Array.from(table.querySelectorAll('thead th'))
+                    .findIndex(th => th.textContent.trim() === header);
+                
+                if (indiceHeader !== -1) {
+                    const celda = filaElement.querySelectorAll('td')[indiceHeader];
+                    if (celda) {
+                        const input = celda.querySelector('input, textarea, select');
+                        if (input) {
+                            if (input.tagName === 'SELECT') {
+                                // Para selects, buscar la opción que coincida con el valor
+                                const options = input.querySelectorAll('option');
+                                let found = false;
+                                options.forEach(option => {
+                                    if (option.value === valor || option.textContent.trim() === valor) {
+                                        input.value = option.value;
+                                        found = true;
+                                    }
+                                });
+                                if (!found) {
+                                    input.value = valor; // Fallback
+                                }
+                            } else {
+                                input.value = valor;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // Función para agregar fila a tabla
+    function agregarFila(tablaId) {
+        const tabla = document.getElementById(tablaId);
+        if (!tabla) return;
+        
+        const tbody = tabla.querySelector('tbody');
+        const ultimaFila = tbody.querySelector('tr:last-child');
+        const nuevaFila = ultimaFila.cloneNode(true);
+        
+        // Limpiar valores de la nueva fila
+        nuevaFila.querySelectorAll('input, textarea, select').forEach(input => {
+            if (input.type !== 'button') {
+                input.value = '';
+            }
+        });
+        
+        tbody.appendChild(nuevaFila);
+    }
+
+    // Función para eliminar fila de tabla
+    function eliminarFila(boton) {
+        const fila = boton.closest('tr');
+        const tbody = fila.parentElement;
+        
+        // No eliminar si es la única fila
+        if (tbody.children.length > 1) {
+            fila.remove();
+        } else {
+            alert('No se puede eliminar la última fila de la tabla.');
+        }
+    }
+
+    // Función para cargar ejemplo completo
+    function cargarEjemplo() {
+        const ejemploDataSheet = {
+            dsNombre: "Dataset de Solicitudes Ciudadanas Bogotá 2018-2024",
+            dsEntidadPropietaria: "Secretaría Distrital de Gobierno",
+            dsAreaResponsable: "Dirección de Atención al Ciudadano",
+            dsVersion: "v1.0",
+            dsFechaCreacion: "2025-03-01",
+            dsContacto: "datagob@bogota.gov.co",
+            dsDescripcion: "Dataset que contiene los registros históricos de PQRS (Peticiones, Quejas, Reclamos y Solicitudes) enviados por ciudadanos a través de canales presenciales, telefónicos y digitales",
+            dsFinalidad: "Entrenar un modelo de IA para clasificar automáticamente las solicitudes por categoría temática y mejorar los tiempos de respuesta",
+            dsProcesosServicios: "Gestión de PQRS, atención al ciudadano, análisis de tendencias",
+            dsFuente: "Sistema 'Bogotá Te Escucha', portal web institucional, red CADE",
+            dsMetodoCaptura: "Registro manual por funcionarios + carga automática vía API del portal",
+            dsFrecuenciaActualizacion: "Actualización diaria",
+            dsNumeroRegistros: "1200000",
+            dsNumeroVariables: "18",
+            dsTiposDatos: "texto libre, fechas, categóricos, identificadores",
+            dsRepresentatividadPoblacional: "Contiene información de las 20 localidades de Bogotá",
+            dsDatosPersonales: "Datos personales incluidos: nombre, correo electrónico, teléfono",
+            dsJustificacion: "Datos necesarios para tramitar las solicitudes conforme a la Ley 1755 y 1437",
+            dsBaseLegal: "Ejercicio de funciones públicas + Ley 1581 de protección de datos",
+            dsDatosFaltantes: "4% en el campo 'descripción'",
+            dsInconsistencias: "formatos incorrectos en 0.7% de correos electrónicos (corregidos)",
+            dsProcesosLimpieza: "eliminación de duplicados, normalización de fechas, validación de campos obligatorios",
+            dsSesgosIdentificados: "Sesgo geográfico: Sobre-representación de Suba y Kennedy. Sesgo demográfico: Menor participación de adultos mayores (5%)",
+            dsRiesgosPoblacionesVulnerables: "El modelo puede tener peor desempeño en localidades rurales o grupos minoritarios",
+            dsNormalizacion: "corrección de formatos, eliminación de ruido, estandarización de categorías",
+            dsAnonimizacion: "seudonimización de identificadores antes del entrenamiento",
+            dsRiesgosDiscriminacion: "Posibilidad de que el modelo priorice solicitudes de zonas con mayor conectividad digital",
+            dsFinalidadAutorizada: "clasificación automática para mejorar tiempos de respuesta, análisis estadístico, informes de gestión",
+            dsUsosIndebidos: "priorización de solicitudes según datos personales, segmentación de ciudadanos, toma de decisiones automatizadas negativas",
+            dsCondicionesAcceso: "restringido al equipo técnico y Comité de IA",
+            dsControlesSeguridad: "registro de acceso, autenticación de doble factor, backups cada 24 horas",
+            dsCifrado: "en tránsito (TLS) y en reposo (AES-256)",
+            dsAprobacionEquipoDatos: "Aprobado",
+            dsAprobacionJuridica: "Aprobado",
+            dsAprobacionComiteIA: "Aprobado (Acta 003 - Marzo 2025)",
+            tablaDiccionarioDatos: [
+                {
+                    "Nombre variable": "ID",
+                    "Descripción": "Identificador único de la solicitud",
+                    "Tipo de dato": "texto",
+                    "Valores permitidos / rango": "Alfanumérico",
+                    "¿Dato personal?": "no",
+                    "¿Sensible?": "no",
+                    "Obligatorio": "si",
+                    "Observaciones": "Clave primaria"
+                }
+            ]
+        };
+
+        cargarDatosDataSheet(ejemploDataSheet);
+        alert('Ejemplo de Data Sheet cargado exitosamente.');
+    }
+
+    // Función para limpiar el formulario
+    function limpiarFormulario() {
+        // Limpiar todos los campos
+        document.querySelectorAll('#data-sheet-content input, #data-sheet-content textarea, #data-sheet-content select').forEach(element => {
+            if (element.type !== 'button') {
+                element.value = '';
+            }
+        });
+        
+        // Limpiar tablas
+        tablasDataSheet.forEach(tablaId => {
+            const tabla = document.getElementById(tablaId);
+            if (tabla) {
+                const tbody = tabla.querySelector('tbody');
+                while (tbody.children.length > 1) {
+                    tbody.removeChild(tbody.lastChild);
+                }
+                
+                // Limpiar la primera fila
+                tbody.querySelectorAll('input, textarea, select').forEach(input => {
+                    if (input.type !== 'button') {
+                        input.value = '';
+                    }
+                });
+            }
+        });
+        
+        // Reiniciar datos
+        dataSheetData = {};
+    }
+
+    // Función para imprimir el formulario
+    function imprimirFormulario() {
+        window.print();
+    }
+
+    // Función para validar campos requeridos antes de enviar
+    function validarFormulario() {
+        const camposRequeridos = document.querySelectorAll('#data-sheet-content .required-field');
+        let valido = true;
+        
+        camposRequeridos.forEach(campo => {
+            if (!campo.value.trim()) {
+                campo.style.borderColor = 'red';
+                valido = false;
+            } else {
+                campo.style.borderColor = '';
+            }
+        });
+        
+        if (!valido) {
+            alert('Por favor complete todos los campos requeridos marcados en rojo.');
+        }
+        
+        return valido;
+    }
+</script>
+</body>
+</html>

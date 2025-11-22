@@ -1,0 +1,1619 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toolkit - Model Cards</title>
+    <style>
+        :root {
+            --primary-color: #1a237e;
+            --secondary-color: #283593;
+            --accent-color: #1976D2;
+            --success-color: #4caf50;
+            --warning-color: #ff9800;
+            --danger-color: #f44336;
+            --light-bg: #f5f7fa;
+            --card-bg: white;
+            --border-color: #e0e0e0;
+            --text-color: #333;
+            --text-light: #555;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+            color: var(--text-color);
+        }
+        
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 350px 1fr;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            grid-column: 1 / -1;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: var(--border-color);
+            color: var(--text-color);
+        }
+        
+        .back-button {
+            position: absolute;
+            left: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        
+        .sidebar {
+            background: var(--light-bg);
+            padding: 20px;
+            border-right: 1px solid var(--border-color);
+            overflow-y: auto;
+            max-height: calc(100vh - 200px);
+            position: sticky;
+            top: 0;
+        }
+        
+        .sidebar-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-color);
+        }
+        
+        .nav-section {
+            margin-bottom: 25px;
+        }
+        
+        .nav-section-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .nav-item {
+            display: block;
+            padding: 5px;
+            margin-bottom: 5px;
+            background: var(--card-bg);
+            border-radius: 6px;
+            text-decoration: none;
+            color: var(--text-color);
+            font-size: 14px;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+        
+        .nav-item:hover, .nav-item.active {
+            background: #e3f2fd;
+            border-left-color: var(--accent-color);
+        }
+        
+        .nav-item.active {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .panel {
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+        
+        .json-panel {
+            background: #fff3e0;
+            border: 1px solid #ffb74d;
+        }
+        
+        .json-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #e65100;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .json-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .json-btn {
+            padding: 5px;
+            border: none;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .json-btn.import { background: var(--success-color); color: white; }
+        .json-btn.export { background: var(--accent-color); color: white; }
+        .json-btn.print { background: var(--warning-color); color: white; }
+        
+        .json-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        .content {
+            padding: 30px;
+            overflow-y: auto;
+            max-height: calc(100vh - 170px);
+        }
+        
+        .section-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            border: 3px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        
+        .section-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), #64B5F6);
+        }
+        
+        .section-card:nth-child(2)::before { background: linear-gradient(90deg, #388E3C, #66BB6A); }
+        .section-card:nth-child(3)::before { background: linear-gradient(90deg, #D32F2F, #EF5350); }
+        .section-card:nth-child(4)::before { background: linear-gradient(90deg, #7B1FA2, #AB47BC); }
+        .section-card:nth-child(5)::before { background: linear-gradient(90deg, #F57C00, #FFA726); }
+        .section-card:nth-child(6)::before { background: linear-gradient(90deg, #00897B, #26A69A); }
+        .section-card:nth-child(7)::before { background: linear-gradient(90deg, var(--accent-color), #64B5F6); }
+        .section-card:nth-child(8)::before { background: linear-gradient(90deg, #C62828, #EF5350); }
+        .section-card:nth-child(9)::before { background: linear-gradient(90deg, #388E3C, #66BB6A); }
+        .section-card:nth-child(10)::before { background: linear-gradient(90deg, #D32F2F, #EF5350); }
+        .section-card:nth-child(11)::before { background: linear-gradient(90deg, #7B1FA2, #AB47BC); }
+        .section-card:nth-child(12)::before { background: linear-gradient(90deg, #F57C00, #FFA726); }
+        .section-card:nth-child(13)::before { background: linear-gradient(90deg, var(--accent-color), #64B5F6); }
+        .section-card:nth-child(14)::before { background: linear-gradient(90deg, #388E3C, #66BB6A); }
+        
+        .section-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .section-icon {
+            font-size: 20px;
+            margin-right: 10px;
+        }
+        
+        .section-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .section-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+            position: relative;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+        
+        .helper-icon {
+            cursor: help;
+            margin-left: 5px;
+            font-size: 12px;
+            opacity: 0.7;
+        }
+        
+        .helper-text {
+            display: none;
+            position: absolute;
+            background: #333;
+            color: white;
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            z-index: 1000;
+            width: 300px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            top: 100%;
+            left: 0;
+        }
+        
+        .helper-icon:hover + .helper-text {
+            display: block;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 14px;
+        }
+        
+        textarea.form-control {
+            min-height: 80px;
+            resize: vertical;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 5px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 13px;
+        }
+        
+        .checkbox-item input {
+            width: auto;
+        }
+        
+        .required-field {
+            background-color: #FFF2CC;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            margin-top: 10px;
+            position: relative;
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+        
+        .data-table th {
+            background-color: var(--light-bg);
+            padding: 10px;
+            text-align: left;
+            font-weight: bold;
+            color: var(--primary-color);
+            border: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+        }
+        
+        .data-table td {
+            padding: 8px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .data-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .data-table tr:hover {
+            background-color: #e3f2fd;
+        }
+        
+        .data-table input, .data-table textarea, .data-table select {
+            width: 100%;
+            padding: 6px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 12px;
+            box-sizing: border-box;
+        }
+        
+        .data-table textarea {
+            min-height: 60px;
+            resize: vertical;
+        }
+        
+        .table-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 10px;
+        }
+        
+        .table-btn {
+            padding: 5px 10px;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-left: 5px;
+        }
+        
+        .table-btn:hover {
+            background-color: var(--primary-color);
+        }
+        
+        .table-btn.remove {
+            background-color: var(--danger-color);
+        }
+        
+        .approval-section {
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+        
+        .approval-item {
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .approval-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .approval-title {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        @media (max-width: 1200px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                display: none;
+            }
+        }
+        
+        @media print {
+            body {
+                background: white !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            
+            .container {
+                max-width: 100% !important;
+                box-shadow: none !important;
+                border-radius: 0 !important;
+                grid-template-columns: 1fr !important;
+            }
+            
+            .header {
+                background: var(--primary-color) !important;
+                padding: 15px !important;
+                margin-bottom: 10px !important;
+            }
+            
+            .header h1 {
+                font-size: 24px !important;
+                margin-bottom: 5px !important;
+            }
+            
+            .header p {
+                font-size: 14px !important;
+            }
+            
+            .back-button, .sidebar, .json-panel, .actions, .table-actions {
+                display: none !important;
+            }
+            
+            .content {
+                padding: 10px !important;
+                max-height: none !important;
+                overflow: visible !important;
+            }
+            
+            .section-card {
+                page-break-inside: avoid;
+                border: 1px solid #ccc !important;
+                border-radius: 5px !important;
+                padding: 15px !important;
+                min-height: auto !important;
+                margin-bottom: 10px !important;
+                box-shadow: none !important;
+                transform: none !important;
+            }
+            
+            .section-card::before {
+                height: 3px !important;
+            }
+            
+            .section-header {
+                margin-bottom: 10px !important;
+                padding-bottom: 5px !important;
+            }
+            
+            .section-title {
+                font-size: 14px !important;
+            }
+            
+            .form-group {
+                margin-bottom: 10px !important;
+            }
+            
+            .form-group label {
+                font-size: 12px !important;
+            }
+            
+            .form-control {
+                padding: 5px 8px !important;
+                font-size: 12px !important;
+                border: 1px solid #999 !important;
+            }
+            
+            textarea.form-control {
+                min-height: 60px !important;
+            }
+            
+            .checkbox-group {
+                gap: 5px !important;
+            }
+            
+            .checkbox-item {
+                font-size: 11px !important;
+            }
+            
+            .approval-section {
+                padding: 10px !important;
+            }
+            
+            .approval-item {
+                margin-bottom: 8px !important;
+                padding-bottom: 8px !important;
+            }
+            
+            .approval-title {
+                font-size: 12px !important;
+            }
+            
+            .data-table th, .data-table td {
+                padding: 5px !important;
+                font-size: 10px !important;
+            }
+            
+            .helper-icon, .helper-text {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="javascript:history.back()" class="btn back-button">← Atrás</a>
+            <h1>🛠️ Toolkit - Model Cards</h1>
+            <p>Documentación estandarizada para modelos de IA</p>
+        </div>
+        
+        <div class="sidebar">
+            <div class="nav-section">
+                <div class="nav-section-title">📋 Secciones del Model Card</div>
+                <a href="#seccion1" class="nav-item active">📝 Información General</a>
+                <a href="#seccion2" class="nav-item">🎯 Propósito del Modelo</a>
+                <a href="#seccion3" class="nav-item">⚙️ Descripción Técnica</a>
+                <a href="#seccion4" class="nav-item">📊 Datos Utilizados</a>
+                <a href="#seccion5" class="nav-item">📈 Métricas de Desempeño</a>
+                <a href="#seccion6" class="nav-item">⚖️ Evaluación de Sesgos</a>
+                <a href="#seccion7" class="nav-item">⚠️ Riesgos del Modelo</a>
+                <a href="#seccion8" class="nav-item">🛡️ Controles Implementados</a>
+                <a href="#seccion9" class="nav-item">🔍 Explicabilidad y Transparencia</a>
+                <a href="#seccion10" class="nav-item">📋 Reglas de Uso Responsable</a>
+                <a href="#seccion11" class="nav-item">🔄 Entradas y Salidas del Modelo</a>
+                <a href="#seccion12" class="nav-item">📊 Monitoreo y Mantenimiento</a>
+                <a href="#seccion13" class="nav-item">📚 Historial de Cambios</a>
+                <a href="#seccion14" class="nav-item">✅ Aprobaciones</a>
+            </div>
+            
+            <div class="panel json-panel">
+                <div class="json-title">📄 Gestión de Datos</div>
+                <div class="json-actions">
+                    <input type="file" id="jsonFileInput" accept=".json" style="display: none;">
+                    <button class="json-btn import" onclick="document.getElementById('jsonFileInput').click()">Importar desde JSON</button>
+                    <button class="json-btn export" onclick="exportarJSON()">Exportar a JSON</button>
+                    <button class="json-btn print" onclick="imprimirFormulario()">🖨️ Imprimir Formulario</button>
+                    <button class="json-btn" onclick="cargarEjemplo()" style="background: #9c27b0; color: white;">Cargar Ejemplo</button>
+                    <button class="json-btn" onclick="limpiarFormulario()" style="background: #f44336; color: white;">Limpiar Todo</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <!-- Model Card Content -->
+            <div id="model-card-content">
+                <!-- Sección 1: Información General -->
+                <div class="section-card" id="seccion1">
+                    <div class="section-header">
+                        <div class="section-icon">📝</div>
+                        <div class="section-title">1. Información General</div>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label for="modeloNombre">
+                                Nombre del modelo
+                                <span class="helper-icon" title="Identificador único del modelo">ℹ️</span>
+                            </label>
+                            <input type="text" id="modeloNombre" class="form-control required-field" placeholder="Ej: Clasificador de PQRS Bogotá">
+                        </div>
+                        <div class="form-group">
+                            <label for="modeloVersion">
+                                Versión
+                                <span class="helper-icon" title="Versión actual del modelo">ℹ️</span>
+                            </label>
+                            <input type="text" id="modeloVersion" class="form-control required-field" placeholder="Ej: v1.0">
+                        </div>
+                        <div class="form-group">
+                            <label for="modeloEntidad">
+                                Entidad responsable
+                                <span class="helper-icon" title="Organización responsable del desarrollo y mantenimiento">ℹ️</span>
+                            </label>
+                            <input type="text" id="modeloEntidad" class="form-control required-field" placeholder="Ej: Secretaría Distrital de Gobierno">
+                        </div>
+                        <div class="form-group">
+                            <label for="modeloArea">
+                                Área usuaria
+                                <span class="helper-icon" title="Departamento o área que utiliza el modelo">ℹ️</span>
+                            </label>
+                            <input type="text" id="modeloArea" class="form-control required-field" placeholder="Ej: Dirección de Atención al Ciudadano">
+                        </div>
+                        <div class="form-group">
+                            <label for="modeloFechaCreacion">
+                                Fecha de creación
+                                <span class="helper-icon" title="Fecha en que se creó el modelo">ℹ️</span>
+                            </label>
+                            <input type="date" id="modeloFechaCreacion" class="form-control required-field">
+                        </div>
+                        <div class="form-group">
+                            <label for="modeloFechaActualizacion">
+                                Fecha de actualización
+                                <span class="helper-icon" title="Última fecha de modificación del modelo">ℹ️</span>
+                            </label>
+                            <input type="date" id="modeloFechaActualizacion" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="modeloEstado">
+                                Estado del ciclo de vida
+                                <span class="helper-icon" title="Estado actual del modelo en su ciclo de vida">ℹ️</span>
+                            </label>
+                            <select id="modeloEstado" class="form-control required-field">
+                                <option value="">Seleccione</option>
+                                <option value="desarrollo">En desarrollo</option>
+                                <option value="pruebas">En pruebas</option>
+                                <option value="produccion">En producción</option>
+                                <option value="mantenimiento">En mantenimiento</option>
+                                <option value="retirado">Retirado</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sección 2: Propósito del modelo -->
+                <div class="section-card" id="seccion2">
+                    <div class="section-header">
+                        <div class="section-icon">🎯</div>
+                        <div class="section-title">2. Propósito del Modelo</div>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label for="modeloObjetivo">
+                                Objetivo del modelo
+                                <span class="helper-icon" title="Propósito principal del modelo">ℹ️</span>
+                            </label>
+                            <textarea id="modeloObjetivo" class="form-control required-field" placeholder="Describa el objetivo principal del modelo"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="modeloCasoUso">
+                                Caso de uso
+                                <span class="helper-icon" title="Escenario específico de aplicación del modelo">ℹ️</span>
+                            </label>
+                            <textarea id="modeloCasoUso" class="form-control required-field" placeholder="Describa el caso de uso específico"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="modeloAlcance">
+                                Alcance
+                                <span class="helper-icon" title="Límites y alcance del modelo">ℹ️</span>
+                            </label>
+                            <textarea id="modeloAlcance" class="form-control required-field" placeholder="Describa el alcance del modelo"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="modeloProcesosImpactados">
+                                Procesos institucionales impactados
+                                <span class="helper-icon" title="Procesos de la organización afectados por el modelo">ℹ️</span>
+                            </label>
+                            <textarea id="modeloProcesosImpactados" class="form-control required-field" placeholder="Liste los procesos impactados"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="modeloUsuariosPrevistos">
+                                Usuarios previstos
+                                <span class="helper-icon" title="Personas o sistemas que utilizarán el modelo">ℹ️</span>
+                            </label>
+                            <textarea id="modeloUsuariosPrevistos" class="form-control required-field" placeholder="Describa los usuarios previstos"></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sección 3: Descripción Técnica -->
+                <div class="section-card" id="seccion3">
+                    <div class="section-header">
+                        <div class="section-icon">⚙️</div>
+                        <div class="section-title">3. Descripción Técnica</div>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label for="modeloTipo">
+                                Tipo de modelo
+                                <span class="helper-icon" title="Clasificación del modelo según su función">ℹ️</span>
+                            </label>
+                            <select id="modeloTipo" class="form-control required-field">
+                                <option value="">Seleccione</option>
+                                <option value="clasificacion">Clasificación</option>
+                                <option value="regresion">Regresión</option>
+                                <option value="clustering">Clustering</option>
+                                <option value="nlp">Procesamiento de Lenguaje Natural (NLP)</option>
+                                <option value="vision">Visión por Computadora</option>
+                                <option value="recomendacion">Sistema de Recomendación</option>
+                                <option value="otros">Otros</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="modeloAlgoritmo">
+                                Algoritmo principal
+                                <span class="helper-icon" title="Algoritmo o arquitectura principal utilizada">ℹ️</span>
+                            </label>
+                            <input type="text" id="modeloAlgoritmo" class="form-control required-field" placeholder="Ej: BERT fine-tuning, Random Forest, etc.">
+                        </div>
+                        <div class="form-group">
+                            <label for="modeloArquitectura">
+                                Arquitectura
+                                <span class="helper-icon" title="Descripción de la arquitectura del modelo">ℹ️</span>
+                            </label>
+                            <textarea id="modeloArquitectura" class="form-control required-field" placeholder="Describa la arquitectura del modelo"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="modeloTecnologias">
+                                Tecnologías utilizadas
+                                <span class="helper-icon" title="Frameworks, librerías y herramientas utilizadas">ℹ️</span>
+                            </label>
+                            <textarea id="modeloTecnologias" class="form-control required-field" placeholder="Liste las tecnologías utilizadas"></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sección 4: Datos Utilizados -->
+                <div class="section-card" id="seccion4">
+                    <div class="section-header">
+                        <div class="section-icon">📊</div>
+                        <div class="section-title">4. Datos Utilizados</div>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label for="modeloDatasetEntrenamiento">
+                                Dataset de entrenamiento
+                                <span class="helper-icon" title="Conjunto de datos utilizado para entrenar el modelo">ℹ️</span>
+                            </label>
+                            <textarea id="modeloDatasetEntrenamiento" class="form-control required-field" placeholder="Describa el dataset de entrenamiento"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="modeloDatasetValidacion">
+                                Dataset de validación
+                                <span class="helper-icon" title="Conjunto de datos utilizado para validar el modelo">ℹ️</span>
+                            </label>
+                            <textarea id="modeloDatasetValidacion" class="form-control" placeholder="Describa el dataset de validación"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="modeloDatasetPruebas">
+                                Dataset de pruebas
+                                <span class="helper-icon" title="Conjunto de datos utilizado para probar el modelo">ℹ️</span>
+                            </label>
+                            <textarea id="modeloDatasetPruebas" class="form-control" placeholder="Describa el dataset de pruebas"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="modeloReferenciaDataSheet">
+                                Referencia al Data Sheet
+                                <span class="helper-icon" title="Enlace o referencia al Data Sheet correspondiente">ℹ️</span>
+                            </label>
+                            <input type="text" id="modeloReferenciaDataSheet" class="form-control" placeholder="Ej: Data Sheet v1.0 - actualizado 01/03/2025">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sección 5: Métricas de Desempeño -->
+                <div class="section-card" id="seccion5">
+                    <div class="section-header">
+                        <div class="section-icon">📈</div>
+                        <div class="section-title">5. Métricas de Desempeño</div>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label>Métricas Globales</label>
+                            <div class="table-actions">
+                                <button class="table-btn" onclick="agregarFila('tablaMetricasGlobales')">+ Agregar Fila</button>
+                            </div>
+                            <div class="table-container">
+                                <table class="data-table" id="tablaMetricasGlobales">
+                                    <thead>
+                                        <tr>
+                                            <th>Métrica</th>
+                                            <th>Valor</th>
+                                            <th>Descripción</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><input type="text" placeholder="Ej: Precisión"></td>
+                                            <td><input type="text" placeholder="Ej: 0.89"></td>
+                                            <td><input type="text" placeholder="Descripción de la métrica"></td>
+                                            <td><button class="table-btn remove" onclick="eliminarFila(this)">✕</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Métricas por Subpoblaciones</label>
+                            <div class="table-actions">
+                                <button class="table-btn" onclick="agregarFila('tablaMetricasSubpoblaciones')">+ Agregar Fila</button>
+                            </div>
+                            <div class="table-container">
+                                <table class="data-table" id="tablaMetricasSubpoblaciones">
+                                    <thead>
+                                        <tr>
+                                            <th>Subpoblación</th>
+                                            <th>Métrica</th>
+                                            <th>Valor</th>
+                                            <th>Observaciones</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><input type="text" placeholder="Ej: Localidades rurales"></td>
+                                            <td><input type="text" placeholder="Ej: F1-score"></td>
+                                            <td><input type="text" placeholder="Ej: 0.78"></td>
+                                            <td><input type="text" placeholder="Observaciones"></td>
+                                            <td><button class="table-btn remove" onclick="eliminarFila(this)">✕</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sección 6: Evaluación de Sesgos -->
+                <div class="section-card" id="seccion6">
+                    <div class="section-header">
+                        <div class="section-icon">⚖️</div>
+                        <div class="section-title">6. Evaluación de Sesgos</div>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label for="modeloSesgosIdentificados">
+                                Sesgos identificados
+                                <span class="helper-icon" title="Sesgos potenciales detectados en el modelo">ℹ️</span>
+                            </label>
+                            <textarea id="modeloSesgosIdentificados" class="form-control" placeholder="Describa los sesgos identificados"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="modeloResultadosPruebasEquidad">
+                                Resultados de pruebas de equidad
+                                <span class="helper-icon" title="Resultados de pruebas específicas de equidad realizadas">ℹ️</span>
+                            </label>
+                            <textarea id="modeloResultadosPruebasEquidad" class="form-control" placeholder="Describa los resultados de pruebas de equidad"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="modeloMedidasMitigacionSesgos">
+                                Medidas aplicadas para mitigar sesgos
+                                <span class="helper-icon" title="Acciones tomadas para reducir o eliminar sesgos">ℹ️</span>
+                            </label>
+                            <textarea id="modeloMedidasMitigacionSesgos" class="form-control" placeholder="Describa las medidas de mitigación"></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sección 7: Riesgos del Modelo -->
+                <div class="section-card" id="seccion7">
+                    <div class="section-header">
+                        <div class="section-icon">⚠️</div>
+                        <div class="section-title">7. Riesgos del Modelo</div>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label>Evaluación de Riesgos</label>
+                            <div class="table-actions">
+                                <button class="table-btn" onclick="agregarFila('tablaRiesgosModelo')">+ Agregar Fila</button>
+                            </div>
+                            <div class="table-container">
+                                <table class="data-table" id="tablaRiesgosModelo">
+                                    <thead>
+                                        <tr>
+                                            <th>Tipo de Riesgo</th>
+                                            <th>Descripción</th>
+                                            <th>Impacto</th>
+                                            <th>Probabilidad</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <select>
+                                                    <option value="">Seleccione</option>
+                                                    <option value="tecnico">Técnico</option>
+                                                    <option value="operativo">Operativo</option>
+                                                    <option value="etico">Ético</option>
+                                                    <option value="social">Social</option>
+                                                    <option value="legal">Legal</option>
+                                                </select>
+                                            </td>
+                                            <td><textarea placeholder="Descripción del riesgo"></textarea></td>
+                                            <td>
+                                                <select>
+                                                    <option value="">Seleccione</option>
+                                                    <option value="bajo">Bajo</option>
+                                                    <option value="medio">Medio</option>
+                                                    <option value="alto">Alto</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select>
+                                                    <option value="">Seleccione</option>
+                                                    <option value="baja">Baja</option>
+                                                    <option value="media">Media</option>
+                                                    <option value="alta">Alta</option>
+                                                </select>
+                                            </td>
+                                            <td><button class="table-btn remove" onclick="eliminarFila(this)">✕</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sección 8: Controles Implementados -->
+                <div class="section-card" id="seccion8">
+                    <div class="section-header">
+                        <div class="section-icon">🛡️</div>
+                        <div class="section-title">8. Controles Implementados</div>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label>Controles de Supervisión y Monitoreo</label>
+                            <div class="table-actions">
+                                <button class="table-btn" onclick="agregarFila('tablaControlesModelo')">+ Agregar Fila</button>
+                            </div>
+                            <div class="table-container">
+                                <table class="data-table" id="tablaControlesModelo">
+                                    <thead>
+                                        <tr>
+                                            <th>Tipo de Control</th>
+                                            <th>Descripción</th>
+                                            <th>Frecuencia</th>
+                                            <th>Responsable</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <select>
+                                                    <option value="">Seleccione</option>
+                                                    <option value="supervision">Supervisión humana</option>
+                                                    <option value="monitoreo">Monitoreo continuo</option>
+                                                    <option value="alerta">Sistema de alertas</option>
+                                                    <option value="auditoria">Auditoría</option>
+                                                    <option value="reentrenamiento">Reentrenamiento</option>
+                                                </select>
+                                            </td>
+                                            <td><textarea placeholder="Descripción del control"></textarea></td>
+                                            <td><input type="text" placeholder="Ej: Semanal, Mensual"></td>
+                                            <td><input type="text" placeholder="Responsable"></td>
+                                            <td><button class="table-btn remove" onclick="eliminarFila(this)">✕</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sección 9: Explicabilidad y Transparencia -->
+                <div class="section-card" id="seccion9">
+                    <div class="section-header">
+                        <div class="section-icon">🔍</div>
+                        <div class="section-title">9. Explicabilidad y Transparencia</div>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label for="modeloTecnicasExplicabilidad">
+                                Técnicas de explicabilidad utilizadas
+                                <span class="helper-icon" title="Métodos para hacer comprensible el funcionamiento del modelo">ℹ️</span>
+                            </label>
+                            <textarea id="modeloTecnicasExplicabilidad" class="form-control" placeholder="Ej: SHAP, LIME, análisis de características"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="modeloInformacionPublica">
+                                Información pública disponible
+                                <span class="helper-icon" title="Información sobre el modelo disponible para el público">ℹ️</span>
+                            </label>
+                            <textarea id="modeloInformacionPublica" class="form-control" placeholder="Describa la información pública disponible"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="modeloMecanismosRendicionCuentas">
+                                Mecanismos de rendición de cuentas
+                                <span class="helper-icon" title="Procedimientos para explicar y justificar decisiones del modelo">ℹ️</span>
+                            </label>
+                            <textarea id="modeloMecanismosRendicionCuentas" class="form-control" placeholder="Describa los mecanismos de rendición de cuentas"></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sección 10: Reglas de Uso Responsable -->
+                <div class="section-card" id="seccion10">
+                    <div class="section-header">
+                        <div class="section-icon">📋</div>
+                        <div class="section-title">10. Reglas de Uso Responsable</div>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label for="modeloUsosPermitidos">
+                                Usos permitidos
+                                <span class="helper-icon" title="Aplicaciones autorizadas para el modelo">ℹ️</span>
+                            </label>
+                            <textarea id="modeloUsosPermitidos" class="form-control required-field" placeholder="Liste los usos permitidos"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="modeloUsosRestringidos">
+                                Usos restringidos
+                                <span class="helper-icon" title="Aplicaciones con restricciones específicas">ℹ️</span>
+                            </label>
+                            <textarea id="modeloUsosRestringidos" class="form-control" placeholder="Liste los usos restringidos"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="modeloUsosProhibidos">
+                                Usos prohibidos
+                                <span class="helper-icon" title="Aplicaciones expresamente prohibidas">ℹ️</span>
+                            </label>
+                            <textarea id="modeloUsosProhibidos" class="form-control required-field" placeholder="Liste los usos prohibidos"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="modeloBuenasPracticas">
+                                Buenas prácticas operativas
+                                <span class="helper-icon" title="Recomendaciones para el uso adecuado del modelo">ℹ️</span>
+                            </label>
+                            <textarea id="modeloBuenasPracticas" class="form-control" placeholder="Describa las buenas prácticas"></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sección 11: Entradas y Salidas del Modelo -->
+                <div class="section-card" id="seccion11">
+                    <div class="section-header">
+                        <div class="section-icon">🔄</div>
+                        <div class="section-title">11. Entradas y Salidas del Modelo</div>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label for="modeloEntradas">
+                                Tipos de datos de entrada
+                                <span class="helper-icon" title="Formatos y tipos de datos que acepta el modelo">ℹ️</span>
+                            </label>
+                            <textarea id="modeloEntradas" class="form-control required-field" placeholder="Describa los tipos de datos de entrada"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="modeloSalidas">
+                                Tipos de predicciones/salidas generadas
+                                <span class="helper-icon" title="Formatos y tipos de resultados que produce el modelo">ℹ️</span>
+                            </label>
+                            <textarea id="modeloSalidas" class="form-control required-field" placeholder="Describa los tipos de salidas"></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sección 12: Monitoreo y Mantenimiento -->
+                <div class="section-card" id="seccion12">
+                    <div class="section-header">
+                        <div class="section-icon">📊</div>
+                        <div class="section-title">12. Monitoreo y Mantenimiento</div>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label for="modeloIndicadoresDesempeno">
+                                Indicadores de desempeño
+                                <span class="helper-icon" title="Métricas para evaluar el rendimiento del modelo">ℹ️</span>
+                            </label>
+                            <textarea id="modeloIndicadoresDesempeno" class="form-control" placeholder="Liste los indicadores de desempeño"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="modeloFrecuenciaReentrenamiento">
+                                Frecuencia de reentrenamiento
+                                <span class="helper-icon" title="Periodicidad para actualizar el modelo">ℹ️</span>
+                            </label>
+                            <input type="text" id="modeloFrecuenciaReentrenamiento" class="form-control" placeholder="Ej: Semestral, Anual">
+                        </div>
+                        <div class="form-group">
+                            <label for="modeloControlesDrift">
+                                Controles de drift
+                                <span class="helper-icon" title="Mecanismos para detectar cambios en los datos">ℹ️</span>
+                            </label>
+                            <textarea id="modeloControlesDrift" class="form-control" placeholder="Describa los controles de drift"></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sección 13: Historial de Cambios -->
+                <div class="section-card" id="seccion13">
+                    <div class="section-header">
+                        <div class="section-icon">📚</div>
+                        <div class="section-title">13. Historial de Cambios</div>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label>Registro de Versiones</label>
+                            <div class="table-actions">
+                                <button class="table-btn" onclick="agregarFila('tablaHistorialModelo')">+ Agregar Fila</button>
+                            </div>
+                            <div class="table-container">
+                                <table class="data-table" id="tablaHistorialModelo">
+                                    <thead>
+                                        <tr>
+                                            <th>Versión</th>
+                                            <th>Fecha</th>
+                                            <th>Ajustes realizados</th>
+                                            <th>Responsable</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><input type="text" placeholder="Ej: v1.0"></td>
+                                            <td><input type="date"></td>
+                                            <td><textarea placeholder="Describa los ajustes"></textarea></td>
+                                            <td><input type="text" placeholder="Responsable"></td>
+                                            <td><button class="table-btn remove" onclick="eliminarFila(this)">✕</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sección 14: Aprobaciones -->
+                <div class="section-card" id="seccion14">
+                    <div class="section-header">
+                        <div class="section-icon">✅</div>
+                        <div class="section-title">14. Aprobaciones</div>
+                    </div>
+                    <div class="section-content">
+                        <div class="approval-section">
+                            <div class="approval-item">
+                                <div class="approval-title">
+                                    Equipo técnico
+                                    <span class="helper-icon" title="Aprobación del equipo técnico responsable">ℹ️</span>
+                                </div>
+                                <textarea id="modeloAprobacionTecnica" class="form-control" placeholder="Evaluación y aprobación del equipo técnico"></textarea>
+                            </div>
+                            
+                            <div class="approval-item">
+                                <div class="approval-title">
+                                    Área jurídica
+                                    <span class="helper-icon" title="Aprobación del área jurídica">ℹ️</span>
+                                </div>
+                                <textarea id="modeloAprobacionJuridica" class="form-control" placeholder="Evaluación y aprobación del área jurídica"></textarea>
+                            </div>
+                            
+                            <div class="approval-item">
+                                <div class="approval-title">
+                                    Delegado de Protección de Datos
+                                    <span class="helper-icon" title="Aprobación del Delegado de Protección de Datos">ℹ️</span>
+                                </div>
+                                <textarea id="modeloAprobacionDPO" class="form-control" placeholder="Evaluación y aprobación del DPO"></textarea>
+                            </div>
+                            
+                            <div class="approval-item">
+                                <div class="approval-title">
+                                    Comité Distrital de IA
+                                    <span class="helper-icon" title="Aprobación del Comité Distrital de IA">ℹ️</span>
+                                </div>
+                                <textarea id="modeloAprobacionComiteIA" class="form-control" placeholder="Evaluación y aprobación del Comité de IA"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    // Objeto global para almacenar los datos
+    let modelCardData = {};
+
+    // Tablas del formulario
+    const tablasModelCard = [
+        'tablaMetricasGlobales',
+        'tablaMetricasSubpoblaciones',
+        'tablaRiesgosModelo',
+        'tablaControlesModelo',
+        'tablaHistorialModelo'
+    ];
+
+    // Inicialización al cargar la página
+    window.addEventListener('DOMContentLoaded', function() {
+        inicializarEventListeners();
+        console.log('Toolkit Model Cards cargado correctamente');
+    });
+
+    // Función para inicializar todos los event listeners
+    function inicializarEventListeners() {
+        // Navegación entre secciones
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+                    this.classList.add('active');
+                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Importar desde JSON
+        document.getElementById('jsonFileInput').addEventListener('change', importarDesdeJSON);
+    }
+
+    // Función para exportar a JSON
+    function exportarJSON() {
+        recopilarDatosModelCard();
+        const jsonString = JSON.stringify(modelCardData, null, 2);
+        const blob = new Blob([jsonString], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `model-card-${new Date().toISOString().split('T')[0]}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        alert('Model Card exportado exitosamente como JSON.');
+    }
+
+    // Función para importar desde JSON
+    function importarDesdeJSON(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                const datosImportados = JSON.parse(e.target.result);
+                cargarDatosModelCard(datosImportados);
+                alert('Model Card importado exitosamente desde JSON.');
+            } catch (error) {
+                alert('Error al importar el archivo JSON: ' + error.message);
+            }
+        };
+        reader.readAsText(file);
+        e.target.value = '';
+    }
+
+    // Función para recopilar datos del Model Card
+    function recopilarDatosModelCard() {
+        modelCardData = {};
+
+        // Recopilar campos individuales
+        document.querySelectorAll('#model-card-content input, #model-card-content textarea, #model-card-content select').forEach(element => {
+            if (element.id && !element.closest('.data-table')) {
+                modelCardData[element.id] = element.value;
+            }
+        });
+
+        // Recopilar datos de tablas Model Card
+        tablasModelCard.forEach(tablaId => {
+            const tabla = document.getElementById(tablaId);
+            if (tabla) {
+                modelCardData[tablaId] = obtenerDatosTabla(tabla);
+            }
+        });
+
+        return modelCardData;
+    }
+
+    // Función auxiliar para obtener datos de tabla
+    function obtenerDatosTabla(table) {
+        const tableData = [];
+        const headers = Array.from(table.querySelectorAll('thead th')).map(th => th.textContent.trim());
+        
+        table.querySelectorAll('tbody tr').forEach(row => {
+            const rowData = {};
+            const cells = row.querySelectorAll('td');
+            
+            cells.forEach((cell, cellIndex) => {
+                const header = headers[cellIndex];
+                const input = cell.querySelector('input, textarea, select');
+                
+                if (input && header && header !== 'Acciones') {
+                    rowData[header] = input.value;
+                }
+            });
+            
+            if (Object.keys(rowData).length > 0) {
+                tableData.push(rowData);
+            }
+        });
+        
+        return tableData;
+    }
+
+    // Función para cargar datos en el Model Card
+    function cargarDatosModelCard(datos) {
+        limpiarFormulario();
+        
+        // Cargar datos
+        for (const [key, value] of Object.entries(datos)) {
+            if (tablasModelCard.includes(key)) {
+                // Es una tabla
+                const tabla = document.getElementById(key);
+                if (tabla && Array.isArray(value)) {
+                    cargarDatosTabla(tabla, value);
+                }
+            } else {
+                // Es un campo individual
+                const element = document.getElementById(key);
+                if (element) {
+                    if (element.tagName === 'SELECT') {
+                        // Para selects, buscar la opción que coincida con el valor
+                        const options = element.querySelectorAll('option');
+                        let found = false;
+                        options.forEach(option => {
+                            if (option.value === value || option.textContent.trim() === value) {
+                                element.value = option.value;
+                                found = true;
+                            }
+                        });
+                        if (!found) {
+                            element.value = value; // Fallback
+                        }
+                    } else {
+                        element.value = value;
+                    }
+                }
+            }
+        }
+    }
+
+    // Función auxiliar para cargar datos en tabla
+    function cargarDatosTabla(table, datosTabla) {
+        const tbody = table.querySelector('tbody');
+        const filaOriginal = tbody.querySelector('tr');
+        
+        // Limpiar tabla (excepto primera fila)
+        while (tbody.children.length > 1) {
+            tbody.removeChild(tbody.lastChild);
+        }
+        
+        // Cargar datos en filas existentes o crear nuevas
+        datosTabla.forEach((fila, index) => {
+            let filaElement;
+            
+            if (index === 0) {
+                filaElement = tbody.querySelector('tr');
+            } else {
+                filaElement = filaOriginal.cloneNode(true);
+                tbody.appendChild(filaElement);
+            }
+            
+            // Limpiar valores de la fila
+            filaElement.querySelectorAll('input, textarea, select').forEach(input => {
+                if (input.type !== 'button') {
+                    input.value = '';
+                }
+            });
+            
+            // Cargar datos en la fila
+            for (const [header, valor] of Object.entries(fila)) {
+                const indiceHeader = Array.from(table.querySelectorAll('thead th'))
+                    .findIndex(th => th.textContent.trim() === header);
+                
+                if (indiceHeader !== -1) {
+                    const celda = filaElement.querySelectorAll('td')[indiceHeader];
+                    if (celda) {
+                        const input = celda.querySelector('input, textarea, select');
+                        if (input) {
+                            if (input.tagName === 'SELECT') {
+                                // Para selects, buscar la opción que coincida con el valor
+                                const options = input.querySelectorAll('option');
+                                let found = false;
+                                options.forEach(option => {
+                                    if (option.value === valor || option.textContent.trim() === valor) {
+                                        input.value = option.value;
+                                        found = true;
+                                    }
+                                });
+                                if (!found) {
+                                    input.value = valor; // Fallback
+                                }
+                            } else {
+                                input.value = valor;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // Función para agregar fila a tabla
+    function agregarFila(tablaId) {
+        const tabla = document.getElementById(tablaId);
+        if (!tabla) return;
+        
+        const tbody = tabla.querySelector('tbody');
+        const ultimaFila = tbody.querySelector('tr:last-child');
+        const nuevaFila = ultimaFila.cloneNode(true);
+        
+        // Limpiar valores de la nueva fila
+        nuevaFila.querySelectorAll('input, textarea, select').forEach(input => {
+            if (input.type !== 'button') {
+                input.value = '';
+            }
+        });
+        
+        tbody.appendChild(nuevaFila);
+    }
+
+    // Función para eliminar fila de tabla
+    function eliminarFila(boton) {
+        const fila = boton.closest('tr');
+        const tbody = fila.parentElement;
+        
+        // No eliminar si es la única fila
+        if (tbody.children.length > 1) {
+            fila.remove();
+        } else {
+            alert('No se puede eliminar la última fila de la tabla.');
+        }
+    }
+
+    // Función para cargar ejemplo completo
+    function cargarEjemplo() {
+        const ejemploModelCard = {
+            modeloNombre: "Clasificador de PQRS Bogotá",
+            modeloVersion: "v1.0",
+            modeloEntidad: "Secretaría Distrital de Gobierno",
+            modeloArea: "Dirección de Atención al Ciudadano",
+            modeloFechaCreacion: "2025-03-10",
+            modeloEstado: "pruebas",
+            modeloObjetivo: "Clasificar automáticamente las solicitudes ciudadanas (PQRS) en categorías temáticas para reducir tiempos de respuesta",
+            modeloCasoUso: "Soporte al proceso de gestión ciudadana",
+            modeloAlcance: "Clasificación preliminar, no toma decisiones finales",
+            modeloProcesosImpactados: "Recepción, triage, asignación de solicitudes",
+            modeloUsuariosPrevistos: "Funcionarios de PQRS, equipo TIC",
+            modeloTipo: "nlp",
+            modeloAlgoritmo: "BERT fine-tuning (transformer pre-entrenado)",
+            modeloArquitectura: "Modelo de lenguaje contextual + capa densa de clasificación",
+            modeloTecnologias: "Python, TensorFlow, HuggingFace Transformers, API REST para inferencia",
+            modeloDatasetEntrenamiento: "Dataset de Solicitudes Ciudadanas Bogotá 2018-2024 (1.2M registros). Entrenamiento: 70% de los datos",
+            modeloDatasetValidacion: "15% de los datos",
+            modeloDatasetPruebas: "15% de los datos",
+            modeloReferenciaDataSheet: "versión 1.0 - actualizado 01/03/2025",
+            modeloSesgosIdentificados: "Subrepresentación de localidades rurales → menor precisión. Solicitudes de adultos mayores presentan textos más cortos → menor F1 (0.74)",
+            modeloResultadosPruebasEquidad: "Mejor desempeño en quejas; menor en peticiones de información",
+            modeloMedidasMitigacionSesgos: "Balanceo de muestras por localidad. Data augmentation para textos cortos. Validación diferenciada por grupo",
+            modeloTecnicasExplicabilidad: "LIME y SHAP para explicabilidad local; matriz de confusión por categoría para visión global",
+            modeloInformacionPublica: "Publicación de versión ciudadana (resumen no técnico) en el portal de datos abiertos",
+            modeloMecanismosRendicionCuentas: "Comité de IA recibe reportes mensuales",
+            modeloUsosPermitidos: "apoyo al triage, análisis estadístico, mejora de eficiencia",
+            modeloUsosRestringidos: "toma de decisiones automatizadas sin revisión humana; perfilar ciudadanos; priorización automática de casos sensibles",
+            modeloUsosProhibidos: "Situaciones NO recomendadas: cuando la descripción es menor de 5 palabras (alto error)",
+            modeloBuenasPracticas: "Revisión humana obligatoria antes de enviar la solicitud al área correspondiente",
+            modeloEntradas: "texto libre de la descripción del ciudadano, metadatos opcionales (categoría inicial, canal)",
+            modeloSalidas: "categoría sugerida entre 12 clases temáticas",
+            modeloIndicadoresDesempeno: "F1 por categoría, tasa de drift, porcentaje de correcciones humanas",
+            modeloFrecuenciaReentrenamiento: "semestral",
+            modeloControlesDrift: "análisis de distribución del texto y nuevos patrones lingüísticos",
+            modeloAprobacionTecnica: "El sistema funciona según especificaciones técnicas. Rendimiento dentro de parámetros aceptables.",
+            modeloAprobacionJuridica: "Cumple con el marco normativo aplicable. Base legal adecuada para el tratamiento.",
+            modeloAprobacionDPO: "El sistema cumple con los principios de protección de datos. Se recomienda revisión semestral.",
+            modeloAprobacionComiteIA: "Aprobado - Acta 004/2025",
+            tablaMetricasGlobales: [
+                {
+                    "Métrica": "Exactitud",
+                    "Valor": "0.89",
+                    "Descripción": "Porcentaje de clasificaciones correctas"
+                },
+                {
+                    "Métrica": "Precisión macro",
+                    "Valor": "0.87",
+                    "Descripción": "Precisión promedio por categoría"
+                }
+            ],
+            tablaMetricasSubpoblaciones: [
+                {
+                    "Subpoblación": "Localidades con menor conectividad (Sumapaz, Ciudad Bolívar)",
+                    "Métrica": "F1",
+                    "Valor": "0.78",
+                    "Observaciones": "Menor desempeño por variaciones lingüísticas"
+                }
+            ]
+        };
+
+        cargarDatosModelCard(ejemploModelCard);
+        alert('Ejemplo de Model Card cargado exitosamente.');
+    }
+
+    // Función para limpiar el formulario
+    function limpiarFormulario() {
+        // Limpiar todos los campos
+        document.querySelectorAll('#model-card-content input, #model-card-content textarea, #model-card-content select').forEach(element => {
+            if (element.type !== 'button') {
+                element.value = '';
+            }
+        });
+        
+        // Limpiar tablas
+        tablasModelCard.forEach(tablaId => {
+            const tabla = document.getElementById(tablaId);
+            if (tabla) {
+                const tbody = tabla.querySelector('tbody');
+                while (tbody.children.length > 1) {
+                    tbody.removeChild(tbody.lastChild);
+                }
+                
+                // Limpiar la primera fila
+                tbody.querySelectorAll('input, textarea, select').forEach(input => {
+                    if (input.type !== 'button') {
+                        input.value = '';
+                    }
+                });
+            }
+        });
+        
+        // Reiniciar datos
+        modelCardData = {};
+    }
+
+    // Función para imprimir el formulario
+    function imprimirFormulario() {
+        window.print();
+    }
+
+    // Función para validar campos requeridos antes de enviar
+    function validarFormulario() {
+        const camposRequeridos = document.querySelectorAll('#model-card-content .required-field');
+        let valido = true;
+        
+        camposRequeridos.forEach(campo => {
+            if (!campo.value.trim()) {
+                campo.style.borderColor = 'red';
+                valido = false;
+            } else {
+                campo.style.borderColor = '';
+            }
+        });
+        
+        if (!valido) {
+            alert('Por favor complete todos los campos requeridos marcados en rojo.');
+        }
+        
+        return valido;
+    }
+</script>
+</body>
+</html>
