@@ -256,6 +256,96 @@
             margin-top: 0;
         }
         
+        .training-modules {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .module {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-top: 4px solid #1976D2;
+            transition: all 0.3s ease;
+        }
+        
+        .module:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+        }
+        
+        .module h4 {
+            color: #1a237e;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .module h4:before {
+            content: "📚";
+            margin-right: 10px;
+        }
+        
+        .module-duration {
+            display: inline-block;
+            background: #e3f2fd;
+            color: #1a237e;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .implementation-phases {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .phase {
+            flex: 1;
+            min-width: 300px;
+            background-color: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-top: 4px solid #388E3C;
+            transition: all 0.3s ease;
+        }
+        
+        .phase:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+        }
+        
+        .phase h4 {
+            color: #1a237e;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .phase h4:before {
+            content: "🔄";
+            margin-right: 10px;
+        }
+        
+        .phase-timeframe {
+            display: inline-block;
+            background: #e8f5e9;
+            color: #388E3C;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
         footer {
             text-align: center;
             padding: 20px;
@@ -265,11 +355,11 @@
         }
         
         @media (max-width: 768px) {
-            .risk-matrix, .incident-procedure {
+            .risk-matrix, .incident-procedure, .training-modules, .implementation-phases {
                 grid-template-columns: 1fr;
             }
             
-            .incident-type {
+            .incident-type, .phase {
                 min-width: 100%;
             }
             
@@ -495,6 +585,77 @@
                             </ol>
                         </div>
                     </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Programa Obligatorio de Capacitación</h2>
+                <div class="card">
+                    <p><strong>Requisito de acceso:</strong> Para utilizar herramientas de IA generativa, los funcionarios deben completar un programa de formación obligatorio de 4 horas sobre uso seguro y responsable.</p>
+                    
+                    <h3>Módulos de capacitación</h3>
+                    <div class="training-modules">
+                        <div class="module">
+                            <span class="module-duration">1 hora</span>
+                            <h4>Módulo 1: Riesgos de IA generativa</h4>
+                            <p>Alucinaciones, sesgos y aspectos de privacidad</p>
+                        </div>
+                        
+                        <div class="module">
+                            <span class="module-duration">1 hora</span>
+                            <h4>Módulo 2: Normativa aplicable</h4>
+                            <p>Ley 1581, Ley 2279 y políticas institucionales</p>
+                        </div>
+                        
+                        <div class="module">
+                            <span class="module-duration">1.5 horas</span>
+                            <h4>Módulo 3: Matriz de usos permitidos y prohibidos</h4>
+                            <p>Desarrollo mediante casos prácticos</p>
+                        </div>
+                        
+                        <div class="module">
+                            <span class="module-duration">30 minutos</span>
+                            <h4>Módulo 4: Protocolo de respuesta ante incidentes</h4>
+                            <p>Procedimientos establecidos</p>
+                        </div>
+                    </div>
+                    
+                    <h3>Certificación</h3>
+                    <ul class="step-list">
+                        <li>Evaluación con puntaje mínimo del 80%</li>
+                        <li>Vigencia de 12 meses</li>
+                        <li>Re-certificación ante actualizaciones normativas significativas</li>
+                    </ul>
+                    
+                    <h3>Implementación escalonada</h3>
+                    <div class="implementation-phases">
+                        <div class="phase">
+                            <span class="phase-timeframe">Meses 1-3</span>
+                            <h4>Fase 1</h4>
+                            <p>Comité de IA, Delegado de Protección de Datos (DPO) y responsables técnicos</p>
+                        </div>
+                        
+                        <div class="phase">
+                            <span class="phase-timeframe">Meses 4-6</span>
+                            <h4>Fase 2</h4>
+                            <p>Funcionarios de áreas estratégicas y misionales</p>
+                        </div>
+                        
+                        <div class="phase">
+                            <span class="phase-timeframe">Meses 7-12</span>
+                            <h4>Fase 3</h4>
+                            <p>Cobertura completa para todos los funcionarios usuarios</p>
+                        </div>
+                    </div>
+                    
+                    <h3>Control de cumplimiento</h3>
+                    <ul class="step-list">
+                        <li>Sistema de acceso verifica automáticamente la certificación vigente</li>
+                        <li>Sin certificación, el acceso queda suspendido</li>
+                    </ul>
+                    
+                    <h3>Responsabilidad</h3>
+                    <p>Oficial de IA Responsable, en coordinación con Gestión Humana.</p>
                 </div>
             </div>
             
