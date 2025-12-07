@@ -1,0 +1,315 @@
+ {
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Esquema de la Ficha Técnica del Modelo de IA (Model Card)",
+  "type": "object",
+  "properties": {
+    "modeloNombre": {
+      "type": "string",
+      "description": "Nombre oficial del modelo de IA."
+    },
+    "modeloVersion": {
+      "type": "string",
+      "description": "Versión actual del modelo."
+    },
+    "modeloEntidad": {
+      "type": "string",
+      "description": "Entidad propietaria del modelo."
+    },
+    "modeloArea": {
+      "type": "string",
+      "description": "Área o dirección responsable de la operación."
+    },
+    "modeloFechaCreacion": {
+      "type": "string",
+      "format": "date",
+      "description": "Fecha de creación del modelo (YYYY-MM-DD)."
+    },
+    "modeloFechaActualizacion": {
+      "type": "string",
+      "description": "Fecha de la última actualización."
+    },
+    "modeloEstado": {
+      "type": "string",
+      "enum": ["desarrollo", "pruebas", "produccion", "retirado"],
+      "description": "Estado actual del ciclo de vida del modelo."
+    },
+    "modeloObjetivo": {
+      "type": "string",
+      "description": "Objetivo y función principal del modelo."
+    },
+    "modeloCasoUso": {
+      "type": "string",
+      "description": "Caso de uso al que está asociado el modelo."
+    },
+    "modeloAlcance": {
+      "type": "string",
+      "description": "Limitaciones y alcance de las decisiones del modelo."
+    },
+    "modeloProcesosImpactados": {
+      "type": "string",
+      "description": "Procesos internos afectados por la implementación."
+    },
+    "modeloUsuariosPrevistos": {
+      "type": "string",
+      "description": "Roles que interactúan directamente con el modelo."
+    },
+    "modeloTipo": {
+      "type": "string",
+      "enum": ["nlp", "vision", "clasificacion", "prediccion"],
+      "description": "Tipo general del sistema de IA (e.g., NLP, visión)."
+    },
+    "modeloAlgoritmo": {
+      "type": "string",
+      "description": "Nombre del algoritmo o técnica principal (e.g., BERT, Random Forest)."
+    },
+    "modeloArquitectura": {
+      "type": "string",
+      "description": "Descripción concisa de la arquitectura del modelo."
+    },
+    "modeloTecnologias": {
+      "type": "string",
+      "description": "Stack tecnológico utilizado (lenguajes, frameworks)."
+    },
+    "modeloDatasetEntrenamiento": {
+      "type": "string",
+      "description": "Descripción y porcentaje del dataset de entrenamiento."
+    },
+    "modeloDatasetValidacion": {
+      "type": "string",
+      "description": "Porcentaje del dataset de validación."
+    },
+    "modeloDatasetPruebas": {
+      "type": "string",
+      "description": "Porcentaje del dataset de pruebas."
+    },
+    "modeloReferenciaDataSheet": {
+      "type": "string",
+      "description": "Referencia a la versión del Data Sheet de los datos utilizados."
+    },
+    "modeloSesgosIdentificados": {
+      "type": "string",
+      "description": "Descripción de los sesgos detectados en el modelo o datos."
+    },
+    "modeloResultadosPruebasEquidad": {
+      "type": "string",
+      "description": "Resumen de los resultados de equidad por grupos o categorías."
+    },
+    "modeloMedidasMitigacionSesgos": {
+      "type": "string",
+      "description": "Medidas de ingeniería y datos para mitigar sesgos."
+    },
+    "modeloTecnicasExplicabilidad": {
+      "type": "string",
+      "description": "Técnicas de explicabilidad (XAI) utilizadas (e.g., LIME, SHAP)."
+    },
+    "modeloInformacionPublica": {
+      "type": "string",
+      "description": "Plan para la divulgación pública de información sobre el modelo."
+    },
+    "modeloMecanismosRendicionCuentas": {
+      "type": "string",
+      "description": "Mecanismos formales de rendición de cuentas y supervisión."
+    },
+    "modeloUsosPermitidos": {
+      "type": "string",
+      "description": "Usos explícitamente autorizados del modelo."
+    },
+    "modeloUsosRestringidos": {
+      "type": "string",
+      "description": "Usos que tienen restricciones o requieren supervisión."
+    },
+    "modeloUsosProhibidos": {
+      "type": "string",
+      "description": "Usos que están explícitamente prohibidos o desaconsejados."
+    },
+    "modeloBuenasPracticas": {
+      "type": "string",
+      "description": "Prácticas de gobernanza adicionales aplicadas."
+    },
+    "modeloEntradas": {
+      "type": "string",
+      "description": "Tipos de datos de entrada requeridos por el modelo."
+    },
+    "modeloSalidas": {
+      "type": "string",
+      "description": "Tipos de datos de salida generados por el modelo."
+    },
+    "modeloIndicadoresDesempeno": {
+      "type": "string",
+      "description": "Lista de KPIs de desempeño y monitoreo."
+    },
+    "modeloFrecuenciaReentrenamiento": {
+      "type": "string",
+      "description": "Frecuencia con la que se reentrena el modelo."
+    },
+    "modeloControlesDrift": {
+      "type": "string",
+      "description": "Mecanismos para detectar y controlar el 'model drift'."
+    },
+    "modeloAprobacionTecnica": {
+      "type": "string",
+      "description": "Conclusiones de la evaluación y aprobación técnica."
+    },
+    "modeloAprobacionJuridica": {
+      "type": "string",
+      "description": "Conclusiones de la evaluación y aprobación jurídica."
+    },
+    "modeloAprobacionDPO": {
+      "type": "string",
+      "description": "Conclusiones de la evaluación y aprobación del DPO/Oficial de Protección de Datos."
+    },
+    "modeloAprobacionComiteIA": {
+      "type": "string",
+      "description": "Decisión final del Comité de IA."
+    },
+    "tablaMetricasGlobales": {
+      "type": "array",
+      "description": "Tabla de métricas de desempeño global del modelo.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "Métrica": {
+            "type": "string"
+          },
+          "Valor": {
+            "type": "string"
+          },
+          "Descripción": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "Métrica",
+          "Valor",
+          "Descripción"
+        ]
+      }
+    },
+    "tablaMetricasSubpoblaciones": {
+      "type": "array",
+      "description": "Tabla de métricas de desempeño desagregadas por subpoblación (equidad).",
+      "items": {
+        "type": "object",
+        "properties": {
+          "Subpoblación": {
+            "type": "string"
+          },
+          "Métrica": {
+            "type": "string"
+          },
+          "Valor": {
+            "type": "string"
+          },
+          "Observaciones": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "Subpoblación",
+          "Métrica",
+          "Valor",
+          "Observaciones"
+        ]
+      }
+    },
+    "tablaRiesgosModelo": {
+      "type": "array",
+      "description": "Tabla de riesgos específicos inherentes al modelo (no relacionados con datos).",
+      "items": {
+        "type": "object",
+        "properties": {
+          "Tipo de Riesgo": {
+            "type": "string"
+          },
+          "Descripción": {
+            "type": "string"
+          },
+          "Impacto": {
+            "type": "string",
+            "enum": ["bajo", "medio", "alto"]
+          },
+          "Probabilidad": {
+            "type": "string",
+            "enum": ["baja", "media", "alta"]
+          }
+        },
+        "required": [
+          "Tipo de Riesgo",
+          "Descripción",
+          "Impacto",
+          "Probabilidad"
+        ]
+      }
+    },
+    "tablaControlesModelo": {
+      "type": "array",
+      "description": "Controles y monitoreo del modelo en producción.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "Tipo de Control": {
+            "type": "string"
+          },
+          "Descripción": {
+            "type": "string"
+          },
+          "Frecuencia": {
+            "type": "string"
+          },
+          "Responsable": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "Tipo de Control",
+          "Descripción",
+          "Frecuencia",
+          "Responsable"
+        ]
+      }
+    },
+    "tablaHistorialModelo": {
+      "type": "array",
+      "description": "Historial de versiones y ajustes del modelo.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "Versión": {
+            "type": "string"
+          },
+          "Fecha": {
+            "type": "string",
+            "format": "date"
+          },
+          "Ajustes realizados": {
+            "type": "string"
+          },
+          "Responsable": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "Versión",
+          "Fecha",
+          "Ajustes realizados",
+          "Responsable"
+        ]
+      }
+    }
+  },
+  "required": [
+    "modeloNombre", "modeloVersion", "modeloEntidad", "modeloArea", "modeloFechaCreacion",
+    "modeloFechaActualizacion", "modeloEstado", "modeloObjetivo", "modeloCasoUso",
+    "modeloAlcance", "modeloProcesosImpactados", "modeloUsuariosPrevistos",
+    "modeloTipo", "modeloAlgoritmo", "modeloArquitectura", "modeloTecnologias",
+    "modeloDatasetEntrenamiento", "modeloDatasetValidacion", "modeloDatasetPruebas",
+    "modeloReferenciaDataSheet", "modeloSesgosIdentificados", "modeloResultadosPruebasEquidad",
+    "modeloMedidasMitigacionSesgos", "modeloTecnicasExplicabilidad", "modeloInformacionPublica",
+    "modeloMecanismosRendicionCuentas", "modeloUsosPermitidos", "modeloUsosRestringidos",
+    "modeloUsosProhibidos", "modeloBuenasPracticas", "modeloEntradas", "modeloSalidas",
+    "modeloIndicadoresDesempeno", "modeloFrecuenciaReentrenamiento", "modeloControlesDrift",
+    "modeloAprobacionTecnica", "modeloAprobacionJuridica", "modeloAprobacionDPO",
+    "modeloAprobacionComiteIA", "tablaMetricasGlobales", "tablaMetricasSubpoblaciones",
+    "tablaRiesgosModelo", "tablaControlesModelo", "tablaHistorialModelo"
+  ]
+}

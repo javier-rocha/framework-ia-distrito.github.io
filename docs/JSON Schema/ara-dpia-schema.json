@@ -1,0 +1,521 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Esquema DPIA (Evaluación de Impacto de Protección de Datos) de Sistema de Clasificación Automática de PQRS",
+  "type": "object",
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "description": "Metadatos del documento de exportación.",
+      "properties": {
+        "fechaExportacion": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Fecha y hora de exportación del documento (ISO 8601)."
+        },
+        "versionFormulario": {
+          "type": "string",
+          "description": "Versión del formulario utilizado."
+        }
+      },
+      "required": [
+        "fechaExportacion",
+        "versionFormulario"
+      ]
+    },
+    "campos": {
+      "type": "object",
+      "description": "Campos de información principal del sistema de IA.",
+      "properties": {
+        "entidad": {
+          "type": "string",
+          "description": "Nombre de la entidad responsable."
+        },
+        "unidad": {
+          "type": "string",
+          "description": "Unidad o dirección dentro de la entidad."
+        },
+        "titulo": {
+          "type": "string",
+          "description": "Título o nombre del sistema de IA."
+        },
+        "responsable": {
+          "type": "string",
+          "description": "Nombre y cargo del responsable del sistema."
+        },
+        "responsableTecnico": {
+          "type": "string",
+          "description": "Nombre y cargo del responsable técnico."
+        },
+        "fechaElaboracion": {
+          "type": "string",
+          "format": "date",
+          "description": "Fecha de elaboración del DPIA (YYYY-MM-DD)."
+        },
+        "version": {
+          "type": "string",
+          "description": "Versión del sistema o del DPIA."
+        },
+        "descripcionTecnica": {
+          "type": "string",
+          "description": "Descripción técnica del sistema."
+        },
+        "finalidad": {
+          "type": "string",
+          "description": "Propósito principal del sistema."
+        },
+        "baseLegal": {
+          "type": "string",
+          "description": "Marco legal general que sustenta el sistema."
+        },
+        "poblacion": {
+          "type": "string",
+          "description": "Población a la que afecta el sistema."
+        },
+        "casosPermitidos": {
+          "type": "string",
+          "description": "Usos autorizados del sistema."
+        },
+        "casosNoPermitidos": {
+          "type": "string",
+          "description": "Usos explícitamente prohibidos."
+        },
+        "tipoDecisiones": {
+          "type": "string",
+          "description": "Tipo de decisión que toma el sistema (e.g., recomendacion)."
+        },
+        "contextoUso": {
+          "type": "string",
+          "description": "Condiciones y contexto de operación del sistema."
+        },
+        "nombreDataset": {
+          "type": "string",
+          "description": "Nombre del conjunto de datos usado para entrenamiento."
+        },
+        "origenDataset": {
+          "type": "string",
+          "description": "Fuente de donde provienen los datos."
+        },
+        "motivacionDataset": {
+          "type": "string",
+          "description": "Razón para usar este conjunto de datos."
+        },
+        "recoleccionDataset": {
+          "type": "string",
+          "description": "Método de recolección del conjunto de datos."
+        },
+        "limpiezaDataset": {
+          "type": "string",
+          "description": "Procesos de limpieza aplicados al conjunto de datos."
+        },
+        "usosPrevistosDataset": {
+          "type": "string",
+          "description": "Usos planeados para el conjunto de datos."
+        },
+        "usosNoPrevistosDataset": {
+          "type": "string",
+          "description": "Usos no planeados para el conjunto de datos."
+        },
+        "baseLegalPrincipal": {
+          "type": "string",
+          "description": "Base legal principal para el tratamiento de datos."
+        },
+        "basesLegalesComplementarias": {
+          "type": "string",
+          "description": "Bases legales secundarias o complementarias."
+        },
+        "consentimientoExplicito": {
+          "type": "string",
+          "enum": ["si", "no"],
+          "description": "Indica si se requiere o no consentimiento explícito."
+        },
+        "mecanismoConsentimiento": {
+          "type": "string",
+          "description": "Mecanismo para obtener el consentimiento."
+        },
+        "alternativasSinConsentimiento": {
+          "type": "string",
+          "description": "Alternativas operativas si no se obtiene consentimiento."
+        },
+        "mecanismosIntervencion": {
+          "type": "string",
+          "description": "Mecanismos para la intervención y supervisión humana."
+        },
+        "criteriosEscalamiento": {
+          "type": "string",
+          "description": "Criterios para escalar la revisión a un humano."
+        },
+        "rolesResponsables": {
+          "type": "string",
+          "description": "Roles involucrados en la supervisión y sus responsabilidades."
+        },
+        "frecuenciaRevision": {
+          "type": "string",
+          "description": "Frecuencia de la revisión humana."
+        },
+        "procedimientoDesacuerdo": {
+          "type": "string",
+          "description": "Procedimiento en caso de desacuerdo con la clasificación del sistema."
+        },
+        "mensajesAviso": {
+          "type": "string",
+          "description": "Mensajes de advertencia o aviso al ciudadano."
+        },
+        "documentosPublicados": {
+          "type": "string",
+          "description": "Documentos relevantes publicados."
+        },
+        "canalesConsulta": {
+          "type": "string",
+          "description": "Canales para que los ciudadanos realicen consultas."
+        },
+        "canalesReporte": {
+          "type": "string",
+          "description": "Canales para reportar problemas con el sistema."
+        },
+        "planDivulgacion": {
+          "type": "string",
+          "description": "Plan de comunicación del sistema."
+        },
+        "evaluacionDPO": {
+          "type": "string",
+          "description": "Conclusiones de la evaluación del DPO (Oficial de Protección de Datos)."
+        },
+        "evaluacionResponsableTecnico": {
+          "type": "string",
+          "description": "Conclusiones de la evaluación del responsable técnico."
+        },
+        "evaluacionJuridica": {
+          "type": "string",
+          "description": "Conclusiones de la evaluación jurídica."
+        },
+        "decisionComiteIA": {
+          "type": "string",
+          "enum": ["aprobado", "rechazado", "condicional"],
+          "description": "Decisión final del Comité de IA."
+        },
+        "fechaAprobacion": {
+          "type": "string",
+          "format": "date",
+          "description": "Fecha de aprobación (YYYY-MM-DD)."
+        },
+        "condicionesReservas": {
+          "type": "string",
+          "description": "Condiciones o reservas impuestas para la aprobación."
+        },
+        "fechaProximaRevision": {
+          "type": "string",
+          "format": "date",
+          "description": "Fecha de la próxima revisión programada (YYYY-MM-DD)."
+        }
+      },
+      "required": [
+        "entidad", "unidad", "titulo", "responsable", "responsableTecnico",
+        "fechaElaboracion", "version", "descripcionTecnica", "finalidad",
+        "baseLegal", "poblacion", "casosPermitidos", "casosNoPermitidos",
+        "tipoDecisiones", "contextoUso", "nombreDataset", "origenDataset",
+        "motivacionDataset", "recoleccionDataset", "limpiezaDataset",
+        "usosPrevistosDataset", "usosNoPrevistosDataset", "baseLegalPrincipal",
+        "basesLegalesComplementarias", "consentimientoExplicito", "mecanismoConsentimiento",
+        "alternativasSinConsentimiento", "mecanismosIntervencion", "criteriosEscalamiento",
+        "rolesResponsables", "frecuenciaRevision", "procedimientoDesacuerdo",
+        "mensajesAviso", "documentosPublicados", "canalesConsulta",
+        "canalesReporte", "planDivulgacion", "evaluacionDPO",
+        "evaluacionResponsableTecnico", "evaluacionJuridica", "decisionComiteIA",
+        "fechaAprobacion", "condicionesReservas", "fechaProximaRevision"
+      ]
+    },
+    "tablas": {
+      "type": "object",
+      "description": "Sección que contiene las tablas de resumen de la evaluación.",
+      "properties": {
+        "tablaMapeoDatos": {
+          "type": "array",
+          "description": "Tabla de mapeo y análisis de los tipos de datos personales utilizados.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "Categoría": {
+                "type": "string",
+                "description": "Categoría del dato (e.g., identificacion, contacto)."
+              },
+              "Tipo de dato": {
+                "type": "string",
+                "description": "Formato del dato (e.g., texto, numerico)."
+              },
+              "Fuente": {
+                "type": "string",
+                "description": "Origen del dato."
+              },
+              "Dato personal": {
+                "type": "string",
+                "enum": ["si", "no"],
+                "description": "Indica si es un dato personal."
+              },
+              "Base de licitud": {
+                "type": "string",
+                "description": "Base legal de licitud para el tratamiento."
+              },
+              "Finalidad": {
+                "type": "string",
+                "description": "Propósito específico del uso del dato."
+              },
+              "Técnicas": {
+                "type": "string",
+                "description": "Técnicas de procesamiento aplicadas."
+              },
+              "Sesgos": {
+                "type": "string",
+                "description": "Posibles fuentes de sesgo relacionadas con el dato."
+              },
+              "Observaciones": {
+                "type": "string",
+                "description": "Notas adicionales."
+              }
+            },
+            "required": [
+              "Categoría", "Tipo de dato", "Fuente", "Dato personal", "Base de licitud",
+              "Finalidad", "Técnicas", "Sesgos", "Observaciones"
+            ]
+          }
+        },
+        "tablaImpactosDerechos": {
+          "type": "array",
+          "description": "Tabla de impactos del sistema en los derechos fundamentales.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "Derecho": {
+                "type": "string",
+                "description": "Derecho fundamental evaluado (e.g., privacidad, igualdad)."
+              },
+              "Pregunta guía": {
+                "type": "string",
+                "description": "Pregunta utilizada para guiar la evaluación."
+              },
+              "Respuesta": {
+                "type": "string",
+                "description": "Respuesta a la pregunta guía."
+              },
+              "Riesgo": {
+                "type": "string",
+                "description": "Descripción del riesgo potencial."
+              },
+              "Prob. (1–3)": {
+                "type": "string",
+                "description": "Puntuación de probabilidad del riesgo (1 a 3)."
+              },
+              "Impacto (1–3)": {
+                "type": "string",
+                "description": "Puntuación de impacto del riesgo (1 a 3)."
+              },
+              "Nivel": {
+                "type": "string",
+                "enum": ["bajo", "medio", "alto"],
+                "description": "Nivel de riesgo resultante."
+              }
+            },
+            "required": [
+              "Derecho", "Pregunta guía", "Respuesta", "Riesgo", "Prob. (1–3)",
+              "Impacto (1–3)", "Nivel"
+            ]
+          }
+        },
+        "tablaMatrizRiesgos": {
+          "type": "array",
+          "description": "Matriz de riesgos identificados con su puntuación.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ID": {
+                "type": "string",
+                "description": "Identificador del riesgo."
+              },
+              "Descripción": {
+                "type": "string",
+                "description": "Descripción detallada del riesgo."
+              },
+              "Categoría": {
+                "type": "string",
+                "description": "Categoría del riesgo (e.g., equidad, seguridad)."
+              },
+              "Prob.": {
+                "type": "string",
+                "description": "Puntuación de probabilidad (1 a 3)."
+              },
+              "Impacto": {
+                "type": "string",
+                "description": "Puntuación de impacto (1 a 3)."
+              },
+              "Punt. (P×I)": {
+                "type": "string",
+                "description": "Puntuación total del riesgo (Probabilidad × Impacto)."
+              },
+              "Nivel": {
+                "type": "string",
+                "enum": ["bajo", "medio", "alto"],
+                "description": "Nivel de riesgo resultante."
+              },
+              "Controles": {
+                "type": "string",
+                "description": "Controles implementados para mitigar el riesgo."
+              }
+            },
+            "required": [
+              "ID", "Descripción", "Categoría", "Prob.", "Impacto", "Punt. (P×I)",
+              "Nivel", "Controles"
+            ]
+          }
+        },
+        "tablaMedidasMitigacion": {
+          "type": "array",
+          "description": "Detalle de las medidas de mitigación propuestas o implementadas.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ID": {
+                "type": "string",
+                "description": "Identificador de la medida de mitigación."
+              },
+              "Medida": {
+                "type": "string",
+                "description": "Descripción de la medida."
+              },
+              "Tipo": {
+                "type": "string",
+                "enum": ["organizativo", "tecnico"],
+                "description": "Tipo de medida (Organizativa o Técnica)."
+              },
+              "Responsable": {
+                "type": "string",
+                "description": "Persona o rol responsable de la implementación."
+              },
+              "Plazo": {
+                "type": "string",
+                "format": "date",
+                "description": "Fecha límite para la implementación (YYYY-MM-DD)."
+              },
+              "Estado": {
+                "type": "string",
+                "enum": ["implementado", "en_curso", "pendiente"],
+                "description": "Estado actual de la medida."
+              },
+              "Indicador": {
+                "type": "string",
+                "description": "Indicador de cumplimiento de la medida."
+              },
+              "Comentarios": {
+                "type": "string",
+                "description": "Comentarios y notas sobre el estado."
+              }
+            },
+            "required": [
+              "ID", "Medida", "Tipo", "Responsable", "Plazo", "Estado",
+              "Indicador", "Comentarios"
+            ]
+          }
+        },
+        "tablaMonitoreoKPIs": {
+          "type": "array",
+          "description": "Tabla de Indicadores Clave de Desempeño (KPIs) para monitoreo.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "Categoría": {
+                "type": "string",
+                "description": "Categoría del indicador (e.g., equidad, rendimiento)."
+              },
+              "Indicador": {
+                "type": "string",
+                "description": "Nombre del KPI."
+              },
+              "Definición": {
+                "type": "string",
+                "description": "Definición del KPI."
+              },
+              "Fórmula": {
+                "type": "string",
+                "description": "Fórmula de cálculo del KPI."
+              },
+              "Valor objetivo": {
+                "type": "string",
+                "description": "Valor meta del KPI."
+              },
+              "Valor actual": {
+                "type": "string",
+                "description": "Valor reportado actualmente."
+              },
+              "Frecuencia": {
+                "type": "string",
+                "description": "Frecuencia de medición."
+              },
+              "Responsable": {
+                "type": "string",
+                "description": "Rol responsable del monitoreo."
+              }
+            },
+            "required": [
+              "Categoría", "Indicador", "Definición", "Fórmula", "Valor objetivo",
+              "Valor actual", "Frecuencia", "Responsable"
+            ]
+          }
+        },
+        "tablaAuditoriaActualizaciones": {
+          "type": "array",
+          "description": "Registro de auditorías y actualizaciones programadas.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "Tipo": {
+                "type": "string",
+                "enum": ["interna", "externa"],
+                "description": "Tipo de auditoría."
+              },
+              "Alcance": {
+                "type": "string",
+                "description": "Objetivo y alcance de la auditoría."
+              },
+              "Frecuencia": {
+                "type": "string",
+                "description": "Frecuencia de la auditoría."
+              },
+              "Fecha próxima": {
+                "type": "string",
+                "format": "date",
+                "description": "Fecha de la próxima auditoría programada (YYYY-MM-DD)."
+              },
+              "Responsable": {
+                "type": "string",
+                "description": "Rol responsable de la ejecución."
+              },
+              "Hallazgos": {
+                "type": "string",
+                "description": "Resumen de hallazgos de la última auditoría."
+              },
+              "Acción": {
+                "type": "string",
+                "description": "Acciones correctivas o preventivas derivadas."
+              }
+            },
+            "required": [
+              "Tipo", "Alcance", "Frecuencia", "Fecha próxima", "Responsable",
+              "Hallazgos", "Acción"
+            ]
+          }
+        }
+      },
+      "required": [
+        "tablaMapeoDatos",
+        "tablaImpactosDerechos",
+        "tablaMatrizRiesgos",
+        "tablaMedidasMitigacion",
+        "tablaMonitoreoKPIs",
+        "tablaAuditoriaActualizaciones"
+      ]
+    }
+  },
+  "required": [
+    "metadata",
+    "campos",
+    "tablas"
+  ]
+}

@@ -1,0 +1,143 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Esquema de Checklist de Evaluación de Proveedores de IA",
+  "type": "object",
+  "properties": {
+    "proveedor": {
+      "type": "string",
+      "description": "Nombre del proveedor evaluado."
+    },
+    "casoUso": {
+      "type": "string",
+      "description": "Caso de uso al que aplica la solución evaluada."
+    },
+    "nivelRiesgo": {
+      "type": "string",
+      "enum": ["bajo", "medio", "alto"],
+      "description": "Nivel de riesgo del sistema de IA."
+    },
+    "checklistAplicado": {
+      "type": "string",
+      "description": "Tipo o versión del checklist aplicado."
+    },
+    "puntuaciones": {
+      "type": "object",
+      "description": "Puntuación numérica asignada a cada criterio de la checklist (ej. 1: No cumple, 2: Cumple).",
+      "patternProperties": {
+        "^[0-9]\\.[0-9]$": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2
+        }
+      },
+      "additionalProperties": false
+    },
+    "evidencias": {
+      "type": "object",
+      "description": "Descripción de la evidencia presentada para cada criterio.",
+      "patternProperties": {
+        "^[0-9]\\.[0-9]$": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "criteriosMandatorios": {
+      "type": "array",
+      "description": "Lista de criterios definidos como mandatorios y su estado de cumplimiento.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Identificador del criterio mandatorio (ej. '1.1')."
+          },
+          "cumplido": {
+            "type": "boolean",
+            "description": "Estado de cumplimiento (true/false)."
+          }
+        },
+        "required": [
+          "id",
+          "cumplido"
+        ]
+      }
+    },
+    "resultadoMandatorios": {
+      "type": "string",
+      "enum": ["cumple", "no_cumple"],
+      "description": "Resultado global del cumplimiento de criterios mandatorios."
+    },
+    "dictamenFinal": {
+      "type": "string",
+      "enum": ["aprobado", "recomendado", "rechazado", "condicional"],
+      "description": "Dictamen final de la evaluación."
+    },
+    "observaciones": {
+      "type": "string",
+      "description": "Observaciones y justificación del dictamen final."
+    },
+    "evaluadores": {
+      "type": "object",
+      "description": "Información de las personas que realizaron la evaluación.",
+      "properties": {
+        "responsableTecnico": {
+          "type": "string",
+          "description": "Nombre del responsable técnico evaluador."
+        },
+        "fechaTecnico": {
+          "type": "string",
+          "description": "Fecha de la evaluación técnica (DD/MM/AAAA)."
+        },
+        "dpoJuridica": {
+          "type": "string",
+          "description": "Nombre del evaluador de DPO/Jurídico."
+        },
+        "fechaDpo": {
+          "type": "string",
+          "description": "Fecha de la evaluación DPO/Jurídica (DD/MM/AAAA)."
+        },
+        "comiteIa": {
+          "type": "string",
+          "description": "Nombre del representante del Comité de IA."
+        },
+        "fechaComite": {
+          "type": "string",
+          "description": "Fecha de la revisión final del Comité (DD/MM/AAAA)."
+        }
+      },
+      "required": [
+        "responsableTecnico",
+        "fechaTecnico",
+        "dpoJuridica",
+        "fechaDpo",
+        "comiteIa",
+        "fechaComite"
+      ]
+    },
+    "fechaExportacion": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Fecha y hora de exportación del documento (ISO 8601)."
+    },
+    "versionChecklist": {
+      "type": "string",
+      "description": "Versión del formato del checklist."
+    }
+  },
+  "required": [
+    "proveedor",
+    "casoUso",
+    "nivelRiesgo",
+    "checklistAplicado",
+    "puntuaciones",
+    "evidencias",
+    "criteriosMandatorios",
+    "resultadoMandatorios",
+    "dictamenFinal",
+    "observaciones",
+    "evaluadores",
+    "fechaExportacion",
+    "versionChecklist"
+  ]
+}

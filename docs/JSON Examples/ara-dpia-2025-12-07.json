@@ -1,0 +1,175 @@
+{
+  "metadata": {
+    "fechaExportacion": "2025-12-07T16:06:42.527Z",
+    "versionFormulario": "2.0"
+  },
+  "campos": {
+    "entidad": "Secretaría Distrital de Gobierno",
+    "unidad": "Dirección de Atención al Ciudadano",
+    "titulo": "Sistema de clasificación automática de PQRS",
+    "responsable": "María González, Directora de Atención al Ciudadano",
+    "responsableTecnico": "Carlos López, Jefe de Desarrollo",
+    "fechaElaboracion": "2023-10-15",
+    "version": "v1.0",
+    "descripcionTecnica": "Sistema basado en modelo BERT para clasificación de texto, implementado como API REST con interfaz web",
+    "finalidad": "Clasificar automáticamente las solicitudes ciudadanas en categorías predefinidas para optimizar su distribución",
+    "baseLegal": "Ley 1755 de 2015 - Derecho de Petición, Ley 1437 de 2011 - Código de Procedimiento Administrativo",
+    "poblacion": "Ciudadanos que presentan PQRS a la entidad",
+    "casosPermitidos": "Clasificación de PQRS por categoría temática, análisis estadístico de tendencias",
+    "casosNoPermitidos": "Toma de decisiones automatizadas sin supervisión humana, perfilamiento de ciudadanos",
+    "tipoDecisiones": "recomendacion",
+    "contextoUso": "Plataforma web interna, horario de oficina, volumen estimado: 2,000 solicitudes mensuales",
+    "nombreDataset": "PQRS_Historico_2020_2023",
+    "origenDataset": "Sistema interno de PQRS",
+    "motivacionDataset": "Mejorar eficiencia en clasificación de solicitudes",
+    "recoleccionDataset": "Recolección automática desde sistema de PQRS",
+    "limpiezaDataset": "Limpieza de datos duplicados, anonimización de datos personales sensibles",
+    "usosPrevistosDataset": "Entrenamiento y validación del modelo de clasificación",
+    "usosNoPrevistosDataset": "Análisis de comportamiento individual, perfilamiento",
+    "baseLegalPrincipal": "ejercicio-funciones",
+    "basesLegalesComplementarias": "Consentimiento informado para uso de datos en mejora de servicios",
+    "consentimientoExplicito": "no",
+    "mecanismoConsentimiento": "Aviso de privacidad en plataforma con opción de objeción",
+    "alternativasSinConsentimiento": "Proceso manual de clasificación manteniendo la funcionalidad básica del servicio",
+    "mecanismosIntervencion": "Revisión manual de clasificaciones con confianza baja (<80%), panel de supervisión para casos complejos",
+    "criteriosEscalamiento": "Confianza del modelo <80%, discrepancia entre categorías, solicitud explícita de revisión",
+    "rolesResponsables": "Supervisor de PQRS - Revisión diaria, Coordinador de área - Casos complejos",
+    "frecuenciaRevision": "diaria",
+    "procedimientoDesacuerdo": "El supervisor puede sobreescribir la clasificación, registro de discrepancias para mejora del modelo",
+    "mensajesAviso": "Este sistema utiliza IA para clasificar su solicitud. Todas las decisiones son supervisadas por personal humano",
+    "documentosPublicados": "Política de uso de IA, Aviso de privacidad, Manual de procedimientos",
+    "canalesConsulta": "Línea 195, correo consultas@entidad.gov.co, oficina de atención presencial",
+    "canalesReporte": "Formulario web de reportes, correo soporte-ia@entidad.gov.co",
+    "planDivulgacion": "Comunicación interna a funcionarios, información en portal web ciudadano",
+    "evaluacionDPO": "El sistema cumple con los principios de protección de datos. Se recomienda revisión semestral.",
+    "evaluacionResponsableTecnico": "El sistema funciona según especificaciones técnicas. Rendimiento dentro de parámetros aceptables.",
+    "evaluacionJuridica": "Cumple con el marco normativo aplicable. Base legal adecuada para el tratamiento.",
+    "decisionComiteIA": "aprobado",
+    "fechaAprobacion": "2023-10-20",
+    "condicionesReservas": "Revisión trimestral de métricas de equidad, auditoría semestral de desempeño",
+    "fechaProximaRevision": "2024-01-20"
+  },
+  "tablas": {
+    "tablaMapeoDatos": [
+      {
+        "Categoría": "identificacion",
+        "Tipo de dato": "texto",
+        "Fuente": "Formulario PQRS",
+        "Dato personal": "si",
+        "Base de licitud": "interes",
+        "Finalidad": "Clasificación y atención",
+        "Técnicas": "procesamiento",
+        "Sesgos": "Posible sesgo lingüístico",
+        "Observaciones": "Se excluyen datos sensibles"
+      },
+      {
+        "Categoría": "contacto",
+        "Tipo de dato": "texto",
+        "Fuente": "Formulario PQRS",
+        "Dato personal": "si",
+        "Base de licitud": "interes",
+        "Finalidad": "Comunicación con el ciudadano",
+        "Técnicas": "procesamiento",
+        "Sesgos": "Ninguno identificado",
+        "Observaciones": "Datos necesarios para respuesta"
+      }
+    ],
+    "tablaImpactosDerechos": [
+      {
+        "Derecho": "privacidad",
+        "Pregunta guía": "¿Se procesan datos personales?",
+        "Respuesta": "Sí, datos de identificación básicos",
+        "Riesgo": "Exposición indebida de información",
+        "Prob. (1–3)": "2",
+        "Impacto (1–3)": "2",
+        "Nivel": "medio"
+      },
+      {
+        "Derecho": "igualdad",
+        "Pregunta guía": "¿Existen sesgos en datos o modelo?",
+        "Respuesta": "Posible sesgo por variaciones lingüísticas",
+        "Riesgo": "Clasificación desigual por región",
+        "Prob. (1–3)": "1",
+        "Impacto (1–3)": "3",
+        "Nivel": "bajo"
+      }
+    ],
+    "tablaMatrizRiesgos": [
+      {
+        "ID": "R-001",
+        "Descripción": "Clasificación errónea de PQRS críticas",
+        "Categoría": "equidad",
+        "Prob.": "2",
+        "Impacto": "3",
+        "Punt. (P×I)": "6",
+        "Nivel": "medio",
+        "Controles": "Revisión humana de casos de baja confianza"
+      },
+      {
+        "ID": "R-002",
+        "Descripción": "Fuga de datos personales",
+        "Categoría": "seguridad",
+        "Prob.": "1",
+        "Impacto": "3",
+        "Punt. (P×I)": "3",
+        "Nivel": "bajo",
+        "Controles": "Cifrado de datos, controles de acceso"
+      }
+    ],
+    "tablaMedidasMitigacion": [
+      {
+        "ID": "M-001",
+        "Medida": "Implementar panel de supervisión humana",
+        "Tipo": "organizativo",
+        "Responsable": "María González",
+        "Plazo": "2023-10-30",
+        "Estado": "implementado",
+        "Indicador": "100% casos revisados",
+        "Comentarios": "En funcionamiento"
+      },
+      {
+        "ID": "M-002",
+        "Medida": "Auditoría de sesgos trimestral",
+        "Tipo": "tecnico",
+        "Responsable": "Carlos López",
+        "Plazo": "2023-11-15",
+        "Estado": "en_curso",
+        "Indicador": "Reporte de auditoría",
+        "Comentarios": "Primera auditoría en proceso"
+      }
+    ],
+    "tablaMonitoreoKPIs": [
+      {
+        "Categoría": "equidad",
+        "Indicador": "Tasa de error por grupo demográfico",
+        "Definición": "Porcentaje de clasificaciones incorrectas por grupo",
+        "Fórmula": "(Errores grupo / Total grupo) * 100",
+        "Valor objetivo": "<5%",
+        "Valor actual": "3.2%",
+        "Frecuencia": "mensual",
+        "Responsable": "Carlos López"
+      },
+      {
+        "Categoría": "rendimiento",
+        "Indicador": "Precisión general del modelo",
+        "Definición": "Porcentaje de clasificaciones correctas",
+        "Fórmula": "(Correctas / Total) * 100",
+        "Valor objetivo": ">90%",
+        "Valor actual": "92.5%",
+        "Frecuencia": "semanal",
+        "Responsable": "Carlos López"
+      }
+    ],
+    "tablaAuditoriaActualizaciones": [
+      {
+        "Tipo": "interna",
+        "Alcance": "Desempeño y equidad del modelo",
+        "Frecuencia": "semestral",
+        "Fecha próxima": "2024-04-15",
+        "Responsable": "Auditor interno",
+        "Hallazgos": "Ninguno significativo",
+        "Acción": "Mantenimiento preventivo"
+      }
+    ]
+  }
+}

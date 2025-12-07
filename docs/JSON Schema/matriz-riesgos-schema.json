@@ -1,0 +1,111 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Esquema de Matriz de Riesgos de Sistemas de IA",
+  "type": "object",
+  "properties": {
+    "fechaExportacion": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Fecha y hora de exportación del documento (ISO 8601)."
+    },
+    "riesgos": {
+      "type": "array",
+      "description": "Lista de riesgos identificados y evaluados.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Identificador único del riesgo."
+          },
+          "descripcion": {
+            "type": "string",
+            "description": "Descripción detallada del riesgo."
+          },
+          "categoria": {
+            "type": "string",
+            "enum": ["Privacidad", "Equidad", "Seguridad", "Transparencia", "Rendición de cuentas"],
+            "description": "Categoría principal del riesgo."
+          },
+          "dimension": {
+            "type": "string",
+            "description": "Dimensión de la afectación (e.g., derechos, confianza)."
+          },
+          "probabilidad": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 3,
+            "description": "Puntuación de probabilidad (1 a 3)."
+          },
+          "impacto": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 3,
+            "description": "Puntuación de impacto (1 a 3)."
+          },
+          "calificacion": {
+            "type": "integer",
+            "description": "Puntuación total del riesgo (Probabilidad x Impacto)."
+          },
+          "nivelRiesgo": {
+            "type": "object",
+            "description": "Detalles del nivel de riesgo resultante.",
+            "properties": {
+              "nivel": {
+                "type": "string",
+                "enum": ["Bajo", "Medio", "Alto"],
+                "description": "Nivel de riesgo resultante."
+              },
+              "clase": {
+                "type": "string",
+                "description": "Clase de estilo o etiqueta asociada al nivel de riesgo."
+              }
+            },
+            "required": ["nivel", "clase"]
+          },
+          "controles": {
+            "type": "string",
+            "description": "Controles y medidas de mitigación principales implementadas."
+          },
+          "efectividad": {
+            "type": "string",
+            "enum": ["Baja", "Media", "Alta"],
+            "description": "Efectividad percibida de los controles actuales."
+          },
+          "adicional": {
+            "type": "string",
+            "description": "Medidas de mitigación o monitoreo adicionales recomendadas."
+          },
+          "responsable": {
+            "type": "string",
+            "description": "Rol o persona responsable de la mitigación del riesgo."
+          },
+          "estado": {
+            "type": "string",
+            "enum": ["Pendiente", "En progreso", "Mitigado"],
+            "description": "Estado actual de la mitigación del riesgo."
+          }
+        },
+        "required": [
+          "id",
+          "descripcion",
+          "categoria",
+          "dimension",
+          "probabilidad",
+          "impacto",
+          "calificacion",
+          "nivelRiesgo",
+          "controles",
+          "efectividad",
+          "adicional",
+          "responsable",
+          "estado"
+        ]
+      }
+    }
+  },
+  "required": [
+    "fechaExportacion",
+    "riesgos"
+  ]
+}

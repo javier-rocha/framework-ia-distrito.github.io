@@ -1,0 +1,281 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Esquema Canvas de Caso de Uso de IA para Clasificación Automática de PQRS",
+  "type": "object",
+  "properties": {
+    "titulo": {
+      "type": "string",
+      "description": "Título del caso de uso del sistema de IA."
+    },
+    "entidad": {
+      "type": "string",
+      "description": "Entidad o secretaría responsable."
+    },
+    "sponsor": {
+      "type": "string",
+      "description": "Nombre, cargo y contacto del sponsor principal del proyecto."
+    },
+    "responsable": {
+      "type": "string",
+      "description": "Nombre, cargo y contacto del responsable técnico del proyecto."
+    },
+    "fecha": {
+      "type": "string",
+      "description": "Fecha de elaboración y versión del documento (DD/MM/AAAA - vX.X)."
+    },
+    "problema": {
+      "type": "string",
+      "description": "Descripción del problema o necesidad que la IA busca resolver."
+    },
+    "servicio": {
+      "type": "string",
+      "description": "Proceso o servicio actual donde se implementará la IA."
+    },
+    "proposito": {
+      "type": "string",
+      "description": "Objetivo principal del sistema de IA."
+    },
+    "tipo": {
+      "type": "string",
+      "enum": ["clasificacion", "prediccion", "generacion", "automatizacion", "recomendacion"],
+      "description": "Tipo de aplicación de IA (ej. clasificación, predicción)."
+    },
+    "resultados": {
+      "type": "string",
+      "description": "Resultados esperados de la implementación (cuantificables)."
+    },
+    "usuarios": {
+      "type": "string",
+      "description": "Usuarios directos del sistema (ej. funcionarios, ciudadanos)."
+    },
+    "perfil": {
+      "type": "string",
+      "description": "Perfil de los usuarios en términos de competencia tecnológica."
+    },
+    "propietario": {
+      "type": "string",
+      "description": "Área propietaria de los datos o de la infraestructura."
+    },
+    "stakeholders": {
+      "type": "string",
+      "description": "Partes interesadas relevantes en el proyecto."
+    },
+    "fuentes": {
+      "type": "string",
+      "description": "Fuentes de datos utilizadas para el desarrollo y operación."
+    },
+    "volumen": {
+      "type": "string",
+      "description": "Volumen y frecuencia de actualización de los datos."
+    },
+    "calidad": {
+      "type": "string",
+      "description": "Evaluación general de la calidad de los datos."
+    },
+    "privacidad": {
+      "type": "string",
+      "description": "Tipo de datos personales incluidos o excluidos."
+    },
+    "baseServicio": {
+      "type": "string",
+      "description": "Base legal o normativa que rige el servicio donde se aplica la IA."
+    },
+    "normativa": {
+      "type": "string",
+      "description": "Marco normativo adicional que aplica a la IA y los datos."
+    },
+    "evaluacionLegal": {
+      "type": "string",
+      "description": "Resumen de la evaluación legal del sistema."
+    },
+    "justificacion": {
+      "type": "string",
+      "description": "Justificación del uso de IA en lugar de procesos manuales o alternativas."
+    },
+    "riesgosEticos": {
+      "type": "string",
+      "description": "Riesgos éticos identificados."
+    },
+    "riesgosPrivacidad": {
+      "type": "string",
+      "description": "Riesgos específicos relacionados con la privacidad y protección de datos."
+    },
+    "riesgosSeguridad": {
+      "type": "string",
+      "description": "Riesgos de seguridad de la información."
+    },
+    "riesgosEquidad": {
+      "type": "string",
+      "description": "Riesgos relacionados con sesgos y equidad."
+    },
+    "riesgosOperativos": {
+      "type": "string",
+      "description": "Riesgos asociados a la operación y mantenimiento."
+    },
+    "riesgosReputacionales": {
+      "type": "string",
+      "description": "Riesgos para la imagen y confianza pública."
+    },
+    "mitigaciones": {
+      "type": "string",
+      "description": "Estrategias generales de mitigación de riesgos."
+    },
+    "kpiTecnicos": {
+      "type": "string",
+      "description": "Indicadores Clave de Desempeño (KPIs) técnicos del modelo."
+    },
+    "kpiImpacto": {
+      "type": "string",
+      "description": "KPIs de impacto en el servicio o usuario."
+    },
+    "kpiCumplimiento": {
+      "type": "string",
+      "description": "KPIs de cumplimiento normativo y de gobernanza."
+    },
+    "lineaBase": {
+      "type": "string",
+      "description": "Estado o rendimiento actual del proceso (línea base)."
+    },
+    "metas": {
+      "type": "string",
+      "description": "Metas de rendimiento y precisión a corto y mediano plazo."
+    },
+    "alcance": {
+      "type": "string",
+      "description": "Alcance de la implementación (fase piloto, escalamiento)."
+    },
+    "capacitacion": {
+      "type": "string",
+      "description": "Plan de capacitación para funcionarios y usuarios."
+    },
+    "comunicacion": {
+      "type": "string",
+      "description": "Estrategia de comunicación sobre el proyecto."
+    },
+    "cronograma": {
+      "type": "string",
+      "description": "Etapas y plazos principales del proyecto."
+    },
+    "controles": {
+      "type": "string",
+      "description": "Mecanismos de control y monitoreo continuo."
+    },
+    "frecuencia": {
+      "type": "string",
+      "description": "Frecuencia de las auditorías y revisiones."
+    },
+    "protocolo": {
+      "type": "string",
+      "description": "Protocolos de respuesta ante incidentes o clasificaciones dudosas."
+    },
+    "canales": {
+      "type": "string",
+      "description": "Canales de retroalimentación para los usuarios."
+    },
+    "criterios": {
+      "type": "string",
+      "description": "Criterios para la suspensión o baja del sistema."
+    },
+    "planDatos": {
+      "type": "string",
+      "description": "Plan de gestión de datos después de la vida útil del sistema."
+    },
+    "planTransicion": {
+      "type": "string",
+      "description": "Plan de transición en caso de suspensión o reemplazo."
+    },
+    "firma": {
+      "type": "string",
+      "description": "Firma y fecha de aprobación de la autoridad competente."
+    },
+    "rolesGobernanza": {
+      "type": "array",
+      "description": "Roles clave de gobernanza involucrados.",
+      "items": {
+        "type": "string",
+        "enum": ["dpo", "tic", "juridica", "comite"]
+      }
+    },
+    "categoriasDatos": {
+      "type": "array",
+      "description": "Categorías de datos manejados.",
+      "items": {
+        "type": "string",
+        "enum": ["personales", "sensibles", "publicos"]
+      }
+    },
+    "baseLegal": {
+      "type": "array",
+      "description": "Bases legales aplicables para el tratamiento de datos.",
+      "items": {
+        "type": "string",
+        "enum": ["consentimiento", "funcion", "interes"]
+      }
+    },
+    "criteriosClasificacion": {
+      "type": "array",
+      "description": "Criterios utilizados para la clasificación de las solicitudes.",
+      "items": {
+        "type": "string"
+      }
+    },
+    "estrategia": {
+      "type": "string",
+      "enum": ["piloto", "implementacionTotal", "escalamiento"],
+      "description": "Estrategia de implementación."
+    },
+    "tecnica": {
+      "type": "string",
+      "enum": ["tecnicaViable", "tecnicaNoViable"],
+      "description": "Evaluación técnica."
+    },
+    "juridica": {
+      "type": "string",
+      "enum": ["juridicaConforme", "juridicaNoConforme"],
+      "description": "Evaluación jurídica."
+    },
+    "dpo": {
+      "type": "string",
+      "enum": ["dpoAprobado", "dpoPendiente", "dpoNoAprobado"],
+      "description": "Evaluación del DPO/Oficial de Protección de Datos."
+    },
+    "planeacion": {
+      "type": "string",
+      "enum": ["planeacionDisponibles", "planeacionNoDisponibles"],
+      "description": "Estado de los recursos de planeación."
+    },
+    "comite": {
+      "type": "string",
+      "enum": ["comiteAprobado", "comiteRechazado", "comiteCondicional"],
+      "description": "Decisión final del comité de IA."
+    },
+    "nivelRiesgo": {
+      "type": "string",
+      "enum": ["limitado", "moderado", "alto"],
+      "description": "Nivel de riesgo general asignado al sistema."
+    },
+    "fechaExportacion": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Fecha y hora de exportación del documento (ISO 8601)."
+    },
+    "versionCanvas": {
+      "type": "string",
+      "description": "Versión del formato del Canvas."
+    }
+  },
+  "required": [
+    "titulo", "entidad", "sponsor", "responsable", "fecha", "problema", "servicio",
+    "proposito", "tipo", "resultados", "usuarios", "perfil", "propietario",
+    "stakeholders", "fuentes", "volumen", "calidad", "privacidad", "baseServicio",
+    "normativa", "evaluacionLegal", "justificacion", "riesgosEticos",
+    "riesgosPrivacidad", "riesgosSeguridad", "riesgosEquidad", "riesgosOperativos",
+    "riesgosReputacionales", "mitigaciones", "kpiTecnicos", "kpiImpacto",
+    "kpiCumplimiento", "lineaBase", "metas", "alcance", "capacitacion",
+    "comunicacion", "cronograma", "controles", "frecuencia", "protocolo",
+    "canales", "criterios", "planDatos", "planTransicion", "firma",
+    "rolesGobernanza", "categoriasDatos", "baseLegal", "criteriosClasificacion",
+    "estrategia", "tecnica", "juridica", "dpo", "planeacion", "comite",
+    "nivelRiesgo", "fechaExportacion", "versionCanvas"
+  ]
+}

@@ -1,0 +1,310 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Esquema de Ficha Técnica de Datos (Data Sheet) de PQRS",
+  "type": "object",
+  "properties": {
+    "dsNombre": {
+      "type": "string",
+      "description": "Nombre del conjunto de datos."
+    },
+    "dsEntidadPropietaria": {
+      "type": "string",
+      "description": "Entidad dueña del dataset."
+    },
+    "dsAreaResponsable": {
+      "type": "string",
+      "description": "Área responsable de la gestión del dataset."
+    },
+    "dsVersion": {
+      "type": "string",
+      "description": "Versión actual del dataset."
+    },
+    "dsFechaCreacion": {
+      "type": "string",
+      "format": "date",
+      "description": "Fecha de creación del dataset (YYYY-MM-DD)."
+    },
+    "dsFechaActualizacion": {
+      "type": "string",
+      "description": "Fecha de la última actualización."
+    },
+    "dsContacto": {
+      "type": "string",
+      "description": "Correo electrónico de contacto para consultas."
+    },
+    "dsDescripcion": {
+      "type": "string",
+      "description": "Descripción general y contenido del dataset."
+    },
+    "dsFinalidad": {
+      "type": "string",
+      "description": "Propósito principal del uso del dataset."
+    },
+    "dsProcesosServicios": {
+      "type": "string",
+      "description": "Procesos y servicios que soporta el dataset."
+    },
+    "dsFuente": {
+      "type": "string",
+      "description": "Fuentes originales de donde se capturaron los datos."
+    },
+    "dsMetodoCaptura": {
+      "type": "string",
+      "description": "Método utilizado para la recolección de los datos."
+    },
+    "dsFrecuenciaActualizacion": {
+      "type": "string",
+      "description": "Frecuencia con la que se actualiza el dataset."
+    },
+    "dsNumeroRegistros": {
+      "type": "string",
+      "description": "Número total de registros."
+    },
+    "dsNumeroVariables": {
+      "type": "string",
+      "description": "Número de variables o campos."
+    },
+    "dsTiposDatos": {
+      "type": "string",
+      "description": "Tipos de datos generales incluidos (e.g., texto, numérico)."
+    },
+    "dsRepresentatividadPoblacional": {
+      "type": "string",
+      "description": "Alcance de la representatividad poblacional."
+    },
+    "dsDatosPersonales": {
+      "type": "string",
+      "description": "Lista de datos personales incluidos."
+    },
+    "dsJustificacion": {
+      "type": "string",
+      "description": "Justificación legal para el tratamiento de datos personales."
+    },
+    "dsBaseLegal": {
+      "type": "string",
+      "description": "Base legal que ampara el uso y tratamiento."
+    },
+    "dsDatosFaltantes": {
+      "type": "string",
+      "description": "Porcentaje o descripción de datos faltantes."
+    },
+    "dsInconsistencias": {
+      "type": "string",
+      "description": "Descripción de inconsistencias identificadas y corregidas."
+    },
+    "dsProcesosLimpieza": {
+      "type": "string",
+      "description": "Procesos aplicados para la limpieza de datos."
+    },
+    "dsControlesCalidad": {
+      "type": "string",
+      "description": "Mecanismos de control de calidad implementados."
+    },
+    "dsValidaciones": {
+      "type": "string",
+      "description": "Tipos de validaciones o scripts utilizados."
+    },
+    "dsSesgosIdentificados": {
+      "type": "string",
+      "description": "Descripción de sesgos geográficos o demográficos identificados."
+    },
+    "dsDistribucionVariables": {
+      "type": "string",
+      "description": "Variables clave para entender la distribución."
+    },
+    "dsRiesgosPoblacionesVulnerables": {
+      "type": "string",
+      "description": "Riesgos de impacto negativo en poblaciones vulnerables."
+    },
+    "dsLimitaciones": {
+      "type": "string",
+      "description": "Limitaciones conocidas del dataset o su uso."
+    },
+    "dsNormalizacion": {
+      "type": "string",
+      "description": "Procesos de normalización aplicados."
+    },
+    "dsImputacion": {
+      "type": "string",
+      "description": "Estrategia de imputación o manejo de datos faltantes."
+    },
+    "dsBalanceo": {
+      "type": "string",
+      "description": "Estrategia de balanceo de clases o datos."
+    },
+    "dsAnonimizacion": {
+      "type": "string",
+      "description": "Técnicas de anonimización o seudonimización aplicadas."
+    },
+    "dsRiesgosDiscriminacion": {
+      "type": "string",
+      "description": "Riesgos de discriminación inherentes al uso de los datos."
+    },
+    "dsRiesgosReidentificacion": {
+      "type": "string",
+      "description": "Evaluación del riesgo de re-identificación."
+    },
+    "dsRiesgosUsoIndebido": {
+      "type": "string",
+      "description": "Riesgos de uso indebido que requieren exploración."
+    },
+    "dsRiesgosSesgosEstructurales": {
+      "type": "string",
+      "description": "Evaluación de sesgos estructurales."
+    },
+    "dsRiesgosVulneracionDerechos": {
+      "type": "string",
+      "description": "Plan para identificar la vulneración de derechos."
+    },
+    "dsCumplimientoNormativo": {
+      "type": "string",
+      "description": "Declaración de cumplimiento normativo."
+    },
+    "dsFinalidadAutorizada": {
+      "type": "string",
+      "description": "Usos específicos autorizados del dataset."
+    },
+    "dsRestricciones": {
+      "type": "string",
+      "description": "Restricciones de uso o acceso."
+    },
+    "dsUsosIndebidos": {
+      "type": "string",
+      "description": "Ejemplos de usos no autorizados o prohibidos."
+    },
+    "dsCondicionesAcceso": {
+      "type": "string",
+      "description": "Condiciones de acceso y distribución."
+    },
+    "dsControlesSeguridad": {
+      "type": "string",
+      "description": "Controles de seguridad implementados."
+    },
+    "dsCifrado": {
+      "type": "string",
+      "description": "Mecanismos de cifrado utilizados."
+    },
+    "dsCustodia": {
+      "type": "string",
+      "description": "Rol responsable de la custodia de los datos."
+    },
+    "dsPoliticasAcceso": {
+      "type": "string",
+      "description": "Políticas internas que regulan el acceso."
+    },
+    "dsAprobacionEquipoDatos": {
+      "type": "string",
+      "description": "Estado de la aprobación del equipo de datos."
+    },
+    "dsAprobacionJuridica": {
+      "type": "string",
+      "description": "Estado de la aprobación del área jurídica."
+    },
+    "dsAprobacionComiteIA": {
+      "type": "string",
+      "description": "Estado y referencia de la aprobación del Comité de IA."
+    },
+    "tablaDiccionarioDatos": {
+      "type": "array",
+      "description": "Diccionario de datos detallando cada variable.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "Nombre variable": {
+            "type": "string",
+            "description": "Nombre del campo o variable."
+          },
+          "Descripción": {
+            "type": "string",
+            "description": "Descripción del contenido de la variable."
+          },
+          "Tipo de dato": {
+            "type": "string",
+            "description": "Tipo de dato de la variable."
+          },
+          "Valores permitidos / rango": {
+            "type": "string",
+            "description": "Rango o lista de valores aceptados."
+          },
+          "¿Dato personal?": {
+            "type": "string",
+            "enum": ["si", "no"],
+            "description": "Indica si es un dato personal."
+          },
+          "¿Sensible?": {
+            "type": "string",
+            "enum": ["si", "no"],
+            "description": "Indica si es un dato sensible."
+          },
+          "Obligatorio": {
+            "type": "string",
+            "enum": ["si", "no"],
+            "description": "Indica si el campo es obligatorio."
+          },
+          "Observaciones": {
+            "type": "string",
+            "description": "Notas adicionales."
+          }
+        },
+        "required": [
+          "Nombre variable",
+          "Descripción",
+          "Tipo de dato",
+          "Valores permitidos / rango",
+          "¿Dato personal?",
+          "¿Sensible?",
+          "Obligatorio",
+          "Observaciones"
+        ]
+      }
+    },
+    "tablaHistorialDataset": {
+      "type": "array",
+      "description": "Historial de versiones y cambios del dataset.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "Versión": {
+            "type": "string",
+            "description": "Número de versión."
+          },
+          "Fecha": {
+            "type": "string",
+            "format": "date",
+            "description": "Fecha del cambio (YYYY-MM-DD)."
+          },
+          "Cambios realizados": {
+            "type": "string",
+            "description": "Descripción de los cambios."
+          },
+          "Responsable": {
+            "type": "string",
+            "description": "Persona responsable de la actualización."
+          }
+        },
+        "required": [
+          "Versión",
+          "Fecha",
+          "Cambios realizados",
+          "Responsable"
+        ]
+      }
+    }
+  },
+  "required": [
+    "dsNombre", "dsEntidadPropietaria", "dsAreaResponsable", "dsVersion", "dsFechaCreacion",
+    "dsFechaActualizacion", "dsContacto", "dsDescripcion", "dsFinalidad", "dsProcesosServicios",
+    "dsFuente", "dsMetodoCaptura", "dsFrecuenciaActualizacion", "dsNumeroRegistros",
+    "dsNumeroVariables", "dsTiposDatos", "dsRepresentatividadPoblacional", "dsDatosPersonales",
+    "dsJustificacion", "dsBaseLegal", "dsDatosFaltantes", "dsInconsistencias",
+    "dsProcesosLimpieza", "dsControlesCalidad", "dsValidaciones", "dsSesgosIdentificados",
+    "dsDistribucionVariables", "dsRiesgosPoblacionesVulnerables", "dsLimitaciones",
+    "dsNormalizacion", "dsImputacion", "dsBalanceo", "dsAnonimizacion",
+    "dsRiesgosDiscriminacion", "dsRiesgosReidentificacion", "dsRiesgosUsoIndebido",
+    "dsRiesgosSesgosEstructurales", "dsRiesgosVulneracionDerechos", "dsCumplimientoNormativo",
+    "dsFinalidadAutorizada", "dsRestricciones", "dsUsosIndebidos", "dsCondicionesAcceso",
+    "dsControlesSeguridad", "dsCifrado", "dsCustodia", "dsPoliticasAcceso",
+    "dsAprobacionEquipoDatos", "dsAprobacionJuridica", "dsAprobacionComiteIA",
+    "tablaDiccionarioDatos", "tablaHistorialDataset"
+  ]
+}
