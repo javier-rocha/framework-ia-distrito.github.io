@@ -1,0 +1,95 @@
+{
+  "fechaExportacion": "2025-11-26T11:00:00Z",
+  "riesgos": [
+    {
+      "id": 1,
+      "descripcion": "El sistema OCR puede tener una tasa de error superior al procesar imágenes de baja calidad (fotos oscuras, documentos arrugados), discriminando indirectamente a ciudadanos con dispositivos de gama baja.",
+      "categoria": "Equidad",
+      "dimension": "Equidad y no discriminación",
+      "probabilidad": 3,
+      "impacto": 3,
+      "calificacion": 9,
+      "nivelRiesgo": {
+        "nivel": "Alto",
+        "clase": "risk-level-alto"
+      },
+      "controles": "Pruebas iniciales de rendimiento del modelo OCR base.",
+      "efectividad": "Baja",
+      "adicional": "Implementar un protocolo 'Human-in-the-loop' que prohíbe el rechazo automático. Casos con confianza <90% se derivan a un funcionario. Realizar pruebas de equidad comparando la tasa de error entre documentos de alta y baja calidad (meta: diferencia <5%).",
+      "responsable": "Líder Técnico / Equipo de Desarrollo",
+      "estado": "En progreso"
+    },
+    {
+      "id": 2,
+      "descripcion": "Un rechazo incorrecto por parte del sistema (falso negativo) afecta directamente el acceso del ciudadano a un servicio esencial, vulnerando su derecho al debido proceso administrativo.",
+      "categoria": "Cumplimiento",
+      "dimension": "Derechos y libertades fundamentales",
+      "probabilidad": 2,
+      "impacto": 3,
+      "calificacion": 6,
+      "nivelRiesgo": {
+        "nivel": "Alto",
+        "clase": "risk-level-alto"
+      },
+      "controles": "El sistema está diseñado para validar datos, no para interpretar la ley.",
+      "efectividad": "Media",
+      "adicional": "El protocolo 'Human-in-the-loop' es el control principal. Adicionalmente, se debe ofrecer un canal claro y accesible para que el ciudadano solicite revisión humana de cualquier decisión.",
+      "responsable": "Sponsor de Negocio / DPO",
+      "estado": "Mitigado"
+    },
+    {
+      "id": 3,
+      "descripcion": "Exposición de datos personales (nombres, ID, direcciones) si la transmisión o el almacenamiento temporal de los archivos PDF/JPG no está debidamente cifrado o es vulnerable.",
+      "categoria": "Privacidad",
+      "dimension": "Seguridad y ciberseguridad",
+      "probabilidad": 1,
+      "impacto": 3,
+      "calificacion": 3,
+      "nivelRiesgo": {
+        "nivel": "Bajo",
+        "clase": "risk-level-bajo"
+      },
+      "controles": "Uso de HTTPS para la transmisión de datos.",
+      "efectividad": "Media",
+      "adicional": "Implementar una política de retención mínima: los archivos se eliminan automáticamente tras la validación (o tras un periodo corto de auditoría). Exigir cifrado en reposo y cláusulas de confidencialidad reforzadas con el proveedor de nube.",
+      "responsable": "Oficial de Seguridad de la Información (CISO)",
+      "estado": "Mitigado"
+    },
+    {
+      "id": 4,
+      "descripcion": "Si el modelo se entrena mayoritariamente con recibos de un solo proveedor (ej. Enel), podría fallar sistemáticamente con formatos de otros proveedores (ej. Acueducto), afectando la calidad del servicio.",
+      "categoria": "Continuidad del servicio",
+      "dimension": "Continuidad y calidad del servicio",
+      "probabilidad": 2,
+      "impacto": 2,
+      "calificacion": 4,
+      "nivelRiesgo": {
+        "nivel": "Medio",
+        "clase": "risk-level-medio"
+      },
+      "controles": "El dataset inicial contiene algunos ejemplos variados.",
+      "efectividad": "Baja",
+      "adicional": "Certificar en el Data Sheet que el dataset de entrenamiento ha sido balanceado para incluir una muestra representativa de todos los proveedores y formatos de recibos relevantes en Bogotá.",
+      "responsable": "Propietario de Datos / Data Steward",
+      "estado": "En progreso"
+    },
+    {
+      "id": 5,
+      "descripcion": "Percepción pública de que la entidad implementa un sistema 'caja negra' que excluye a ciudadanos, generando desconfianza y daño reputacional.",
+      "categoria": "Reputación",
+      "dimension": "Reputación y confianza pública",
+      "probabilidad": 2,
+      "impacto": 2,
+      "calificacion": 4,
+      "nivelRiesgo": {
+        "nivel": "Medio",
+        "clase": "risk-level-medio"
+      },
+      "controles": "Comunicado de prensa en el lanzamiento.",
+      "efectividad": "Baja",
+      "adicional": "Implementar una estrategia de transparencia activa: el chatbot debe informar que es una IA, publicar una versión simplificada de la Model Card y explicar el derecho del ciudadano a la revisión humana.",
+      "responsable": "Jefe de Comunicaciones / Sponsor de Negocio",
+      "estado": "Pendiente"
+    }
+  ]
+}

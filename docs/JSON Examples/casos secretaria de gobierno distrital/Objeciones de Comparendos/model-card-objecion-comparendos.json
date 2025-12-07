@@ -1,0 +1,139 @@
+{
+  "modeloNombre": "OBJECIONES_BOG_NLP_CLASSIFIER_V1.0",
+  "modeloVersion": "1.0",
+  "modeloEntidad": "Secretaría Distrital de Seguridad, Convivencia y Justicia",
+  "modeloArea": "Dirección de Seguridad y Convivencia",
+  "modeloFechaCreacion": "2025-11-26",
+  "modeloFechaActualizacion": "2025-11-26",
+  "modeloEstado": "pruebas",
+  "modeloObjetivo": "Guiar conversacionalmente al ciudadano en el registro de una objeción a un comparendo, extraer la información requerida legalmente, y clasificar automáticamente el tipo de objeción según la taxonomía del CNSCC.",
+  "modeloCasoUso": "Trámite administrativo de registro de recursos de objeción a comparendos en Bogotá D.C.",
+  "modeloAlcance": "El sistema NO toma la decisión final sobre la procedencia de la objeción. Su función es clasificar preliminarmente la objeción para dirigirla al funcionario competente y acelerar el flujo de trabajo.",
+  "modeloProcesosImpactados": "Proceso de radicación y clasificación inicial de objeciones a comparendos.",
+  "modeloUsuariosPrevistos": "Ciudadanos que desean objetar un comparendo, y funcionarios revisores (Inspectores de Policía, personal administrativo).",
+  "modeloTipo": "nlp",
+  "modeloAlgoritmo": "Modelo transformer pre-entrenado en español (base: BETO o similar).",
+  "modeloArquitectura": "Sistema híbrido: Modelo de comprensión de lenguaje natural (Intent Recognition), Modelo de clasificación de texto (Text Classification), y Motor de extracción de entidades nombradas (NER).",
+  "modeloTecnologias": "Python, TensorFlow/PyTorch, plataforma de chatbot conversacional.",
+  "modeloDatasetEntrenamiento": "Dataset de objeciones de Bogotá documentado en el Data Sheet OBJECIONES_BOG_TRAINING_V1. 80% del corpus total.",
+  "modeloDatasetValidacion": "Conjunto de datos separado (hold-out set) del 20% del corpus total, estratificado por localidad y tipo de infracción.",
+  "modeloDatasetPruebas": "Se utiliza el mismo set de validación para las pruebas reportadas.",
+  "modeloReferenciaDataSheet": "OBJECIONES_BOG_TRAINING_V1",
+  "modeloSesgosIdentificados": "Sesgo lingüístico: el modelo podría tener menor precisión con textos coloquiales o con errores ortográficos, más frecuentes en estratos bajos.",
+  "modeloResultadosPruebasEquidad": "El sistema cumple con el umbral DIR ≥ 0.8. El DIR entre estrato bajo y alto es de 0.95. La diferencia de precisión es de 4.3 puntos porcentuales, considerada aceptable.",
+  "modeloMedidasMitigacionSesgos": "Rebalanceo del dataset de entrenamiento, aumento de datos para simular variaciones dialectales, y protocolo de confirmación con el ciudadano para clasificaciones de baja confianza (<85%).",
+  "modeloTecnicasExplicabilidad": "No aplica directamente para este tipo de modelo, pero se auditan los logs de clasificación para entender decisiones.",
+  "modeloInformacionPublica": "Publicación de una versión ciudadana simplificada de la Model Card en el portal web de la entidad.",
+  "modeloMecanismosRendicionCuentas": "Derecho a Auditoría por parte del Distrito, logs inmutables de todas las clasificaciones, y canal de PQR específico para problemas con el chatbot.",
+  "modeloUsosPermitidos": "Asistir al ciudadano en el registro estructurado de su objeción, clasificar preliminarmente el tipo de objeción, extraer datos obligatorios y generar radicado automático.",
+  "modeloUsosRestringidos": "No se debe usar para evaluar la viabilidad jurídica de la objeción, solo para su clasificación.",
+  "modeloUsosProhibidos": "Crear perfiles de 'ciudadanos objetores frecuentes' para vigilancia, predecir infracciones futuras, o inferir información no relacionada con el trámite.",
+  "modeloBuenasPracticas": "Implementación de 'Human-in-the-loop' obligatorio para casos de baja confianza, transparencia activa informando al usuario que interactúa con una IA.",
+  "modeloEntradas": "Texto libre del ciudadano, número de comparendo, datos de identificación.",
+  "modeloSalidas": "Categoría de objeción clasificada (ej. 'Procedimiento', 'Fondo'), nivel de confianza de la clasificación, y datos estructurados para radicación.",
+  "modeloIndicadoresDesempeno": "Precisión Global en Clasificación, Completitud de Información Extraída, Latencia, Tasa de Abandonos.",
+  "modeloFrecuenciaReentrenamiento": "Trimestral, o cuando se detecte 'Concept Drift' por cambios normativos.",
+  "modeloControlesDrift": "Monitoreo del aumento de casos en la categoría 'No clasificado / Baja confianza' como indicador de drift.",
+  "modeloAprobacionTecnica": "Aprobado. El modelo supera la meta de precisión del 90% y las pruebas de robustez son satisfactorias.",
+  "modeloAprobacionJuridica": "Conforme. El sistema actúa como asistente y no toma la decisión final, preservando el debido proceso.",
+  "modeloAprobacionDPO": "Aprobado. El DPA con el proveedor es robusto y las políticas de retención de datos cumplen con la Ley 1581.",
+  "modeloAprobacionComiteIA": "Aprobado para despliegue, con condición de monitoreo intensivo (hypercare) de métricas de equidad durante las primeras 8 semanas.",
+  "tablaMetricasGlobales": [
+    {
+      "Métrica": "Precisión Global (Clasificación)",
+      "Valor": "92%",
+      "Descripción": "Porcentaje de objeciones clasificadas correctamente en el tipo de objeción."
+    },
+    {
+      "Métrica": "Completitud de Información",
+      "Valor": "96%",
+      "Descripción": "Porcentaje de casos donde se extraen todos los campos obligatorios sin repetición."
+    },
+    {
+      "Métrica": "Latencia (Mediana)",
+      "Valor": "1.2 segundos",
+      "Descripción": "Tiempo de respuesta promedio por turno conversacional."
+    },
+    {
+      "Métrica": "Tasa de Abandonos",
+      "Valor": "12%",
+      "Descripción": "Usuarios que inician pero no completan el registro."
+    }
+  ],
+  "tablaMetricasSubpoblaciones": [
+    {
+      "Subpoblación": "Estrato Alto (Ref.)",
+      "Métrica": "Precisión",
+      "Valor": "94.5%",
+      "Observaciones": "Grupo de referencia con textos más formales."
+    },
+    {
+      "Subpoblación": "Estrato Medio",
+      "Métrica": "Precisión",
+      "Valor": "91.8%",
+      "Observaciones": "DIR vs Ref: 0.97 (Cumple)."
+    },
+    {
+      "Subpoblación": "Estrato Bajo",
+      "Métrica": "Precisión",
+      "Valor": "90.2%",
+      "Observaciones": "DIR vs Ref: 0.95 (Cumple). La diferencia se atribuye a errores ortográficos extremos."
+    }
+  ],
+  "tablaRiesgosModelo": [
+    {
+      "Tipo de Riesgo": "etico",
+      "Descripción": "Riesgo de falsas expectativas: el ciudadano puede interpretar la clasificación automática como una 'pre-aprobación' de su objeción.",
+      "Impacto": "medio",
+      "Probabilidad": "media"
+    },
+    {
+      "Tipo de Riesgo": "tecnico",
+      "Descripción": "Limitación lingüística: el modelo tiene dificultades con textos extremadamente largos (>500 palabras) o narrativas muy desorganizadas.",
+      "Impacto": "medio",
+      "Probabilidad": "baja"
+    },
+    {
+      "Tipo de Riesgo": "legal",
+      "Descripción": "El modelo no puede evaluar la 'viabilidad jurídica' de una objeción, solo su tipo. Esta evaluación debe ser humana.",
+      "Impacto": "alto",
+      "Probabilidad": "baja"
+    }
+  ],
+  "tablaControlesModelo": [
+    {
+      "Tipo de Control": "supervision",
+      "Descripción": "Human-in-the-loop: Casos con confianza < 85% se derivan a un funcionario.",
+      "Frecuencia": "Tiempo real",
+      "Responsable": "Sistema / Funcionario de turno"
+    },
+    {
+      "Tipo de Control": "monitoreo",
+      "Descripción": "Monitoreo de métricas de equidad (DIR) y precisión en producción.",
+      "Frecuencia": "Mensual",
+      "Responsable": "Comité de IA"
+    },
+    {
+      "Tipo de Control": "alerta",
+      "Descripción": "Alertas automáticas si la precisión baja del 88% o el DIR baja de 0.8.",
+      "Frecuencia": "Tiempo real",
+      "Responsable": "Responsable Técnico"
+    },
+    {
+      "Tipo de Control": "auditoria",
+      "Descripción": "Auditoría externa anual para verificar cumplimiento de DPA y métricas reportadas.",
+      "Frecuencia": "Anual",
+      "Responsable": "Oficina de Control Interno"
+    }
+  ],
+  "tablaHistorialModelo": [
+    {
+      "Versión": "1.0",
+      "Fecha": "2025-11-26",
+      "Ajustes realizados": "Versión inicial (Release Candidate) tras fine-tuning con dataset balanceado.",
+      "Responsable": "Equipo de Desarrollo"
+    }
+  ],
+  "fechaExportacion": "2025-11-26T18:00:00Z",
+  "versionModelCard": "1.1"
+}

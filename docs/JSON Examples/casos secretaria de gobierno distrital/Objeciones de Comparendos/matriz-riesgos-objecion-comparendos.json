@@ -1,0 +1,95 @@
+{
+  "fechaExportacion": "2026-03-15T11:00:00Z",
+  "riesgos": [
+    {
+      "id": 1,
+      "descripcion": "El sistema podría no entender jergas o formas de expresión de ciertos grupos poblacionales, generando una barrera de acceso y una clasificación errónea de la objeción.",
+      "categoria": "Equidad",
+      "dimension": "Equidad y no discriminación",
+      "probabilidad": 3,
+      "impacto": 3,
+      "calificacion": 9,
+      "nivelRiesgo": {
+        "nivel": "Alto",
+        "clase": "risk-level-alto"
+      },
+      "controles": "Dataset de entrenamiento inicial incluye variaciones lingüísticas.",
+      "efectividad": "Baja",
+      "adicional": "Implementar auditorías de sesgo lingüístico trimestrales y enriquecer el corpus con transcripciones de objeciones verbales.",
+      "responsable": "Líder de Innovación y Tecnología",
+      "estado": "En progreso"
+    },
+    {
+      "id": 2,
+      "descripcion": "El bot podría dar un mal consejo o no entender un argumento válido, desincentivando al ciudadano a ejercer su derecho a la objeción.",
+      "categoria": "Cumplimiento",
+      "dimension": "Derechos y libertades fundamentales",
+      "probabilidad": 2,
+      "impacto": 3,
+      "calificacion": 6,
+      "nivelRiesgo": {
+        "nivel": "Medio",
+        "clase": "risk-level-medio"
+      },
+      "controles": "El bot está programado para no dar consejos legales, solo para guiar en el registro.",
+      "efectividad": "Media",
+      "adicional": "Implementar un flujo 'Human-in-the-loop' para casos donde la confianza del modelo sea inferior al 85% y un botón visible de 'Hablar con un humano'.",
+      "responsable": "Director de Procesos Contravencionales",
+      "estado": "Pendiente"
+    },
+    {
+      "id": 3,
+      "descripcion": "Fuga de información sobre infracciones y datos personales de los ciudadanos a través de la plataforma del bot.",
+      "categoria": "Privacidad",
+      "dimension": "Derechos y libertades fundamentales",
+      "probabilidad": 1,
+      "impacto": 3,
+      "calificacion": 3,
+      "nivelRiesgo": {
+        "nivel": "Bajo",
+        "clase": "risk-level-bajo"
+      },
+      "controles": "Cifrado de datos en tránsito (TLS 1.3) y en reposo (AES-256).",
+      "efectividad": "Alta",
+      "adicional": "Realizar pruebas de penetración (pentesting) anuales y aplicar política de retención mínima de datos (eliminación de conversaciones tras 90 días).",
+      "responsable": "Oficial de Seguridad de la Información (CISO)",
+      "estado": "Mitigado"
+    },
+    {
+      "id": 4,
+      "descripcion": "Una caída del sistema podría impedir a los ciudadanos radicar sus objeciones antes de la fecha límite legal.",
+      "categoria": "Continuidad del servicio",
+      "dimension": "Continuidad y calidad del servicio",
+      "probabilidad": 2,
+      "impacto": 2,
+      "calificacion": 4,
+      "nivelRiesgo": {
+        "nivel": "Medio",
+        "clase": "risk-level-medio"
+      },
+      "controles": "Infraestructura en la nube con monitoreo básico.",
+      "efectividad": "Media",
+      "adicional": "Configurar auto-scaling y despliegue en múltiples zonas de disponibilidad para asegurar un uptime > 99.5%. Mantener activo el canal presencial como alternativa.",
+      "responsable": "Jefe de Infraestructura TIC",
+      "estado": "En progreso"
+    },
+    {
+      "id": 5,
+      "descripcion": "Percepción ciudadana de que la justicia es impartida por una 'máquina insensible', generando desconfianza en la entidad.",
+      "categoria": "Reputación",
+      "dimension": "Reputación y confianza pública",
+      "probabilidad": 3,
+      "impacto": 2,
+      "calificacion": 6,
+      "nivelRiesgo": {
+        "nivel": "Medio",
+        "clase": "risk-level-medio"
+      },
+      "controles": "No existen controles iniciales.",
+      "efectividad": "No aplica",
+      "adicional": "Implementar una campaña de comunicación clara que explique el rol del bot como asistente y no como juez. El bot debe informar desde el inicio que es una IA y que la decisión final es humana.",
+      "responsable": "Jefe de Comunicaciones",
+      "estado": "Pendiente"
+    }
+  ]
+}

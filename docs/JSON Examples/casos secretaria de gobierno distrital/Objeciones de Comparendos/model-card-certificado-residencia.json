@@ -1,0 +1,111 @@
+{
+  "modeloNombre": "RESIDENCIA_BOG_OCR_VALIDATOR_V1.0",
+  "modeloVersion": "1.0 (Release Candidate)",
+  "modeloEntidad": "Secretaría de Gobierno del Distrito Capital",
+  "modeloArea": "Dirección de Atención al Ciudadano",
+  "modeloFechaCreacion": "2025-11-26",
+  "modeloFechaActualizacion": "2025-11-26",
+  "modeloEstado": "pruebas",
+  "modeloObjetivo": "Extraer y validar automáticamente el nombre del solicitante, número de cédula y dirección del predio a partir de documentos en formato PDF o imagen (Cédula y Recibo de Servicio Público).",
+  "modeloCasoUso": "Trámite administrativo de expedición del Certificado de Residencia en Bogotá.",
+  "modeloAlcance": "El modelo recomienda la validación de documentos. No rechaza automáticamente; los casos con confianza <90% se derivan a revisión humana.",
+  "modeloProcesosImpactados": "Proceso de expedición del Certificado de Residencia, transformando la validación manual en una gestión por excepción.",
+  "modeloUsuariosPrevistos": "Ciudadanos solicitantes del certificado y funcionarios que gestionan la 'Bandeja de Excepciones'.",
+  "modeloTipo": "vision",
+  "modeloAlgoritmo": "OCR (Reconocimiento Óptico de Caracteres) y NLP (Procesamiento de Lenguaje Natural).",
+  "modeloArquitectura": "Modelo pre-entrenado de OCR ajustado (fine-tuning) con una taxonomía de recibos de servicios públicos de Bogotá (Enel, Acueducto, Vanti).",
+  "modeloTecnologias": "Python, TensorFlow/PyTorch, OpenCV.",
+  "modeloDatasetEntrenamiento": "80% del dataset RESIDENCIA_BOG_VALIDATION_V1.",
+  "modeloDatasetValidacion": "10% del dataset RESIDENCIA_BOG_VALIDATION_V1.",
+  "modeloDatasetPruebas": "10% del dataset RESIDENCIA_BOG_VALIDATION_V1.",
+  "modeloReferenciaDataSheet": "Data Sheet RESIDENCIA_BOG_VALIDATION_V1 (versión 1.0).",
+  "modeloSesgosIdentificados": "Sesgo de representación hacia facturas digitales de Enel, corregido en el Data Sheet. Riesgo de sesgo técnico por calidad de imagen.",
+  "modeloResultadosPruebasEquidad": "La diferencia en la tasa de error entre documentos de alta calidad (98.5%) y baja calidad (94.7%) fue del 3.8%, cumpliendo el umbral <5%.",
+  "modeloMedidasMitigacionSesgos": "Balanceo del dataset de entrenamiento (oversampling de imágenes de baja calidad y recibos físicos) y protocolo 'Human-in-the-loop' para casos de baja confianza.",
+  "modeloTecnicasExplicabilidad": "No se utilizan técnicas XAI complejas (LIME/SHAP). La explicabilidad se basa en la confianza del OCR y la derivación a humanos.",
+  "modeloInformacionPublica": "Se publicará una versión simplificada de esta Model Card en el portal de la entidad.",
+  "modeloMecanismosRendicionCuentas": "Auditorías trimestrales por parte del Comité de IA y un canal PQR específico para decisiones algorítmicas.",
+  "modeloUsosPermitidos": "Exclusivamente para la validación administrativa de residencia en el trámite distrital.",
+  "modeloUsosRestringidos": "No aplica. Los usos no permitidos están prohibidos.",
+  "modeloUsosProhibidos": "Utilizar los datos extraídos (consumo, estrato) para evaluar capacidad de pago, realizar scoring crediticio o crear perfiles de comportamiento.",
+  "modeloBuenasPracticas": "Privacidad por diseño (eliminación de datos post-trámite) y transparencia activa (aviso al ciudadano).",
+  "modeloEntradas": "Imágenes en formato PDF, JPG o PNG de la Cédula de Ciudadanía y un recibo de servicio público.",
+  "modeloSalidas": "JSON con los datos extraídos (nombre, ID, dirección) y un puntaje de confianza (0-1).",
+  "modeloIndicadoresDesempeno": "Precisión Global, Tasa de Resolución Autónoma, Diferencia de Tasa de Error (Equidad).",
+  "modeloFrecuenciaReentrenamiento": "Según necesidad, activado por monitoreo de 'Concept Drift' (ej. si un proveedor cambia el formato de su factura).",
+  "modeloControlesDrift": "Monitoreo de la tasa de derivación a humanos. Un aumento sostenido indica un posible 'drift' y activa una alerta para revisión.",
+  "modeloAprobacionTecnica": "Aprobado. El modelo cumple con los umbrales de precisión (>95%) y es técnicamente robusto.",
+  "modeloAprobacionJuridica": "Aprobado. El protocolo de intervención humana preserva el debido proceso.",
+  "modeloAprobacionDPO": "Aprobado. Los controles de privacidad por diseño y la prohibición de usos secundarios son adecuados.",
+  "modeloAprobacionComiteIA": "Aprobado para despliegue (Go-Live), condicionado a monitoreo intensivo durante las primeras 4 semanas.",
+  "tablaMetricasGlobales": [
+    {
+      "Métrica": "Precisión Global (Accuracy)",
+      "Valor": "96.5%",
+      "Descripción": "Porcentaje de extracciones correctas de pares Nombre-Dirección en el conjunto de pruebas."
+    },
+    {
+      "Métrica": "Tasa de Resolución Autónoma",
+      "Valor": ">90% (Meta)",
+      "Descripción": "Porcentaje de casos que el sistema puede validar con una confianza >90% sin intervención humana."
+    }
+  ],
+  "tablaMetricasSubpoblaciones": [
+    {
+      "Subpoblación": "Documentos Digitales / Alta Calidad",
+      "Métrica": "Precisión",
+      "Valor": "98.5%",
+      "Observaciones": "Grupo de referencia con el mejor rendimiento."
+    },
+    {
+      "Subpoblación": "Fotos de Celular / Calidad Media",
+      "Métrica": "Precisión",
+      "Valor": "95.0%",
+      "Observaciones": "Rendimiento dentro de los márgenes aceptables."
+    },
+    {
+      "Subpoblación": "Fotos de Baja Calidad / Borrosas",
+      "Métrica": "Precisión",
+      "Valor": "82.0%",
+      "Observaciones": "Rendimiento bajo, pero el riesgo se mitiga al activar el protocolo de desvío a humano para estos casos."
+    }
+  ],
+  "tablaRiesgosModelo": [
+    {
+      "Tipo de Riesgo": "tecnico",
+      "Descripción": "Posibilidad de 'Concept Drift' si los proveedores de servicios públicos cambian el formato de sus facturas.",
+      "Impacto": "medio",
+      "Probabilidad": "media"
+    },
+    {
+      "Tipo de Riesgo": "etico",
+      "Descripción": "Riesgo de falsos negativos por condiciones de iluminación extremas (reflejo de flash), afectando la experiencia del usuario.",
+      "Impacto": "bajo",
+      "Probabilidad": "media"
+    }
+  ],
+  "tablaControlesModelo": [
+    {
+      "Tipo de Control": "supervision",
+      "Descripción": "Protocolo 'Human-in-the-loop' para todos los casos con confianza <90% o clasificados como 'No Válidos'.",
+      "Frecuencia": "Tiempo real",
+      "Responsable": "Funcionarios de Atención al Ciudadano"
+    },
+    {
+      "Tipo de Control": "monitoreo",
+      "Descripción": "Dashboard de Gobernanza para monitorear KPIs de equidad y 'drift'.",
+      "Frecuencia": "Tiempo real / Revisión trimestral",
+      "Responsable": "Líder Técnico / Comité de IA"
+    }
+  ],
+  "tablaHistorialModelo": [
+    {
+      "Versión": "1.0",
+      "Fecha": "2025-11-26",
+      "Ajustes realizados": "Versión inicial. Modelo ajustado (fine-tuned) con dataset balanceado.",
+      "Responsable": "Equipo de Desarrollo e Innovación"
+    }
+  ],
+  "fechaExportacion": "2025-11-26T14:00:00Z",
+  "versionModelCard": "1.0"
+}

@@ -1,0 +1,79 @@
+{
+  "proveedor": "VisionTech OCR Services",
+  "casoUso": "Sistema Automatizado de Validación y Expedición de Certificados de Residencia",
+  "nivelRiesgo": "alto",
+  "checklistAplicado": "estandar",
+  "puntuaciones": {
+    "1.1": 2,
+    "1.2": 1,
+    "1.3": 1,
+    "1.4": 2,
+    "2.1": 2,
+    "2.2": 2,
+    "2.3": 2,
+    "3.1": 2,
+    "3.2": 2,
+    "3.3": 1,
+    "3.4": 2,
+    "4.1": 2,
+    "4.2": 1,
+    "4.3": 2,
+    "5.1": 2,
+    "5.2": 2,
+    "6.1": 2,
+    "6.2": 2,
+    "6.3": 1
+  },
+  "evidencias": {
+    "1.1": "Certificado de conformidad con Ley 1581 y Circular 002 SIC. Política de privacidad pública.",
+    "1.2": "Política de IA Responsable interna, no pública.",
+    "1.3": "Documentación de procesos de gestión de IA, sin certificación formal.",
+    "1.4": "Proceso documentado de gestión de riesgos de IA para sus modelos base.",
+    "2.1": "Entrega de Model Card del motor OCR base como requisito contractual.",
+    "2.2": "Entrega de Data Sheet del dataset de entrenamiento del motor OCR base.",
+    "2.3": "Acceso a documentación técnica detallada de la arquitectura del modelo.",
+    "3.1": "Cláusula contractual que define al Distrito como titular de los datos de operación.",
+    "3.2": "Firma de Data Processing Agreement (DPA) robusto y alineado con la normativa colombiana.",
+    "3.3": "Procedimientos manuales para atender derechos de habeas data, con compromiso de plazos.",
+    "3.4": "Políticas de retención y borrado seguro configurables a través de la API del servicio.",
+    "4.1": "Certificación ISO 27001 vigente presentada durante la licitación.",
+    "4.2": "Reporte de pruebas de robustez contra datos fuera de distribución.",
+    "4.3": "Protocolo de respuesta a incidentes con canal de comunicación directo.",
+    "5.1": "Cláusula contractual que establece el 'Derecho a Auditoría' por parte del Distrito.",
+    "5.2": "Sistema de logs inmutables accesibles vía API para trazabilidad de cada validación.",
+    "6.1": "SLA contractual con penalizaciones por degradación de la precisión por debajo del 95%.",
+    "6.2": "Plan de soporte prioritario y capacitación al equipo técnico del Distrito.",
+    "6.3": "Comparte roadmap de alto nivel, con notificación de cambios con 30 días de antelación."
+  },
+  "criteriosMandatorios": [
+    {
+      "id": "1.1",
+      "cumplido": true
+    },
+    {
+      "id": "3.2",
+      "cumplido": true
+    },
+    {
+      "id": "4.1",
+      "cumplido": true
+    },
+    {
+      "id": "6.1",
+      "cumplido": true
+    }
+  ],
+  "resultadoMandatorios": "cumple",
+  "dictamenFinal": "recomendado",
+  "observaciones": "El proveedor cumple con todos los criterios mandatorios y obtiene una puntuación ponderada superior a 8.0/10. Se incluyeron cláusulas contractuales robustas de auditoría y SLA. Se recomienda la selección para pasar a la fase de pruebas e integración.",
+  "evaluadores": {
+    "responsableTecnico": "Líder de Desarrollo e Innovación / Equipo TIC",
+    "fechaTecnico": "26/11/2025",
+    "dpoJuridica": "Oficial de Protección de Datos (DPO) / Área Jurídica",
+    "fechaDpo": "26/11/2025",
+    "comiteIa": "Representante del Comité de IA",
+    "fechaComite": "26/11/2025"
+  },
+  "fechaExportacion": "2025-11-26T15:00:00Z",
+  "versionChecklist": "2.0"
+}

@@ -855,7 +855,7 @@
                 
                 if (maxSeccion > 0 && pesos[seccionId] > 0) {
                     const porcentaje = (sumaSeccion / maxSeccion) * 100;
-                    totalPonderado += (porcentaje * pesos[seccionId]);
+                    totalPonderado += (porcentaje / 10) * pesos[seccionId];
                     totalPeso += pesos[seccionId];
                 }
             });

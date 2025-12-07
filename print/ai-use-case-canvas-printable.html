@@ -110,6 +110,18 @@
 </div>
 
 <script>
+    /**
+     * Muestra un mensaje de estado (éxito o error) al usuario.
+     * @param {string} message - El mensaje a mostrar.
+     * @param {string} type - El tipo de mensaje ('success' o 'error').
+     */
+    function showMessage(message, type) {
+        const messageBox = document.getElementById('status-message');
+        messageBox.innerHTML = message; // Usar innerHTML para permitir etiquetas como <br>
+        messageBox.className = `message-box ${type}`;
+        messageBox.style.display = 'block';
+    }
+
     // Mapeo de campos del JSON agrupados por sección lógica para el reporte
     const sectionMap = {
         "1. Identificación y Contexto": {
@@ -168,7 +180,6 @@
         document.getElementById('status-message').style.display = 'none';
     }
 
-
     /**
      * Carga y parsea el archivo JSON.
      */
@@ -213,7 +224,7 @@
         });
 
         // 2. Validación de contenido específico (ej. decisión del comité debe ser una opción válida)
-        const validComite = ['comiteaprobado', 'comiterechazado', 'comitecondicional'];
+        const validComite = ['comiteaprobado', 'comiterechazado', 'comitecondiciones', 'comiteinfo'];
         if (data.comite && !validComite.includes(data.comite.toLowerCase())) {
             missingFields.push('comite (Valor de decisión inválido)');
         }
@@ -236,62 +247,68 @@
      * @param {Object} data El objeto JSON del Caso de Uso de IA.
      */
     function renderCanvasData(data) {
-        const container = document.getElementById('canvas-data-container');
-        let html = '';
+        try {
+            const container = document.getElementById('canvas-data-container');
+            let html = '';
 
-        // --- RENDERIZAR SECCIONES ---
-        for (const sectionTitle in sectionMap) {
-            const fields = sectionMap[sectionTitle];
-            
-            html += `<div class="section">`;
-            html += `<h2>${sectionTitle}</h2>`;
-            html += '<table class="info-table">';
+            // --- RENDERIZAR SECCIONES ---
+            for (const sectionTitle in sectionMap) {
+                const fields = sectionMap[sectionTitle];
+                
+                html += `<div class="section">`;
+                html += `<h2>${sectionTitle}</h2>`;
+                html += '<table class="info-table">';
 
-            for (const key in fields) {
-                let value = data[key];
+                for (const key in fields) {
+                    let value = data[key];
 
-                if (value !== undefined) {
-                    const description = fields[key];
-                    
-                    // Formateo simple para arrays (ej. rolesGobernanza)
-                    if (Array.isArray(value)) {
-                        value = value.map(v => v.charAt(0).toUpperCase() + v.slice(1)).join(', ');
-                    } else if (typeof value === 'string') {
-                        // Capitalizar la primera letra si es un enum
-                        if (value.length > 0 && !value.includes(' ') && (value.length < 20 || key === 'estrategia')) {
-                           value = value.charAt(0).toUpperCase() + value.slice(1);
+                    if (value !== undefined) {
+                        const description = fields[key];
+                        
+                        // Formateo simple para arrays (ej. rolesGobernanza)
+                        if (Array.isArray(value)) {
+                            value = value.map(v => v.charAt(0).toUpperCase() + v.slice(1)).join(', ');
+                        } else if (typeof value === 'string') {
+                            // Capitalizar la primera letra si es un enum
+                            if (value.length > 0 && !value.includes(' ') && (value.length < 20 || key === 'estrategia')) {
+                               value = value.charAt(0).toUpperCase() + value.slice(1);
+                            }
                         }
+                        
+                        html += `
+                            <tr>
+                                <th>${description}</th>
+                                <td>${value}</td>
+                            </tr>
+                        `;
                     }
-                    
-                    html += `
-                        <tr>
-                            <th>${description}</th>
-                            <td>${value}</td>
-                        </tr>
-                    `;
                 }
+                html += '</table>';
+                html += `</div>`;
             }
-            html += '</table>';
-            html += `</div>`;
-        }
-        
-        container.innerHTML = html;
+            
+            container.innerHTML = html;
 
-        // --- Llenar metadatos y sección de Legalización ---
-        const responsableInput = document.getElementById('responsable-name');
-        // Extraer solo el nombre del responsable si el campo contiene más datos (ej. "Nombre, Cargo, Contacto")
-        const nombreResponsable = data.responsable.split(',')[0].trim(); 
-        responsableInput.value = nombreResponsable;
-        
-        document.getElementById('metadata-header').textContent = `Caso de Uso: ${data.titulo} | Versión: ${data.fecha.split('-')[1].trim()} | Exportado: ${data.fechaExportacion.split('T')[0]}`;
-        
-        // Formatear la decisión para visualización
-        const decisionText = data.comite.toUpperCase().replace('COMITE', '').replace('APROBADO', 'APROBADO').replace('RECHAZADO', 'RECHAZADO').replace('CONDICIONAL', 'CONDICIONAL').trim();
-        document.getElementById('comite-decision').textContent = `${decisionText} (${data.tecnica.toUpperCase()} / ${data.juridica.toUpperCase()})`;
-        
-        document.getElementById('nivelRiesgo').textContent = data.nivelRiesgo.toUpperCase();
-        document.getElementById('aprobacionDPO').textContent = data.dpo.toUpperCase();
-        document.getElementById('firmaAprobacion').textContent = data.firma;
+            // --- Llenar metadatos y sección de Legalización ---
+            const responsableInput = document.getElementById('responsable-name');
+            // Extraer solo el nombre del responsable si el campo contiene más datos (ej. "Nombre, Cargo, Contacto")
+            const nombreResponsable = data.responsable.split(',')[0].trim(); 
+            responsableInput.value = nombreResponsable;
+            
+            document.getElementById('metadata-header').textContent = `Caso de Uso: ${data.titulo} | Versión: ${data.fecha.split('-')[1].trim()} | Exportado: ${data.fechaExportacion.split('T')[0]}`;
+            
+            // Formatear la decisión para visualización
+            const decisionText = data.comite.toUpperCase().replace('COMITE', '').replace('APROBADO', 'APROBADO').replace('RECHAZADO', 'RECHAZADO').replace('CONDICIONAL', 'CONDICIONAL').trim();
+            document.getElementById('comite-decision').textContent = `${decisionText} (${data.tecnica.toUpperCase()} / ${data.juridica.toUpperCase()})`;
+            
+            document.getElementById('nivelRiesgo').textContent = data.nivelRiesgo.toUpperCase();
+            document.getElementById('aprobacionDPO').textContent = data.dpo.toUpperCase();
+            document.getElementById('firmaAprobacion').textContent = data.firma;
+        } catch (error) {
+            const errorMsg = `Error inesperado al renderizar los datos: ${error.message}. Esto puede deberse a un campo con un formato incorrecto que pasó la validación inicial. Revise los campos relacionados con la operación fallida.`;
+            showMessage(errorMsg, 'error');
+            console.error("Error en renderCanvasData:", error);
+        }
     }
 
     // Al cargar la página, intentar leer los datos desde sessionStorage

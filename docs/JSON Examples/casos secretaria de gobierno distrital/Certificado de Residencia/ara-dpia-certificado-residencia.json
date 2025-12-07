@@ -1,0 +1,153 @@
+{
+  "metadata": {
+    "fechaExportacion": "2025-11-26T12:00:00Z",
+    "versionFormulario": "1.2"
+  },
+  "campos": {
+    "entidad": "Secretaría de Gobierno del Distrito Capital",
+    "unidad": "Dirección de Atención al Ciudadano",
+    "titulo": "Automatización de Validación Documental para Certificado de Residencia",
+    "responsable": "Oficial de Protección de Datos (DPO) y Líder Técnico",
+    "responsableTecnico": "Líder de Desarrollo e Innovación / Equipo TIC",
+    "fechaElaboracion": "2025-11-26",
+    "version": "1.0",
+    "descripcionTecnica": "Sistema de IA (Chatbot con OCR y NLP) que valida documentos (Cédula y Recibos de Servicios Públicos en PDF/JPG) para reducir el tiempo de respuesta a minutos y estar disponible 24/7.",
+    "finalidad": "Validar la coincidencia entre la identidad del solicitante y la dirección del predio para expedir un acto administrativo (Certificado de Residencia).",
+    "baseLegal": "Ley 1581 de 2012 (Habeas Data), Circular 002 de la SIC, Ley 2052 de 2020 (Simplificación de trámites).",
+    "poblacion": "Ciudadanos solicitantes del certificado en Bogotá D.C.",
+    "casosPermitidos": "Extraer y validar automáticamente el nombre, número de cédula y dirección a partir de documentos para autorizar la emisión del certificado.",
+    "casosNoPermitidos": "Utilizar los datos extraídos (direcciones, consumo, estrato) para crear perfiles de capacidad de pago, scoring crediticio o cualquier otro fin distinto a la verificación de residencia.",
+    "tipoDecisiones": "recomendacion",
+    "contextoUso": "El sistema opera 24/7. Las validaciones exitosas generan el certificado automáticamente. Las validaciones fallidas o con confianza <90% no son rechazadas, sino derivadas a un funcionario para revisión manual.",
+    "nombreDataset": "RESIDENCIA_BOG_VALIDATION_V1",
+    "origenDataset": "Datos históricos de solicitudes previas anonimizadas y cargas controladas durante la fase piloto.",
+    "motivacionDataset": "Entrenar y validar modelos de OCR/NLP para extraer y verificar automáticamente datos de cédulas y recibos de servicios públicos.",
+    "recoleccionDataset": "Carga directa por el ciudadano a través del portal web del trámite.",
+    "limpiezaDataset": "Pre-procesamiento de imágenes para mejorar contraste y normalización de texto a formatos estándar antes de la validación.",
+    "usosPrevistosDataset": "Exclusivamente para la validación de la coincidencia entre el solicitante y la dirección del predio para la expedición del certificado.",
+    "usosNoPrevistosDataset": "Crear mapas de calor de morosidad, compartir datos con terceros comerciales, evaluar capacidad de pago.",
+    "baseLegalPrincipal": "ejercicio-funciones",
+    "basesLegalesComplementarias": "El tratamiento es necesario para la simplificación de trámites administrativos, una función pública de la entidad.",
+    "consentimientoExplicito": "si",
+    "mecanismoConsentimiento": "Aviso de privacidad al inicio de la interacción con el chatbot, informando que es una IA y solicitando aceptación para continuar.",
+    "alternativasSinConsentimiento": "El ciudadano puede realizar el trámite de forma manual en los puntos de atención presencial de la entidad.",
+    "mecanismosIntervencion": "Protocolo 'Human-in-the-loop' obligatorio. Los casos con confianza <90% o detectados como de baja calidad de imagen se derivan a una cola de revisión humana.",
+    "criteriosEscalamiento": "Confianza del modelo OCR/NLP inferior al 90%. Detección automática de imagen de baja calidad (borrosa, oscura). Solicitud explícita del ciudadano.",
+    "rolesResponsables": "Funcionarios de la Dirección de Atención al Ciudadano, capacitados para gestionar la 'Bandeja de Excepciones' y sobreescribir la decisión de la IA.",
+    "frecuenciaRevision": "tiempo-real",
+    "procedimientoDesacuerdo": "El ciudadano puede solicitar revisión humana a través de un botón en la interfaz. Si el trámite ya cerró, puede usar el canal PQR para impugnar la decisión.",
+    "mensajesAviso": "Mensaje inicial: 'Está interactuando con un asistente automatizado. Tiene derecho a solicitar revisión humana'. Mensaje de derivación: 'No pudimos validar su documento automáticamente, un funcionario lo revisará'.",
+    "documentosPublicados": "Versión simplificada de la Model Card y política de privacidad en el portal web de la entidad.",
+    "canalesConsulta": "Línea de atención telefónica y sección de preguntas frecuentes en el portal.",
+    "canalesReporte": "Sistema PQRSD con una categoría específica para 'Problemas con el trámite automatizado'.",
+    "planDivulgacion": "Campaña en el portal web y redes sociales de la entidad explicando el nuevo servicio digital.",
+    "evaluacionDPO": "Aprobado. El DPA con el proveedor es robusto y se implementa privacidad por diseño (retención mínima). Se prohíbe el uso de datos para re-entrenamiento de modelos externos.",
+    "evaluacionResponsableTecnico": "Viable. La tecnología OCR/NLP es madura. El protocolo de derivación a humanos mitiga los riesgos de exclusión por calidad de imagen.",
+    "evaluacionJuridica": "Conforme. El sistema no toma decisiones de rechazo de forma autónoma, preservando el debido proceso. La existencia de un canal alternativo manual garantiza el acceso universal.",
+    "decisionComiteIA": "aprobado-condiciones",
+    "fechaAprobacion": "2025-11-26",
+    "condicionesReservas": "Aprobado, condicionado a realizar pruebas de equidad en Fase 6, comparando la tasa de error entre documentos de alta y baja calidad (diferencia no debe superar el 5%).",
+    "fechaProximaRevision": "2026-02-26"
+  },
+  "tablas": {
+    "tablaMapeoDatos": [
+      {
+        "Categoría": "identificacion",
+        "Tipo de dato": "imagen",
+        "Fuente": "Ciudadano (carga de archivo)",
+        "Dato personal": "si",
+        "Base de licitud": "obligacion",
+        "Finalidad": "Verificar la identidad del solicitante.",
+        "Técnicas": "recopilacion",
+        "Sesgos": "N/A",
+        "Observaciones": "Corresponde a la Cédula de Ciudadanía/Extranjería."
+      },
+      {
+        "Categoría": "ubicacion",
+        "Tipo de dato": "imagen",
+        "Fuente": "Ciudadano (carga de archivo)",
+        "Dato personal": "si",
+        "Base de licitud": "obligacion",
+        "Finalidad": "Verificar la dirección de residencia.",
+        "Técnicas": "recopilacion",
+        "Sesgos": "Riesgo de sesgo si el modelo no reconoce formatos de recibos de todos los proveedores de servicios.",
+        "Observaciones": "Corresponde al recibo de servicio público."
+      },
+      {
+        "Categoría": "demografico",
+        "Tipo de dato": "texto",
+        "Fuente": "Sistema (extraído del recibo)",
+        "Dato personal": "si",
+        "Base de licitud": "interes",
+        "Finalidad": "Dato incidental, no utilizado para la decisión.",
+        "Técnicas": "analitica",
+        "Sesgos": "N/A",
+        "Observaciones": "Estrato socioeconómico. Se prohíbe su uso para perfilamiento."
+      }
+    ],
+    "tablaImpactosDerechos": [
+      {
+        "Derecho": "igualdad",
+        "Pregunta guía": "¿Podría el sistema funcionar peor para ciudadanos con menor acceso a tecnología?",
+        "Respuesta": "Sí. El OCR puede fallar más con fotos de baja calidad tomadas con celulares de gama baja, afectando a poblaciones vulnerables.",
+        "Riesgo": "Discriminación indirecta y exclusión por brecha tecnológica.",
+        "Prob. (1–3)": "3",
+        "Impacto (1–3)": "3",
+        "Nivel": "alto"
+      },
+      {
+        "Derecho": "debido-proceso",
+        "Pregunta guía": "¿Podría un error del sistema denegar injustificadamente el acceso a un servicio?",
+        "Respuesta": "Sí, un 'falso negativo' en la validación podría bloquear la expedición del certificado, afectando el acceso del ciudadano a otros trámites o subsidios.",
+        "Riesgo": "Denegación de acceso a un derecho por fallo algorítmico.",
+        "Prob. (1–3)": "2",
+        "Impacto (1–3)": "3",
+        "Nivel": "alto"
+      },
+      {
+        "Derecho": "privacidad",
+        "Pregunta guía": "¿Están los datos personales protegidos contra accesos no autorizados?",
+        "Respuesta": "Sí, pero una vulnerabilidad en el almacenamiento temporal de los PDFs podría exponer nombres, cédulas y direcciones.",
+        "Riesgo": "Fuga de información personal.",
+        "Prob. (1–3)": "1",
+        "Impacto (1–3)": "3",
+        "Nivel": "medio"
+      }
+    ],
+    "tablaMatrizRiesgos": [
+      {
+        "ID": "R-01",
+        "Descripción": "El OCR falla más con imágenes de baja calidad, discriminando a ciudadanos con dispositivos de gama baja.",
+        "Categoría": "equidad",
+        "Prob.": "3",
+        "Impacto": "3",
+        "Punt. (P×I)": "9",
+        "Nivel": "alto",
+        "Controles": "Prohibición de rechazo automático. Casos con confianza <90% o baja calidad de imagen se derivan a un humano."
+      },
+      {
+        "ID": "R-02",
+        "Descripción": "El modelo se entrena con un sesgo hacia recibos de un solo proveedor (ej. Enel), fallando con otros formatos.",
+        "Categoría": "robustez",
+        "Prob.": "2",
+        "Impacto": "2",
+        "Punt. (P×I)": "4",
+        "Nivel": "medio",
+        "Controles": "Exigencia de un Data Sheet que certifique un dataset de entrenamiento balanceado con todos los proveedores y formatos."
+      },
+      {
+        "ID": "R-03",
+        "Descripción": "Exposición de datos personales si el almacenamiento temporal de los PDFs no es seguro.",
+        "Categoría": "privacidad",
+        "Prob.": "1",
+        "Impacto": "3",
+        "Punt. (P×I)": "3",
+        "Nivel": "medio",
+        "Controles": "Implementación de política de retención mínima (eliminación automática tras validación) y cifrado en reposo."
+      }
+    ],
+    "tablaMedidasMitigacion": [],
+    "tablaMonitoreoKPIs": [],
+    "tablaAuditoriaActualizaciones": []
+  }
+}

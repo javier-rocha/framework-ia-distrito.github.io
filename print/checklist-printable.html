@@ -165,7 +165,7 @@
                     showMessage("Error: Los datos para impresión no son válidos (falta el proveedor o las puntuaciones).", 'error');
                     return;
                 }
-                const { scoreBruta, scorePonderada } = calculateScore(data.puntuaciones);
+                const { scoreBruta, scorePonderada } = calculateScore(data.puntuaciones, data.checklistAplicado);
                 renderChecklist(data, scoreBruta, scorePonderada);
                 showMessage("Checklist cargado y cálculos completados exitosamente.", 'success');
                 // Limpiar los datos después de usarlos para no cargarlos de nuevo en futuras visitas.
@@ -206,6 +206,41 @@
         "6.1": "Acuerdos de Nivel de Servicio (SLA)",
         "6.2": "Soporte Técnico y Transferencia de Conocimiento",
         "6.3": "Gestión de Cambios y Roadmap"
+    };
+
+    // Definición de criterios por versión (necesario para el cálculo)
+    const versionesChecklist = {
+        'basico': {
+            nombre: 'Checklist Básico',
+            descripcion: 'Para Riesgo Mínimo/Limitado - 15 criterios críticos',
+            criterios: ['1.1', '1.2', '2.1', '3.1', '3.2', '3.3', '3.4', '4.1', '4.2', '4.3', '5.1', '5.2', '6.1', '6.2', '6.3'],
+            criteriosMandatorios: ['1.1', '3.2', '4.1', '6.1']
+        },
+        'estandar': {
+            nombre: 'Checklist Estándar', 
+            descripcion: 'Para Riesgo Alto - ~19 criterios',
+            criterios: ['1.1', '1.2', '1.3', '1.4', '2.1', '2.2', '2.3', '3.1', '3.2', '3.3', '3.4', '4.1', '4.2', '4.3', '5.1', '5.2', '6.1', '6.2', '6.3'],
+            criteriosMandatorios: ['1.1', '3.2', '4.1', '6.1']
+        },
+        'reforzado': {
+            nombre: 'Checklist Reforzado',
+            descripcion: 'Para Riesgo Inaceptable/Crítico - Estándar + criterios adicionales',
+            criterios: ['1.1', '1.2', '1.3', '1.4', '2.1', '2.2', '2.3', '3.1', '3.2', '3.3', '3.4', '4.1', '4.2', '4.3', '5.1', '5.2', '6.1', '6.2', '6.3', '7.1', '7.2', '7.3', '7.4'],
+            criteriosMandatorios: ['1.1', '3.2', '4.1', '6.1', '7.1', '7.2']
+        }
+    };
+
+    // Pesos por versión y sección (necesario para el cálculo)
+    const pesosVersiones = {
+        'basico': {
+            '1': 0.30, '2': 0, '3': 0.35, '4': 0.20, '5': 0, '6': 0.15, '7': 0
+        },
+        'estandar': {
+            '1': 0.25, '2': 0.20, '3': 0.20, '4': 0.20, '5': 0.10, '6': 0.15, '7': 0
+        },
+        'reforzado': {
+            '1': 0.20, '2': 0.15, '3': 0.15, '4': 0.15, '5': 0.10, '6': 0.10, '7': 0.15
+        }
     };
 
     /**
@@ -263,29 +298,45 @@
     /**
      * Realiza el cálculo de la Puntuación Bruta y Ponderada.
      */
-    function calculateScore(puntuaciones) {
-        let scoreBruta = 0;
-        let scorePonderada = 0;
-        let totalCriteria = 0;
+    function calculateScore(puntuaciones, version) {
+        const versionSeleccionada = version || 'estandar';
+        const versionInfo = versionesChecklist[versionSeleccionada];
+        const pesos = pesosVersiones[versionSeleccionada];
 
-        for (const cat in checklistDefinition) {
-            const section = checklistDefinition[cat];
-            const numCriteria = section.criteria.length;
-            const criterionWeight = section.weight / numCriteria; // Peso equitativo por criterio dentro de la sección
-            
-            for (const id of section.criteria) {
-                const score = puntuaciones[id] !== undefined ? puntuaciones[id] : 0; // Asumir 0 si falta
-                scoreBruta += score;
-                scorePonderada += score * criterionWeight;
-                totalCriteria++;
+        let sumaBruta = 0;
+        let totalPonderado = 0;
+        let totalPeso = 0;
+        let maxScoreBruta = 0;
+
+        const seccionesActivas = [...new Set(versionInfo.criterios.map(c => c.split('.')[0]))];
+
+        seccionesActivas.forEach(seccionId => {
+            let sumaSeccion = 0;
+            let maxSeccion = 0;
+
+            versionInfo.criterios
+                .filter(criterio => criterio.startsWith(seccionId + '.'))
+                .forEach(criterioId => {
+                    const score = puntuaciones[criterioId] !== undefined ? puntuaciones[criterioId] : 0;
+                    sumaSeccion += score;
+                    maxSeccion += 2;
+                });
+
+            sumaBruta += sumaSeccion;
+            maxScoreBruta += maxSeccion;
+
+            if (maxSeccion > 0 && pesos[seccionId] > 0) {
+                const porcentaje = (sumaSeccion / maxSeccion) * 100;
+                totalPonderado += (porcentaje / 10) * pesos[seccionId];
+                totalPeso += pesos[seccionId];
             }
-        }
+        });
 
-        // El máximo teórico de scoreBruta es 2 * 19 criterios = 38
-        // La puntuación ponderada se redondea a 3 decimales para el reporte.
+        const scorePonderadaFinal = totalPeso > 0 ? (totalPonderado / totalPeso).toFixed(1) : 0;
+
         return {
-            scoreBruta: scoreBruta,
-            scorePonderada: parseFloat(scorePonderada.toFixed(3))
+            scoreBruta: `${sumaBruta}/${maxScoreBruta}`,
+            scorePonderada: `${scorePonderadaFinal}/10`
         };
     }
 
@@ -358,8 +409,8 @@
         container.innerHTML = html;
 
         // --- 4. Mostrar Resultados de Cálculo ---
-        document.getElementById('scoreBruta').textContent = `${scoreBruta}/38`;
-        document.getElementById('scorePonderada').textContent = `${scorePonderada}/2.0`;
+        document.getElementById('scoreBruta').textContent = scoreBruta;
+        document.getElementById('scorePonderada').textContent = scorePonderada;
         document.getElementById('calculation-results').style.display = 'block';
 
         // --- 5. Llenar campos de Aprobación Final y Evaluadores ---

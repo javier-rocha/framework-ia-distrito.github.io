@@ -1,0 +1,234 @@
+{
+  "metadata": {
+    "fechaExportacion": "2025-11-22T14:00:00Z",
+    "versionFormulario": "1.2"
+  },
+  "campos": {
+    "entidad": "Secretaría Distrital de Seguridad, Convivencia y Justicia",
+    "unidad": "Dirección de Seguridad y Convivencia",
+    "titulo": "Sistema Automatizado de Registro de Objeciones de Comparendos (CNSCC)",
+    "responsable": "Director de Seguridad y Convivencia",
+    "responsableTecnico": "Líder de Desarrollo e Innovación",
+    "fechaElaboracion": "2025-11-20",
+    "version": "1.0",
+    "descripcionTecnica": "Asistente virtual (Chatbot) con capacidades de NLP para guiar al ciudadano en el proceso de objeción, validar requisitos legales en tiempo real, clasificar automáticamente el tipo de objeción y registrar la solicitud.",
+    "finalidad": "Automatizar el registro y clasificación de objeciones a comparendos, reduciendo la fricción administrativa, mejorando la experiencia ciudadana y garantizando la disponibilidad 24/7 del servicio.",
+    "baseLegal": "Código Nacional de Seguridad y Convivencia Ciudadana (Ley 1801 de 2016), Ley 1581 de 2012 (Protección de Datos Personales).",
+    "poblacion": "Ciudadanos en Bogotá D.C. que deseen objetar un comparendo del CNSCC.",
+    "casosPermitidos": "Asistir al ciudadano en el registro estructurado de su objeción, clasificar preliminarmente el tipo de objeción, extraer y validar datos obligatorios, y generar radicado automático.",
+    "casosNoPermitidos": "Tomar decisiones automatizadas sobre la procedencia o rechazo de las objeciones, crear perfiles de 'ciudadanos objetores frecuentes' para vigilancia, inferir información no relacionada con el trámite.",
+    "tipoDecisiones": "recomendacion",
+    "contextoUso": "El sistema opera como un canal de atención 24/7 para el registro de objeciones. La clasificación que realiza es preliminar y está sujeta a revisión humana obligatoria.",
+    "nombreDataset": "OBJECIONES_BOG_TRAINING_V1",
+    "origenDataset": "Historial anonimizado de objeciones a comparendos recibidas a través del sistema PQRSD y canales presenciales durante los últimos 3 años.",
+    "motivacionDataset": "Entrenar un modelo de NLP capaz de comprender y clasificar las narrativas de los ciudadanos en el contexto de las objeciones al CNSCC.",
+    "recoleccionDataset": "Extracción de registros históricos y transcripción de objeciones verbales (con consentimiento) para enriquecer el corpus.",
+    "limpiezaDataset": "Anonimización mediante técnicas de de-identification, eliminación de duplicados, normalización de texto y corrección de errores ortográficos comunes.",
+    "usosPrevistosDataset": "Exclusivamente para entrenar y mejorar el modelo de clasificación de objeciones y comprensión de lenguaje natural.",
+    "usosNoPrevistosDataset": "Crear perfiles de ciudadanos, predecir infracciones futuras, compartir con otras entidades para fines distintos al servicio de objeciones.",
+    "baseLegalPrincipal": "ejercicio-funciones",
+    "basesLegalesComplementarias": "El tratamiento de datos es necesario para el cumplimiento de una función legal de la entidad, que es garantizar el debido proceso en el trámite de objeciones.",
+    "consentimientoExplicito": "si",
+    "mecanismoConsentimiento": "Aviso de privacidad claro al inicio de la conversación, donde el usuario debe aceptar los términos para continuar. El aviso informa que interactúa con una IA y el propósito del tratamiento de sus datos.",
+    "alternativasSinConsentimiento": "El ciudadano puede utilizar el canal tradicional presencial en las oficinas de la secretaría, que se mantiene activo y disponible.",
+    "mecanismosIntervencion": "Protocolo 'Human-in-the-loop' obligatorio. Todas las objeciones son revisadas por un funcionario humano antes de tomar cualquier decisión jurídica.",
+    "criteriosEscalamiento": "Cualquier caso donde la confianza de la clasificación del modelo sea inferior al 85% se deriva automáticamente a la bandeja de atención humana. El ciudadano también puede solicitarlo en cualquier momento.",
+    "rolesResponsables": "Inspectores de Policía y funcionarios administrativos revisan las objeciones pre-clasificadas, validan la coherencia y tienen la autoridad para sobreescribir la clasificación de la IA.",
+    "frecuenciaRevision": "tiempo-real",
+    "procedimientoDesacuerdo": "El ciudadano puede hacer clic en un botón 'Hablar con un funcionario' en cualquier momento. Si ya finalizó, puede radicar una PQR específica para 'Problemas con el chatbot', que escala el caso para revisión.",
+    "mensajesAviso": "Primer mensaje: 'Soy un asistente virtual automatizado... Un funcionario revisará su caso posteriormente'. Mensaje final: 'Su objeción ha sido clasificada preliminarmente como [TIPO]... Esta clasificación puede ser ajustada por el funcionario'.",
+    "documentosPublicados": "Versión ciudadana simplificada de la Model Card y política de privacidad específica del chatbot en el portal web de la entidad.",
+    "canalesConsulta": "Línea de soporte técnico (extensión del call center distrital) y sección de 'Preguntas Frecuentes' en el portal web.",
+    "canalesReporte": "Categoría específica en el sistema PQRSD para 'Problemas con el chatbot de objeciones'.",
+    "planDivulgacion": "Campaña masiva de divulgación en redes sociales, portal web y mensajes en las notificaciones de comparendos físicos.",
+    "evaluacionDPO": "Aprobado. Se certifica que el diseño cumple con la Ley 1581, implementa privacidad por diseño (minimización y retención temporal) y el DPA con el proveedor es robusto.",
+    "evaluacionResponsableTecnico": "Viable. Las pruebas de equidad (DIR > 0.9) y robustez (resistencia a prompt injection) son satisfactorias. El umbral de confianza del 85% para derivación a humano es adecuado.",
+    "evaluacionJuridica": "Conforme. El sistema actúa como asistente y no toma la decisión final, preservando el debido proceso. El mantenimiento del canal presencial garantiza el acceso universal.",
+    "decisionComiteIA": "aprobado-condiciones",
+    "fechaAprobacion": "2025-11-22",
+    "condicionesReservas": "Aprobado para despliegue, condicionado a un monitoreo intensivo (hypercare) de métricas de equidad durante las primeras 8 semanas y reportes quincenales al Comité.",
+    "fechaProximaRevision": "2026-02-22"
+  },
+  "tablas": {
+    "tablaMapeoDatos": [
+      {
+        "Categoría": "identificacion",
+        "Tipo de dato": "texto",
+        "Fuente": "Ciudadano",
+        "Dato personal": "si",
+        "Base de licitud": "obligacion",
+        "Finalidad": "Identificar al objetante del comparendo.",
+        "Técnicas": "recopilacion",
+        "Sesgos": "N/A",
+        "Observaciones": "Dato obligatorio para el trámite."
+      },
+      {
+        "Categoría": "demografico",
+        "Tipo de dato": "texto",
+        "Fuente": "Ciudadano",
+        "Dato personal": "si",
+        "Base de licitud": "obligacion",
+        "Finalidad": "Identificar la localidad de los hechos.",
+        "Técnicas": "recopilacion",
+        "Sesgos": "Posible sesgo de representación si el modelo se entrena con datos no balanceados por localidad.",
+        "Observaciones": "Se usa como proxy para monitorear equidad."
+      },
+      {
+        "Categoría": "comportamiento",
+        "Tipo de dato": "texto",
+        "Fuente": "Ciudadano",
+        "Dato personal": "no",
+        "Base de licitud": "interes",
+        "Finalidad": "Clasificar el tipo de objeción según la narrativa.",
+        "Técnicas": "analitica",
+        "Sesgos": "Riesgo de sesgo lingüístico si el modelo no entiende jergas o lenguaje coloquial.",
+        "Observaciones": "Corazón del modelo de NLP."
+      }
+    ],
+    "tablaImpactosDerechos": [
+      {
+        "Derecho": "debido-proceso",
+        "Pregunta guía": "¿Podría el sistema impedir o dificultar el acceso a la justicia administrativa?",
+        "Respuesta": "Sí, si el bot da un mal consejo, no entiende un argumento válido o falla técnicamente, podría desincentivar al ciudadano a ejercer su derecho a la objeción.",
+        "Riesgo": "Denegación de acceso al debido proceso por fallas del sistema.",
+        "Prob. (1–3)": "2",
+        "Impacto (1–3)": "3",
+        "Nivel": "alto"
+      },
+      {
+        "Derecho": "igualdad",
+        "Pregunta guía": "¿Podría el sistema funcionar peor para ciertos grupos de personas?",
+        "Respuesta": "Sí, el modelo de NLP podría malinterpretar lenguaje coloquial o jerga de ciertas zonas o niveles educativos, resultando en clasificaciones erróneas y una barrera de acceso.",
+        "Riesgo": "Discriminación indirecta por sesgo algorítmico lingüístico.",
+        "Prob. (1–3)": "3",
+        "Impacto (1–3)": "3",
+        "Nivel": "alto"
+      },
+      {
+        "Derecho": "privacidad",
+        "Pregunta guía": "¿Están los datos personales protegidos contra accesos no autorizados?",
+        "Respuesta": "Sí, pero existen riesgos inherentes a cualquier sistema digital. Una vulnerabilidad podría exponer datos de comparendos e infracciones de los ciudadanos.",
+        "Riesgo": "Fuga de información personal y administrativa.",
+        "Prob. (1–3)": "1",
+        "Impacto (1–3)": "3",
+        "Nivel": "medio"
+      }
+    ],
+    "tablaMatrizRiesgos": [
+      {
+        "ID": "R-01",
+        "Descripción": "Sesgo algorítmico lingüístico que causa clasificaciones erróneas para grupos demográficos específicos.",
+        "Categoría": "equidad",
+        "Prob.": "3",
+        "Impacto": "3",
+        "Punt. (P×I)": "9",
+        "Nivel": "alto",
+        "Controles": "Dataset de entrenamiento rebalanceado, auditorías de equidad, umbral de confianza para derivación a humano."
+      },
+      {
+        "ID": "R-02",
+        "Descripción": "Exclusión de ciudadanos con baja alfabetización digital o discapacidades.",
+        "Categoría": "gobernanza",
+        "Prob.": "2",
+        "Impacto": "3",
+        "Punt. (P×I)": "6",
+        "Nivel": "alto",
+        "Controles": "Mantenimiento del canal presencial como alternativa, diseño accesible (WCAG 2.1 AA), botón 'Hablar con funcionario'."
+      },
+      {
+        "ID": "R-03",
+        "Descripción": "Caída del sistema que impide radicar objeciones antes de la fecha límite legal.",
+        "Categoría": "robustez",
+        "Prob.": "2",
+        "Impacto": "2",
+        "Punt. (P×I)": "4",
+        "Nivel": "medio",
+        "Controles": "Infraestructura cloud con auto-scaling y redundancia en múltiples zonas de disponibilidad."
+      }
+    ],
+    "tablaMedidasMitigacion": [
+      {
+        "ID": "M-01",
+        "Medida": "Implementar auditorías de sesgo lingüístico y enriquecer el corpus con transcripciones de objeciones verbales.",
+        "Tipo": "tecnico",
+        "Responsable": "Líder de Innovación y Tecnología",
+        "Plazo": "2026-03-30",
+        "Estado": "planificado",
+        "Indicador": "Disparate Impact Ratio (DIR) > 0.8",
+        "Comentarios": "Crítico para mitigar el riesgo R-01."
+      },
+      {
+        "ID": "M-02",
+        "Medida": "Mantener activo y promocionado el canal de atención presencial como alternativa al chatbot.",
+        "Tipo": "organizativo",
+        "Responsable": "Director de Seguridad y Convivencia",
+        "Plazo": "2026-01-15",
+        "Estado": "implementado",
+        "Indicador": "Número de atenciones presenciales registradas.",
+        "Comentarios": "Mitiga el riesgo de exclusión digital (R-02)."
+      },
+      {
+        "ID": "M-03",
+        "Medida": "Implementar cifrado end-to-end en las conversaciones y política de retención mínima de datos (90 días).",
+        "Tipo": "tecnico",
+        "Responsable": "Oficial de Seguridad de la Información (CISO)",
+        "Plazo": "2026-01-15",
+        "Estado": "implementado",
+        "Indicador": "Reporte de pentesting anual sin hallazgos críticos.",
+        "Comentarios": "Mitiga riesgos de privacidad."
+      }
+    ],
+    "tablaMonitoreoKPIs": [
+      {
+        "Categoría": "equidad",
+        "Indicador": "Disparate Impact Ratio (DIR)",
+        "Definición": "Compara la tasa de clasificación correcta entre el grupo de referencia (localidades estrato alto) y grupos protegidos (estrato bajo/medio).",
+        "Fórmula": "Tasa de éxito (grupo protegido) / Tasa de éxito (grupo de referencia)",
+        "Valor objetivo": ">= 0.8",
+        "Valor actual": "0.95 (en pruebas)",
+        "Frecuencia": "mensual",
+        "Responsable": "Comité de IA"
+      },
+      {
+        "Categoría": "rendimiento",
+        "Indicador": "Tasa de Completitud de Registro",
+        "Definición": "Porcentaje de usuarios que inician la conversación y completan exitosamente el registro.",
+        "Fórmula": "(Registros completados / Conversaciones iniciadas) * 100",
+        "Valor objetivo": ">= 85%",
+        "Valor actual": "88% (en piloto)",
+        "Frecuencia": "diaria",
+        "Responsable": "Responsable Técnico"
+      },
+      {
+        "Categoría": "privacidad",
+        "Indicador": "Incidentes de Privacidad",
+        "Definición": "Número de fugas de datos o accesos no autorizados confirmados.",
+        "Fórmula": "Conteo de incidentes",
+        "Valor objetivo": "0",
+        "Valor actual": "0",
+        "Frecuencia": "tiempo-real",
+        "Responsable": "DPO"
+      }
+    ],
+    "tablaAuditoriaActualizaciones": [
+      {
+        "Tipo": "externa",
+        "Alcance": "Auditoría de cumplimiento de Ley 1581, DPA con proveedor, y efectividad de controles de seguridad.",
+        "Frecuencia": "anual",
+        "Fecha próxima": "2026-12-01",
+        "Responsable": "Oficina de Control Interno",
+        "Hallazgos": "N/A (primera auditoría programada).",
+        "Acción": "N/A"
+      },
+      {
+        "Tipo": "interna",
+        "Alcance": "Revisión trimestral de métricas de equidad (DIR) y rendimiento del modelo (drift).",
+        "Frecuencia": "trimestral",
+        "Fecha próxima": "2026-03-30",
+        "Responsable": "Comité de IA",
+        "Hallazgos": "N/A",
+        "Acción": "Decidir sobre mantenimiento, mejora o re-entrenamiento del modelo."
+      }
+    ]
+  }
+}

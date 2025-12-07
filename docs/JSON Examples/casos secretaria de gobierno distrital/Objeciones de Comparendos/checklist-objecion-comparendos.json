@@ -1,0 +1,71 @@
+{
+  "proveedor": "NLP Solutions Latam",
+  "casoUso": "Sistema Automatizado de Registro de Objeciones de Comparendos",
+  "nivelRiesgo": "limitado",
+  "checklistAplicado": "estandar",
+  "puntuaciones": {
+    "1.1": 2,
+    "1.2": 2,
+    "1.3": 0,
+    "1.4": 0,
+    "2.1": 2,
+    "2.2": 2,
+    "2.3": 2,
+    "3.1": 2,
+    "3.2": 2,
+    "3.3": 0,
+    "3.4": 0,
+    "4.1": 2,
+    "4.2": 2,
+    "4.3": 0,
+    "5.1": 2,
+    "5.2": 0,
+    "6.1": 2,
+    "6.2": 0,
+    "6.3": 0
+  },
+  "evidencias": {
+    "1.1": "Proveedor presenta certificación donde se reconoce como 'Encargado del Tratamiento' y acepta seguir instrucciones del Distrito como 'Responsable', alineado con Ley 1581.",
+    "1.2": "El proveedor tiene una política de IA Responsable pública y formalizada en su sitio web.",
+    "2.1": "Se estableció como requisito habilitante la entrega de Model Card y Data Sheet del corpus de pre-entrenamiento.",
+    "2.2": "El proveedor entregó el Data Sheet del corpus con el que fue pre-entrenado el modelo base.",
+    "2.3": "El proveedor proporcionó acceso a logs de predicciones y explicabilidad de las clasificaciones.",
+    "3.1": "El contrato define claramente la titularidad de todos los datos y metadatos generados.",
+    "3.2": "Se incluye en el contrato un Data Processing Agreement (DPA) robusto que detalla las obligaciones del proveedor.",
+    "4.1": "Proveedor presenta certificación ISO 27001 vigente y reportes de auditoría SOC 2 Tipo II.",
+    "4.2": "Proveedor demuestra pruebas de resistencia a ataques de prompt injection, con filtros que bloquean el 98% de los intentos.",
+    "5.1": "Cláusula contractual explícita que permite al Distrito inspeccionar logs, métricas y clasificaciones sin que el proveedor pueda alegar secreto comercial.",
+    "6.1": "El contrato incluye SLAs que penalizan la caída del sistema (uptime > 99.5%) y la degradación de la precisión del modelo por debajo del 90%."
+  },
+  "criteriosMandatorios": [
+    {
+      "id": "1.1",
+      "cumplido": true
+    },
+    {
+      "id": "3.2",
+      "cumplido": true
+    },
+    {
+      "id": "4.1",
+      "cumplido": true
+    },
+    {
+      "id": "6.1",
+      "cumplido": true
+    }
+  ],
+  "resultadoMandatorios": "cumple",
+  "dictamenFinal": "recomendado",
+  "observaciones": "El proveedor cumple con todos los criterios mandatorios para un sistema de Riesgo Limitado. Se destaca su transparencia técnica al entregar la documentación del modelo y su alineación con la normativa de protección de datos colombiana. Se recomienda proceder con la contratación, asegurando que las cláusulas de auditoría y los SLAs de precisión queden firmes en el contrato final.",
+  "evaluadores": {
+    "responsableTecnico": "Líder de Desarrollo e Innovación",
+    "fechaTecnico": "15/11/2025",
+    "dpoJuridica": "Oficial de Protección de Datos (DPO)",
+    "fechaDpo": "18/11/2025",
+    "comiteIa": "Presidente del Comité de IA",
+    "fechaComite": "20/11/2025"
+  },
+  "fechaExportacion": "2025-11-20T15:00:00Z",
+  "versionChecklist": "2.0"
+}

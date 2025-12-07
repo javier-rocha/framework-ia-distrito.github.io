@@ -25,7 +25,7 @@
       "type": "object",
       "description": "Puntuación numérica asignada a cada criterio de la checklist (ej. 1: No cumple, 2: Cumple).",
       "patternProperties": {
-        "^[0-9]\\.[0-9]$": {
+        "^\\d\\.\\d+$": {
           "type": "integer",
           "minimum": 0,
           "maximum": 2
@@ -37,7 +37,7 @@
       "type": "object",
       "description": "Descripción de la evidencia presentada para cada criterio.",
       "patternProperties": {
-        "^[0-9]\\.[0-9]$": {
+        "^\\d\\.\\d+$": {
           "type": "string"
         }
       },
