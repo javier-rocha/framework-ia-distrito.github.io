@@ -81,7 +81,8 @@
         },
         "tipoDecisiones": {
           "type": "string",
-          "description": "Tipo de decisión que toma el sistema (e.g., recomendacion)."
+          "description": "Tipo de decisión que toma el sistema (e.g., recomendacion).",
+          "enum": ["info", "recomendacion", "decision"]
         },
         "contextoUso": {
           "type": "string",
@@ -117,7 +118,8 @@
         },
         "baseLegalPrincipal": {
           "type": "string",
-          "description": "Base legal principal para el tratamiento de datos."
+          "description": "Base legal principal para el tratamiento de datos.",
+          "enum": ["consentimiento", "interes-publico", "obligacion-legal", "contrato", "interes-vital", "interes-legitimo", "ejercicio-funciones"]
         },
         "basesLegalesComplementarias": {
           "type": "string",
@@ -150,7 +152,8 @@
         },
         "frecuenciaRevision": {
           "type": "string",
-          "description": "Frecuencia de la revisión humana."
+          "description": "Frecuencia de la revisión humana.",
+          "enum": ["tiempo-real", "diaria", "semanal", "mensual", "trimestral", "muestra-aleatoria"]
         },
         "procedimientoDesacuerdo": {
           "type": "string",
@@ -190,7 +193,7 @@
         },
         "decisionComiteIA": {
           "type": "string",
-          "enum": ["aprobado", "rechazado", "condicional"],
+          "enum": ["aprobado", "aprobado-condiciones", "rechazado", "pendiente"],
           "description": "Decisión final del Comité de IA."
         },
         "fechaAprobacion": {
@@ -236,11 +239,13 @@
             "properties": {
               "Categoría": {
                 "type": "string",
-                "description": "Categoría del dato (e.g., identificacion, contacto)."
+                "description": "Categoría del dato (e.g., identificacion, contacto).",
+                "enum": ["identificacion", "contacto", "demografico", "comportamiento", "transaccional", "biometrico", "ubicacion", "preferencias"]
               },
               "Tipo de dato": {
                 "type": "string",
-                "description": "Formato del dato (e.g., texto, numerico)."
+                "description": "Formato del dato (e.g., texto, numerico).",
+                "enum": ["texto", "numero", "fecha", "booleano", "categorico", "imagen", "audio", "video"]
               },
               "Fuente": {
                 "type": "string",
@@ -253,7 +258,8 @@
               },
               "Base de licitud": {
                 "type": "string",
-                "description": "Base legal de licitud para el tratamiento."
+                "description": "Base legal de licitud para el tratamiento.",
+                "enum": ["consentimiento", "interes", "obligacion", "contrato", "vital", "legitimo"]
               },
               "Finalidad": {
                 "type": "string",
@@ -261,7 +267,8 @@
               },
               "Técnicas": {
                 "type": "string",
-                "description": "Técnicas de procesamiento aplicadas."
+                "description": "Técnicas de procesamiento aplicadas.",
+                "enum": ["recopilacion", "procesamiento", "analitica", "agregacion", "anonimizacion", "seudonimizacion"]
               },
               "Sesgos": {
                 "type": "string",
@@ -286,7 +293,8 @@
             "properties": {
               "Derecho": {
                 "type": "string",
-                "description": "Derecho fundamental evaluado (e.g., privacidad, igualdad)."
+                "description": "Derecho fundamental evaluado (e.g., privacidad, igualdad).",
+                "enum": ["privacidad", "igualdad", "debido-proceso", "acceso-servicios", "libertad-expresion", "proteccion-menores", "otros"]
               },
               "Pregunta guía": {
                 "type": "string",
@@ -301,11 +309,11 @@
                 "description": "Descripción del riesgo potencial."
               },
               "Prob. (1–3)": {
-                "type": "string",
+                "type": ["string", "number"],
                 "description": "Puntuación de probabilidad del riesgo (1 a 3)."
               },
               "Impacto (1–3)": {
-                "type": "string",
+                "type": ["string", "number"],
                 "description": "Puntuación de impacto del riesgo (1 a 3)."
               },
               "Nivel": {
@@ -336,18 +344,19 @@
               },
               "Categoría": {
                 "type": "string",
-                "description": "Categoría del riesgo (e.g., equidad, seguridad)."
+                "description": "Categoría del riesgo (e.g., equidad, seguridad).",
+                "enum": ["privacidad", "equidad", "seguridad", "transparencia", "rendicion-cuentas", "robustez", "gobernanza"]
               },
               "Prob.": {
-                "type": "string",
+                "type": ["string", "number"],
                 "description": "Puntuación de probabilidad (1 a 3)."
               },
               "Impacto": {
-                "type": "string",
+                "type": ["string", "number"],
                 "description": "Puntuación de impacto (1 a 3)."
               },
               "Punt. (P×I)": {
-                "type": "string",
+                "type": ["string", "number"],
                 "description": "Puntuación total del riesgo (Probabilidad × Impacto)."
               },
               "Nivel": {
@@ -396,7 +405,7 @@
               },
               "Estado": {
                 "type": "string",
-                "enum": ["implementado", "en_curso", "pendiente"],
+                "enum": ["planificado", "en_curso", "implementado"],
                 "description": "Estado actual de la medida."
               },
               "Indicador": {
@@ -422,7 +431,8 @@
             "properties": {
               "Categoría": {
                 "type": "string",
-                "description": "Categoría del indicador (e.g., equidad, rendimiento)."
+                "description": "Categoría del indicador (e.g., equidad, rendimiento).",
+                "enum": ["tecnica", "equidad", "privacidad", "rendimiento", "seguridad", "calidad-datos"]
               },
               "Indicador": {
                 "type": "string",
@@ -446,7 +456,8 @@
               },
               "Frecuencia": {
                 "type": "string",
-                "description": "Frecuencia de medición."
+                "description": "Frecuencia de medición.",
+                "enum": ["tiempo-real", "diaria", "semanal", "mensual", "trimestral"]
               },
               "Responsable": {
                 "type": "string",
@@ -476,7 +487,8 @@
               },
               "Frecuencia": {
                 "type": "string",
-                "description": "Frecuencia de la auditoría."
+                "description": "Frecuencia de la auditoría.",
+                "enum": ["anual", "semestral", "trimestral", "mensual", "evento"]
               },
               "Fecha próxima": {
                 "type": "string",

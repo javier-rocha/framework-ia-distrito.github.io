@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Esquema de Matriz de Riesgos de Sistemas de IA",
+  "title": "Esquema de Matriz de Riesgos de IA",
   "type": "object",
   "properties": {
     "fechaExportacion": {
@@ -10,7 +10,7 @@
     },
     "riesgos": {
       "type": "array",
-      "description": "Lista de riesgos identificados y evaluados.",
+      "description": "Lista de riesgos registrados en la matriz.",
       "items": {
         "type": "object",
         "properties": {
@@ -20,70 +20,84 @@
           },
           "descripcion": {
             "type": "string",
-            "description": "Descripción detallada del riesgo."
+            "description": "Descripción detallada del riesgo identificado."
           },
           "categoria": {
             "type": "string",
-            "enum": ["Privacidad", "Equidad", "Seguridad", "Transparencia", "Rendición de cuentas"],
-            "description": "Categoría principal del riesgo."
+            "description": "Categoría a la que pertenece el riesgo.",
+            "enum": [
+              "Privacidad",
+              "Equidad",
+              "Seguridad",
+              "Transparencia",
+              "Rendición de cuentas",
+              "Continuidad del servicio",
+              "Cumplimiento",
+              "Reputación"
+            ]
           },
           "dimension": {
             "type": "string",
-            "description": "Dimensión de la afectación (e.g., derechos, confianza)."
+            "description": "Dimensión principal de impacto del riesgo.",
+            "enum": [
+              "Derechos y libertades fundamentales",
+              "Equidad y no discriminación",
+              "Continuidad y calidad del servicio",
+              "Seguridad y ciberseguridad",
+              "Reputación y confianza pública",
+              "Cumplimiento regulatorio"
+            ]
           },
           "probabilidad": {
             "type": "integer",
-            "minimum": 1,
-            "maximum": 3,
-            "description": "Puntuación de probabilidad (1 a 3)."
+            "description": "Nivel de probabilidad de ocurrencia del riesgo (1-3).",
+            "enum": [1, 2, 3]
           },
           "impacto": {
             "type": "integer",
-            "minimum": 1,
-            "maximum": 3,
-            "description": "Puntuación de impacto (1 a 3)."
+            "description": "Nivel de impacto si el riesgo se materializa (1-3).",
+            "enum": [1, 2, 3]
           },
           "calificacion": {
             "type": "integer",
-            "description": "Puntuación total del riesgo (Probabilidad x Impacto)."
+            "description": "Calificación del riesgo calculada como Probabilidad × Impacto."
           },
           "nivelRiesgo": {
             "type": "object",
-            "description": "Detalles del nivel de riesgo resultante.",
+            "description": "Nivel de riesgo resultante y su clase CSS asociada.",
             "properties": {
               "nivel": {
                 "type": "string",
-                "enum": ["Bajo", "Medio", "Alto"],
-                "description": "Nivel de riesgo resultante."
+                "enum": ["Bajo", "Medio", "Alto"]
               },
               "clase": {
                 "type": "string",
-                "description": "Clase de estilo o etiqueta asociada al nivel de riesgo."
+                "enum": ["risk-level-bajo", "risk-level-medio", "risk-level-alto"]
               }
             },
             "required": ["nivel", "clase"]
           },
           "controles": {
             "type": "string",
-            "description": "Controles y medidas de mitigación principales implementadas."
+            "description": "Descripción de los controles existentes para mitigar el riesgo."
           },
           "efectividad": {
             "type": "string",
-            "enum": ["Baja", "Media", "Alta"],
-            "description": "Efectividad percibida de los controles actuales."
+            "description": "Efectividad de los controles existentes.",
+            "enum": ["Alta", "Media", "Baja", "No aplica"]
           },
           "adicional": {
             "type": "string",
-            "description": "Medidas de mitigación o monitoreo adicionales recomendadas."
+            "description": "Descripción de los controles adicionales propuestos."
           },
           "responsable": {
             "type": "string",
-            "description": "Rol o persona responsable de la mitigación del riesgo."
+            "description": "Nombre o rol del responsable de gestionar el riesgo."
           },
           "estado": {
             "type": "string",
-            "enum": ["Pendiente", "En progreso", "Mitigado"],
-            "description": "Estado actual de la mitigación del riesgo."
+            "description": "Estado actual de la gestión del riesgo.",
+            "enum": ["Pendiente", "En progreso", "Mitigado", "Aceptado", "Cerrado"]
           }
         },
         "required": [

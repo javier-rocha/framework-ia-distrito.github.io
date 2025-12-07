@@ -26,11 +26,12 @@
     },
     "modeloFechaActualizacion": {
       "type": "string",
+      "format": "date",
       "description": "Fecha de la última actualización."
     },
     "modeloEstado": {
       "type": "string",
-      "enum": ["desarrollo", "pruebas", "produccion", "retirado"],
+      "enum": ["desarrollo", "pruebas", "produccion", "mantenimiento", "retirado"],
       "description": "Estado actual del ciclo de vida del modelo."
     },
     "modeloObjetivo": {
@@ -55,7 +56,7 @@
     },
     "modeloTipo": {
       "type": "string",
-      "enum": ["nlp", "vision", "clasificacion", "prediccion"],
+      "enum": ["clasificacion", "regresion", "clustering", "nlp", "vision", "recomendacion", "otros"],
       "description": "Tipo general del sistema de IA (e.g., NLP, visión)."
     },
     "modeloAlgoritmo": {
@@ -219,7 +220,8 @@
         "type": "object",
         "properties": {
           "Tipo de Riesgo": {
-            "type": "string"
+            "type": "string",
+            "enum": ["tecnico", "operativo", "etico", "social", "legal"]
           },
           "Descripción": {
             "type": "string"
@@ -248,7 +250,8 @@
         "type": "object",
         "properties": {
           "Tipo de Control": {
-            "type": "string"
+            "type": "string",
+            "enum": ["supervision", "monitoreo", "alerta", "auditoria", "reentrenamiento"]
           },
           "Descripción": {
             "type": "string"
@@ -295,6 +298,15 @@
           "Responsable"
         ]
       }
+    },
+    "fechaExportacion": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Fecha y hora de exportación del documento (ISO 8601)."
+    },
+    "versionModelCard": {
+      "type": "string",
+      "description": "Versión del formato del Model Card."
     }
   },
   "required": [
@@ -310,6 +322,7 @@
     "modeloIndicadoresDesempeno", "modeloFrecuenciaReentrenamiento", "modeloControlesDrift",
     "modeloAprobacionTecnica", "modeloAprobacionJuridica", "modeloAprobacionDPO",
     "modeloAprobacionComiteIA", "tablaMetricasGlobales", "tablaMetricasSubpoblaciones",
-    "tablaRiesgosModelo", "tablaControlesModelo", "tablaHistorialModelo"
+    "tablaRiesgosModelo", "tablaControlesModelo", "tablaHistorialModelo",
+    "fechaExportacion", "versionModelCard"
   ]
 }

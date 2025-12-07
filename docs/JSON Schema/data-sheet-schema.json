@@ -26,7 +26,8 @@
     },
     "dsFechaActualizacion": {
       "type": "string",
-      "description": "Fecha de la última actualización."
+      "format": "date",
+      "description": "Fecha de la última actualización (YYYY-MM-DD)."
     },
     "dsContacto": {
       "type": "string",
@@ -57,11 +58,11 @@
       "description": "Frecuencia con la que se actualiza el dataset."
     },
     "dsNumeroRegistros": {
-      "type": "string",
+      "type": "integer",
       "description": "Número total de registros."
     },
     "dsNumeroVariables": {
-      "type": "string",
+      "type": "integer",
       "description": "Número de variables o campos."
     },
     "dsTiposDatos": {
@@ -220,7 +221,8 @@
           },
           "Tipo de dato": {
             "type": "string",
-            "description": "Tipo de dato de la variable."
+            "description": "Tipo de dato de la variable.",
+            "enum": ["texto", "numero", "fecha", "booleano"]
           },
           "Valores permitidos / rango": {
             "type": "string",
@@ -289,6 +291,15 @@
           "Responsable"
         ]
       }
+    },
+    "fechaExportacion": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Fecha y hora de exportación del documento (ISO 8601)."
+    },
+    "versionDataSheet": {
+      "type": "string",
+      "description": "Versión del formato del Data Sheet."
     }
   },
   "required": [
@@ -304,7 +315,7 @@
     "dsRiesgosSesgosEstructurales", "dsRiesgosVulneracionDerechos", "dsCumplimientoNormativo",
     "dsFinalidadAutorizada", "dsRestricciones", "dsUsosIndebidos", "dsCondicionesAcceso",
     "dsControlesSeguridad", "dsCifrado", "dsCustodia", "dsPoliticasAcceso",
-    "dsAprobacionEquipoDatos", "dsAprobacionJuridica", "dsAprobacionComiteIA",
-    "tablaDiccionarioDatos", "tablaHistorialDataset"
+    "dsAprobacionEquipoDatos", "dsAprobacionJuridica", "dsAprobacionComiteIA", "tablaDiccionarioDatos",
+    "tablaHistorialDataset", "fechaExportacion", "versionDataSheet"
   ]
 }

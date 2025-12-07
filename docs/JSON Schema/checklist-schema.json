@@ -13,12 +13,13 @@
     },
     "nivelRiesgo": {
       "type": "string",
-      "enum": ["bajo", "medio", "alto"],
+      "enum": ["inaceptable", "alto", "limitado", "minimo"],
       "description": "Nivel de riesgo del sistema de IA."
     },
     "checklistAplicado": {
       "type": "string",
-      "description": "Tipo o versión del checklist aplicado."
+      "description": "Tipo o versión del checklist aplicado.",
+      "enum": ["basico", "estandar", "reforzado"]
     },
     "puntuaciones": {
       "type": "object",
@@ -26,7 +27,7 @@
       "patternProperties": {
         "^[0-9]\\.[0-9]$": {
           "type": "integer",
-          "minimum": 1,
+          "minimum": 0,
           "maximum": 2
         }
       },
@@ -65,12 +66,12 @@
     },
     "resultadoMandatorios": {
       "type": "string",
-      "enum": ["cumple", "no_cumple"],
+      "enum": ["cumple", "no-cumple"],
       "description": "Resultado global del cumplimiento de criterios mandatorios."
     },
     "dictamenFinal": {
       "type": "string",
-      "enum": ["aprobado", "recomendado", "rechazado", "condicional"],
+      "enum": ["recomendado", "condiciones", "no-recomendado"],
       "description": "Dictamen final de la evaluación."
     },
     "observaciones": {
