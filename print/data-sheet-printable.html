@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acta de Legalización - Ficha Técnica de Datos</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; color: #333; }
+        .container { max-width: 1000px; margin: auto; padding: 30px; border: 1px solid #ccc; }
+        h1 { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #e67e22; padding-bottom: 10px; color: #e67e22; }
+        h2 { color: #e67e22; margin-top: 30px; border-left: 5px solid #e67e22; padding-left: 10px; page-break-after: avoid; }
+        h3 { color: #555; margin-top: 20px; border-bottom: 1px solid #ddd; padding-bottom: 5px; page-break-after: avoid; }
+        
+        /* Estilos Generales de Tablas */
+        .info-table, .data-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 0.9em; }
+        .info-table th, .info-table td, .data-table th, .data-table td { border: 1px solid #ddd; padding: 8px; text-align: left; vertical-align: top; }
+        .info-table th { width: 35%; background-color: #fcf4e8; font-weight: bold; }
+        .data-table th { background-color: #f7e1cc; font-weight: bold; text-align: center; }
+
+        /* Sección de Aprobación Final */
+        .approval-section { margin-top: 40px; padding-top: 20px; border-top: 2px dashed #e67e22; }
+        .signature-box { border: 1px solid #333; height: 50px; margin-top: 15px; padding: 5px; text-align: center; }
+        .signature-container { display: flex; justify-content: space-between; gap: 40px; margin-top: 20px; }
+        .signature-item { flex-basis: 50%; }
+        
+        /* Mensaje de Estado (Error/Éxito) */
+        .message-box { padding: 15px; margin-bottom: 20px; border: 1px solid transparent; border-radius: 4px; font-weight: bold; }
+        .message-box.error { color: #721c24; background-color: #f8d7da; border-color: #f5c6cb; }
+        .message-box.success { color: #155724; background-color: #d4edda; border-color: #c3e6cb; }
+
+        .print-button { display: block; width: 200px; margin: 20px auto; padding: 10px; background-color: #e67e22; color: white; border: none; cursor: pointer; text-align: center; }
+        
+        /* Estilos para impresión */
+        @media print {
+            .print-button, .file-input-section, .message-box { display: none; }
+            .container { border: none; padding: 0; }
+            input, textarea, select { border: none !important; }
+            .data-table th, .data-table td { font-size: 7.5pt; }
+            .approval-section .signature-box { border-bottom: 1px solid #000; border-right: none; border-left: none; border-top: none; height: 1px; }
+            .data-table, .info-table { page-break-inside: avoid; }
+            h2, h3 { page-break-before: auto; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Acta de Legalización de Ficha Técnica de Datos</h1>
+    <h3 id="dataset-name"></h3>
+
+    <div class="file-input-section">
+        <h3>Cargar Ficha Técnica JSON</h3>
+        <input type="file" id="json-upload" accept=".json" onchange="loadJsonFile(this.files)">
+        <p>Cargue el archivo JSON de la Ficha Técnica de Datos para generar el acta.</p>
+    </div>
+
+    <div id="status-message" class="message-box" style="display: none;"></div>
+
+    <div id="data-sheet-container">
+        <p>La Ficha Técnica aparecerá aquí una vez cargado el archivo JSON.</p>
+    </div>
+
+    <div class="approval-section">
+        <h2>Aprobación Final del Uso del Dataset</h2>
+
+        <table class="info-table">
+            <tr>
+                <th>Aprobación del Equipo de Datos</th>
+                <td id="dsAprobacionEquipoDatos"></td>
+            </tr>
+            <tr>
+                <th>Aprobación del Área Jurídica</th>
+                <td id="dsAprobacionJuridica"></td>
+            </tr>
+            <tr>
+                <th>Aprobación del Comité de IA</th>
+                <td id="dsAprobacionComiteIA"></td>
+            </tr>
+        </table>
+
+        <h3>Legalización y Firmas</h3>
+        <p>Certificamos que esta Ficha Técnica ha sido revisada y que el dataset cumple con las políticas de calidad, privacidad y gobernanza para su uso en sistemas de IA.</p>
+
+        <div class="signature-container">
+            <div class="signature-item">
+                <label for="responsable-name">Nombre Completo del Responsable del Dataset</label>
+                <input type="text" id="responsable-name" required>
+                <label>Firma</label>
+                <div class="signature-box"></div>
+            </div>
+            <div class="signature-item">
+                <label for="comite-name">Nombre del Representante del Comité de IA</label>
+                <input type="text" id="comite-name" required>
+                <label>Firma</label>
+                <div class="signature-box"></div>
+            </div>
+        </div>
+    </div>
+
+    <button class="print-button" onclick="window.print()">🖨️ Imprimir Acta</button>
+
+</div>
+
+<script>
+    /**
+     * Al cargar la página, intenta obtener los datos desde localStorage.
+     */
+    window.onload = function() {
+        const printData = localStorage.getItem('dataSheetPrintData');
+        if (printData) {
+            try {
+                const data = JSON.parse(printData);
+                // Validación de estructura mínima
+                if (!data.dsNombre || !data.tablaDiccionarioDatos) {
+                    showMessage("Error: Los datos para impresión no son válidos (falta el nombre o el diccionario de datos).", 'error');
+                    return;
+                }
+                renderDataSheet(data);
+                showMessage("Ficha Técnica de Datos cargada para impresión. Puede imprimir ahora.", 'success');
+                // Limpiar los datos después de usarlos para no cargarlos de nuevo en futuras visitas.
+                localStorage.removeItem('dataSheetPrintData');
+            } catch (error) {
+                showMessage(`Error al procesar los datos para impresión: ${error.message}.`, 'error');
+            }
+        }
+    };
+    /**
+     * Muestra un mensaje de estado (éxito o error) al usuario.
+     */
+    function showMessage(message, type) {
+        const messageBox = document.getElementById('status-message');
+        messageBox.textContent = message;
+        messageBox.className = `message-box ${type}`;
+        messageBox.style.display = 'block';
+    }
+
+    /**
+     * Formatea fecha ISO o cadena a un formato legible (YYYY-MM-DD).
+     */
+    function formatDate(isoString) {
+        try {
+            if (isoString.includes('T')) {
+                return isoString.split('T')[0];
+            }
+            return isoString;
+        } catch (e) {
+            return isoString;
+        }
+    }
+
+    /**
+     * Carga y parsea el archivo JSON.
+     */
+    function loadJsonFile(files) {
+        document.getElementById('status-message').style.display = 'none';
+        document.getElementById('data-sheet-container').innerHTML = '<p>Cargando datos...</p>';
+        document.getElementById('dataset-name').textContent = '';
+
+        if (files.length === 0) {
+            document.getElementById('data-sheet-container').innerHTML = '<p>La Ficha Técnica aparecerá aquí una vez cargado el archivo JSON.</p>';
+            return;
+        }
+
+        const file = files[0];
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            try {
+                const data = JSON.parse(e.target.result);
+                
+                // Validación de estructura mínima
+                if (!data.dsNombre || !data.tablaDiccionarioDatos) {
+                    showMessage("Error: El archivo JSON cargado no parece ser una Ficha Técnica de Datos válida (falta el nombre o el diccionario de datos).", 'error');
+                    return;
+                }
+
+                renderDataSheet(data);
+                showMessage("Ficha Técnica de Datos cargada exitosamente.", 'success');
+            } catch (error) {
+                showMessage(`Error al procesar el archivo JSON: ${error.message}. Verifique el formato.`, 'error');
+                console.error("Error de parsing:", error);
+            }
+        };
+        
+        reader.onerror = function() {
+            showMessage("Error al leer el archivo. Intente de nuevo.", 'error');
+        };
+        
+        reader.readAsText(file);
+    }
+
+    /**
+     * Función principal para renderizar todos los datos del Data Sheet.
+     */
+    function renderDataSheet(data) {
+        const container = document.getElementById('data-sheet-container');
+        let html = '';
+
+        // --- 1. METADATOS Y RESUMEN GENERAL ---
+        document.getElementById('dataset-name').textContent = `Dataset: ${data.dsNombre}`;
+
+        // --- 2. INFORMACIÓN BÁSICA ---
+        html += '<h2>1. Identificación del Dataset</h2>';
+        html += '<table class="info-table">';
+        const camposBasicos = {
+            "dsEntidadPropietaria": "Entidad Propietaria", "dsAreaResponsable": "Área Responsable", "dsVersion": "Versión",
+            "dsFechaCreacion": "Fecha de Creación", "dsFechaActualizacion": "Última Actualización", "dsContacto": "Contacto",
+            "dsDescripcion": "Descripción General y Contenido", "dsFinalidad": "Propósito Principal",
+            "dsProcesosServicios": "Procesos y Servicios Soportados"
+        };
+        html += generateInfoTableRows(data, camposBasicos);
+        html += '</table>';
+
+        // --- 3. FUENTE Y VOLUMEN ---
+        html += '<h2>2. Origen y Dimensiones</h2>';
+        html += '<table class="info-table">';
+        const camposOrigen = {
+            "dsFuente": "Fuentes Originales", "dsMetodoCaptura": "Método de Captura", "dsFrecuenciaActualizacion": "Frecuencia de Actualización",
+            "dsNumeroRegistros": "Número de Registros", "dsNumeroVariables": "Número de Variables", "dsTiposDatos": "Tipos de Datos Generales",
+            "dsRepresentatividadPoblacional": "Representatividad Poblacional"
+        };
+        html += generateInfoTableRows(data, camposOrigen);
+        html += '</table>';
+
+        // --- 4. PRIVACIDAD Y LEGALIDAD ---
+        html += '<h2>3. Privacidad y Marco Legal</h2>';
+        html += '<table class="info-table">';
+        const camposPrivacidad = {
+            "dsDatosPersonales": "Datos Personales Incluidos", "dsJustificacion": "Justificación Legal (Datos Personales)",
+            "dsBaseLegal": "Base Legal de Uso y Tratamiento", "dsAnonimizacion": "Técnicas de Anonimización/Seudonimización"
+        };
+        html += generateInfoTableRows(data, camposPrivacidad);
+        html += '</table>';
+
+        // --- 5. CALIDAD DE DATOS ---
+        html += '<h2>4. Calidad, Limpieza y Transformación</h2>';
+        html += '<h3>Evaluación de Calidad</h3>';
+        html += '<table class="info-table">';
+        const camposCalidad = {
+            "dsDatosFaltantes": "Datos Faltantes", "dsInconsistencias": "Inconsistencias Corregidas",
+            "dsProcesosLimpieza": "Procesos de Limpieza Aplicados", "dsControlesCalidad": "Controles de Calidad Implementados",
+            "dsValidaciones": "Validaciones/Scripts Utilizados"
+        };
+        html += generateInfoTableRows(data, camposCalidad);
+        html += '</table>';
+        
+        html += '<h3>Preparación para IA</h3>';
+        html += '<table class="info-table">';
+        const camposPreparacion = {
+            "dsNormalizacion": "Procesos de Normalización", "dsImputacion": "Estrategia de Imputación (Faltantes)",
+            "dsBalanceo": "Estrategia de Balanceo de Clases"
+        };
+        html += generateInfoTableRows(data, camposPreparacion);
+        html += '</table>';
+
+        // --- 6. SESGOS Y RIESGOS INHERENTES ---
+        html += '<h2>5. Sesgos y Riesgos del Dataset</h2>';
+        html += '<table class="info-table">';
+        const camposRiesgos = {
+            "dsSesgosIdentificados": "Sesgos Geográficos/Demográficos Identificados", "dsDistribucionVariables": "Variables Clave de Distribución",
+            "dsRiesgosPoblacionesVulnerables": "Riesgos en Poblaciones Vulnerables", "dsLimitaciones": "Limitaciones Conocidas del Dataset",
+            "dsRiesgosDiscriminacion": "Riesgos de Discriminación", "dsRiesgosReidentificacion": "Evaluación Riesgo de Re-identificación",
+            "dsRiesgosUsoIndebido": "Riesgos de Uso Indebido a Explorar", "dsRiesgosSesgosEstructurales": "Evaluación Sesgos Estructurales",
+            "dsRiesgosVulneracionDerechos": "Plan de Identificación de Vulneración de Derechos"
+        };
+        html += generateInfoTableRows(data, camposRiesgos);
+        html += '</table>';
+
+        // --- 7. USO, ACCESO Y SEGURIDAD ---
+        html += '<h2>6. Gobernanza, Acceso y Seguridad</h2>';
+        html += '<h3>Reglas de Uso</h3>';
+        html += '<table class="info-table">';
+        const camposUso = {
+            "dsCumplimientoNormativo": "Declaración de Cumplimiento Normativo", "dsFinalidadAutorizada": "Usos Específicos Autorizados",
+            "dsRestricciones": "Restricciones de Uso/Acceso", "dsUsosIndebidos": "Ejemplos de Usos No Autorizados"
+        };
+        html += generateInfoTableRows(data, camposUso);
+        html += '</table>';
+
+        html += '<h3>Custodia y Seguridad</h3>';
+        html += '<table class="info-table">';
+        const camposSeguridad = {
+            "dsCondicionesAcceso": "Condiciones de Acceso y Distribución", "dsControlesSeguridad": "Controles de Seguridad Implementados",
+            "dsCifrado": "Mecanismos de Cifrado", "dsCustodia": "Rol Responsable de la Custodia",
+            "dsPoliticasAcceso": "Políticas Internas de Acceso"
+        };
+        html += generateInfoTableRows(data, camposSeguridad);
+        html += '</table>';
+
+        // --- 8. DICCIONARIO DE DATOS ---
+        html += '<h2>7. Diccionario de Datos</h2>';
+        html += generateTableHTML(data.tablaDiccionarioDatos, "tablaDiccionarioDatos");
+        
+        // --- 9. HISTORIAL DE VERSIONES ---
+        html += '<h2>8. Historial de Versiones</h2>';
+        html += generateTableHTML(data.tablaHistorialDataset, "tablaHistorialDataset");
+
+        // Renderizar el HTML al contenedor
+        container.innerHTML = html;
+
+        // --- 10. Llenar campos de Aprobación Final ---
+        document.getElementById('dsAprobacionEquipoDatos').textContent = data.dsAprobacionEquipoDatos;
+        document.getElementById('dsAprobacionJuridica').textContent = data.dsAprobacionJuridica;
+        document.getElementById('dsAprobacionComiteIA').textContent = data.dsAprobacionComiteIA;
+        
+        // Intentar autocompletar el responsable
+        document.getElementById('responsable-name').value = data.dsAreaResponsable || '';
+        document.getElementById('comite-name').value = data.dsAprobacionComiteIA.split('(')[0].trim() || '';
+
+    }
+    
+    /**
+     * Genera filas de una tabla de información (clave-valor).
+     */
+    function generateInfoTableRows(data, fields) {
+        let rows = '';
+        for (const key in fields) {
+            const description = fields[key];
+            let value = data[key] !== undefined ? data[key] : 'N/A';
+            
+            // Formatear valores de tipo fecha si es aplicable
+            if (key.toLowerCase().includes('fecha') && value !== 'N/A') {
+                value = formatDate(value);
+            }
+
+            rows += `
+                <tr>
+                    <th>${description}</th>
+                    <td>${value}</td>
+                </tr>
+            `;
+        }
+        return rows;
+    }
+
+    /**
+     * Genera el HTML para una tabla de datos (array de objetos).
+     */
+    function generateTableHTML(dataArray, tableId) {
+        if (!dataArray || dataArray.length === 0) {
+            return `<p>No hay datos disponibles para la tabla ${tableId}.</p>`;
+        }
+        
+        const headers = Object.keys(dataArray[0]);
+        let html = `<table class="data-table" id="${tableId}"><thead><tr>`;
+        
+        // Encabezados
+        headers.forEach(header => {
+            html += `<th>${header}</th>`;
+        });
+        html += '</tr></thead><tbody>';
+
+        // Filas
+        dataArray.forEach(row => {
+            html += '<tr>';
+            headers.forEach(header => {
+                let cellValue = row[header] !== undefined ? row[header] : 'N/A';
+                
+                // Formateo de fechas en tablas de datos
+                if (header.toLowerCase().includes('fecha')) {
+                     cellValue = formatDate(cellValue);
+                }
+
+                html += `<td>${cellValue}</td>`;
+            });
+            html += '</tr>';
+        });
+
+        html += '</tbody></table>';
+        return html;
+    }
+</script>
+
+</body>
+</html>

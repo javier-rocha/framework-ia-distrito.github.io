@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acta de Legalización del Canvas de Caso de Uso de IA</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; color: #333; }
+        .container { max-width: 900px; margin: auto; padding: 30px; border: 1px solid #ccc; }
+        h1 { text-align: center; margin-bottom: 30px; border-bottom: 3px solid #0056b3; padding-bottom: 10px; color: #0056b3; }
+        h2 { color: #0056b3; margin-top: 30px; border-left: 5px solid #0056b3; padding-left: 10px; page-break-after: avoid; }
+        h3 { color: #555; margin-top: 20px; border-bottom: 1px dashed #ccc; padding-bottom: 5px; page-break-after: avoid; }
+
+        /* Estilos de Tabla de Información (Clave-Valor) */
+        .info-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 0.9em; }
+        .info-table th, .info-table td { border: 1px solid #ddd; padding: 8px; text-align: left; vertical-align: top; }
+        .info-table th { width: 35%; background-color: #f7f9fc; font-weight: bold; }
+        .info-table td { white-space: pre-wrap; } /* Para respetar saltos de línea en el texto */
+
+        /* Estilos de Aprobación Final */
+        .audit-section { margin-top: 40px; padding-top: 20px; border-top: 2px dashed #0056b3; }
+        .signature-box { border: 1px solid #333; height: 50px; margin-top: 15px; padding: 5px; text-align: center; }
+        .signature-container { display: flex; justify-content: space-between; gap: 40px; margin-top: 20px; }
+        .signature-item { flex-basis: 50%; }
+        
+        .print-button { display: block; width: 200px; margin: 20px auto; padding: 10px; background-color: #0056b3; color: white; border: none; cursor: pointer; text-align: center; }
+        
+        /* Mensaje de Estado (Error/Éxito) */
+        .message-box { padding: 15px; margin-bottom: 20px; border: 1px solid transparent; border-radius: 4px; display: none; }
+        .message-box.error { color: #721c24; background-color: #f8d7da; border-color: #f5c6cb; font-weight: bold; }
+        .message-box.success { color: #155724; background-color: #d4edda; border-color: #c3e6cb; font-weight: bold; }
+
+        /* Estilos para impresión */
+        @media print {
+            .print-button, .file-input-section, .message-box, input[type="file"] { display: none; }
+            .container { border: none; padding: 0; }
+            .audit-section .signature-box { border-bottom: 1px solid #000; border-right: none; border-left: none; border-top: none; height: 1px; }
+            .info-table { page-break-inside: avoid; }
+            input[type="date"] { border: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Acta de Legalización del Canvas de Caso de Uso de IA</h1>
+    <h3 id="metadata-header"></h3>
+
+    <div class="file-input-section">
+        <h3>Cargar Archivo de Caso de Uso JSON</h3>
+        <input type="file" id="json-upload" accept=".json" onchange="loadJsonFile(this.files)">
+        <p>Cargue el archivo JSON del Canvas de Caso de Uso de IA para generar el acta.</p>
+    </div>
+
+    <div id="status-message" class="message-box error"></div>
+
+    <div id="canvas-data-container">
+        <p>Los datos del Caso de Uso de IA aparecerán aquí una vez cargado el archivo JSON.</p>
+    </div>
+
+    <div class="audit-section">
+        <h2>Legalización de Aprobación</h2>
+
+        <table class="info-table">
+            <tr>
+                <th>Fecha de Legalización de esta Acta</th>
+                <td><input type="date" id="fechaLegalizacionActa" required></td>
+            </tr>
+        </table>
+        
+        <p>Certifico que la información del Caso de Uso de IA ha sido revisada y aprobada por el **Comité de IA** para su implementación, bajo las consideraciones y mitigaciones descritas en este documento.</p>
+
+        <table class="info-table">
+            <tr>
+                <th>Decisión Final del Comité de IA</th>
+                <td id="comite-decision" style="font-weight: bold;"></td>
+            </tr>
+            <tr>
+                <th>Nivel de Riesgo General Asignado</th>
+                <td id="nivelRiesgo"></td>
+            </tr>
+            <tr>
+                <th>Aprobación DPO / Jurídica</th>
+                <td id="aprobacionDPO"></td>
+            </tr>
+            <tr>
+                <th>Firma y Fecha de Aprobación del Comité (JSON)</th>
+                <td id="firmaAprobacion"></td>
+            </tr>
+        </table>
+
+        <div class="signature-container">
+            <div class="signature-item">
+                <label for="auditor-name">Nombre Completo del Auditor/Revisor</label>
+                <input type="text" id="auditor-name" style="width: 100%; border: 1px solid #ccc;">
+                <label>Firma del Auditor</label>
+                <div class="signature-box"></div>
+            </div>
+            <div class="signature-item">
+                <label for="responsable-name">Nombre del Responsable del Caso de Uso</label>
+                <input type="text" id="responsable-name" disabled style="width: 100%; background-color: #f7f7f7;">
+                <label>Firma del Responsable</label>
+                <div class="signature-box"></div>
+            </div>
+        </div>
+    </div>
+
+    <button class="print-button" onclick="window.print()">🖨️ Imprimir Acta</button>
+
+</div>
+
+<script>
+    // Mapeo de campos del JSON agrupados por sección lógica para el reporte
+    const sectionMap = {
+        "1. Identificación y Contexto": {
+            "titulo": "Título del Caso de Uso", "entidad": "Entidad / Secretaría", "fecha": "Fecha de Elaboración (v)", 
+            "sponsor": "Sponsor Principal", "responsable": "Responsable Técnico", "propietario": "Propietario de Datos/Infraestructura", 
+            "stakeholders": "Partes Interesadas (Stakeholders)", "estrategia": "Estrategia de Implementación"
+        },
+        "2. Problema y Solución": {
+            "problema": "Problema a Resolver (Línea Base)", "lineaBase": "Estado o Rendimiento Actual (Línea Base)", 
+            "servicio": "Proceso/Servicio Impactado", "proposito": "Propósito del Sistema de IA", "tipo": "Tipo de Aplicación de IA", 
+            "justificacion": "Justificación del Uso de IA", "resultados": "Resultados Esperados (Cuantificables)", 
+            "metas": "Metas de Rendimiento a C/M Plazo"
+        },
+        "3. Datos, Fuentes y Calidad": {
+            "fuentes": "Fuentes de Datos", "volumen": "Volumen y Frecuencia de Actualización", "calidad": "Evaluación General de Calidad", 
+            "privacidad": "Tipo de Datos Personales Incluidos", "categoriasDatos": "Categorías de Datos Manejados", 
+            "baseLegal": "Bases Legales de Tratamiento (GDPR/LOPD)", "criteriosClasificacion": "Criterios Utilizados para la Clasificación"
+        },
+        "4. Marco Legal y Riesgos": {
+            "baseServicio": "Base Legal del Servicio", "normativa": "Marco Normativo Adicional (IA/Datos)", "evaluacionLegal": "Resumen de la Evaluación Legal", 
+            "juridica": "Resultado Evaluación Jurídica", "riesgosEticos": "Riesgos Éticos Identificados", "riesgosEquidad": "Riesgos de Sesgo y Equidad", 
+            "riesgosPrivacidad": "Riesgos de Privacidad", "riesgosSeguridad": "Riesgos de Seguridad", "riesgosOperativos": "Riesgos Operacionales", 
+            "riesgosReputacionales": "Riesgos Reputacionales", "mitigaciones": "Estrategias Generales de Mitigación"
+        },
+        "5. Implementación y Monitoreo": {
+            "alcance": "Alcance de la Implementación", "cronograma": "Etapas y Plazos Principales", "tecnica": "Evaluación Técnica de Viabilidad", 
+            "planeacion": "Estado de Recursos de Planeación", "kpiTecnicos": "KPIs Técnicos del Modelo", "kpiImpacto": "KPIs de Impacto en el Servicio", 
+            "kpiCumplimiento": "KPIs de Cumplimiento/Gobernanza", "controles": "Mecanismos de Control y Monitoreo", "frecuencia": "Frecuencia de Auditorías/Revisiones", 
+            "protocolo": "Protocolos ante Incidentes o Clasificaciones Dudosas"
+        },
+        "6. Adopción y Gobernanza": {
+            "usuarios": "Usuarios Directos del Sistema", "perfil": "Perfil del Usuario", "capacitacion": "Plan de Capacitación", 
+            "comunicacion": "Estrategia de Comunicación", "canales": "Canales de Retroalimentación", 
+            "rolesGobernanza": "Roles de Gobernanza Involucrados (DPO, TIC, Jurídica, Comité)"
+        },
+        "7. Transición y Baja": {
+            "criterios": "Criterios para Suspensión/Baja", "planDatos": "Plan de Gestión de Datos Post-Vida Útil", 
+            "planTransicion": "Plan de Transición/Retorno a Proceso Manual"
+        }
+    };
+
+    // Campos estrictamente necesarios para la legalización (parte del control de errores)
+    const MANDATORY_FIELDS = [
+        'titulo', 'responsable', 'problema', 'proposito', 'nivelRiesgo', 'comite', 'firma'
+    ];
+    
+    // Función para restablecer los datos del formulario si la carga falla o está vacía
+    function resetForm() {
+        document.getElementById('metadata-header').textContent = '';
+        document.getElementById('canvas-data-container').innerHTML = '<p>Los datos del Caso de Uso de IA aparecerán aquí una vez cargado el archivo JSON.</p>';
+        document.getElementById('comite-decision').textContent = '';
+        document.getElementById('nivelRiesgo').textContent = '';
+        document.getElementById('aprobacionDPO').textContent = '';
+        document.getElementById('firmaAprobacion').textContent = '';
+        document.getElementById('responsable-name').value = '';
+        document.getElementById('status-message').style.display = 'none';
+    }
+
+
+    /**
+     * Carga y parsea el archivo JSON.
+     */
+    function loadJsonFile(files) {
+        resetForm(); // Limpiar el formulario y mensajes al iniciar la carga
+
+        if (!files || files.length === 0) {
+            return; // No hacer nada si no hay archivo seleccionado
+        }
+
+        const file = files[0];
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            try {
+                const data = JSON.parse(e.target.result);
+                validateAndRenderData(data);
+            } catch (error) {
+                showMessage(`Error al parsear el archivo JSON: ${error.message}. Asegúrese de que el archivo no contenga errores de sintaxis.`, 'error');
+            }
+        };
+        
+        reader.onerror = function() {
+            showMessage("Error al leer el archivo. Intente de nuevo.", 'error');
+        };
+        
+        reader.readAsText(file);
+    }
+
+    /**
+     * Valida la estructura y el contenido de los datos antes de renderizar.
+     * @param {Object} data Objeto JSON cargado.
+     */
+    function validateAndRenderData(data) {
+        const missingFields = [];
+        
+        // 1. Validación de campos obligatorios
+        MANDATORY_FIELDS.forEach(field => {
+            if (!data[field] || (typeof data[field] === 'string' && data[field].trim() === '')) {
+                missingFields.push(field);
+            }
+        });
+
+        // 2. Validación de contenido específico (ej. decisión del comité debe ser una opción válida)
+        const validComite = ['comiteaprobado', 'comiterechazado', 'comitecondicional'];
+        if (data.comite && !validComite.includes(data.comite.toLowerCase())) {
+            missingFields.push('comite (Valor de decisión inválido)');
+        }
+        
+        if (missingFields.length > 0) {
+            const errorMsg = `Error de validación: Faltan o están mal diligenciados los siguientes campos clave necesarios para la legalización: ${missingFields.join(', ')}. No se puede generar el acta.`;
+            showMessage(errorMsg, 'error');
+            document.getElementById('canvas-data-container').innerHTML = '<p style="color: red;">No se pudo cargar el Acta. Por favor, corrija los errores de diligenciamiento en el archivo JSON y vuelva a cargar.</p>';
+            resetForm(); // Asegurar que el formulario esté limpio
+            return;
+        }
+        
+        // Si la validación es exitosa, proceder a renderizar
+        renderCanvasData(data);
+        showMessage("Archivo cargado y validado con éxito.", 'success');
+    }
+
+    /**
+     * Renderiza los datos clave del JSON en la tabla de datos del Canvas.
+     * @param {Object} data El objeto JSON del Caso de Uso de IA.
+     */
+    function renderCanvasData(data) {
+        const container = document.getElementById('canvas-data-container');
+        let html = '';
+
+        // --- RENDERIZAR SECCIONES ---
+        for (const sectionTitle in sectionMap) {
+            const fields = sectionMap[sectionTitle];
+            
+            html += `<div class="section">`;
+            html += `<h2>${sectionTitle}</h2>`;
+            html += '<table class="info-table">';
+
+            for (const key in fields) {
+                let value = data[key];
+
+                if (value !== undefined) {
+                    const description = fields[key];
+                    
+                    // Formateo simple para arrays (ej. rolesGobernanza)
+                    if (Array.isArray(value)) {
+                        value = value.map(v => v.charAt(0).toUpperCase() + v.slice(1)).join(', ');
+                    } else if (typeof value === 'string') {
+                        // Capitalizar la primera letra si es un enum
+                        if (value.length > 0 && !value.includes(' ') && (value.length < 20 || key === 'estrategia')) {
+                           value = value.charAt(0).toUpperCase() + value.slice(1);
+                        }
+                    }
+                    
+                    html += `
+                        <tr>
+                            <th>${description}</th>
+                            <td>${value}</td>
+                        </tr>
+                    `;
+                }
+            }
+            html += '</table>';
+            html += `</div>`;
+        }
+        
+        container.innerHTML = html;
+
+        // --- Llenar metadatos y sección de Legalización ---
+        const responsableInput = document.getElementById('responsable-name');
+        // Extraer solo el nombre del responsable si el campo contiene más datos (ej. "Nombre, Cargo, Contacto")
+        const nombreResponsable = data.responsable.split(',')[0].trim(); 
+        responsableInput.value = nombreResponsable;
+        
+        document.getElementById('metadata-header').textContent = `Caso de Uso: ${data.titulo} | Versión: ${data.fecha.split('-')[1].trim()} | Exportado: ${data.fechaExportacion.split('T')[0]}`;
+        
+        // Formatear la decisión para visualización
+        const decisionText = data.comite.toUpperCase().replace('COMITE', '').replace('APROBADO', 'APROBADO').replace('RECHAZADO', 'RECHAZADO').replace('CONDICIONAL', 'CONDICIONAL').trim();
+        document.getElementById('comite-decision').textContent = `${decisionText} (${data.tecnica.toUpperCase()} / ${data.juridica.toUpperCase()})`;
+        
+        document.getElementById('nivelRiesgo').textContent = data.nivelRiesgo.toUpperCase();
+        document.getElementById('aprobacionDPO').textContent = data.dpo.toUpperCase();
+        document.getElementById('firmaAprobacion').textContent = data.firma;
+    }
+
+    // Al cargar la página, intentar leer los datos desde sessionStorage
+    document.addEventListener('DOMContentLoaded', function() {
+        const storedData = sessionStorage.getItem('canvasDataForPrint');
+        if (storedData) {
+            try {
+                const data = JSON.parse(storedData);
+                validateAndRenderData(data);
+                // Ocultar la sección de carga de archivo si los datos se cargaron correctamente
+                document.querySelector('.file-input-section').style.display = 'none';
+                // Limpiar el sessionStorage para no reutilizar los datos accidentalmente
+                sessionStorage.removeItem('canvasDataForPrint');
+            } catch (error) {
+                showMessage(`Error al procesar los datos para impresión: ${error.message}`, 'error');
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

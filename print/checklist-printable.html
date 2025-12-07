@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acta de Evaluación de Proveedores de IA</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; color: #333; }
+        .container { max-width: 1000px; margin: auto; padding: 30px; border: 1px solid #ccc; }
+        h1 { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #3498db; padding-bottom: 10px; color: #3498db; }
+        h2 { color: #3498db; margin-top: 30px; border-left: 5px solid #3498db; padding-left: 10px; page-break-after: avoid; }
+        h3 { color: #555; margin-top: 20px; border-bottom: 1px solid #ddd; padding-bottom: 5px; page-break-after: avoid; }
+        
+        /* Estilos Generales de Tablas */
+        .info-table, .checklist-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 0.9em; }
+        .info-table th, .info-table td, .checklist-table th, .checklist-table td { border: 1px solid #ddd; padding: 8px; text-align: left; vertical-align: top; }
+        .info-table th { width: 35%; background-color: #eaf3fb; font-weight: bold; }
+        .checklist-table th { background-color: #dbe9f7; font-weight: bold; text-align: center; }
+
+        /* Estilos de Puntuación/Estado */
+        .score-2 { background-color: #d4edda; color: #155724; font-weight: bold; } /* Cumple (Verde) */
+        .score-1 { background-color: #f8d7da; color: #721c24; font-weight: bold; } /* No Cumple (Rojo) */
+        .cumple-true { background-color: #d4edda; color: #155724; font-weight: bold; }
+        .cumple-false { background-color: #f8d7da; color: #721c24; font-weight: bold; }
+        .final-aprobado, .final-recomendado { background-color: #c3e6cb; color: #155724; padding: 5px; border-radius: 4px; }
+        .final-rechazado { background-color: #f5c6cb; color: #721c24; padding: 5px; border-radius: 4px; }
+        .final-condicional { background-color: #ffeeba; color: #856404; padding: 5px; border-radius: 4px; }
+        
+        /* Estilo para el cálculo */
+        .calculation-table { width: 40%; margin-left: auto; margin-bottom: 20px; font-size: 0.9em; border: 2px solid #3498db; }
+        .calculation-table th { background-color: #f0f8ff; text-align: left; }
+        .calculation-table td { text-align: right; font-weight: bold; }
+
+        /* Sección de Aprobación Final */
+        .approval-section { margin-top: 40px; padding-top: 20px; border-top: 2px dashed #3498db; }
+        .signature-box { border: 1px solid #333; height: 50px; margin-top: 15px; padding: 5px; text-align: center; }
+        .signature-container { display: flex; justify-content: space-between; gap: 40px; margin-top: 20px; }
+        .signature-item { flex-basis: 50%; }
+        
+        /* Mensaje de Estado (Error/Éxito) */
+        .message-box { padding: 15px; margin-bottom: 20px; border: 1px solid transparent; border-radius: 4px; font-weight: bold; }
+        .message-box.error { color: #721c24; background-color: #f8d7da; border-color: #f5c6cb; }
+        .message-box.success { color: #155724; background-color: #d4edda; border-color: #c3e6cb; }
+
+        .print-button { display: block; width: 200px; margin: 20px auto; padding: 10px; background-color: #3498db; color: white; border: none; cursor: pointer; text-align: center; }
+        
+        /* Estilos para impresión */
+        @media print {
+            .print-button, .file-input-section, .message-box { display: none; }
+            .container { border: none; padding: 0; }
+            input, textarea, select { border: none !important; }
+            .checklist-table th, .checklist-table td { font-size: 7.5pt; }
+            .approval-section .signature-box { border-bottom: 1px solid #000; border-right: none; border-left: none; border-top: none; height: 1px; }
+            .checklist-table, .info-table, .calculation-table { page-break-inside: avoid; }
+            h2, h3 { page-break-before: auto; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Acta de Evaluación y Aprobación de Proveedor de IA</h1>
+    <h3 id="eval-header"></h3>
+
+    <div class="file-input-section">
+        <h3>Cargar Checklist de Evaluación JSON</h3>
+        <input type="file" id="json-upload" accept=".json" onchange="loadJsonFile(this.files)">
+        <p>Cargue el archivo JSON del Checklist de Evaluación de Proveedor para generar el acta.</p>
+    </div>
+
+    <div id="status-message" class="message-box" style="display: none;"></div>
+
+    <div id="checklist-container">
+        <p>La evaluación del proveedor aparecerá aquí una vez cargado el archivo JSON.</p>
+    </div>
+
+    <div id="calculation-results" style="display: none;">
+        <h2>3. Puntuación Total Ponderada</h2>
+        <table class="info-table calculation-table">
+            <tr>
+                <th>Puntuación Bruta (Máx: 38)</th>
+                <td id="scoreBruta"></td>
+            </tr>
+            <tr>
+                <th>Puntuación Total Ponderada (Máx: 2.0)</th>
+                <td id="scorePonderada"></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="approval-section">
+        <h2>Dictamen Final y Aprobación</h2>
+
+        <table class="info-table">
+            <tr>
+                <th>Fecha de Legalización del Acta</th>
+                <td><input type="date" id="fechaLegalizacion" style="width: 100%; border: 1px solid #ccc;" required></td>
+            </tr>
+            <tr>
+                <th>Dictamen Final</th>
+                <td><span id="dictamenFinalDisplay"></span></td>
+            </tr>
+            <tr>
+                <th>Resultado Criterios Mandatorios</th>
+                <td id="resultadoMandatorios"></td>
+            </tr>
+            <tr>
+                <th>Justificación y Observaciones</th>
+                <td id="observacionesDisplay"></td>
+            </tr>
+        </table>
+
+        <h3>Equipo Evaluador</h3>
+        <table class="info-table">
+            <tr>
+                <th>Responsable Técnico Evaluador</th>
+                <td id="responsableTecnico"></td>
+                <th>Fecha Evaluación Técnica</th>
+                <td id="fechaTecnico"></td>
+            </tr>
+            <tr>
+                <th>Evaluador DPO/Jurídico</th>
+                <td id="dpoJuridica"></td>
+                <th>Fecha Evaluación DPO/Jurídica</th>
+                <td id="fechaDpo"></td>
+            </tr>
+            <tr>
+                <th>Representante Comité de IA</th>
+                <td id="comiteIa"></td>
+                <th>Fecha Revisión Final</th>
+                <td id="fechaComite"></td>
+            </tr>
+        </table>
+
+        <h3>Legalización y Firmas</h3>
+        <p id="legalizacion-text">Certificamos que esta evaluación se realizó conforme al Checklist y que el dictamen final es el reflejo de la documentación y evidencia presentada por el proveedor.</p>
+
+        <div class="signature-container">
+            <div class="signature-item">
+                <label for="firma-tecnico">Firma del Responsable Técnico</label>
+                <div class="signature-box"></div>
+            </div>
+            <div class="signature-item">
+                <label for="firma-comite">Firma del Representante del Comité de IA</label>
+                <div class="signature-box"></div>
+            </div>
+        </div>
+    </div>
+
+    <button class="print-button" onclick="window.print()">🖨️ Imprimir Acta</button>
+
+</div>
+
+<script>
+    /**
+     * Al cargar la página, intenta obtener los datos desde localStorage.
+     */
+    window.onload = function() {
+        const printData = localStorage.getItem('checklistPrintData');
+        if (printData) {
+            try {
+                const data = JSON.parse(printData);
+                // Validación de estructura mínima
+                if (!data.proveedor || !data.puntuaciones) {
+                    showMessage("Error: Los datos para impresión no son válidos (falta el proveedor o las puntuaciones).", 'error');
+                    return;
+                }
+                const { scoreBruta, scorePonderada } = calculateScore(data.puntuaciones);
+                renderChecklist(data, scoreBruta, scorePonderada);
+                showMessage("Checklist cargado y cálculos completados exitosamente.", 'success');
+                // Limpiar los datos después de usarlos para no cargarlos de nuevo en futuras visitas.
+                localStorage.removeItem('checklistPrintData');
+            } catch (error) {
+                showMessage(`Error al procesar los datos para impresión: ${error.message}.`, 'error');
+            }
+        }
+    };
+
+    // Definición de criterios y sus pesos por sección
+    const checklistDefinition = {
+        "1": { name: "1. Ética y Conformidad Regulatoria", weight: 0.25, criteria: ["1.1", "1.2", "1.3", "1.4"] },
+        "2": { name: "2. Transparencia y Documentación Técnica", weight: 0.20, criteria: ["2.1", "2.2", "2.3"] },
+        "3": { name: "3. Privacidad y Protección de Datos", weight: 0.20, criteria: ["3.1", "3.2", "3.3", "3.4"] },
+        "4": { name: "4. Seguridad y Robustez", weight: 0.20, criteria: ["4.1", "4.2", "4.3"] },
+        "5": { name: "5. Auditoría y Rendición de Cuentas", weight: 0.10, criteria: ["5.1", "5.2"] },
+        "6": { name: "6. Calidad del Servicio y Soporte", weight: 0.15, criteria: ["6.1", "6.2", "6.3"] }
+    };
+
+    const globalCriterios = {
+        "1.1": "Conformidad con marco regulatorio colombiano",
+        "1.2": "Política de IA Responsable o Ética",
+        "1.3": "Sistema de Gestión de IA (AIMS)",
+        "1.4": "Gestión de Riesgos de IA",
+        "2.1": "Model Card (Ficha del Modelo)",
+        "2.2": "Data Sheet (Ficha de Datos)",
+        "2.3": "Documentación Técnica para Auditoría",
+        "3.1": "Claridad sobre Titularidad de Datos",
+        "3.2": "Data Processing Agreement (DPA)",
+        "3.3": "Gestión de Derechos de los Titulares",
+        "3.4": "Políticas de Retención y Borrado de Datos",
+        "4.1": "Certificaciones de Seguridad",
+        "4.2": "Pruebas de Robustez y Seguridad de IA",
+        "4.3": "Respuesta a Incidentes de Seguridad",
+        "5.1": "Derecho a Auditoría",
+        "5.2": "Trazabilidad de Decisiones",
+        "6.1": "Acuerdos de Nivel de Servicio (SLA)",
+        "6.2": "Soporte Técnico y Transferencia de Conocimiento",
+        "6.3": "Gestión de Cambios y Roadmap"
+    };
+
+    /**
+     * Muestra un mensaje de estado (éxito o error) al usuario.
+     */
+    function showMessage(message, type) {
+        const messageBox = document.getElementById('status-message');
+        messageBox.textContent = message;
+        messageBox.className = `message-box ${type}`;
+        messageBox.style.display = 'block';
+    }
+
+    /**
+     * Carga y parsea el archivo JSON.
+     */
+    function loadJsonFile(files) {
+        document.getElementById('status-message').style.display = 'none';
+        document.getElementById('checklist-container').innerHTML = '<p>Cargando datos...</p>';
+        document.getElementById('calculation-results').style.display = 'none';
+
+        if (files.length === 0) {
+            document.getElementById('checklist-container').innerHTML = '<p>La evaluación del proveedor aparecerá aquí una vez cargado el archivo JSON.</p>';
+            return;
+        }
+
+        const file = files[0];
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            try {
+                const data = JSON.parse(e.target.result);
+                
+                // Validación de estructura mínima
+                if (!data.proveedor || !data.puntuaciones) {
+                    showMessage("Error: El archivo JSON cargado no parece ser un Checklist válido.", 'error');
+                    return;
+                }
+
+                const { scoreBruta, scorePonderada } = calculateScore(data.puntuaciones);
+                renderChecklist(data, scoreBruta, scorePonderada);
+                showMessage("Checklist cargado y cálculos completados exitosamente.", 'success');
+            } catch (error) {
+                showMessage(`Error al procesar el archivo JSON: ${error.message}. Verifique el formato.`, 'error');
+                console.error("Error de parsing:", error);
+            }
+        };
+        
+        reader.onerror = function() {
+            showMessage("Error al leer el archivo. Intente de nuevo.", 'error');
+        };
+        
+        reader.readAsText(file);
+    }
+    
+    /**
+     * Realiza el cálculo de la Puntuación Bruta y Ponderada.
+     */
+    function calculateScore(puntuaciones) {
+        let scoreBruta = 0;
+        let scorePonderada = 0;
+        let totalCriteria = 0;
+
+        for (const cat in checklistDefinition) {
+            const section = checklistDefinition[cat];
+            const numCriteria = section.criteria.length;
+            const criterionWeight = section.weight / numCriteria; // Peso equitativo por criterio dentro de la sección
+            
+            for (const id of section.criteria) {
+                const score = puntuaciones[id] !== undefined ? puntuaciones[id] : 0; // Asumir 0 si falta
+                scoreBruta += score;
+                scorePonderada += score * criterionWeight;
+                totalCriteria++;
+            }
+        }
+
+        // El máximo teórico de scoreBruta es 2 * 19 criterios = 38
+        // La puntuación ponderada se redondea a 3 decimales para el reporte.
+        return {
+            scoreBruta: scoreBruta,
+            scorePonderada: parseFloat(scorePonderada.toFixed(3))
+        };
+    }
+
+    /**
+     * Función principal para renderizar todos los datos del Checklist.
+     */
+    function renderChecklist(data, scoreBruta, scorePonderada) {
+        const container = document.getElementById('checklist-container');
+        
+        // --- 1. ENCABEZADO Y RESUMEN ---
+        document.getElementById('eval-header').textContent = `Evaluación del proveedor: ${data.proveedor} | Caso de Uso: ${data.casoUso} | Riesgo: ${data.nivelRiesgo.toUpperCase()} | Checklist: ${data.checklistAplicado.toUpperCase()}`;
+
+        let html = '<h2>1. Evaluación Detallada por Criterio</h2>';
+        
+        // --- 2. TABLA DE PUNTUACIONES Y EVIDENCIAS ---
+        html += '<table class="checklist-table">';
+        html += '<thead><tr>';
+        html += '<th style="width: 10%;">ID</th>';
+        html += '<th style="width: 40%;">Criterio Evaluado</th>';
+        html += '<th style="width: 10%;">Puntuación (2=Cumple)</th>';
+        html += '<th style="width: 40%;">Evidencia Presentada</th>';
+        html += '</tr></thead><tbody>';
+
+        for (const cat in checklistDefinition) {
+            const section = checklistDefinition[cat];
+            html += `<tr><td colspan="4" style="text-align: left; background-color: #f0f8ff; font-weight: bold;">${section.name} (Peso: ${section.weight * 100}%)</td></tr>`;
+            
+            for (const key of section.criteria) {
+                const score = data.puntuaciones[key] !== undefined ? data.puntuaciones[key] : 0;
+                const evidencia = data.evidencias[key] || 'N/A';
+                const isMandatory = data.criteriosMandatorios.some(c => c.id === key);
+                const mandatoryIndicator = isMandatory ? ' ⭐' : '';
+                
+                html += '<tr>';
+                html += `<td>${key}${mandatoryIndicator}</td>`;
+                html += `<td style="text-align: left;">${globalCriterios[key] || 'Descripción no disponible'}</td>`;
+                html += `<td class="score-${score}">${score === 2 ? 'CUMPLE' : (score === 1 ? 'PARCIAL' : 'NO CUMPLE')}</td>`;
+                html += `<td style="text-align: left; font-style: italic;">${evidencia}</td>`;
+                html += '</tr>';
+            }
+        }
+
+        html += '</tbody></table>';
+        
+        // --- 3. RESUMEN DE CUMPLIMIENTO MANDATORIO ---
+        html += '<h2>2. Resumen de Criterios Mandatorios</h2>';
+        
+        html += '<table class="checklist-table">';
+        html += '<thead><tr>';
+        html += '<th>ID</th>';
+        html += '<th>Criterio</th>';
+        html += '<th>Estado de Cumplimiento</th>';
+        html += '</tr></thead><tbody>';
+
+        data.criteriosMandatorios.forEach(criterio => {
+            const descripcion = globalCriterios[criterio.id] || 'Descripción no disponible';
+            const estado = criterio.cumplido ? 'CUMPLIDO' : 'INCUMPLIDO';
+            const clase = criterio.cumplido ? 'cumple-true' : 'cumple-false';
+            
+            html += '<tr>';
+            html += `<td>${criterio.id}</td>`;
+            html += `<td style="text-align: left;">${descripcion}</td>`;
+            html += `<td class="${clase}">${estado}</td>`;
+            html += '</tr>';
+        });
+
+        html += '</tbody></table>';
+
+        // Renderizar el HTML al contenedor
+        container.innerHTML = html;
+
+        // --- 4. Mostrar Resultados de Cálculo ---
+        document.getElementById('scoreBruta').textContent = `${scoreBruta}/38`;
+        document.getElementById('scorePonderada').textContent = `${scorePonderada}/2.0`;
+        document.getElementById('calculation-results').style.display = 'block';
+
+        // --- 5. Llenar campos de Aprobación Final y Evaluadores ---
+        const dictamenClass = `final-${data.dictamenFinal.toLowerCase().replace(/\s/g, '-')}`;
+        document.getElementById('dictamenFinalDisplay').innerHTML = `<span class="${dictamenClass}">${data.dictamenFinal.toUpperCase()}</span>`;
+        document.getElementById('resultadoMandatorios').textContent = data.resultadoMandatorios.toUpperCase();
+        document.getElementById('observacionesDisplay').textContent = data.observaciones;
+        
+        document.getElementById('responsableTecnico').textContent = data.evaluadores.responsableTecnico;
+        document.getElementById('fechaTecnico').textContent = data.evaluadores.fechaTecnico;
+        document.getElementById('dpoJuridica').textContent = data.evaluadores.dpoJuridica;
+        document.getElementById('fechaDpo').textContent = data.evaluadores.fechaDpo;
+        document.getElementById('comiteIa').textContent = data.evaluadores.comiteIa;
+        document.getElementById('fechaComite').textContent = data.evaluadores.fechaComite;
+
+        // CORRECCIÓN: Poblar el texto de legalización con los datos cargados
+        const legalizacionText = document.getElementById('legalizacion-text');
+        legalizacionText.innerHTML = `Certificamos que esta evaluación se realizó conforme al **Checklist ${data.checklistAplicado}** y que el dictamen final es el reflejo de la documentación y evidencia presentada por el proveedor **${data.proveedor}**.`;
+    }
+</script>
+
+</body>
+</html>

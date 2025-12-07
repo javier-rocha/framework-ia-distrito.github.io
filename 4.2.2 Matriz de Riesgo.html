@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matriz de Riesgos de IA - Toolkit de IA</title>    
+    <title>Matriz de Riesgos de IA - Toolkit de IA</title>
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/datasheet-modelcard.css">
     <link rel="stylesheet" href="css/matriz-riesgo.css">
 </head>
 <body>
@@ -14,12 +15,34 @@
             <h1>📊 Matriz de Riesgos de IA</h1>
             <p>Instrumento estandarizado para identificar, evaluar y priorizar riesgos de sistemas de IA</p>
         </div>
-        <div class="collapsible">
-            <div class="collapsible-header" onclick="toggleCollapsible(this)">
-                <span>📐 Metodología de Evaluación 3x3</span>
-                <span class="collapsible-icon">▼</span>
+
+        <div class="sidebar">
+            <div class="nav-section">
+                <div class="nav-section-title">📋 Secciones de la Matriz</div>
+                <a href="#seccion-metodologia" class="nav-item active">📐 Metodología</a>
+                <a href="#seccion-acciones" class="nav-item">⚙️ Acciones por Nivel</a>                
+                <a href="#seccion-matriz" class="nav-item">📋 Riesgos Registrados</a>
             </div>
-            <div class="collapsible-content">
+            <div class="panel json-panel">
+                <div class="json-title">📄 Gestión de Datos</div>
+                <div class="json-actions">
+                    <input type="file" id="fileInput" accept=".json" style="display: none;" onchange="cargarDesdeJSON(event)">
+                    <button class="json-btn import" onclick="document.getElementById('fileInput').click()">Importar desde JSON</button>
+                    <button class="json-btn export" onclick="exportarRiesgos()">Exportar a JSON</button>
+                    <button class="json-btn print" onclick="imprimirMatriz()">Imprimir Matriz</button>
+                    <button class="json-btn" onclick="cargarRiesgosEjemplo()" style="background: #9c27b0; color: white;">Cargar Ejemplo</button>
+                    <button class="json-btn" onclick="limpiarTodaLaMatriz()" style="background: #f44336; color: white;">Limpiar Todo</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="section-card" id="seccion-metodologia">
+                <div class="section-header">
+                    <div class="section-icon">📐</div>
+                    <div class="section-title">Metodología de Evaluación 3x3</div>
+                </div>
+                <div class="section-content">
                 <div class="methodology-content">
                     <div class="methodology-text">
                         <p>La metodología adoptada se estructura en una matriz de evaluación de 3x3, en la cual se cruzan los niveles de probabilidad e impacto, clasificados en tres categorías: bajo, medio y alto.</p>
@@ -72,13 +95,15 @@
                         </ul>
                     </div>
                 </div>
+                </div>
             </div>
 
-            <div class="collapsible-header" onclick="toggleCollapsible(this)">
-                <span>⚙️ Acciones por Nivel de Riesgo</span>
-                <span class="collapsible-icon">▼</span>
-            </div>
-            <div class="collapsible-content">
+            <div class="section-card" id="seccion-acciones">
+                <div class="section-header">
+                    <div class="section-icon">⚙️</div>
+                    <div class="section-title">Acciones por Nivel de Riesgo</div>
+                </div>
+                <div class="section-content">
                 <div class="actions-section">
                     <div class="action-card">
                         <div class="action-title">🟢 Riesgo Bajo (1-3)</div>
@@ -111,121 +136,19 @@
                         </ul>
                     </div>
                 </div>
-            </div>               
-        </div>
-        <div class="content">
-            <!-- Formulario de registro de riesgos en posición destacada -->
-            
-            <div class="main-content">
-                <div class="form-section">
-                    <div class="form-title">➕ Registrar Nuevo Riesgo</div>
-                    <div class="form-grid">
-                        <div class="form-group full-width">
-                            <label for="riskDescription">Descripción del Riesgo</label>
-                            <textarea id="riskDescription" placeholder="Describa el riesgo identificado"></textarea>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="riskCategory">Categoría</label>
-                            <select id="riskCategory">
-                                <option value="">Seleccione una categoría</option>
-                                <option value="Privacidad">Privacidad</option>
-                                <option value="Equidad">Equidad</option>
-                                <option value="Seguridad">Seguridad</option>
-                                <option value="Transparencia">Transparencia</option>
-                                <option value="Rendición de cuentas">Rendición de cuentas</option>
-                                <option value="Continuidad del servicio">Continuidad del servicio</option>
-                                <option value="Cumplimiento">Cumplimiento</option>
-                                <option value="Reputación">Reputación</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="riskDimension">Dimensión(es) de Impacto</label>
-                            <select id="riskDimension">
-                                <option value="">Seleccione una dimensión</option>
-                                <option value="Derechos y libertades fundamentales">Derechos y libertades fundamentales</option>
-                                <option value="Equidad y no discriminación">Equidad y no discriminación</option>
-                                <option value="Continuidad y calidad del servicio">Continuidad y calidad del servicio</option>
-                                <option value="Seguridad y ciberseguridad">Seguridad y ciberseguridad</option>
-                                <option value="Reputación y confianza pública">Reputación y confianza pública</option>
-                                <option value="Cumplimiento regulatorio">Cumplimiento regulatorio</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="riskProbability">Probabilidad (1-3)</label>
-                            <select id="riskProbability">
-                                <option value="">Seleccione probabilidad</option>
-                                <option value="1">1 - Baja</option>
-                                <option value="2">2 - Media</option>
-                                <option value="3">3 - Alta</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="riskImpact">Impacto (1-3)</label>
-                            <select id="riskImpact">
-                                <option value="">Seleccione impacto</option>
-                                <option value="1">1 - Bajo</option>
-                                <option value="2">2 - Medio</option>
-                                <option value="3">3 - Alto</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="riskControls">Controles Existentes</label>
-                            <textarea id="riskControls" placeholder="Describa los controles existentes"></textarea>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="riskEffectiveness">Efectividad de Controles</label>
-                            <select id="riskEffectiveness">
-                                <option value="">Seleccione efectividad</option>
-                                <option value="Alta">Alta</option>
-                                <option value="Media">Media</option>
-                                <option value="Baja">Baja</option>
-                                <option value="No aplica">No aplica</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group full-width">
-                            <label for="riskAdditional">Controles Adicionales Propuestos</label>
-                            <textarea id="riskAdditional" placeholder="Describa los controles adicionales propuestos"></textarea>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="riskResponsible">Responsable</label>
-                            <input type="text" id="riskResponsible" placeholder="Nombre del responsable">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="riskStatus">Estado</label>
-                            <select id="riskStatus">
-                                <option value="">Seleccione estado</option>
-                                <option value="Pendiente">Pendiente</option>
-                                <option value="En progreso">En progreso</option>
-                                <option value="Mitigado">Mitigado</option>
-                                <option value="Aceptado">Aceptado</option>
-                                <option value="Cerrado">Cerrado</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="actions">
-                        <button class="btn btn-primary" onclick="agregarRiesgo()">Agregar Riesgo</button>
-                        <button class="btn btn-warning" id="btnEditar" onclick="guardarEdicion()" style="display:none">Guardar Cambios</button>
-                        <button class="btn btn-secondary" onclick="limpiarFormulario()">Limpiar Formulario</button>
-                        <button class="btn btn-secondary" onclick="cargarRiesgosEjemplo()">Cargar Riesgos de Ejemplo</button>
-                        <button class="btn btn-success" onclick="exportarRiesgos()">Exportar a JSON</button>
-                        <label for="fileInput" class="file-label">Cargar desde JSON</label>
-                        <input type="file" id="fileInput" class="file-input" accept=".json" onchange="cargarDesdeJSON(event)">
-                    </div>
                 </div>
+            </div>
 
-                <div class="content"></div>
-                    <div class="matrix-container">
-                        <h3 class="form-title">📋 Riesgos Registrados</h3>
+            <div class="section-card" id="seccion-matriz">
+                <div class="section-header">
+                    <div class="section-icon">📋</div>
+                    <div class="section-title">Riesgos Registrados</div>
+                </div>
+                <div class="section-content">
+                    <div class="table-toolbar">
+                        <button class="btn btn-primary" onclick="abrirModal()">➕ Agregar Nuevo Riesgo</button>
+                    </div>
+                    <div class="table-container">
                         <table class="risk-matrix">
                             <thead>
                                 <tr>
@@ -249,12 +172,120 @@
                                 <!-- Las filas se generarán dinámicamente con JavaScript -->
                             </tbody>
                         </table>
-                    </div>           
+                    </div>
                 </div>
             </div>
+        </div>
     </div>
-        
 
+    <!-- Modal para Agregar/Editar Riesgo -->
+    <div id="riskModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Registrar Nuevo Riesgo</h2>
+                <span class="close-button" onclick="cerrarModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="riskForm">
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label for="riskDescription">Descripción del Riesgo</label>
+                            <textarea id="riskDescription" class="form-control" placeholder="Describa el riesgo identificado"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="riskCategory">Categoría</label>
+                            <select id="riskCategory" class="form-control">
+                                <option value="">Seleccione una categoría</option>
+                                <option value="Privacidad">Privacidad</option>
+                                <option value="Equidad">Equidad</option>
+                                <option value="Seguridad">Seguridad</option>
+                                <option value="Transparencia">Transparencia</option>
+                                <option value="Rendición de cuentas">Rendición de cuentas</option>
+                                <option value="Continuidad del servicio">Continuidad del servicio</option>
+                                <option value="Cumplimiento">Cumplimiento</option>
+                                <option value="Reputación">Reputación</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="riskDimension">Dimensión(es) de Impacto</label>
+                            <select id="riskDimension" class="form-control">
+                                <option value="">Seleccione una dimensión</option>
+                                <option value="Derechos y libertades fundamentales">Derechos y libertades fundamentales</option>
+                                <option value="Equidad y no discriminación">Equidad y no discriminación</option>
+                                <option value="Continuidad y calidad del servicio">Continuidad y calidad del servicio</option>
+                                <option value="Seguridad y ciberseguridad">Seguridad y ciberseguridad</option>
+                                <option value="Reputación y confianza pública">Reputación y confianza pública</option>
+                                <option value="Cumplimiento regulatorio">Cumplimiento regulatorio</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="riskProbability">Probabilidad (1-3)</label>
+                            <select id="riskProbability" class="form-control">
+                                <option value="">Seleccione probabilidad</option>
+                                <option value="1">1 - Baja</option>
+                                <option value="2">2 - Media</option>
+                                <option value="3">3 - Alta</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="riskImpact">Impacto (1-3)</label>
+                            <select id="riskImpact" class="form-control">
+                                <option value="">Seleccione impacto</option>
+                                <option value="1">1 - Bajo</option>
+                                <option value="2">2 - Medio</option>
+                                <option value="3">3 - Alto</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="riskControls">Controles Existentes</label>
+                            <textarea id="riskControls" class="form-control" placeholder="Describa los controles existentes"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="riskEffectiveness">Efectividad de Controles</label>
+                            <select id="riskEffectiveness" class="form-control">
+                                <option value="">Seleccione efectividad</option>
+                                <option value="Alta">Alta</option>
+                                <option value="Media">Media</option>
+                                <option value="Baja">Baja</option>
+                                <option value="No aplica">No aplica</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group full-width">
+                            <label for="riskAdditional">Controles Adicionales Propuestos</label>
+                            <textarea id="riskAdditional" class="form-control" placeholder="Describa los controles adicionales propuestos"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="riskResponsible">Responsable</label>
+                            <input type="text" id="riskResponsible" class="form-control" placeholder="Nombre del responsable">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="riskStatus">Estado</label>
+                            <select id="riskStatus" class="form-control">
+                                <option value="">Seleccione estado</option>
+                                <option value="Pendiente">Pendiente</option>
+                                <option value="En progreso">En progreso</option>
+                                <option value="Mitigado">Mitigado</option>
+                                <option value="Aceptado">Aceptado</option>
+                                <option value="Cerrado">Cerrado</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="cerrarModal()">Cancelar</button>
+                <button class="btn btn-primary" onclick="guardarRiesgo()">Guardar</button>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -332,7 +363,7 @@
             return { nivel: "Alto", clase: "risk-level-alto" };
         }
 
-        function agregarRiesgo() {
+        function guardarRiesgo() {
             const descripcion = document.getElementById('riskDescription').value;
             const categoria = document.getElementById('riskCategory').value;
             const dimension = document.getElementById('riskDimension').value;
@@ -346,7 +377,7 @@
 
             // Validación básica
             if (!descripcion || !categoria || !dimension || isNaN(probabilidad) || isNaN(impacto)) {
-                alert('Por favor complete todos los campos obligatorios');
+                alert('Por favor complete los campos: Descripción, Categoría, Dimensión, Probabilidad e Impacto.');
                 return;
             }
 
@@ -354,51 +385,49 @@
             const calificacion = probabilidad * impacto;
             
             const riesgo = {
-                id: riesgoId,
-                descripcion,
-                categoria,
-                dimension,
-                probabilidad,
-                impacto,
-                calificacion,
-                nivelRiesgo,
-                controles,
-                efectividad,
-                adicional,
-                responsable,
-                estado
+                id: editandoId !== null ? editandoId : riesgoId,
+                descripcion, categoria, dimension, probabilidad, impacto,
+                calificacion, nivelRiesgo, controles, efectividad, adicional,
+                responsable, estado
             };
+
+            if (editandoId !== null) {
+                const riesgoIndex = riesgos.findIndex(r => r.id === editandoId);
+                if (riesgoIndex !== -1) {
+                    riesgos[riesgoIndex] = riesgo;
+                }
+            } else {
+                riesgos.push(riesgo);
+                riesgoId++;
+            }
             
-            riesgos.push(riesgo);
             actualizarTabla();
-            riesgoId++;
-            limpiarFormulario();
+            cerrarModal();
         }
 
         function actualizarTabla() {
             const tabla = document.getElementById('riskTableBody');
             tabla.innerHTML = '';
-            
+
             riesgos.forEach(riesgo => {
                 const nuevaFila = tabla.insertRow();
-                
                 nuevaFila.innerHTML = `
                     <td class="risk-id">${riesgo.id}</td>
-                    <td class="risk-description">${riesgo.descripcion}</td>
-                    <td class="risk-category">${riesgo.categoria}</td>
-                    <td class="risk-dimension">${riesgo.dimension}</td>
+                    <td class="risk-description">${riesgo.descripcion || ''}</td>
+                    <td class="risk-category">${riesgo.categoria || ''}</td>
+                    <td class="risk-dimension">${riesgo.dimension || ''}</td>
                     <td class="risk-probability">${riesgo.probabilidad}</td>
                     <td class="risk-impact">${riesgo.impacto}</td>
                     <td class="risk-rating">${riesgo.calificacion}</td>
                     <td class="risk-level"><span class="${riesgo.nivelRiesgo.clase}">${riesgo.nivelRiesgo.nivel}</span></td>
-                    <td class="risk-controls">${riesgo.controles}</td>
-                    <td class="risk-effectiveness">${riesgo.efectividad}</td>
-                    <td class="risk-additional">${riesgo.adicional}</td>
-                    <td class="risk-responsible">${riesgo.responsable}</td>
-                    <td class="risk-status">${riesgo.estado}</td>
+                    <td class="risk-controls">${riesgo.controles || ''}</td>
+                    <td class="risk-effectiveness">${riesgo.efectividad || ''}</td>
+                    <td class="risk-additional">${riesgo.adicional || ''}</td>
+                    <td class="risk-responsible">${riesgo.responsable || ''}</td>
+                    <td class="risk-status">${riesgo.estado || ''}</td>
                     <td class="risk-actions">
-                        <button class="btn btn-warning" onclick="editarRiesgo(${riesgo.id})">Editar</button>
-                        <button class="btn btn-danger" onclick="eliminarRiesgo(${riesgo.id})">Eliminar</button>
+                        <button class="btn btn-icon btn-warning" onclick="editarRiesgo(${riesgo.id})" title="Editar">✎</button>
+                        <button class="btn btn-icon btn-danger" onclick="eliminarRiesgo(${riesgo.id})" title="Eliminar">✖</button>
                     </td>
                 `;
             });
@@ -407,69 +436,16 @@
         function editarRiesgo(id) {
             const riesgo = riesgos.find(r => r.id === id);
             if (!riesgo) return;
-            
-            document.getElementById('riskDescription').value = riesgo.descripcion;
-            document.getElementById('riskCategory').value = riesgo.categoria;
-            document.getElementById('riskDimension').value = riesgo.dimension;
-            document.getElementById('riskProbability').value = riesgo.probabilidad;
-            document.getElementById('riskImpact').value = riesgo.impacto;
-            document.getElementById('riskControls').value = riesgo.controles;
-            document.getElementById('riskEffectiveness').value = riesgo.efectividad;
-            document.getElementById('riskAdditional').value = riesgo.adicional;
-            document.getElementById('riskResponsible').value = riesgo.responsable;
-            document.getElementById('riskStatus').value = riesgo.estado;
-            
+
             editandoId = id;
-            document.getElementById('btnEditar').style.display = 'inline-block';
-            document.querySelector('.btn-primary').style.display = 'none';
+            abrirModal(riesgo);
         }
 
-        function guardarEdicion() {
-            if (editandoId === null) return;
-            
-            const descripcion = document.getElementById('riskDescription').value;
-            const categoria = document.getElementById('riskCategory').value;
-            const dimension = document.getElementById('riskDimension').value;
-            const probabilidad = parseInt(document.getElementById('riskProbability').value);
-            const impacto = parseInt(document.getElementById('riskImpact').value);
-            const controles = document.getElementById('riskControls').value;
-            const efectividad = document.getElementById('riskEffectiveness').value;
-            const adicional = document.getElementById('riskAdditional').value;
-            const responsable = document.getElementById('riskResponsible').value;
-            const estado = document.getElementById('riskStatus').value;
-
-            // Validación básica
-            if (!descripcion || !categoria || !dimension || isNaN(probabilidad) || isNaN(impacto)) {
-                alert('Por favor complete todos los campos obligatorios');
-                return;
-            }
-
-            const nivelRiesgo = calcularNivelRiesgo(probabilidad, impacto);
-            const calificacion = probabilidad * impacto;
-            
-            const riesgoIndex = riesgos.findIndex(r => r.id === editandoId);
-            if (riesgoIndex !== -1) {
-                riesgos[riesgoIndex] = {
-                    id: editandoId,
-                    descripcion,
-                    categoria,
-                    dimension,
-                    probabilidad,
-                    impacto,
-                    calificacion,
-                    nivelRiesgo,
-                    controles,
-                    efectividad,
-                    adicional,
-                    responsable,
-                    estado
-                };
-                
+        function limpiarTodaLaMatriz() {
+            if (confirm('¿Está seguro de que desea limpiar toda la matriz? Se eliminarán todos los riesgos registrados.')) {
+                riesgos = [];
+                riesgoId = 1;
                 actualizarTabla();
-                limpiarFormulario();
-                editandoId = null;
-                document.getElementById('btnEditar').style.display = 'none';
-                document.querySelector('.btn-primary').style.display = 'inline-block';
             }
         }
 
@@ -480,41 +456,46 @@
             }
         }
 
-        function limpiarFormulario() {
-            document.getElementById('riskDescription').value = '';
-            document.getElementById('riskCategory').value = '';
-            document.getElementById('riskDimension').value = '';
-            document.getElementById('riskProbability').value = '';
-            document.getElementById('riskImpact').value = '';
-            document.getElementById('riskControls').value = '';
-            document.getElementById('riskEffectiveness').value = '';
-            document.getElementById('riskAdditional').value = '';
-            document.getElementById('riskResponsible').value = '';
-            document.getElementById('riskStatus').value = '';
+        function abrirModal(riesgo = null) {
+            const modal = document.getElementById('riskModal');
+            const modalTitle = document.getElementById('modalTitle');
             
-            if (editandoId !== null) {
+            if (riesgo) {
+                modalTitle.textContent = 'Editar Riesgo';
+                document.getElementById('riskDescription').value = riesgo.descripcion || '';
+                document.getElementById('riskCategory').value = riesgo.categoria || '';
+                document.getElementById('riskDimension').value = riesgo.dimension || '';
+                document.getElementById('riskProbability').value = riesgo.probabilidad || '';
+                document.getElementById('riskImpact').value = riesgo.impacto || '';
+                document.getElementById('riskControls').value = riesgo.controles || '';
+                document.getElementById('riskEffectiveness').value = riesgo.efectividad || '';
+                document.getElementById('riskAdditional').value = riesgo.adicional || '';
+                document.getElementById('riskResponsible').value = riesgo.responsable || '';
+                document.getElementById('riskStatus').value = riesgo.estado || '';
+            } else {
+                modalTitle.textContent = 'Registrar Nuevo Riesgo';
                 editandoId = null;
-                document.getElementById('btnEditar').style.display = 'none';
-                document.querySelector('.btn-primary').style.display = 'inline-block';
+                document.getElementById('riskForm').reset();
             }
+            
+            modal.style.display = 'flex';
+        }
+
+        function cerrarModal() {
+            const modal = document.getElementById('riskModal');
+            modal.style.display = 'none';
+            editandoId = null;
+            document.getElementById('riskForm').reset();
         }
 
         function cargarRiesgosEjemplo() {
             if (confirm('¿Está seguro de que desea cargar riesgos de ejemplo? Se agregarán 5 riesgos predefinidos a la matriz.')) {
                 riesgosEjemplo.forEach(riesgo => {
-                    document.getElementById('riskDescription').value = riesgo.descripcion;
-                    document.getElementById('riskCategory').value = riesgo.categoria;
-                    document.getElementById('riskDimension').value = riesgo.dimension;
-                    document.getElementById('riskProbability').value = riesgo.probabilidad;
-                    document.getElementById('riskImpact').value = riesgo.impacto;
-                    document.getElementById('riskControls').value = riesgo.controles;
-                    document.getElementById('riskEffectiveness').value = riesgo.efectividad;
-                    document.getElementById('riskAdditional').value = riesgo.adicional;
-                    document.getElementById('riskResponsible').value = riesgo.responsable;
-                    document.getElementById('riskStatus').value = riesgo.estado;
-                    
-                    agregarRiesgo();
+                    const nivelRiesgo = calcularNivelRiesgo(riesgo.probabilidad, riesgo.impacto);
+                    const calificacion = riesgo.probabilidad * riesgo.impacto;
+                    riesgos.push({ id: riesgoId++, ...riesgo, calificacion, nivelRiesgo });
                 });
+                actualizarTabla();
             }
         }
 
@@ -598,24 +579,44 @@
             event.target.value = '';
         }
 
-        function toggleCollapsible(element) {
-            const collapsible = element.parentElement;
-            collapsible.classList.toggle('active');
-        }
+        function imprimirMatriz() {
+            if (riesgos.length === 0) {
+                alert('No hay riesgos para imprimir.');
+                return;
+            }
+            
+            const datosImprimir = {
+                fechaExportacion: new Date().toISOString(),
+                riesgos: riesgos
+            };
 
-        // Función para procesar parámetros de URL
-        function getUrlParameter(name) {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(name);
+            localStorage.setItem('riskMatrixPrintData', JSON.stringify(datosImprimir));
+            window.open('print/matriz-riesgos-printable.html', '_blank');
         }
 
         // Ejecutar al cargar la página
         window.addEventListener('DOMContentLoaded', function() {
-            // Aquí se podría cargar datos preexistentes si se está editando una matriz
-            const matrizId = getUrlParameter('id');
-            if (matrizId) {
-                console.log('Cargando matriz con ID:', matrizId);
-                // En una implementación real, se cargarían los datos desde el servidor
+            // Navegación
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+                        this.classList.add('active');
+                        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+
+            // Cerrar modal si se hace clic fuera de él
+            window.onclick = function(event) {
+                const modal = document.getElementById('riskModal');
+                if (event.target == modal) {
+                    cerrarModal();
+                }
             }
         });
     </script>

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acta de Revisión - Matriz de Riesgos de IA</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; color: #333; }
+        .container { max-width: 1100px; margin: auto; padding: 30px; border: 1px solid #ccc; }
+        h1, h2, h3 { color: #8e44ad; page-break-after: avoid; }
+        h1 { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #8e44ad; padding-bottom: 10px; }
+        
+        /* Estilos de la Matriz */
+        .risk-table { width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 0.85em; }
+        .risk-table th, .risk-table td { border: 1px solid #ddd; padding: 8px 6px; text-align: center; vertical-align: middle; }
+        .risk-table th { background-color: #f0f0f5; font-weight: bold; }
+        .risk-table td.desc { text-align: left; width: 25%; }
+        .risk-table td.mitig { text-align: left; width: 20%; }
+
+        /* Estilos de Nivel de Riesgo */
+        .risk-level-bajo { background-color: #d4edda; color: #155724; font-weight: bold; } /* Verde */
+        .risk-level-medio { background-color: #fff3cd; color: #856404; font-weight: bold; } /* Amarillo */
+        .risk-level-alto { background-color: #f8d7da; color: #721c24; font-weight: bold; } /* Rojo */
+
+        /* Sección de Legalización */
+        .audit-section { margin-top: 40px; padding-top: 20px; border-top: 2px dashed #ccc; }
+        .audit-section label { font-weight: bold; display: block; margin-top: 10px; }
+        .audit-controls th, .audit-controls td { padding: 8px; border: 1px solid #ddd; }
+        .audit-controls input, .audit-controls select, .audit-controls textarea {
+            width: 100%; padding: 6px; border: 1px solid #ccc; box-sizing: border-box;
+        }
+        .signature-box { border: 1px solid #333; height: 50px; margin-top: 15px; padding: 5px; text-align: center; }
+        .signature-container { display: flex; justify-content: space-between; gap: 40px; margin-top: 20px; }
+        .signature-item { flex-basis: 50%; }
+        .print-button {
+            display: block; width: 200px; margin: 20px auto; padding: 10px;
+            background-color: #8e44ad; color: white; border: none; cursor: pointer; text-align: center;
+        }
+
+        /* Mensaje de Error/Advertencia */
+        .message-box {
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .message-box.error {
+            color: #721c24;
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+        }
+        .message-box.success {
+            color: #155724;
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+
+        /* Estilos para impresión */
+        @media print {
+            .print-button, .file-input-section, .message-box { display: none; }
+            .container { border: none; padding: 0; }
+            input, textarea, select { border: none !important; }
+            .audit-section .signature-box { border-bottom: 1px solid #000; border-right: none; border-left: none; border-top: none; height: 1px; }
+            .risk-table { page-break-inside: auto; }
+            .risk-table tr { page-break-inside: avoid; page-break-after: auto; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Acta de Revisión y Aprobación de Matriz de Riesgos de IA</h1>
+    <h3 id="export-date">Fecha de Exportación de la Matriz: </h3>
+
+    <div class="file-input-section">
+        <h2>Cargar Archivo de Matriz</h2>
+        <input type="file" id="json-upload" accept=".json" onchange="loadJsonFile(this.files)">
+        <p>Cargue el archivo JSON de la Matriz de Riesgos para generar el acta.</p>
+    </div>
+
+    <div id="status-message" class="message-box" style="display: none;"></div>
+
+    <div id="risk-matrix-container">
+        <p>La matriz de riesgos aparecerá aquí una vez cargado el archivo JSON.</p>
+    </div>
+
+    <div class="audit-section">
+        <h2>Legalización de la Revisión y Controles</h2>
+        <p>Certificamos que los riesgos y las medidas de mitigación de esta matriz han sido revisados y validados por el equipo responsable y el Comité de IA/Riesgos.</p>
+
+        <table class="risk-table audit-controls">
+            <tr>
+                <th>Fecha de Revisión/Auditoría</th>
+                <td><input type="date" id="audit-date" required></td>
+            </tr>
+            <tr>
+                <th>Observaciones del Auditor</th>
+                <td><textarea id="audit-observations" style="height: 60px;"></textarea></td>
+            </tr>
+            <tr>
+                <th>Aprobación Final</th>
+                <td>
+                    <select id="final-approval" required>
+                        <option value="">Seleccione...</option>
+                        <option value="Aprobado">Aprobado</option>
+                        <option value="Aprobado con Plan de Acción">Aprobado con Plan de Acción</option>
+                        <option value="Rechazado">Rechazado</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+
+        <div class="signature-container">
+            <div class="signature-item">
+                <label for="auditor-name">Nombre Completo del Auditor/Revisor</label>
+                <input type="text" id="auditor-name" required>
+                <label>Firma</label>
+                <div class="signature-box"></div>
+                <p style="margin-top: 5px; font-size: 0.8em; border-top: 1px dashed #333;">(Auditoría / Gestión de Riesgos)</p>
+            </div>
+            <div class="signature-item">
+                <label for="comite-name">Nombre del Representante del Comité de IA</label>
+                <input type="text" id="comite-name" required>
+                <label>Firma</label>
+                <div class="signature-box"></div>
+                <p style="margin-top: 5px; font-size: 0.8em; border-top: 1px dashed #333;">(Comité de IA / DPO)</p>
+            </div>
+        </div>
+    </div>
+
+    <button class="print-button" onclick="window.print()">🖨️ Imprimir Acta de Revisión</button>
+
+</div>
+
+<script>
+    /**
+     * Al cargar la página, intenta obtener los datos desde localStorage.
+     */
+    window.onload = function() {
+        const printData = localStorage.getItem('riskMatrixPrintData');
+        if (printData) {
+            try {
+                const data = JSON.parse(printData);
+                // Validación de estructura mínima
+                if (!data.riesgos || !Array.isArray(data.riesgos)) {
+                    showMessage("Error: Los datos para impresión no son válidos (falta la clave 'riesgos').", 'error');
+                    return;
+                }
+                renderRiskMatrix(data);
+                showMessage("Matriz de Riesgos cargada para impresión. Puede imprimir ahora.", 'success');
+                // Limpiar los datos después de usarlos para no cargarlos de nuevo en futuras visitas.
+                localStorage.removeItem('riskMatrixPrintData');
+            } catch (error) {
+                showMessage(`Error al procesar los datos para impresión: ${error.message}.`, 'error');
+            }
+        }
+    };
+
+    /**
+     * Muestra un mensaje de estado (éxito o error) al usuario.
+     * @param {string} message Mensaje a mostrar.
+     * @param {string} type Tipo de mensaje ('error' o 'success').
+     */
+    function showMessage(message, type) {
+        const messageBox = document.getElementById('status-message');
+        messageBox.textContent = message;
+        messageBox.className = `message-box ${type}`;
+        messageBox.style.display = 'block';
+    }
+
+    /**
+     * Convierte una fecha ISO (o cadena) a un formato legible (DD/MM/AAAA HH:MM).
+     * @param {string} isoString Cadena de fecha ISO.
+     * @returns {string} Fecha formateada.
+     */
+    function formatDateTime(isoString) {
+        try {
+            const date = new Date(isoString);
+            if (isNaN(date)) return isoString;
+            
+            const options = { 
+                year: 'numeric', month: 'numeric', day: 'numeric', 
+                hour: '2-digit', minute: '2-digit', second: '2-digit', 
+                hour12: false 
+            };
+            return date.toLocaleDateString('es-ES', options);
+        } catch (e) {
+            return isoString;
+        }
+    }
+
+    /**
+     * Carga y parsea el archivo JSON, luego renderiza los datos.
+     * @param {FileList} files Lista de archivos cargados.
+     */
+    function loadJsonFile(files) {
+        document.getElementById('status-message').style.display = 'none'; // Ocultar mensajes anteriores
+        const container = document.getElementById('risk-matrix-container');
+        container.innerHTML = '<p>Cargando datos...</p>';
+        document.getElementById('export-date').textContent = 'Fecha de Exportación de la Matriz:';
+
+        if (files.length === 0) {
+            container.innerHTML = '<p>La matriz de riesgos aparecerá aquí una vez cargado el archivo JSON.</p>';
+            return;
+        }
+
+        const file = files[0];
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            try {
+                const data = JSON.parse(e.target.result);
+                
+                // Validar estructura mínima (sólo para avisar al usuario si el archivo es incorrecto)
+                if (!data.riesgos || !Array.isArray(data.riesgos)) {
+                    showMessage("Error: El archivo JSON cargado no parece ser una Matriz de Riesgos válida (falta la clave 'riesgos').", 'error');
+                    container.innerHTML = '<p>La matriz de riesgos no se pudo procesar. Verifique el formato del archivo.</p>';
+                    return;
+                }
+
+                renderRiskMatrix(data);
+                showMessage("Matriz de Riesgos cargada exitosamente.", 'success');
+            } catch (error) {
+                showMessage(`Error al procesar el archivo JSON: ${error.message}. Asegúrese de que el formato sea válido.`, 'error');
+                console.error("Error de parsing:", error);
+                container.innerHTML = '<p>La matriz de riesgos no se pudo procesar debido a un error de formato.</p>';
+            }
+        };
+        
+        reader.onerror = function() {
+            showMessage("Error al leer el archivo. Intente de nuevo.", 'error');
+            container.innerHTML = '<p>Error de lectura del archivo.</p>';
+        };
+        
+        reader.readAsText(file);
+    }
+
+    /**
+     * Renderiza la matriz de riesgos en la tabla HTML.
+     * @param {Object} data Objeto JSON de la Matriz de Riesgos.
+     */
+    function renderRiskMatrix(data) {
+        const container = document.getElementById('risk-matrix-container');
+        let html = '<h2>Matriz de Riesgos Identificados</h2>';
+        
+        // Actualizar la fecha de exportación
+        const exportDateElement = document.getElementById('export-date');
+        exportDateElement.textContent = `Fecha de Exportación de la Matriz: ${formatDateTime(data.fechaExportacion)}`;
+
+        html += '<table class="risk-table">';
+        html += '<thead><tr>';
+        html += '<th>ID</th>';
+        html += '<th>Riesgo / Descripción</th>';
+        html += '<th>Categoría</th>';
+        html += '<th>Dimensión de Afectación</th>';
+        html += '<th>P</th>';
+        html += '<th>I</th>';
+        html += '<th>Calificación (P x I)</th>';
+        html += '<th>Nivel de Riesgo</th>';
+        html += '<th>Controles Actuales</th>';
+        html += '<th>Efectividad</th>';
+        html += '<th>Mitigación Adicional Recomendada</th>';
+        html += '<th>Responsable</th>';
+        html += '<th>Estado</th>';
+        html += '</tr></thead><tbody>';
+
+        data.riesgos.forEach(risk => {
+            html += '<tr>';
+            html += `<td>${risk.id}</td>`;
+            html += `<td class="desc">${risk.descripcion}</td>`;
+            html += `<td>${risk.categoria}</td>`;
+            html += `<td>${risk.dimension}</td>`;
+            html += `<td>${risk.probabilidad}</td>`;
+            html += `<td>${risk.impacto}</td>`;
+            html += `<td>${risk.calificacion}</td>`;
+            html += `<td class="${risk.nivelRiesgo.clase}">${risk.nivelRiesgo.nivel}</td>`;
+            html += `<td class="mitig">${risk.controles}</td>`;
+            html += `<td>${risk.efectividad}</td>`;
+            html += `<td class="mitig">${risk.adicional}</td>`;
+            html += `<td>${risk.responsable}</td>`;
+            html += `<td>${risk.estado}</td>`;
+            html += '</tr>';
+        });
+
+        html += '</tbody></table>';
+        container.innerHTML = html;
+        // La visualización de la matriz de riesgo 3x3 ayuda a entender cómo se calcula el Nivel de Riesgo (P x I)
+        html += '<h3>Matriz de Criticidad (Probabilidad vs. Impacto)</h3>';
+        html += '[Image of risk matrix 3x3 for IT systems]';
+    }
+</script>
+
+</body>
+</html>

@@ -967,7 +967,14 @@
 
     // Función para imprimir el formulario
     function imprimirFormulario() {
-        window.print();
+        // 1. Recopilar los datos del formulario.
+        recopilarDatosDataSheet();
+
+        // 2. Guardar los datos en localStorage para que la página de impresión pueda leerlos.
+        localStorage.setItem('dataSheetPrintData', JSON.stringify(dataSheetData));
+
+        // 3. Redireccionar a la página de impresión en una nueva pestaña.
+        window.open('print/data-sheet-printable.html', '_blank');
     }
 
     // Función para validar campos requeridos antes de enviar

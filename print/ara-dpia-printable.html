@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acta de Aprobación DPIA/ARA - Sistema IA</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; color: #333; }
+        .container { max-width: 1100px; margin: auto; padding: 30px; border: 1px solid #ccc; }
+        h1 { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #007bff; padding-bottom: 10px; color: #007bff; }
+        h2 { color: #007bff; margin-top: 30px; border-left: 5px solid #007bff; padding-left: 10px; page-break-after: avoid; }
+        h3 { color: #555; margin-top: 20px; border-bottom: 1px solid #ddd; padding-bottom: 5px; page-break-after: avoid; }
+        
+        /* Estilos Generales de Tablas */
+        .info-table, .data-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 0.9em; }
+        .info-table th, .info-table td, .data-table th, .data-table td { border: 1px solid #ddd; padding: 8px; text-align: left; vertical-align: top; }
+        .info-table th { width: 30%; background-color: #f8f9fa; font-weight: bold; }
+        .data-table th { background-color: #e9ecef; font-weight: bold; text-align: center; }
+        
+        /* Estilos Específicos de Tablas (Para impresión) */
+        .data-table td { text-align: center; }
+        .data-table td:nth-child(2) { text-align: left; } /* Descripción */
+
+        /* Estilos de Nivel de Riesgo (Igual que en la matriz anterior para consistencia) */
+        .bajo { background-color: #d4edda; color: #155724; font-weight: bold; }
+        .medio { background-color: #fff3cd; color: #856404; font-weight: bold; }
+        .alto { background-color: #f8d7da; color: #721c24; font-weight: bold; }
+
+        /* Sección de Aprobación Final */
+        .approval-section { margin-top: 40px; padding-top: 20px; border-top: 2px dashed #007bff; }
+        .signature-box { border: 1px solid #333; height: 50px; margin-top: 15px; padding: 5px; text-align: center; }
+        .signature-container { display: flex; justify-content: space-between; gap: 40px; margin-top: 20px; }
+        .signature-item { flex-basis: 50%; }
+        
+        /* Mensaje de Estado (Error/Éxito) */
+        .message-box { padding: 15px; margin-bottom: 20px; border: 1px solid transparent; border-radius: 4px; font-weight: bold; }
+        .message-box.error { color: #721c24; background-color: #f8d7da; border-color: #f5c6cb; }
+        .message-box.success { color: #155724; background-color: #d4edda; border-color: #c3e6cb; }
+
+        .print-button { display: block; width: 200px; margin: 20px auto; padding: 10px; background-color: #007bff; color: white; border: none; cursor: pointer; text-align: center; }
+        
+        /* Estilos para impresión */
+        @media print {
+            .print-button, .file-input-section, .message-box { display: none; }
+            .container { border: none; padding: 0; }
+            input, textarea, select { border: none !important; }
+            .data-table th, .data-table td { font-size: 7.5pt; } /* Reducir letra para caber más en hoja */
+            .approval-section .signature-box { border-bottom: 1px solid #000; border-right: none; border-left: none; border-top: none; height: 1px; }
+            .data-table, .info-table { page-break-inside: avoid; }
+            h2, h3 { page-break-before: auto; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Acta de Aprobación DPIA / ARA</h1>
+    <h2>Evaluación de Impacto de Protección de Datos y Análisis de Riesgos Algorítmicos</h2>
+    <h3 id="metadata"></h3>
+
+    <div class="file-input-section">
+        <h3>Cargar Archivo DPIA/ARA</h3>
+        <input type="file" id="json-upload" accept=".json" onchange="loadJsonFile(this.files)">
+        <p>Cargue el archivo JSON de la Evaluación DPIA/ARA para generar el acta.</p>
+    </div>
+
+    <div id="status-message" class="message-box" style="display: none;"></div>
+
+    <div id="dpia-container">
+        <p>La evaluación aparecerá aquí una vez cargado el archivo JSON.</p>
+    </div>
+
+    <div class="approval-section">
+        <h2>Decisión y Aprobación Final</h2>
+
+        <table class="info-table">
+            <tr>
+                <th>Decisión del Comité de IA</th>
+                <td id="decisionComiteIA"></td>
+            </tr>
+            <tr>
+                <th>Fecha de Aprobación</th>
+                <td id="fechaAprobacion"></td>
+            </tr>
+            <tr>
+                <th>Condiciones y Reservas Impuestas</th>
+                <td id="condicionesReservas"></td>
+            </tr>
+            <tr>
+                <th>Fecha Próxima Revisión</th>
+                <td id="fechaProximaRevision"></td>
+            </tr>
+        </table>
+
+        <h3>Legalización y Firmas</h3>
+        <p>Certificamos que esta Evaluación de Impacto ha sido revisada, completada y aprobada bajo las condiciones indicadas.</p>
+
+        <div class="signature-container">
+            <div class="signature-item">
+                <label for="dpo-name">Nombre Completo del DPO / Oficial de Cumplimiento</label>
+                <input type="text" id="dpo-name" required>
+                <label>Firma</label>
+                <div class="signature-box"></div>
+            </div>
+            <div class="signature-item">
+                <label for="comite-rep-name">Nombre del Representante del Comité de IA</label>
+                <input type="text" id="comite-rep-name" required>
+                <label>Firma</label>
+                <div class="signature-box"></div>
+            </div>
+        </div>
+        
+        <p style="margin-top: 20px; font-style: italic;">*Nota: La **Evaluación del DPO** y las **Condiciones de Aprobación** se encuentran detalladas en la sección anterior.</p>
+    </div>
+
+    <button class="print-button" onclick="window.print()">🖨️ Imprimir Acta DPIA/ARA</button>
+
+</div>
+
+<script>
+    /**
+     * Muestra un mensaje de estado (éxito o error) al usuario.
+     */
+    window.onload = function() {
+        // Intentar cargar datos desde localStorage al iniciar.
+        const printData = localStorage.getItem('araDpiaPrintData');
+        if (printData) {
+            try {
+                const data = JSON.parse(printData);
+                // Validación de estructura mínima
+                if (!data.campos || !data.tablas) {
+                    showMessage("Error: Los datos para impresión no son válidos (falta la clave 'campos' o 'tablas').", 'error');
+                    return;
+                }
+                renderDPIA(data);
+                showMessage("DPIA/ARA cargado para impresión. Puede imprimir ahora.", 'success');
+                // Opcional: Limpiar los datos después de usarlos para no cargarlos de nuevo en futuras visitas.
+                localStorage.removeItem('araDpiaPrintData');
+            } catch (error) {
+                showMessage(`Error al procesar los datos para impresión: ${error.message}.`, 'error');
+            }
+        }
+    };
+    /**
+     * Muestra un mensaje de estado (éxito o error) al usuario.
+     */
+    function showMessage(message, type) {
+        const messageBox = document.getElementById('status-message');
+        messageBox.textContent = message;
+        messageBox.className = `message-box ${type}`;
+        messageBox.style.display = 'block';
+    }
+
+    /**
+     * Formatea fecha ISO o cadena a un formato legible (YYYY-MM-DD).
+     */
+    function formatDate(isoString) {
+        try {
+            if (isoString.includes('T')) {
+                return isoString.split('T')[0];
+            }
+            return isoString;
+        } catch (e) {
+            return isoString;
+        }
+    }
+
+    /**
+     * Carga y parsea el archivo JSON.
+     */
+    function loadJsonFile(files) {
+        document.getElementById('status-message').style.display = 'none';
+        document.getElementById('dpia-container').innerHTML = '<p>Cargando datos...</p>';
+        document.getElementById('metadata').textContent = '';
+
+        if (files.length === 0) {
+            document.getElementById('dpia-container').innerHTML = '<p>La evaluación aparecerá aquí una vez cargado el archivo JSON.</p>';
+            return;
+        }
+
+        const file = files[0];
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            try {
+                const data = JSON.parse(e.target.result);
+                
+                // Validación de estructura mínima
+                if (!data.campos || !data.tablas) {
+                    showMessage("Error: El archivo JSON cargado no parece ser un DPIA/ARA válido (falta la clave 'campos' o 'tablas').", 'error');
+                    return;
+                }
+
+                renderDPIA(data);
+                showMessage("DPIA/ARA cargado exitosamente.", 'success');
+            } catch (error) {
+                showMessage(`Error al procesar el archivo JSON: ${error.message}. Verifique el formato.`, 'error');
+                console.error("Error de parsing:", error);
+            }
+        };
+        
+        reader.onerror = function() {
+            showMessage("Error al leer el archivo. Intente de nuevo.", 'error');
+        };
+        
+        reader.readAsText(file);
+    }
+
+    /**
+     * Función principal para renderizar todos los datos del DPIA/ARA.
+     */
+    function renderDPIA(data) {
+        const container = document.getElementById('dpia-container');
+        let html = '';
+
+        // --- 1. METADATOS Y RESUMEN GENERAL ---
+        const metaDate = formatDate(data.metadata.fechaExportacion);
+        document.getElementById('metadata').textContent = `Documento generado el ${metaDate} | Versión DPIA: ${data.campos.version} | Formulario v${data.metadata.versionFormulario}`;
+
+        // --- 2. INFORMACIÓN GENERAL DEL SISTEMA (campos) ---
+        html += '<h2>1. Información General del Sistema</h2>';
+        html += '<table class="info-table">';
+        const camposGenerales = {
+            "entidad": "Entidad Responsable", "unidad": "Unidad / Dirección", "titulo": "Título del Sistema",
+            "responsable": "Responsable de Negocio", "responsableTecnico": "Responsable Técnico",
+            "fechaElaboracion": "Fecha de Elaboración (DPIA)", "version": "Versión del Sistema",
+            "descripcionTecnica": "Descripción Técnica", "finalidad": "Propósito Principal"
+        };
+        html += generateInfoTableRows(data.campos, camposGenerales);
+        html += '</table>';
+
+        // --- 3. ALCANCE Y BASE LEGAL (campos) ---
+        html += '<h2>2. Alcance y Contexto de Uso</h2>';
+        html += '<table class="info-table">';
+        const camposAlcance = {
+            "baseLegal": "Marco Legal General", "poblacion": "Población Afectada", "casosPermitidos": "Usos Autorizados",
+            "casosNoPermitidos": "Usos Prohibidos", "tipoDecisiones": "Tipo de Decisión (Recomendación/Automatizada)",
+            "contextoUso": "Contexto de Operación"
+        };
+        html += generateInfoTableRows(data.campos, camposAlcance);
+        html += '</table>';
+        
+        // --- 4. DATASET Y LICIITUD (campos) ---
+        html += '<h2>3. Datos y Licitud</h2>';
+        html += '<h3>Información del Dataset de Entrenamiento</h3>';
+        html += '<table class="info-table">';
+        const camposDataset = {
+            "nombreDataset": "Nombre del Dataset", "origenDataset": "Fuente de Datos", "motivacionDataset": "Motivación de Uso",
+            "recoleccionDataset": "Método de Recolección", "limpiezaDataset": "Procesos de Limpieza y Anonimización",
+            "usosPrevistosDataset": "Usos Previstos", "usosNoPrevistosDataset": "Usos No Previstos"
+        };
+        html += generateInfoTableRows(data.campos, camposDataset);
+        html += '</table>';
+
+        html += '<h3>Bases Legales y Consentimiento</h3>';
+        html += '<table class="info-table">';
+        const camposLegal = {
+            "baseLegalPrincipal": "Base Legal Principal (Tratamiento)", "basesLegalesComplementarias": "Bases Legales Complementarias",
+            "consentimientoExplicito": "¿Requiere Consentimiento Explícito?", "mecanismoConsentimiento": "Mecanismo de Consentimiento",
+            "alternativasSinConsentimiento": "Alternativas sin Consentimiento"
+        };
+        html += generateInfoTableRows(data.campos, camposLegal);
+        html += '</table>';
+
+        // --- 5. TABLA MAPEO DE DATOS ---
+        html += '<h2>4. Mapeo de Datos Personales</h2>';
+        html += generateTableHTML(data.tablas.tablaMapeoDatos, "tablaMapeoDatos");
+
+        // --- 6. TABLA IMPACTOS EN DERECHOS ---
+        html += '<h2>5. Impacto en Derechos Fundamentales (DPIA)</h2>';
+        html += generateTableHTML(data.tablas.tablaImpactosDerechos, "tablaImpactosDerechos");
+        
+        // --- 7. SUPERVISIÓN Y TRANSPARENCIA (campos) ---
+        html += '<h2>6. Gobernanza y Transparencia</h2>';
+        html += '<h3>Supervisión Humana y Auditoría</h3>';
+        html += '<table class="info-table">';
+        const camposSupervision = {
+            "mecanismosIntervencion": "Mecanismos de Intervención Humana", "criteriosEscalamiento": "Criterios para Escalamiento (Revisión Humana)",
+            "rolesResponsables": "Roles y Responsabilidades de Supervisión", "frecuenciaRevision": "Frecuencia de Revisión Humana",
+            "procedimientoDesacuerdo": "Procedimiento en Caso de Desacuerdo"
+        };
+        html += generateInfoTableRows(data.campos, camposSupervision);
+        html += '</table>';
+        
+        html += '<h3>Transparencia y Comunicación</h3>';
+        html += '<table class="info-table">';
+        const camposTransparencia = {
+            "mensajesAviso": "Mensajes de Aviso al Ciudadano", "documentosPublicados": "Documentos Publicados",
+            "canalesConsulta": "Canales de Consulta", "canalesReporte": "Canales de Reporte de Problemas",
+            "planDivulgacion": "Plan de Divulgación"
+        };
+        html += generateInfoTableRows(data.campos, camposTransparencia);
+        html += '</table>';
+
+        // --- 8. TABLA MATRIZ DE RIESGOS ---
+        html += '<h2>7. Matriz de Riesgos Algorítmicos (ARA)</h2>';
+        html += generateTableHTML(data.tablas.tablaMatrizRiesgos, "tablaMatrizRiesgos");
+
+        // --- 9. TABLA MEDIDAS DE MITIGACIÓN ---
+        html += '<h2>8. Plan de Medidas de Mitigación</h2>';
+        html += generateTableHTML(data.tablas.tablaMedidasMitigacion, "tablaMedidasMitigacion");
+
+        // --- 10. TABLA MONITOREO KPIS ---
+        html += '<h2>9. Monitoreo y Evaluación (KPIs)</h2>';
+        html += generateTableHTML(data.tablas.tablaMonitoreoKPIs, "tablaMonitoreoKPIs");
+        
+        // --- 11. TABLA AUDITORÍA Y ACTUALIZACIONES ---
+        html += '<h2>10. Plan de Auditoría y Actualizaciones</h2>';
+        html += generateTableHTML(data.tablas.tablaAuditoriaActualizaciones, "tablaAuditoriaActualizaciones");
+
+        // --- 12. EVALUACIONES DE RESPONSABLES ---
+        html += '<h2>11. Conclusiones de Evaluación</h2>';
+        html += '<h3>Evaluación de Protección de Datos (DPO)</h3>';
+        html += `<p>${data.campos.evaluacionDPO}</p>`;
+        html += '<h3>Evaluación del Responsable Técnico</h3>';
+        html += `<p>${data.campos.evaluacionResponsableTecnico}</p>`;
+        html += '<h3>Evaluación Jurídica</h3>';
+        html += `<p>${data.campos.evaluacionJuridica}</p>`;
+
+        // Renderizar el HTML al contenedor
+        container.innerHTML = html;
+
+        // --- 13. Llenar campos de Aprobación Final ---
+        document.getElementById('decisionComiteIA').textContent = data.campos.decisionComiteIA.toUpperCase();
+        document.getElementById('fechaAprobacion').textContent = formatDate(data.campos.fechaAprobacion);
+        document.getElementById('condicionesReservas').textContent = data.campos.condicionesReservas;
+        document.getElementById('fechaProximaRevision').textContent = formatDate(data.campos.fechaProximaRevision);
+    }
+    
+    /**
+     * Genera filas de una tabla de información (clave-valor).
+     * @param {Object} data Objeto JSON de donde extraer valores.
+     * @param {Object} fields Mapeo de clave JSON a descripción en la tabla.
+     * @returns {string} HTML de las filas de la tabla.
+     */
+    function generateInfoTableRows(data, fields) {
+        let rows = '';
+        for (const key in fields) {
+            const description = fields[key];
+            let value = data[key] !== undefined ? data[key] : 'N/A';
+            
+            // Formatear valores de tipo fecha si es aplicable
+            if (key.toLowerCase().includes('fecha') && value !== 'N/A') {
+                value = formatDate(value);
+            }
+
+            rows += `
+                <tr>
+                    <th>${description}</th>
+                    <td>${value}</td>
+                </tr>
+            `;
+        }
+        return rows;
+    }
+
+    /**
+     * Genera el HTML para una tabla de datos (array de objetos).
+     * @param {Array<Object>} dataArray Array de objetos para las filas.
+     * @param {string} tableId Nombre de la tabla para determinar estilos de clase.
+     * @returns {string} HTML completo de la tabla.
+     */
+    function generateTableHTML(dataArray, tableId) {
+        if (!dataArray || dataArray.length === 0) {
+            return `<p>No hay datos disponibles para la tabla ${tableId}.</p>`;
+        }
+        
+        const headers = Object.keys(dataArray[0]);
+        let html = `<table class="data-table" id="${tableId}"><thead><tr>`;
+        
+        // Encabezados
+        headers.forEach(header => {
+            html += `<th>${header}</th>`;
+        });
+        html += '</tr></thead><tbody>';
+
+        // Filas
+        dataArray.forEach(row => {
+            html += '<tr>';
+            headers.forEach(header => {
+                let cellValue = row[header] !== undefined ? row[header] : 'N/A';
+                let cellClass = '';
+
+                // Aplicar estilos de clase basados en el Nivel de Riesgo (Bajo, Medio, Alto)
+                if (header.toLowerCase() === 'nivel' && ['bajo', 'medio', 'alto'].includes(cellValue.toLowerCase())) {
+                    cellClass = `class="${cellValue.toLowerCase()}"`;
+                }
+                
+                // Formateo de fechas en tablas de datos
+                if (header.toLowerCase() === 'plazo' || header.toLowerCase().includes('fecha')) {
+                     cellValue = formatDate(cellValue);
+                }
+
+                html += `<td ${cellClass}>${cellValue}</td>`;
+            });
+            html += '</tr>';
+        });
+
+        html += '</tbody></table>';
+        return html;
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acta de Aprobación - Ficha Técnica del Modelo (Model Card)</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; color: #333; }
+        .container { max-width: 1000px; margin: auto; padding: 30px; border: 1px solid #ccc; }
+        h1 { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #9b59b6; padding-bottom: 10px; color: #9b59b6; }
+        h2 { color: #9b59b6; margin-top: 30px; border-left: 5px solid #9b59b6; padding-left: 10px; page-break-after: avoid; }
+        h3 { color: #555; margin-top: 20px; border-bottom: 1px solid #ddd; padding-bottom: 5px; page-break-after: avoid; }
+        
+        /* Estilos Generales de Tablas */
+        .info-table, .data-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 0.9em; }
+        .info-table th, .info-table td, .data-table th, .data-table td { border: 1px solid #ddd; padding: 8px; text-align: left; vertical-align: top; }
+        .info-table th { width: 35%; background-color: #f7f3f9; font-weight: bold; }
+        .data-table th { background-color: #ede7f6; font-weight: bold; text-align: center; }
+
+        /* Estilos para Resultados (Énfasis en el valor de la métrica) */
+        .data-table.metrics-table td:nth-child(2) { font-weight: bold; color: #9b59b6; }
+
+        /* Sección de Aprobación Final */
+        .approval-section { margin-top: 40px; padding-top: 20px; border-top: 2px dashed #9b59b6; }
+        .signature-box { border: 1px solid #333; height: 50px; margin-top: 15px; padding: 5px; text-align: center; }
+        .signature-container { display: flex; justify-content: space-between; gap: 40px; margin-top: 20px; }
+        .signature-item { flex-basis: 50%; }
+        
+        /* Mensaje de Estado (Error/Éxito) */
+        .message-box { padding: 15px; margin-bottom: 20px; border: 1px solid transparent; border-radius: 4px; font-weight: bold; }
+        .message-box.error { color: #721c24; background-color: #f8d7da; border-color: #f5c6cb; }
+        .message-box.success { color: #155724; background-color: #d4edda; border-color: #c3e6cb; }
+
+        .print-button { display: block; width: 200px; margin: 20px auto; padding: 10px; background-color: #9b59b6; color: white; border: none; cursor: pointer; text-align: center; }
+        
+        /* Estilos para impresión */
+        @media print {
+            .print-button, .file-input-section, .message-box { display: none; }
+            .container { border: none; padding: 0; }
+            input, textarea, select { border: none !important; }
+            .data-table th, .data-table td { font-size: 7.5pt; }
+            .approval-section .signature-box { border-bottom: 1px solid #000; border-right: none; border-left: none; border-top: none; height: 1px; }
+            .data-table, .info-table { page-break-inside: avoid; }
+            h2, h3 { page-break-before: auto; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Acta de Aprobación de Ficha Técnica del Modelo (Model Card)</h1>
+    <h3 id="model-header"></h3>
+
+    <div class="file-input-section">
+        <h3>Cargar Ficha Técnica del Modelo JSON</h3>
+        <input type="file" id="json-upload" accept=".json" onchange="loadJsonFile(this.files)">
+        <p>Cargue el archivo JSON del Model Card para generar el acta.</p>
+    </div>
+
+    <div id="status-message" class="message-box" style="display: none;"></div>
+
+    <div id="model-card-container">
+        <p>La Ficha Técnica del Modelo aparecerá aquí una vez cargado el archivo JSON.</p>
+    </div>
+
+    <div class="approval-section">
+        <h2>Aprobación de Gobernanza y Despliegue</h2>
+
+        <table class="info-table">
+            <tr>
+                <th>Aprobación Técnica</th>
+                <td id="modeloAprobacionTecnica"></td>
+            </tr>
+            <tr>
+                <th>Aprobación Jurídica</th>
+                <td id="modeloAprobacionJuridica"></td>
+            </tr>
+            <tr>
+                <th>Aprobación DPO/Privacidad</th>
+                <td id="modeloAprobacionDPO"></td>
+            </tr>
+            <tr>
+                <th>Decisión Final del Comité de IA</th>
+                <td id="modeloAprobacionComiteIA"></td>
+            </tr>
+        </table>
+
+        <h3>Legalización y Firmas</h3>
+        <p>Certificamos que esta Ficha Técnica ha sido revisada y que el modelo de IA cumple con los requisitos de desempeño, equidad, privacidad y gobernanza para su estado actual (Producción/Pruebas).</p>
+
+        <div class="signature-container">
+            <div class="signature-item">
+                <label for="responsable-name">Nombre Completo del Responsable Técnico del Modelo</label>
+                <input type="text" id="responsable-name" required>
+                <label>Firma</label>
+                <div class="signature-box"></div>
+            </div>
+            <div class="signature-item">
+                <label for="comite-name">Nombre del Representante del Comité de IA</label>
+                <input type="text" id="comite-name" required>
+                <label>Firma</label>
+                <div class="signature-box"></div>
+            </div>
+        </div>
+    </div>
+
+    <button class="print-button" onclick="window.print()">🖨️ Imprimir Acta</button>
+
+</div>
+
+<script>
+    /**
+     * Al cargar la página, intenta obtener los datos desde localStorage.
+     */
+    window.onload = function() {
+        const printData = localStorage.getItem('modelCardPrintData');
+        if (printData) {
+            try {
+                const data = JSON.parse(printData);
+                // Validación de estructura mínima
+                if (!data.modeloNombre || !data.tablaMetricasGlobales) {
+                    showMessage("Error: Los datos para impresión no son válidos (falta el nombre o las métricas).", 'error');
+                    return;
+                }
+                renderModelCard(data);
+                showMessage("Ficha Técnica del Modelo cargada para impresión. Puede imprimir ahora.", 'success');
+                // Limpiar los datos después de usarlos para no cargarlos de nuevo en futuras visitas.
+                localStorage.removeItem('modelCardPrintData');
+            } catch (error) {
+                showMessage(`Error al procesar los datos para impresión: ${error.message}.`, 'error');
+            }
+        }
+    };
+    /**
+     * Muestra un mensaje de estado (éxito o error) al usuario.
+     */
+    function showMessage(message, type) {
+        const messageBox = document.getElementById('status-message');
+        messageBox.textContent = message;
+        messageBox.className = `message-box ${type}`;
+        messageBox.style.display = 'block';
+    }
+
+    /**
+     * Formatea fecha ISO o cadena a un formato legible (YYYY-MM-DD).
+     */
+    function formatDate(isoString) {
+        try {
+            if (isoString.includes('T')) {
+                return isoString.split('T')[0];
+            }
+            return isoString;
+        } catch (e) {
+            return isoString;
+        }
+    }
+
+    /**
+     * Carga y parsea el archivo JSON.
+     */
+    function loadJsonFile(files) {
+        document.getElementById('status-message').style.display = 'none';
+        document.getElementById('model-card-container').innerHTML = '<p>Cargando datos...</p>';
+        document.getElementById('model-header').textContent = '';
+
+        if (files.length === 0) {
+            document.getElementById('model-card-container').innerHTML = '<p>La Ficha Técnica del Modelo aparecerá aquí una vez cargado el archivo JSON.</p>';
+            return;
+        }
+
+        const file = files[0];
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            try {
+                const data = JSON.parse(e.target.result);
+                
+                // Validación de estructura mínima
+                if (!data.modeloNombre || !data.tablaMetricasGlobales) {
+                    showMessage("Error: El archivo JSON cargado no parece ser un Model Card válido (falta el nombre o las métricas).", 'error');
+                    return;
+                }
+
+                renderModelCard(data);
+                showMessage("Ficha Técnica del Modelo cargada exitosamente.", 'success');
+            } catch (error) {
+                showMessage(`Error al procesar el archivo JSON: ${error.message}. Verifique el formato.`, 'error');
+                console.error("Error de parsing:", error);
+            }
+        };
+        
+        reader.onerror = function() {
+            showMessage("Error al leer el archivo. Intente de nuevo.", 'error');
+        };
+        
+        reader.readAsText(file);
+    }
+
+    /**
+     * Función principal para renderizar todos los datos del Model Card.
+     */
+    function renderModelCard(data) {
+        const container = document.getElementById('model-card-container');
+        let html = '';
+
+        // --- 1. ENCABEZADO Y METADATOS ---
+        document.getElementById('model-header').textContent = `${data.modeloNombre} (${data.modeloVersion}) | Entidad: ${data.modeloEntidad} | Estado: ${data.modeloEstado.toUpperCase()}`;
+
+        // --- 2. INFORMACIÓN BÁSICA Y OBJETIVO ---
+        html += '<h2>1. Identificación y Objetivo</h2>';
+        html += '<table class="info-table">';
+        const camposBasicos = {
+            "modeloArea": "Área Responsable", "modeloFechaCreacion": "Fecha de Creación", "modeloFechaActualizacion": "Última Actualización",
+            "modeloObjetivo": "Objetivo Principal", "modeloCasoUso": "Caso de Uso Asociado", "modeloAlcance": "Alcance de Decisiones",
+            "modeloProcesosImpactados": "Procesos Internos Impactados", "modeloUsuariosPrevistos": "Usuarios Previstos"
+        };
+        html += generateInfoTableRows(data, camposBasicos);
+        html += '</table>';
+
+        // --- 3. ESPECIFICACIONES TÉCNICAS ---
+        html += '<h2>2. Especificaciones Técnicas</h2>';
+        html += '<table class="info-table">';
+        const camposTecnicos = {
+            "modeloTipo": "Tipo de IA", "modeloAlgoritmo": "Algoritmo Principal", "modeloArquitectura": "Arquitectura",
+            "modeloTecnologias": "Stack Tecnológico", "modeloEntradas": "Entradas Requeridas", "modeloSalidas": "Salidas Generadas"
+        };
+        html += generateInfoTableRows(data, camposTecnicos);
+        html += '</table>';
+
+        // --- 4. DATASET Y ENTRENAMIENTO ---
+        html += '<h2>3. Datos y Ciclo de Vida</h2>';
+        html += '<table class="info-table">';
+        const camposData = {
+            "modeloDatasetEntrenamiento": "Dataset de Entrenamiento", "modeloDatasetValidacion": "Dataset de Validación", 
+            "modeloDatasetPruebas": "Dataset de Pruebas", "modeloReferenciaDataSheet": "Referencia Data Sheet de Datos",
+            "modeloFrecuenciaReentrenamiento": "Frecuencia de Reentrenamiento", "modeloControlesDrift": "Controles de Drift (Deriva)"
+        };
+        html += generateInfoTableRows(data, camposData);
+        html += '</table>';
+
+        // --- 5. RESULTADOS DE DESEMPEÑO ---
+        html += '<h2>4. Desempeño y Calidad</h2>';
+        html += '<h3>Métricas Globales</h3>';
+        html += generateTableHTML(data.tablaMetricasGlobales, "tablaMetricasGlobales", "metrics-table");
+        
+        html += '<h3>Métricas por Subpoblación (Equidad)</h3>';
+        html += generateTableHTML(data.tablaMetricasSubpoblaciones, "tablaMetricasSubpoblaciones");
+
+        // --- 6. SESGOS, EQUIDAD Y MITIGACIÓN ---
+        html += '<h2>5. Sesgos y Mitigación</h2>';
+        html += '<table class="info-table">';
+        const camposSesgos = {
+            "modeloSesgosIdentificados": "Sesgos Identificados (Modelo/Datos)", "modeloResultadosPruebasEquidad": "Resumen Resultados de Equidad",
+            "modeloMedidasMitigacionSesgos": "Medidas de Mitigación Implementadas", "modeloTecnicasExplicabilidad": "Técnicas de Explicabilidad (XAI)"
+        };
+        html += generateInfoTableRows(data, camposSesgos);
+        html += '</table>';
+
+        // --- 7. RIESGOS INHERENTES AL MODELO ---
+        html += '<h2>6. Riesgos y Controles del Modelo</h2>';
+        html += '<h3>Riesgos Específicos del Modelo</h3>';
+        html += generateTableHTML(data.tablaRiesgosModelo, "tablaRiesgosModelo");
+        
+        html += '<h3>Controles en Producción</h3>';
+        html += generateTableHTML(data.tablaControlesModelo, "tablaControlesModelo");
+
+        // --- 8. USOS PERMITIDOS Y GOBERNANZA ---
+        html += '<h2>7. Gobernanza, Usos y Rendición de Cuentas</h2>';
+        html += '<table class="info-table">';
+        const camposGobernanza = {
+            "modeloUsosPermitidos": "Usos Explícitamente Permitidos", "modeloUsosRestringidos": "Usos Restringidos (Requieren Supervisión)",
+            "modeloUsosProhibidos": "Usos Prohibidos o Desaconsejados", "modeloBuenasPracticas": "Buenas Prácticas de Gobernanza Adicionales",
+            "modeloInformacionPublica": "Plan de Divulgación Pública", "modeloMecanismosRendicionCuentas": "Mecanismos de Rendición de Cuentas"
+        };
+        html += generateInfoTableRows(data, camposGobernanza);
+        html += '</table>';
+
+        // --- 9. HISTORIAL DE VERSIONES ---
+        html += '<h2>8. Historial de Versiones del Modelo</h2>';
+        html += generateTableHTML(data.tablaHistorialModelo, "tablaHistorialModelo");
+
+
+        // Renderizar el HTML al contenedor
+        container.innerHTML = html;
+
+        // --- 10. Llenar campos de Aprobación Final ---
+        document.getElementById('modeloAprobacionTecnica').textContent = data.modeloAprobacionTecnica;
+        document.getElementById('modeloAprobacionJuridica').textContent = data.modeloAprobacionJuridica;
+        document.getElementById('modeloAprobacionDPO').textContent = data.modeloAprobacionDPO;
+        document.getElementById('modeloAprobacionComiteIA').textContent = data.modeloAprobacionComiteIA;
+        
+        // Intentar autocompletar el responsable
+        document.getElementById('responsable-name').value = data.modeloArea || '';
+        document.getElementById('comite-name').value = data.modeloAprobacionComiteIA.split('-')[0].trim() || '';
+    }
+    
+    /**
+     * Genera filas de una tabla de información (clave-valor).
+     */
+    function generateInfoTableRows(data, fields) {
+        let rows = '';
+        for (const key in fields) {
+            const description = fields[key];
+            let value = data[key] !== undefined ? data[key] : 'N/A';
+            
+            // Formatear valores de tipo fecha si es aplicable
+            if (key.toLowerCase().includes('fecha') && value !== 'N/A') {
+                value = formatDate(value);
+            }
+
+            rows += `
+                <tr>
+                    <th>${description}</th>
+                    <td>${value}</td>
+                </tr>
+            `;
+        }
+        return rows;
+    }
+
+    /**
+     * Genera el HTML para una tabla de datos (array de objetos).
+     */
+    function generateTableHTML(dataArray, tableId, customClass = '') {
+        if (!dataArray || dataArray.length === 0) {
+            return `<p>No hay datos disponibles para la tabla ${tableId}.</p>`;
+        }
+        
+        const headers = Object.keys(dataArray[0]);
+        let html = `<table class="data-table ${customClass}" id="${tableId}"><thead><tr>`;
+        
+        // Encabezados
+        headers.forEach(header => {
+            html += `<th>${header}</th>`;
+        });
+        html += '</tr></thead><tbody>';
+
+        // Filas
+        dataArray.forEach(row => {
+            html += '<tr>';
+            headers.forEach(header => {
+                let cellValue = row[header] !== undefined ? row[header] : 'N/A';
+                let cellClass = '';
+                
+                // Formateo de fechas en tablas de datos
+                if (header.toLowerCase().includes('fecha')) {
+                     cellValue = formatDate(cellValue);
+                }
+
+                // Aplicar estilos de clase basados en Impacto/Probabilidad para la tablaRiesgosModelo
+                if (tableId === 'tablaRiesgosModelo' && (header.toLowerCase() === 'impacto' || header.toLowerCase() === 'probabilidad')) {
+                    cellClass = `class="${cellValue.toLowerCase()}"`;
+                }
+
+                html += `<td ${cellClass}>${cellValue}</td>`;
+            });
+            html += '</tr>';
+        });
+
+        html += '</tbody></table>';
+        return html;
+    }
+</script>
+
+</body>
+</html>
