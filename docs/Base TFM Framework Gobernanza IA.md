@@ -1,4 +1,4 @@
-# Desarrollo de la Propuesta y Análisis de Resultados
+# 4. Desarrollo de la Propuesta y Análisis de Resultados
 
 Este capítulo presenta la propuesta de Framework de Gobernanza de IA
 desarrollada para las entidades públicas del Distrito Capital de Bogotá,
@@ -7,8 +7,34 @@ dos grandes secciones: la primera expone en detalle la arquitectura del
 framework y su caja de herramientas operativa (toolkit); la segunda
 presenta el análisis de los resultados obtenidos mediante la validación
 con expertos y la ejecución de pilotos controlados.
+ 
+## Tabla de Contenido
+ 
+- **[4.1 Arquitectura del Framework de Gobernanza de IA](#41-arquitectura-del-framework-de-gobernanza-de-ia)**
+  - **[4.1.1 Capa 1: Carta de IA Responsable y Política de Uso de IA](#411-capa-1-carta-de-ia-responsable-y-política-de-uso-de-ia)**
+    - [4.1.1.1 Política de Gobierno de Datos](#4111-política-de-gobierno-de-datos)
+    - [4.1.1.2 Política de Gestión de Riesgos de IA](#4112-política-de-gestión-de-riesgos-de-ia)
+    - [4.1.1.3 Política de Compras y Proveedores de IA](#4113-política-de-compras-y-proveedores-de-ia)
+  - **[4.1.2 Capa 2: Modelo de Gobierno](#412-capa-2-modelo-de-gobierno)**
+    - [4.1.2.1 Comité de IA Distrital o por Entidad](#4121-comité-de-ia-distrital-o-por-entidad)
+    - [4.1.2.2 Roles a Nivel de Caso de Uso](#4122-roles-a-nivel-de-caso-de-uso)
+    - [4.1.2.3 Matriz de Responsabilidades (RACI)](#4123-matriz-de-responsabilidades-raci)
+    - [4.1.2.4 Instrumentos Operativos de Gobernanza](#4124-instrumentos-operativos-de-gobernanza)
+    - [4.1.2.5 Alineación con CONPES 4144 y Vigilancia de Cumplimiento](#4125-alineación-con-conpes-4144-y-vigilancia-de-cumplimiento)
+  - **[4.1.3 Capa 3: Fases del Framework de Gobernanza de IA](#413-capa-3-fases-del-framework-de-gobernanza-de-ia)**
+  - **[4.1.4 Capa 4: Controles Clave](#414-capa-4-controles-clave)**
+  - **[4.1.5 Capa 5: Métricas y KPIs](#415-capa-5-métricas-y-kpis)**
+  - **[4.1.6 Modelo de Madurez Institucional](#416-modelo-de-madurez-institucional)**
+- **[4.2 Caja de Herramientas Operativa (Toolkit)](#42-caja-de-herramientas-operativa-toolkit)**
+  - **[4.2.1 AI Use-Case Canvas](#421-ai-use-case-canvas)**
+  - **[4.2.2 Matriz de Riesgos de IA](#422-matriz-de-riesgos-de-ia)**
+  - **[4.2.3 Plantilla ARA / DPIA](#423-plantilla-ara--dpia)**
+  - **[4.2.4 Model Card](#424-model-card)**
+  - **[4.2.5 Data Sheet](#425-data-sheet)**
+  - **[4.2.6 Checklist de Evaluación de Proveedores de IA](#426-checklist-de-evaluación-de-proveedores-de-ia)**
+  - **[4.2.7 Guía de Uso Interno de IA Generativa](#427-guía-de-uso-interno-de-ia-generativa)**
 
-## Arquitectura del Framework de Gobernanza de IA
+## 4.1 Arquitectura del Framework de Gobernanza de IA
 
 El framework propuesto constituye un sistema integrado de gobernanza
 estructurado en cinco capas interoperables que traducen los principios
@@ -21,8 +47,8 @@ implementativa y déficit de validación empírica.
 En el Anexo B se ilustra la arquitectura general del framework,
 mostrando las secciones de cada una de sus cinco capas y su alineación
 con el CONPES 4144..
-
-### Capa 1: Carta de IA Responsable y Política de Uso de IA
+ 
+### 4.1.1 Capa 1: Carta de IA Responsable y Política de Uso de IA
 
 La Carta de IA Responsable constituye el documento declarativo que
 establece el compromiso institucional del Distrito con una
@@ -128,9 +154,9 @@ estableciendo requisitos diferenciados según el nivel de riesgo y el
 dominio de aplicación (atención ciudadana, trámites administrativos,
 analítica para políticas públicas, gestión de recursos, salud pública,
 movilidad).
-
-#### Política de Gobierno de Datos
-
+ 
+#### 4.1.1.1 Política de Gobierno de Datos
+ 
 La Política de Gobierno de Datos establece los estándares y
 procedimientos para garantizar la calidad, integridad y gestión adecuada
 de los datos utilizados en sistemas de inteligencia artificial del
@@ -197,7 +223,7 @@ y cláusulas contractuales estándar que garanticen un nivel de protección
 adecuado.
 
 #### Política de Gestión de Riesgos de IA
-
+ 
 Esta política establece un marco integral para la identificación,
 evaluación y gestión de riesgos asociados a los sistemas de IA en el
 Distrito, integrando estándares internacionales (NIST AI RMF 2023,
@@ -260,9 +286,9 @@ planes de mitigación específicos.
 procesos de escalamiento, y mecanismos de monitoreo continuo con
 revisiones periódicas y activación de protocolos de respuesta ante
 materialización de riesgos.
-
+ 
 #### Política de Compras y Proveedores de IA
-
+ 
 Ante la dependencia identificada del Distrito de proveedores externos
 para soluciones de inteligencia artificial (identificada en el
 diagnóstico de la Fase 1), esta política establece requisitos de debida
@@ -333,9 +359,9 @@ mantengan los estándares de calidad y ética establecidos.
 El Checklist de Evaluación de Proveedores del toolkit (sección 4.2.5)
 operacionaliza estos requisitos en un instrumento práctico para procesos
 de selección y contratación.
-
-### Capa 2: Modelo de Gobierno
-
+ 
+### 4.1.2 Capa 2: Modelo de Gobierno
+ 
 Esta capa establece la estructura organizacional y los mecanismos de
 decisión para implementar la gobernanza de IA en el Distrito Capital,
 reconociendo las diferentes capacidades institucionales. El modelo
@@ -350,8 +376,8 @@ articulada con la operación institucional. La composición de los comités
 refleja roles realistas y representativos, facilitando la implementación
 efectiva del Framework en toda la administración distrital.
 
-#### Comité de IA Distrital o por Entidad
-
+#### 4.1.2.1 Comité de IA Distrital o por Entidad
+ 
 El Comité de IA se establece como la máxima instancia de gobernanza para
 la inteligencia artificial en el Distrito Capital, responsable de la
 dirección estratégica, supervisión y coordinación de todas las
@@ -429,8 +455,8 @@ entidad y apropiación institucional más profunda, requiriendo
 coordinación con el nivel distrital para consistencia normativa y
 compartición de lecciones aprendidas.
 
-#### Roles a Nivel de Caso de Uso
-
+#### 4.1.2.2 Roles a Nivel de Caso de Uso
+ 
 Complementando la estructura de gobernanza corporativa, se definen roles
 operativos específicos para cada iniciativa o sistema de IA.
 
@@ -464,9 +490,9 @@ consideradas.
 La matriz RACI (Responsible, Accountable, Consulted, Informed) del
 toolkit especifica las responsabilidades detalladas para cada rol en las
 diferentes fases del ciclo de vida.
-
-#### Matriz de Responsabilidades (RACI)
-
+ 
+#### 4.1.2.3 Matriz de Responsabilidades (RACI)
+ 
 Para garantizar claridad en la ejecución del framework, se establece la
 siguiente matriz RACI que define roles por fase del ciclo de vida:
  
@@ -492,8 +518,8 @@ actúa como gate decisorio en todas las fases críticas, mientras que la
 Alta Dirección retiene autoridad final para sistemas de alto riesgo o
 inversiones significativas.
 
-#### Instrumentos Operativos de Gobernanza
-
+#### 4.1.2.4 Instrumentos Operativos de Gobernanza
+ 
 Para facilitar la coordinación, trazabilidad y eficiencia en la gestión
 del portafolio de IA, se establecen dos instrumentos operativos
 obligatorios:
@@ -528,9 +554,9 @@ Estos instrumentos se integran al dashboard de gobernanza (Anexo C)
 mediante indicadores de cobertura de registro (objetivo: 100%) y uso del
 catálogo en procesos de contratación (objetivo: ≥70% para sistemas de
 alto riesgo)
-
-#### Alineación con CONPES 4144 y Vigilancia de Cumplimiento
-
+ 
+#### 4.1.2.5 Alineación con CONPES 4144 y Vigilancia de Cumplimiento
+ 
 El modelo de gobierno establece mecanismos específicos de trazabilidad y
 reporte que garantizan la alineación estratégica con los cinco ejes del
 CONPES 4144, integrando la gobernanza de IA con los sistemas de gestión
@@ -578,9 +604,9 @@ Esta estructura asegura que la implementación del Framework de IA
 mantenga coherencia total con la política nacional, mientras se integra
 eficientemente con los sistemas de gestión y control ya establecidos en
 la administración distrital.
-
-### Capa 3: Fases del Framework de Gobernanza de IA
-
+ 
+### 4.1.3 Capa 3: Fases del Framework de Gobernanza de IA
+ 
 El modelo propuesto se organiza en nueve etapas sucesivas que pretenden
 garantizar una adopción responsable y estructurada de sistemas de
 inteligencia artificial. Cada fase incorpora controles progresivos que
@@ -600,7 +626,7 @@ todo el ciclo de vida de los sistemas de IA, alineándose con la
 arquitectura de cinco capas del Framework propuesto.
 
 #### Fase 1 -- Intake y AI Use‑Case Canvas
-
+ 
 En la fase inicial se formaliza la idea del caso de uso mediante
 el *AI Use‑Case Canvas* (disponible en el toolkit, sección 4.2.1). El
 sponsor de negocio completa la plantilla describiendo el problema, los
@@ -618,7 +644,7 @@ clasificación de riesgo. El entregable de esta fase es
 el *AI Use‑Case Canvas* aprobado.
 
 #### Fase 2 -- Clasificación de Riesgo
-
+ 
 Esta etapa asigna un nivel de riesgo (inaceptable, alto, limitado o
 mínimo) siguiendo la taxonomía del AI Act. La matriz de clasificación
 evalúa propósito del sistema, tipo de decisiones, datos procesados,
@@ -633,7 +659,7 @@ plasma en la *Ficha de Clasificación de Riesgo*, que constituye el
 documento de referencia para las fases posteriores.
 
 #### Fase 3 -- ARA/DPIA (alto riesgo o datos sensibles)
-
+ 
 El objetivo es identificar y mitigar impactos sobre derechos
 fundamentales y la privacidad antes de la puesta en marcha. Se completa
 la *Plantilla ARA/DPIA* (toolkit, sección 4.2.3), que incluye:
@@ -650,7 +676,7 @@ mitigaciones específicas que deben incorporarse antes de avanzar. El
 entregable es el ARA/DPIA aprobado con su plan de mitigación.
 
 #### Fase 4 -- Gobierno de Datos
-
+ 
 En esta fase se asegura que los datos que alimentarán el modelo sean de
 alta calidad, representativos y gestionados éticamente. Las actividades
 comprenden: inventario y documentación de fuentes (internas, externas,
@@ -667,7 +693,7 @@ independiente o validación estadística formal. El resultado son
 los *Data Sheets* aprobados y el plan de gobernanza de datos.
 
 #### Fase 5 -- Desarrollo o Adquisición
-
+ 
 Esta etapa traduce los requisitos de gobernanza, seguridad y calidad en
 un producto técnico.
 
@@ -699,7 +725,7 @@ contrato y confirman que el sistema satisface el ARA/DPIA aprobado
 técnica completa) o el contrato firmado.
 
 #### Fase 6 -- Pruebas y Validación
-
+ 
 Antes del despliegue, el sistema debe demostrar cumplimiento con
 requisitos funcionales, técnicos, éticos y de usabilidad. Las pruebas se
 agrupan en cinco categorías.
@@ -738,7 +764,7 @@ desempeño, equidad, robustez y seguridad. El entregable es el Informe de
 pruebas y validación acompañado de una Model Card completa.
 
 #### Fase 7 -- Despliegue
-
+ 
 El objetivo es poner el sistema en producción de forma controlada,
 garantizando que el personal esté preparado y que los controles
 operativos estén activos. Las actividades incluyen: capacitación de
@@ -756,7 +782,7 @@ con los controles operativos activos y el personal debidamente
 capacitado.
 
 #### Fase 8 -- Monitoreo y Auditoría
-
+ 
 Una vez en funcionamiento, el sistema requiere supervisión continua para
 detectar desviaciones y aplicar correcciones. Las actividades se
 estructuran en cuatro áreas.
@@ -787,9 +813,9 @@ y hallazgos de auditoría (G8) y decide si se mantiene la operación, se
 implementan mejoras o se procede al retiro. Los entregables son los
 reportes de monitoreo, los registros de incidentes y los informes de
 auditoría.
-
+ 
 #### Fase 9 -- Retiro o Fin de Vida
-
+ 
 Cuando el sistema deja de ser necesario, viable o conforme, se lleva a
 cabo un retiro ordenado que preserve la continuidad del servicio y
 garantice una gestión adecuada de los datos. Las actividades incluyen:
@@ -807,15 +833,15 @@ final es el sistema retirado, los datos gestionados conforme a la
 normativa y un informe de lecciones aprendidas archivado.
 
 ### Capa 4: Controles Clave
-
+ 
 Esta capa define los controles técnicos y organizacionales necesarios
 para implementar de manera transversal los principios éticos y mitigar
 riesgos a lo largo del ciclo de vida de los sistemas de inteligencia
 artificial. Los controles se estructuran en seis dimensiones
 fundamentales.
-
-#### Ética y Derechos Fundamentales
-
+ 
+#### 4.1.4.1 Ética y Derechos Fundamentales
+ 
 **Supervisión humana significativa.** En decisiones que afecten derechos
 fundamentales o servicios esenciales, se requieren mecanismos que
 garanticen una supervisión humana competente. Esta supervisión debe
@@ -847,8 +873,8 @@ adaptar las interfaces a diversos niveles de alfabetización digital.
 Finalmente, se debe evitar condicionar el acceso a servicios esenciales
 exclusivamente a sistemas digitales, mitigando así la brecha digital.
 
-#### Privacidad y Protección de Datos
-
+#### 4.1.4.2 Privacidad y Protección de Datos
+ 
 **Bases legales claras.** Todo tratamiento de datos personales debe
 fundamentarse en una base legal válida conforme a la Ley 1581 de 2012,
 como el consentimiento informado, previo y expreso; la ejecución de un
@@ -886,9 +912,9 @@ retirada.
 Derechos de los titulares. Se establecen procedimientos operativos para
 garantizar los derechos de acceso, rectificación, supresión, oposición y
 portabilidad, siempre dentro de los marcos legales aplicables.
-
-#### Seguridad y Resiliencia
-
+ 
+#### 4.1.4.3 Seguridad y Resiliencia
+ 
 **Robustez técnica.** Los controles aseguran un funcionamiento confiable
 mediante el manejo de errores y casos excepcionales, una degradación
 graciosa hacia comportamientos seguros, pruebas con datos adversarios y
@@ -911,9 +937,9 @@ un *logging* comprehensivo, sistemas de alerta para eventos críticos y
 protocolos de respuesta con roles definidos, incluyendo la notificación
 a autoridades y titulares según lo dispuesto por la SIC en caso de
 brechas.
-
-#### Transparencia y Explicabilidad
-
+ 
+#### 4.1.4.4 Transparencia y Explicabilidad
+ 
 **Divulgaciones ciudadanas.** Se requiere una transparencia proactiva,
 notificando claramente cuando un ciudadano interactúe con un sistema de
 IA, informando sobre su propósito, el tipo de decisiones que toma y los
@@ -934,9 +960,9 @@ el desempeño y la privacidad.
 **Inteligibilidad de explicaciones.** Las explicaciones se adaptan al
 destinatario: simples y sin jerga para el ciudadano, técnicas para el
 operador y completas para el auditor.
-
-#### Atención al Ciudadano
-
+ 
+#### 4.1.4.5 Atención al Ciudadano
+ 
 **Canales de reclamación y apelación.** Se disponen mecanismos
 accesibles, gratuitos y con plazos razonables para reportar problemas,
 apelar decisiones automatizadas y solicitar revisión humana,
@@ -951,9 +977,9 @@ exclusiones involuntarias y asegurando alternativas de servicio.
 2.1 nivel AA, es compatible con tecnologías asistivas y ofrece contenido
 comprensible y alternativas para población con baja alfabetización
 digital.
-
-#### Gestión de Terceros (Proveedores)
-
+ 
+#### 4.1.4.6 Gestión de Terceros (Proveedores)
+ 
 **Debida diligencia en selección.** Se aplica un checklist que evalúa la
 conformidad regulatoria, la madurez en IA responsable, la calidad de la
 documentación técnica, las capacidades de seguridad y el soporte para
@@ -968,9 +994,9 @@ auditoría y cláusulas de continuidad y portabilidad.
 cumplimiento de los SLAs, se revisan incidentes y se toman decisiones
 informadas sobre la renovación o cambio de proveedor basadas en
 evidencia.
-
-### Capa 5: Métricas y KPI´s
-
+ 
+### 4.1.5 Capa 5: Métricas y KPIs
+ 
 La quinta capa del framework establece un sistema integral de métricas e
 indicadores clave de desempeño que permite medir, monitorear y demostrar
 el cumplimiento normativo, la gestión efectiva de riesgos, la calidad
@@ -989,7 +1015,7 @@ agregado de las inversiones en tecnología y la gobernanza efectiva de
 estos sistemas críticos para la administración pública distrital.
 
 #### ​*Marco Conceptual de Medición y Alineación con COBIT 2019*
-
+ 
 El sistema de métricas propuesto integra tres perspectivas
 complementarias de medición derivadas de los marcos internacionales de
 referencia, siendo especialmente importante la integración con el modelo
@@ -1043,7 +1069,7 @@ positivo en la calidad y la eficiencia del servicio público, lo cual se
 refleja en esta perspectiva de medición.
 
 #### Principios de Diseño de las Métricas Vinculados a Niveles de Madurez COBIT 2019
-
+ 
 Las métricas y KPIs del framework se diseñaron siguiendo principios
 específicos que aseguran su utilidad práctica y viabilidad operativa,
 especialmente considerando el contexto institucional particular de la
@@ -1091,7 +1117,7 @@ CONPES 4144, asegurando que todo lo que se mide contribuye realmente a
 lograr objetivos concretos.
 
 #### Métricas de Cumplimiento Normativo y Ciclo de Vida Regulatorio
-
+ 
 Este conjunto de métricas verifica que se cumplen los requisitos
 normativos del CONPES 4144, la Ley 1581 de 2012 sobre protección de
 datos personales, las circulares de la Superintendencia de Industria y
@@ -1225,8 +1251,8 @@ un riesgo operativo severo que debe activar protocolos de mitigación
 inmediata, incluyendo la posible suspensión temporal de acceso a
 sistemas críticos hasta completar la capacitación requerida.
 
-#### Métricas de Gestión de Riesgos y Monitoreo de Incidentes
-
+#### 4.1.5.1 Métricas de Gestión de Riesgos y Monitoreo de Incidentes
+ 
 Estas métricas hacen funcional el proceso de gestión de riesgos
 establecido en la Capa 1 Política de Gestión de Riesgos y permiten
 verificar cuantitativamente si los controles implementados en la Capa 4
@@ -1282,7 +1308,7 @@ establecen que las organizaciones deben evaluar periódicamente si sus
 controles continúan cumpliendo objetivos.
 
 #### Métricas de Calidad de Datos y Confiabilidad de Fuentes
-
+ 
 Reconociendo que la calidad de los datos determina de forma crítica la
 calidad, equidad y confiabilidad de los sistemas de IA, estas métricas
 evalúan las dimensiones fundamentales del ciclo de vida de datos desde
@@ -1328,7 +1354,7 @@ importante. La documentación rigurosa de datos es un requisito de
 transparencia y auditabilidad establecido en los marcos internacionales.
 
 #### Métricas de Desempeño Técnico y Confiabilidad de Modelos
-
+ 
 Estas métricas evalúan el rendimiento técnico de los sistemas de IA,
 asegurando que cumplan con estándares de precisión, equidad,
 disponibilidad y velocidad de respuesta apropiados para el contexto del
@@ -1381,8 +1407,8 @@ aplicaciones móviles. La frecuencia es monitoreo continuo con reporte
 semanal. La experiencia de usuario determina críticamente si la
 población adopta y está satisfecha con servicios digitales.
 
-#### Métricas de Impacto en Servicio Público y Satisfacción Ciudadana
-
+#### 4.1.5.2 Métricas de Impacto en Servicio Público y Satisfacción Ciudadana
+ 
 Este conjunto de métricas evalúa el valor real que generan los sistemas
 de IA, respondiendo a la pregunta fundamental: Está la IA mejorando
 efectivamente los servicios públicos y la experiencia ciudadana de
@@ -1440,8 +1466,8 @@ evaluación trimestral. El principio constitucional de igualdad exige que
 los servicios públicos no generen exclusión digital ni discriminación
 por proximidad geográfica o estrato socioeconómico.
 
-#### Métricas de Madurez Institucional y Sostenibilidad
-
+#### 4.1.5.3 Métricas de Madurez Institucional y Sostenibilidad
+ 
 Este conjunto de métricas evalúa qué tan desarrolladas están las
 capacidades de gobernanza de IA dentro de la Secretaría, facilitando la
 planificación estratégica y la asignación de recursos a lo largo del
@@ -1494,9 +1520,9 @@ certificados. Las entidades con puntuación ≥70 en sostenibilidad
 típicamente cuentan con al menos 2-3 formadores internos certificados
 por cada 100 funcionarios usuarios de IA, permitiendo escalabilidad y
 actualización ágil de contenidos sin dependencia presupuestal externa.
-
-#### Dashboard Integrado y Reportería
-
+ 
+#### 4.1.5.4 Dashboard Integrado y Reportería
+ 
 Las métricas descritas se integran en un Dashboard de Gobernanza de IA
 que proporciona visibilidad clara del estado de los sistemas de IA. El
 dashboard se estructura en tres niveles de información: Vista ejecutiva
@@ -1517,8 +1543,8 @@ concreta de valor público generado por la adopción responsable de
 inteligencia artificial en el Distrito Capital de Bogotá. Los
 componentes del Dashboard se referencian en el Anexo C.
 
-### Modelo de Madurez Institucional
-
+### 4.1.6 Modelo de Madurez Institucional
+ 
 El modelo de madurez institucional proporciona un marco de referencia
 para evaluar y orientar el progreso de la Secretaría Distrital de
 Gobierno en la adopción responsable de la inteligencia artificial. Este
@@ -1630,7 +1656,7 @@ interrelación de los siete instrumentos que componen este toolkit
 operativo, los cuales se detallarán a continuación.
 
 ### AI Use-Case Canvas
-
+ 
 El propósito de esta herramienta consiste en estructurar y documentar de
 manera sistemática la propuesta de caso de uso durante la fase inicial
 de intake. Su objetivo es garantizar una comprensión clara del propósito
@@ -1642,7 +1668,7 @@ Canvas, herramienta fundamental para el proceso de gobernanza.
 
 La plantilla correspondiente se organiza en doce secciones, las cuales
 se describen detalladamente a continuación.
-
+ 
 **Sección 1: Identificación del Caso de Uso** -- Se incluye un título
 descriptivo que sintetiza la finalidad del sistema propuesto, junto con
 la identificación de la entidad responsable y su unidad organizacional
@@ -1653,7 +1679,7 @@ datos de contacto. Esta sección concluye con la indicación de la fecha
 de elaboración del documento y la versión correspondiente, lo que
 permite establecer un control de versiones y asegurar la trazabilidad
 del proceso.
-
+ 
 **Sección 2: Contexto y Propósito** - Describe de forma concisa el
 problema o necesidad que se pretende abordar, limitando la extensión a
 un máximo de 200 palabras para garantizar claridad y enfoque. En este
@@ -1670,7 +1696,7 @@ La Figura 6 presenta una vista detallada de las dos primeras secciones
 del AI Use-Case Canvas, correspondientes a la Identificación del Caso de
 Uso y al Contexto y Propósito, que constituyen la base informativa y de
 justificación del proyecto.
-
+ 
 **Sección 3: Actores Involucrados** - La identificación de los actores
 involucrados en el sistema contempla, en primer lugar, a los usuarios
 finales, entre los que se incluyen funcionarios públicos, ciudadanos y
@@ -1689,7 +1715,7 @@ Tecnologías de la Información y Seguridad, el equipo jurídico y el
 Comité de Inteligencia Artificial, todos ellos con funciones
 diferenciadas en la supervisión, validación y toma de decisiones
 estratégicas.
-
+ 
 **Sección 4: Datos Requeridos** - El funcionamiento del sistema depende
 de un conjunto de datos provenientes de fuentes internas
 institucionales, externas gubernamentales y de terceros autorizados.
@@ -1725,7 +1751,7 @@ sistema. Finalmente, el área Jurídica realiza una evaluación preliminar
 de conformidad legal, con el propósito de anticipar ajustes normativos
 necesarios y asegurar la alineación del sistema con el marco regulatorio
 vigente.
-
+ 
 **Sección 6: Clasificación Preliminar de Riesgo** - La clasificación
 inicial del riesgo se realiza conforme a los criterios establecidos en
 el Reglamento de Inteligencia Artificial (AI Act), los cuales permiten
@@ -1761,7 +1787,7 @@ reputacionales vinculados con la pérdida de confianza pública y la
 generación de controversias. Para cada uno de estos escenarios, se han
 delineado mitigaciones preliminares que orientan la gestión proactiva de
 los riesgos identificados.
-
+ 
 **Sección 8: Métricas de Éxito e Indicadores de Impacto** - La medición
 del desempeño del sistema se estructura en torno a indicadores clave
 (KPIs) que abarcan aspectos técnicos, de servicio y de cumplimiento
@@ -1782,7 +1808,7 @@ Use-Case Canvas*, dedicadas a la identificación preliminar de riesgos y
 a la definición de métricas de éxito, componentes esenciales para
 anticipar desafíos y establecer criterios claros de evaluación del
 proyecto.
-
+ 
 **Sección 9: Plan de Despliegue, Formación y Comunicación** - La
 estrategia de implementación contempla diversas modalidades, entre las
 que se incluyen el desarrollo de pilotos, el despliegue gradual por
@@ -1799,7 +1825,7 @@ promover la transparencia, la participación informada y la confianza
 pública. Finalmente, se presenta un cronograma estimado de
 implementación que permite visualizar las etapas clave del proceso y
 anticipar los recursos requeridos en cada fase.
-
+ 
 **Sección 10: Monitoreo, Auditoría y Respuesta a Incidentes** - El
 sistema incorpora controles de monitoreo continuo que abarcan
 dimensiones técnicas, de equidad algorítmica y de privacidad, con el fin
@@ -1817,7 +1843,7 @@ del AI Use-Case Canvas, que abordan la planificación operativa del
 despliegue, la formación necesaria y los mecanismos de monitoreo y
 respuesta a incidentes, asegurando una implementación controlada y una
 operación vigilante del sistema.
-
+ 
 **Sección 11: Criterios y Plan de Fin de Vida** - El sistema deberá ser
 retirado en caso de que se presenten condiciones como obsolescencia
 tecnológica, aparición de riesgos considerados inaceptables, una
@@ -1829,7 +1855,7 @@ cumplimiento de obligaciones legales en materia de protección de datos
 personales. Asimismo, se propone un plan de transición hacia soluciones
 alternativas, con el fin de garantizar la continuidad operativa y
 mitigar impactos negativos sobre los procesos institucionales afectados.
-
+ 
 **Sección 12: Aprobaciones y Decisión** - La evaluación de viabilidad
 técnica queda a cargo del Responsable Técnico, quien debe determinar si
 el proyecto es viable, viable con condiciones o no viable. En paralelo,
@@ -1852,8 +1878,8 @@ fin de vida del sistema y documentan el proceso formal de aprobaciones,
 cerrando así el ciclo de evaluación inicial con claridad en la
 gobernanza y la toma de decisiones.
 
-### Matriz de Riesgos de IA
-
+### 4.2.2 Matriz de Riesgos de IA
+ 
 El propósito de esta herramienta es ofrecer un instrumento estandarizado
 que facilite la identificación, evaluación y priorización de riesgos
 asociados al uso de sistemas basados en IA. Esta herramienta se
@@ -1876,7 +1902,7 @@ evaluación de riesgos, basada en la matriz de probabilidad e impacto que
 permite clasificar y priorizar los riesgos identificados.
 
 **Dimensiones de impacto**
-
+ 
 La evaluación de riesgos en sistemas de inteligencia artificial debe
 considerar múltiples dimensiones que reflejan el alcance potencial de
 sus consecuencias. En primer lugar, se encuentra la dimensión relativa a
@@ -1923,7 +1949,7 @@ constante del marco jurídico aplicable y una articulación efectiva entre
 los equipos técnicos y jurídicos (González Fuster, 2020)
 
 **Escala de probabilidad e impacto**
-
+ 
 La evaluación de riesgos en sistemas de inteligencia artificial requiere
 una estimación sistemática tanto de la probabilidad de ocurrencia como
 del impacto potencial de cada evento identificado. Para ello, la matriz
@@ -1959,7 +1985,7 @@ los cuales orientan la selección de medidas de mitigación proporcionales
 a la magnitud del riesgo identificado.
 
 **Plantilla de la matriz y acciones según nivel de riesgo**
-
+ 
 La Matriz de Riesgos de IA se operacionaliza mediante una plantilla
 estructurada que permite documentar de forma sistemática cada riesgo
 identificado. Esta plantilla incluye los siguientes campos: ID del
@@ -1996,9 +2022,9 @@ que los sistemas de IA operen dentro de márgenes aceptables de
 seguridad, equidad y legalidad.  La Figura 13 muestra el formato
 operativo de la plantilla de la Matriz de Riesgos, con los campos para
 registrar cada riesgo identificado y su correspondiente plan de acción.
-
-### Plantilla ARA / DPIA
-
+ 
+### 4.2.3 Plantilla ARA / DPIA
+ 
 La plantilla ARA/DPIA constituye uno de los instrumentos más críticos
 dentro del toolkit del framework, al integrar en un solo documento la
 *Evaluación de Riesgos Algorítmicos (ARA)* y la *Evaluación de Impacto
@@ -2017,7 +2043,7 @@ ARA/DPIA, herramienta central para la evaluación integral de riesgos e
 impactos de los sistemas de IA.
 
 **Sección 1. Información General**
-
+ 
 Esta sección reúne los datos básicos que identifican el sistema
 evaluado, tales como la entidad responsable, la unidad operativa, la
 denominación del sistema, los responsables del análisis, la fecha de
@@ -2032,7 +2058,7 @@ campos específicos de la Sección 1: Información General, que establece
 los datos fundamentales de identificación y trazabilidad del ARA/DPIA.
 
 **Sección 2. Descripción del Sistema y Alcance**
-
+ 
 Incluye una explicación clara del sistema de IA: su propósito, los
 elementos técnicos que lo componen, la base legal que justifica su
 implementación, la población a la que afecta, los casos de uso
@@ -2048,9 +2074,9 @@ La Figura 16 muestra la estructura de la Sección 2: Descripción del
 Sistema y Alcance, diseñada para capturar de manera exhaustiva las
 características fundamentales y los límites operativos del sistema de IA
 bajo evaluación.
-
+ 
 **Sección 3. Datos y Origen de la Información**
-
+ 
 La tercera sección integra el mapeo de datos y una versión simplificada
 del Data Sheet. En ella se describen las categorías de información
 utilizadas, el tipo de dato, las fuentes de origen, la licitud del
@@ -2082,7 +2108,7 @@ Consentimiento, que registra de forma clara los soportes jurídicos del
 tratamiento de datos y los mecanismos de consentimiento aplicables.
 
 **Sección 5. Evaluación de Impactos en Derechos**
-
+ 
 Esta sección analiza los posibles impactos del sistema sobre cuatro
 derechos fundamentales:\
 privacidad, igualdad, debido proceso y acceso a servicios públicos.
@@ -2099,9 +2125,9 @@ La Figura 19 muestra la Sección 5: Evaluación de Impactos en Derechos,
 donde se analiza de manera sistemática el efecto potencial del sistema
 sobre derechos fundamentales como la privacidad, la igualdad, el debido
 proceso y el acceso a servicios.
-
+ 
 **Sección 6. Matriz de Riesgos Algorítmicos**
-
+ 
 La matriz consolida los riesgos identificados y asigna una puntuación
 basada en la probabilidad y el impacto. Cada riesgo se clasifica por
 categoría (por ejemplo, privacidad, equidad o seguridad) y se registran
@@ -2114,9 +2140,9 @@ Es utilizada durante la revisión del Comité de IA. La Figura 20 ilustra
 la Sección 6: Matriz de Riesgos Algorítmicos, una herramienta
 estructurada para consolidar, evaluar y priorizar los riesgos
 identificados durante el análisis.
-
+ 
 **Sección 7. Medidas de Mitigación y Controles**
-
+ 
 Una vez definidos los riesgos, en esta sección se especifican las
 medidas para atenderlos: de qué tipo son (técnicas u organizativas),
 quién es el responsable, en qué plazo se implementarán, cuál es su
@@ -2128,9 +2154,9 @@ Se revisa y actualiza con periodicidad. La Figura 21 presenta la Sección
 7: Medidas de Mitigación y Controles, donde se registra el plan de
 acción específico para cada riesgo, incluyendo responsables, plazos e
 indicadores de seguimiento.
-
+ 
 **Sección 8. Supervisión Humana**
-
+ 
 Esta sección define los mecanismos mediante los cuales los seres humanos
 supervisarán y podrán intervenir en el funcionamiento del sistema.
 Incluye los criterios de escalamiento, los roles responsables, la
@@ -2144,9 +2170,9 @@ significativa". La Figura 22 muestra la Sección 8: Supervisión Humana,
 que documenta los protocolos y responsabilidades para garantizar una
 supervisión humana efectiva y significativa sobre las decisiones
 automatizadas.
-
+ 
 **Sección 9. Monitoreo Continuo y KPI**
-
+ 
 El monitoreo continuo recoge los indicadores con los que se evaluará
 periódicamente el desempeño del sistema. Se definen las métricas, su
 fórmula, el valor objetivo, el valor actual, la frecuencia de medición y
@@ -2159,7 +2185,7 @@ plan de seguimiento mediante indicadores clave para evaluar el desempeño
 y la estabilidad del sistema en operación.
 
 **Sección 10. Comunicación y Transparencia**
-
+ 
 Aquí se documentan los mecanismos para informar a los ciudadanos y los
 usuarios del sistema acerca del uso de la inteligencia artificial, así
 como los documentos publicados y los canales para consultas o reportes
@@ -2172,9 +2198,9 @@ manera directa. La Figura 24 presenta la Sección 10: Comunicación y
 Transparencia, que registra las estrategias y canales establecidos para
 informar a los ciudadanos y garantizar la transparencia en el uso de
 sistemas de IA.
-
+ 
 **Sección 11. Auditoría y Actualizaciones**
-
+ 
 Registra las auditorías internas o externas realizadas al sistema, su
 alcance, frecuencia, fecha de próxima evaluación, responsables,
 hallazgos y acciones correctivas.\
@@ -2183,9 +2209,9 @@ cumplimiento de las medidas de calidad y seguridad. La Figura 25 ilustra
 la Sección 11: Auditoría y Actualizaciones, que documenta el programa de
 auditorías, sus hallazgos y las acciones correctivas derivadas para
 garantizar la mejora continua del sistema.
-
+ 
 **Sección 12. Aprobaciones y Decisión Final**
-
+ 
 Es la sección que formaliza la decisión institucional. Incluye la
 evaluación del Delegado de Protección de Datos, del responsable técnico
 y del área jurídica.
@@ -2217,9 +2243,9 @@ Este instrumento constituye la pieza central del enfoque de gobernanza,
 ya que articula de manera secuencial los componentes clave: datos,
 modelos, riesgos, medidas de mitigación, supervisión, transparencia,
 auditoría y aprobación final.
-
+ 
 **¿Cómo se utiliza la plantilla?**
-
+ 
 La plantilla está diseñada para aplicarse de forma secuencial y
 colaborativa por diferentes áreas: técnica, jurídica, delegados de
 protección de datos, comité de IA, equipos de datos y analítica, así
@@ -2251,7 +2277,7 @@ siguientes etapas:
 9.  Finalmente, el comité de IA toma la decisión de aprobación.
 
 **¿Por qué es clave para el sector público?**
-
+ 
 La ARA/DPIA proporciona transparencia algorítmica, responsabilidad
 institucional y evidencia de cumplimiento normativo. Además, ofrece
 protección jurídica tanto para la entidad como para los funcionarios,
@@ -2271,9 +2297,9 @@ IA, articulando datos, modelos, riesgos, legalidad, derechos
 fundamentales y transparencia. Su diseño facilita la adopción del
 framework por entidades con capacidades técnicas diversas y asegura la
 alineación con los estándares nacionales e internacionales.
-
-### Model Card
-
+ 
+### 4.2.4 Model Card
+ 
 La Model Card es un instrumento estándar internacional que permite
 documentar, de manera clara y estructurada, las características técnicas
 y operativas de los modelos de inteligencia artificial utilizados por
@@ -2292,7 +2318,7 @@ facilita la trazabilidad del sistema, el reporte a los órganos de
 control y la rendición de cuentas ante la ciudadanía.
 
 **Alineación con la Circular 002 de la SIC**
-
+ 
 La Circular 002 establece obligaciones específicas para las entidades
 que implementan sistemas automatizados, entre las que se incluyen la
 documentación de dichos sistemas, la identificación de riesgos, la
@@ -2303,9 +2329,9 @@ el cumplimiento de estas disposiciones, ya que describe el modelo,
 explica su funcionamiento, documenta riesgos y sesgos, define los
 mecanismos de supervisión y permite informar de manera clara a los
 titulares de datos.
-
+ 
 **Alineación con el CONPES 4144**
-
+ 
 El documento CONPES 4144 establece lineamientos orientados a la
 transparencia, la responsabilidad, la gestión de riesgos, la equidad y
 la supervisión humana en el uso de tecnologías emergentes. La *Model
@@ -2315,9 +2341,9 @@ garantizar equidad, identifica riesgos éticos, técnicos y sociales,
 incorpora pautas para un uso responsable, describe mecanismos de
 supervisión y control, y facilita tanto auditorías internas como
 externas.
-
+ 
 **Descripción de la estructura de la herramienta**
-
+ 
 La herramienta está compuesta por catorce secciones diseñadas para
 capturar información esencial que asegure transparencia, seguridad y uso
 responsable del modelo. Cada sección cumple una función específica
@@ -2328,123 +2354,123 @@ la Model Card, herramienta estandarizada para documentar de manera
 integral las características técnicas y operativas de un modelo de IA.
 
 **Sección 1: Información general**
-
+ 
 Incluye nombre, versión, entidad, área responsable, fecha de creación,
 fecha de actualización y estado del ciclo de vida. Garantiza
 trazabilidad documental. La Figura 28 ilustra la Sección 1: Información
 General, que recopila los datos básicos de identificación y
 administración del modelo, esenciales para su trazabilidad y gestión
 documental.
-
+ 
 **Sección 2: Propósito del modelo**
-
+ 
 Describe el objetivo del modelo, su caso de uso, alcance, usuarios
 previstos y procesos institucionales impactados. La Figura 29 presenta
 la Sección 2: Propósito del Modelo, que documenta de manera clara los
 objetivos, el alcance operativo y los impactos institucionales previstos
 para el sistema de IA.
-
+ 
 **Sección 3: Descripción técnica**
-
+ 
 Define el tipo de modelo (clasificación, regresión, NLP, etc.), la
 arquitectura, los algoritmos utilizados y las tecnologías empleadas.
 La Figura 30 muestra la Sección 3: Descripción Técnica, que documenta
 las características fundamentales de arquitectura, algoritmos y
 tecnologías que componen el modelo de IA.
-
+ 
 **Sección 4: Datos utilizados**
-
+ 
 Resume los datasets de entrenamiento, validación y prueba. Incluye
 referencias cruzadas al Data Sheet correspondiente. La Figura 31 ilustra
 la Sección 4: Datos Utilizados, que documenta de manera organizada los
 conjuntos de datos empleados en el desarrollo y evaluación del modelo,
 asegurando trazabilidad con su documentación detallada.
-
+ 
 **Sección 5: Métricas de desempeño**
-
+ 
 Reporta métricas técnicas como precisión, recall, F1-score, AUC y
 métricas desagregadas por subpoblaciones. Permite evaluar equidad.
 La Figura 32 presenta la Sección 5: Métricas de Desempeño, que consolida
 los resultados cuantitativos del modelo, incluyendo tanto métricas
 globales como desgloses específicos para evaluar su rendimiento y
 equidad.
-
+ 
 **Sección 6: Evaluación de sesgos**
-
+ 
 Identifica sesgos potenciales, resultados de pruebas diferenciales y
 medidas aplicadas para mitigarlos. La Figura 33 ilustra la Sección 6:
 Evaluación de Sesgos, que documenta los análisis realizados para
 identificar sesgos potenciales y las medidas implementadas para promover
 la equidad del modelo.
-
+ 
 **Sección 7: Riesgos del modelo**
-
+ 
 Clasifica riesgos técnicos, operativos, sociales y éticos asociados al
 modelo y su implementación. La Figura 34 muestra la Sección 7: Riesgos
 del Modelo, que sistematiza la identificación y clasificación de los
 riesgos potenciales en diversas dimensiones, desde aspectos técnicos
 hasta impactos sociales y éticos.
-
+ 
 **Sección 8: Controles implementados**
-
+ 
 Documenta medidas técnicas y organizacionales, tales como validación
 humana, monitoreo, auditorías y alertas. La Figura 35 presenta la
 Sección 8: Controles Implementados, que registra las salvaguardas
 técnicas y organizativas establecidas para gestionar los riesgos
 identificados y asegurar la operación responsable del modelo.
-
+ 
 **Sección 9: Explicabilidad y transparencia**
-
+ 
 Describe técnicas de explicabilidad (SHAP, LIME, análisis de
 características, etc.), información pública y mecanismos de rendición de
 cuentas. La Figura 36 muestra la Sección 9: Explicabilidad y
 Transparencia, que documenta los métodos empleados para hacer
 comprensible el funcionamiento del modelo y los mecanismos establecidos
 para garantizar la transparencia ante usuarios y auditores.
-
+ 
 **Sección 10: Reglas de uso responsable**
-
+ 
 Define usos permitidos, usos restringidos, escenarios prohibidos y
 buenas prácticas operativas. La Figura 37 ilustra la Sección 10: Reglas
 de Uso Responsable, que establece los límites operativos y éticos del
 modelo, especificando claramente los contextos de uso aprobados,
 restringidos y prohibidos.
-
+ 
 **Sección 11: Entradas y salidas del modelo**
-
+ 
 Especifica los tipos de datos aceptados por el modelo y el tipo de
 predicciones generadas. La Figura 38 presenta la Sección 11: Entradas y
 Salidas del Modelo, que documenta las interfaces de datos del sistema,
 definiendo claramente qué información requiere para operar y qué tipo de
 resultados produce.
-
+ 
 **Sección 12: Monitoreo y mantenimiento**
-
+ 
 Indica la frecuencia de reentrenamiento, KPIs de calidad, métodos de
 detección de drift y responsables del monitoreo. La Figura 39 muestra la
 Sección 12: Monitoreo y Mantenimiento, que establece el plan de
 vigilancia continua y las actividades de sostenimiento necesarias para
 garantizar el desempeño y la vigencia del modelo a lo largo de su ciclo
 de vida.
-
+ 
 **Sección 13: Historial de cambios**
-
+ 
 Registra modificaciones, fechas, responsables y justificaciones.
 La Figura 40 presenta la Sección 13: Historial de Cambios, que documenta
 de manera cronológica todas las modificaciones realizadas al modelo, su
 documentación o sus parámetros, asegurando una trazabilidad completa de
 su evolución.
-
+ 
 **Sección 14: Aprobaciones**
-
+ 
 Incluye la validación del área técnica, jurídica, Delegado de Protección
 de Datos y Comité Distrital de IA. La Figura 41 ilustra la Sección 14:
 Aprobaciones, que consolida las firmas y validaciones institucionales
 requeridas para formalizar la implementación y el uso del modelo de IA,
 cerrando el ciclo de gobernanza documental.
-
+ 
 **Importancia dentro del framework**
-
+ 
 La herramienta adquiere un papel esencial en el marco de gobernanza de
 modelos de inteligencia artificial, ya que contribuye a evitar el uso de
 sistemas como "cajas negras", lo que incrementa la transparencia y la
@@ -2460,8 +2486,8 @@ como la pieza clave para que el Distrito pueda operar modelos de IA de
 manera segura, ética y responsable, alineándose con los principios de
 gobernanza tecnológica contemporánea (CONPES, 2022; SIC, 2023).
 
-### Data Sheet
-
+### 4.2.5 Data Sheet
+ 
 El *Data Sheet* constituye un instrumento de documentación diseñado para
 describir de manera exhaustiva las características, la calidad, el
 origen, la composición, los riesgos y las limitaciones del conjunto de
@@ -2478,9 +2504,9 @@ así como en diversas políticas públicas de IA. En el contexto del
 Distrito, el *Data Sheet* asegura que los datos utilizados sean
 confiables, legales, representativos y compatibles con criterios éticos
 y de protección de derechos fundamentales.
-
+ 
 **Alineación con la Circular 002 de la SIC**
-
+ 
 La Circular 002 establece que cualquier entidad que procese datos debe
 documentar su origen, registrar su finalidad, evaluar riesgos sobre los
 titulares, identificar datos personales y sensibles, y definir medidas
@@ -2492,9 +2518,9 @@ necesidad, evalúa riesgos para los titulares, registra controles de
 seguridad y permite auditorías sobre el uso del dataset. Por ello, se
 convierte en una herramienta indispensable para demostrar el
 cumplimiento normativo ante la SIC.
-
+ 
 **Alineación con el CONPES 4144**
-
+ 
 El CONPES 4144 establece que los sistemas de IA en el país deben
 garantizar gobernanza de datos, trazabilidad del ciclo de vida,
 identificación de sesgos, transparencia en los procesos, uso
@@ -2511,121 +2537,121 @@ gobernanza. La Figura 42 presenta la estructura general del Data Sheet,
 herramienta estandarizada para documentar exhaustivamente las
 características, origen, calidad y riesgos de los conjuntos de datos
 utilizados en sistemas de IA.
-
+ 
 **Descripción y estructura de la herramienta**
-
+ 
 La herramienta se organiza en trece secciones que documentan los
 componentes esenciales del dataset:
 
 **Sección 1: Información general del dataset**
-
+ 
 Incluye nombre, entidad propietaria, área responsable, versión, fecha de
 creación/actualización y contacto institucional. Permite trazabilidad
 administrativa. La Figura 43 presenta la Sección 1: Información General
 del Dataset, que recopila los datos básicos de identificación y gestión
 administrativa del conjunto de datos, fundamentales para su trazabilidad
 y referencia institucional.
-
+ 
 **Sección 2: Descripción y propósito**
-
+ 
 Explica qué contiene el dataset y cuál es su finalidad dentro del
 proceso institucional o servicio público que soporta.
 
 **Sección 3: Origen y método de recolección**
-
+ 
 Describe las fuentes (sistemas internos, sensores, encuestas, terceros
 autorizados), la metodología de captura y la frecuencia de
 actualización. La Figura 44 muestra la Sección 2: Descripción y
 Propósito, que define de manera clara el contenido del conjunto de datos
 y su función específica dentro de los procesos o servicios públicos que
 utiliza.
-
+ 
 **Sección 4: Composición del dataset**
-
+ 
 Incluye número de registros, número de variables, tipos de datos,
 descripción del diccionario de datos y representatividad poblacional.
 La Figura 45 ilustra la Sección 4: Composición del Dataset, que
 documenta las características estructurales y estadísticas fundamentales
 del conjunto de datos, proporcionando una visión clara de su escala y
 diversidad.
-
+ 
 **Sección 5: Presencia de datos personales y sensibles**
-
+ 
 Clasifica los datos en personales, sensibles o no personales, justifica
 su uso y especifica la base legal del tratamiento. La Figura 46 presenta
 la Sección 5: Presencia de Datos Personales y Sensibles, que evalúa y
 documenta la naturaleza de la información contenida en el dataset,
 asegurando el cumplimiento de la normativa de protección de datos
 personales y sensibles.
-
+ 
 **Sección 6: Calidad del dataset**
-
+ 
 Evalúa datos faltantes, inconsistencias, duplicados, procesos de
 limpieza, técnicas de validación y estándares de calidad aplicados.
 La Figura 47 muestra la Sección 6: Calidad del Dataset, que sistematiza
 la evaluación de la integridad, consistencia y confiabilidad de los
 datos mediante métricas y procesos documentados de limpieza y
 validación.
-
+ 
 **Sección 7: Evaluación de sesgos y representatividad**
-
+ 
 Analiza sesgos potenciales, distribución de variables sensibles y
 riesgos para poblaciones vulnerables. La Figura 48 presenta la Sección
 7: Evaluación de Sesgos y Representatividad, que documenta los análisis
 realizados para identificar posibles desbalances, subrepresentaciones o
 sesgos sistemáticos en el conjunto de datos que puedan afectar la
 equidad de los modelos.
-
+ 
 **Sección 8: Procesamiento y transformaciones aplicadas**
-
+ 
 Documenta normalización, imputación, balanceo, anonimización o cualquier
 operación realizada sobre los datos. La Figura 49 ilustra la Sección 8:
 Procesamiento y Transformaciones Aplicadas, que registra de manera
 detallada las operaciones de preparación, limpieza y transformación
 ejecutadas sobre los datos antes de su uso en modelos de IA.
-
+ 
 **Sección 9: Riesgos éticos y legales**
-
+ 
 Identifica riesgos de discriminación, reidentificación, uso indebido,
 sesgos estructurales y vulneración de derechos. La Figura 50 presenta la
 Sección 9: Riesgos Éticos y Legales, que sistematiza la identificación
 de amenazas potenciales relacionadas con el uso del conjunto de datos,
 desde perspectivas tanto éticas como de cumplimiento normativo.
-
+ 
 **Sección 10: Uso permitido y no permitido**
-
+ 
 Establece condiciones de uso, finalidades autorizadas, limitaciones y
 restricciones de acceso. La Figura 51 presenta la Sección 10: Uso
 Permitido y No Permitido, que define claramente los límites operativos y
 éticos del conjunto de datos, especificando los contextos de uso
 aprobados y aquellos expresamente prohibidos.
-
+ 
 **Sección 11: Seguridad del dataset**
-
+ 
 Incluye medidas de cifrado, accesos permitidos, políticas de custodia y
 controles de seguridad. La Figura 52 presenta la Sección 11: Seguridad
 del Dataset, que documenta las salvaguardas técnicas y organizativas
 implementadas para proteger la integridad, confidencialidad y
 disponibilidad del conjunto de datos.
-
+ 
 **Sección 12: Historial del dataset**
-
+ 
 Registra versiones, cambios realizados, fecha de modificación y
 responsable del ajuste. La Figura 53 ilustra la Sección 12: Historial
 del Dataset, que mantiene un registro cronológico de todas las
 modificaciones y actualizaciones realizadas al conjunto de datos,
 garantizando trazabilidad completa de su evolución.
-
+ 
 **Sección 13: Aprobaciones institucionales**
-
+ 
 Incluye validación del equipo de datos, área jurídica y Comité Distrital
 de IA. La Figura 54 presenta la Sección 13: Aprobaciones
 Institucionales, que consolida las validaciones requeridas de los
 diferentes actores responsables, formalizando la aprobación del conjunto
 de datos para su uso en sistemas de IA.
-
+ 
 **Importancia dentro del framework**
-
+ 
 El *Data Sheet* desempeña un papel esencial en el marco de gobernanza de
 inteligencia artificial, ya que contribuye a eliminar la opacidad en la
 recolección y manipulación de datos, previene que los modelos se
@@ -2639,8 +2665,8 @@ orientado a la transparencia algorítmica, lo que refuerza la confianza
 institucional y asegura la trazabilidad en todo el ciclo de vida del
 modelo.
 
-### Checklist de Evaluación de Proveedores de IA
-
+### 4.2.6 Checklist de Evaluación de Proveedores de IA
+ 
 El presente Checklist constituye una herramienta operativa fundamental
 del Framework de Gobernanza de IA, diseñada para estandarizar y
 robustecer los procesos de selección y contratación de proveedores de
@@ -2670,18 +2696,18 @@ En lugar de un checklist único y masivo, proponemos **tres versiones**:
 críticos. Enfocado en privacidad (Ley 1581), seguridad básica y
 funcionalidad. Se aplica en procesos de menor cuantía o para
 herramientas de productividad interna.
-
+ 
 **Checklist Estándar (Para Riesgo Alto):** El checklist actual, pero
 rationalizado a \~25 criterios. Es la versión completa que se incluiría
 en pliegos tipo para la mayoría de licitaciones públicas.
-
+ 
 **Checklist Reforzado (Para Riesgo Inaceptable o Crítico):** El
 checklist estándar + criterios adicionales de auditoría profunda,
 pruebas de estrés ético específicas y cláusulas contractuales
 excepcionales (ej.: para sistemas de biometría o salud).
 
 **Esto reduce la carga administrativa donde el riesgo lo permite.**
-
+ 
 **Instrucciones Generales:**
 
 **Seleccione el Nivel de Checklist** según la clasificación de riesgo
@@ -2706,7 +2732,7 @@ evaluación. La Figura 55 presenta la estructura general del Checklist de
 Evaluación de Proveedores de IA, herramienta diseñada para estandarizar
 la evaluación de proveedores según su nivel de riesgo y capacidad de
 cumplimiento.
-
+ 
 **Sección 1: Conformidad Regulatoria Y Gobernanza (Peso: 25%)**
 
 Esta sección evalúa el grado en que el proveedor cumple con las
@@ -2716,7 +2742,7 @@ inteligencia artificial responsable. También considera la implementación
 de sistemas de gestión de IA, como la norma ISO/IEC 42001, y la adopción
 de procesos sistemáticos para identificar y gestionar riesgos asociados
 al uso de inteligencia artificial.
- 
+
 **Tabla 4. Checklist Evaluación Proveedores: Sección 1**
  
 | ID | Criterio | 0 - No Cumple | 1 - Cumple Parcialmente | 2 - Cumple Plenamente | Puntuación | Evidencia |
@@ -2727,7 +2753,7 @@ al uso de inteligencia artificial.
 | 1.4 | **Gestión de Riesgos de IA** | No tiene proceso definido | Evaluaciones de riesgo ad-hoc | Proceso sistemático y documentado | | |
 
 Fuente: Elaboración Propia
-
+ 
 **Sección 2: Documentación Y Transparencia Técnica (Peso: 20%)**
 
 Se verifica que el proveedor proporcione documentación técnica completa,
@@ -2736,7 +2762,7 @@ y Data Sheets con información detallada sobre los datos de
 entrenamiento. Además, se exige documentación auditable que permita
 comprender la arquitectura del sistema, los hiperparámetros utilizados y
 las decisiones clave en el diseño.
- 
+
 **Tabla 5. Checklist Evaluación Proveedores: Sección 2**
  
 | ID | Criterio | 0 - No Cumple | 1 - Cumple Parcialmente | 2 - Cumple Plenamente | Puntuación | Evidencia |
@@ -2746,7 +2772,7 @@ las decisiones clave en el diseño.
 | 2.3 | **Documentación Técnica para Auditoría** | No proporciona documentación | Documentación superficial | Documentación detallada y bitácoras | | |
 
 Fuente: Elaboración Propia
-
+ 
 **Sección 3: Privacidad Y Protección De Datos (Peso: 20%)**
 
 En esta sección se examina la claridad contractual respecto a la
@@ -2755,7 +2781,7 @@ procesamiento (DPA) alineados con la Ley 1581 y los procedimientos que
 garantizan el ejercicio de derechos de habeas data, como acceso,
 rectificación y supresión. También se revisan las políticas específicas
 de retención y eliminación de información.
- 
+
 **Tabla 6. Checklist Evaluación Proveedores: Sección 3**
  
 | ID | Criterio | 0 - No Cumple | 1 - Cumple Parcialmente | 2 - Cumple Plenamente | Puntuación | Evidencia |
@@ -2766,7 +2792,7 @@ de retención y eliminación de información.
 | 3.4 | **Políticas de Retención y Borrado de Datos** | No tiene políticas definidas | Políticas genéricas | Políticas específicas y alineadas | | |
 
 Fuente: Elaboración Propia
-
+ 
 **Sección 4: Seguridad Y Robustez (Peso: 20%)**
 
 Se evalúa la vigencia de certificaciones de seguridad como ISO 27001 y
@@ -2774,7 +2800,7 @@ SOC 2, la realización de pruebas de robustez frente a ataques
 adversarios y datos fuera de distribución, así como la existencia de
 protocolos actualizados y comprobados para responder ante incidentes de
 seguridad.
- 
+
 **Tabla 7. Checklist Evaluación Proveedores: Sección 4**
  
 | ID | Criterio | 0 - No Cumple | 1 - Cumple Parcialmente | 2 - Cumple Plenamente | Puntuación | Evidencia |
@@ -2784,7 +2810,7 @@ seguridad.
 | 4.3 | **Respuesta a Incidentes de Seguridad** | No tiene protocolo documentado | Protocolo básico no probado | Protocolo completo, actualizado y probado | | |
 
 Fuente: Elaboración Propia
-
+ 
 **Sección 5: Auditoría Y Rendición De Cuentas (Peso: 10%)**
 
 Esta sección verifica que el proveedor acepte cláusulas contractuales
@@ -2792,7 +2818,7 @@ que otorguen derecho a auditoría con acceso completo a documentación y
 evidencias. Asimismo, se exige la implementación de sistemas de
 trazabilidad que incluyan registros comprensivos e inmutables de todas
 las decisiones tomadas por el sistema de IA.
- 
+
 **Tabla 8. Checklist Evaluación Proveedores: Sección 5**
  
 | ID | Criterio | 0 - No Cumple | 1 - Cumple Parcialmente | 2 - Cumple Plenamente | Puntuación | Evidencia |
@@ -2801,7 +2827,7 @@ las decisiones tomadas por el sistema de IA.
 | 5.2 | **Trazabilidad de Decisiones** | No registra logs o son insuficientes | Registra logs básicos | Registra logs comprehensivos e inmutables | | |
 
 Fuente: Elaboración Propia
-
+ 
 **Sección 6: Calidad Del Servicio Y Soporte (Peso: 15%)**
 
 Finalmente, se revisa la existencia de acuerdos de nivel de servicio
@@ -2809,7 +2835,7 @@ Finalmente, se revisa la existencia de acuerdos de nivel de servicio
 disponibilidad de soporte técnico prioritario y planes de transferencia
 de conocimiento. También se considera la transparencia en el roadmap,
 incluyendo la notificación anticipada de cambios significativos.
- 
+
 **Tabla 9. Checklist Evaluación Proveedores: Sección 6**
  
 | ID | Criterio | 0 - No Cumple | 1 - Cumple Parcialmente | 2 - Cumple Plenamente | Puntuación | Evidencia |
@@ -2819,7 +2845,7 @@ incluyendo la notificación anticipada de cambios significativos.
 | 6.3 | **Gestión de Cambios y Roadmap** | No comparte roadmap | Roadmap de alto nivel | Roadmap detallado y notificaciones >30 días | | |
 
 Fuente: Elaboración Propia
-
+ 
 **Informe Final De Evaluación**
 
 El informe final de evaluación resume la revisión integral del proveedor
@@ -2835,9 +2861,9 @@ La Figura 55 presenta la estructura general del Checklist de Evaluación
 de Proveedores de IA, herramienta diseñada para estandarizar la
 evaluación de proveedores según su nivel de riesgo y capacidad de
 cumplimiento.
-
-### Guía de Uso Interno de IA Generativa
-
+ 
+### 4.2.7 Guía de Uso Interno de IA Generativa
+ 
 La presente Guía Institucional de Uso Interno de IA Generativa establece
 los lineamientos, responsabilidades y protocolos necesarios para
 garantizar un uso seguro, ético y jurídicamente adecuado de las
@@ -2852,9 +2878,9 @@ y de apoyo, esta guía se configura como un instrumento esencial para
 orientar su adopción responsable, alineado con la normativa colombiana
 vigente, las capacidades actuales del Distrito y las mejores prácticas
 internacionales adaptadas al contexto local.
-
+ 
 #### Principales riesgos asociados al uso de IA Generativa en el sector público
-
+ 
 Los sistemas de IA generativa presentan riesgos relevantes que deben
 gestionarse antes, durante y después de su uso institucional. Los
 principales riesgos identificados son:
@@ -2884,9 +2910,9 @@ institucional.
 **Automatización sin supervisión:** La ejecución automática de
 decisiones sin intervención humana puede generar fallas graves en
 trámites y servicios públicos.
-
+ 
 #### Tipología de casos de uso relevantes en el Distrito Capital
-
+ 
 En la Tabla 10 se presentan casos de uso iniciales y acotados, ajustados
 al contexto distrital:
  
@@ -2903,9 +2929,9 @@ al contexto distrital:
 | Jurídica Distrital | Borradores de conceptos no vinculantes | Bajo | Revisión posterior por abogado |
 
 Fuente: Elaboración Propia
-
+ 
 #### Obligaciones mínimas del proveedor de IA generativa
-
+ 
 Para plataformas internas o de terceros aplican los siguientes
 requisitos mínimos:
 
@@ -2940,7 +2966,7 @@ Cláusula de confidencialidad reforzada para datos sensibles.
 Destrucción de datos una vez finalice el contrato.
 
 #### Matriz simplificada de clasificación de riesgos en casos de uso de GenAI
-
+ 
 La siguiente matriz permite clasificar rápidamente el nivel de riesgo
 del caso de uso:
  
@@ -2957,9 +2983,9 @@ Fuente: Elaboración Propia
 
 Este cuadro permite que cualquier entidad evalúe rápidamente si un uso
 está permitido, condicionado o prohibido.
-
+ 
 #### Procedimiento de respuesta ante incidentes
-
+ 
 En caso de presentarse un incidente relacionado con el uso de IA
 generativa, se aplicarán las siguientes acciones según la naturaleza del
 evento. Si se ingresó información personal por error, se debe cerrar
@@ -2982,7 +3008,7 @@ Como se especifica en la Figura 56 se puede identificar el procedimiento
 de respuesta ante incidentes.
 
 #### **Programa obligatorio de capacitación**
-
+ 
 Para acceder a las herramientas de IA generativa será indispensable
 completar un programa de formación orientado a garantizar un uso seguro
 y responsable. Este programa incluye contenidos mínimos obligatorios,
