@@ -213,130 +213,144 @@
         const container = document.getElementById('dpia-container');
         let html = '';
 
-        // --- 1. METADATOS Y RESUMEN GENERAL ---
+        // --- METADATOS ---
         const metaDate = formatDate(data.metadata.fechaExportacion);
-        document.getElementById('metadata').textContent = `Documento generado el ${metaDate} | Versión DPIA: ${data.campos.version} | Formulario v${data.metadata.versionFormulario}`;
+        document.getElementById('metadata').textContent = `Documento generado el ${metaDate} | Versión del Formulario: ${data.metadata.versionFormulario}`;
 
-        // --- 2. INFORMACIÓN GENERAL DEL SISTEMA (campos) ---
-        html += '<h2>1. Información General del Sistema</h2>';
+        // --- SECCIÓN 1: INFORMACIÓN GENERAL ---
+        html += '<h2>1. Información General</h2>';
         html += '<table class="info-table">';
-        const camposGenerales = {
-            "entidad": "Entidad Responsable", "unidad": "Unidad / Dirección", "titulo": "Título del Sistema",
-            "responsable": "Responsable de Negocio", "responsableTecnico": "Responsable Técnico",
-            "fechaElaboracion": "Fecha de Elaboración (DPIA)", "version": "Versión del Sistema",
-            "descripcionTecnica": "Descripción Técnica", "finalidad": "Propósito Principal"
+        const seccion1 = {
+            "entidad": "Entidad", "unidad": "Unidad responsable", "titulo": "Título del sistema",
+            "responsable": "Responsable ARA/DPIA", "responsableTecnico": "Responsable técnico",
+            "fechaElaboracion": "Fecha de elaboración", "version": "Versión"
         };
-        html += generateInfoTableRows(data.campos, camposGenerales);
+        html += generateInfoTableRows(data.campos, seccion1);
         html += '</table>';
 
-        // --- 3. ALCANCE Y BASE LEGAL (campos) ---
-        html += '<h2>2. Alcance y Contexto de Uso</h2>';
+        // --- SECCIÓN 2: DESCRIPCIÓN DEL SISTEMA Y ALCANCE ---
+        html += '<h2>2. Descripción del Sistema y Alcance</h2>';
         html += '<table class="info-table">';
-        const camposAlcance = {
-            "baseLegal": "Marco Legal General", "poblacion": "Población Afectada", "casosPermitidos": "Usos Autorizados",
-            "casosNoPermitidos": "Usos Prohibidos", "tipoDecisiones": "Tipo de Decisión (Recomendación/Automatizada)",
-            "contextoUso": "Contexto de Operación"
+        const seccion2 = {
+            "descripcionTecnica": "Descripción técnica del sistema", "finalidad": "Finalidad específica",
+            "baseLegal": "Base legal", "poblacion": "Población objetivo", "casosPermitidos": "Casos de uso permitidos",
+            "casosNoPermitidos": "Casos de uso no permitidos", "tipoDecisiones": "Tipo de decisiones",
+            "contextoUso": "Contexto de uso"
         };
-        html += generateInfoTableRows(data.campos, camposAlcance);
+        html += generateInfoTableRows(data.campos, seccion2);
         html += '</table>';
         
-        // --- 4. DATASET Y LICIITUD (campos) ---
-        html += '<h2>3. Datos y Licitud</h2>';
-        html += '<h3>Información del Dataset de Entrenamiento</h3>';
-        html += '<table class="info-table">';
-        const camposDataset = {
-            "nombreDataset": "Nombre del Dataset", "origenDataset": "Fuente de Datos", "motivacionDataset": "Motivación de Uso",
-            "recoleccionDataset": "Método de Recolección", "limpiezaDataset": "Procesos de Limpieza y Anonimización",
-            "usosPrevistosDataset": "Usos Previstos", "usosNoPrevistosDataset": "Usos No Previstos"
-        };
-        html += generateInfoTableRows(data.campos, camposDataset);
-        html += '</table>';
-
-        html += '<h3>Bases Legales y Consentimiento</h3>';
-        html += '<table class="info-table">';
-        const camposLegal = {
-            "baseLegalPrincipal": "Base Legal Principal (Tratamiento)", "basesLegalesComplementarias": "Bases Legales Complementarias",
-            "consentimientoExplicito": "¿Requiere Consentimiento Explícito?", "mecanismoConsentimiento": "Mecanismo de Consentimiento",
-            "alternativasSinConsentimiento": "Alternativas sin Consentimiento"
-        };
-        html += generateInfoTableRows(data.campos, camposLegal);
-        html += '</table>';
-
-        // --- 5. TABLA MAPEO DE DATOS ---
-        html += '<h2>4. Mapeo de Datos Personales</h2>';
+        // --- SECCIÓN 3: DATOS Y ORIGEN DE LA INFORMACIÓN ---
+        html += '<h2>3. Datos y Origen de la Información</h2>';
+        html += '<h3>Tabla de Mapeo de Datos</h3>';
         html += generateTableHTML(data.tablas.tablaMapeoDatos, "tablaMapeoDatos");
+        html += '<h3>Documentación de Dataset (Datasheet Simplificada)</h3>';
+        html += '<table class="info-table">';
+        const seccion3_datasheet = {
+            "nombreDataset": "Nombre del dataset", "origenDataset": "Origen", "motivacionDataset": "Motivación",
+            "recoleccionDataset": "Proceso de recolección", "limpiezaDataset": "Procesos de limpieza y anonimización",
+            "usosPrevistosDataset": "Usos previstos", "usosNoPrevistosDataset": "Usos no previstos"
+        };
+        html += generateInfoTableRows(data.campos, seccion3_datasheet);
+        html += '</table>';
 
-        // --- 6. TABLA IMPACTOS EN DERECHOS ---
-        html += '<h2>5. Impacto en Derechos Fundamentales (DPIA)</h2>';
+        // --- SECCIÓN 4: BASE LEGAL Y CONSENTIMIENTO ---
+        html += '<h2>4. Base Legal y Consentimiento</h2>';
+        html += '<table class="info-table">';
+        const seccion4 = {
+            "baseLegalPrincipal": "Base legal principal", "basesLegalesComplementarias": "Bases legales complementarias",
+            "consentimientoExplicito": "¿Se requiere consentimiento explícito?", "mecanismoConsentimiento": "Mecanismo de obtención de consentimiento",
+            "alternativasSinConsentimiento": "Alternativas sin consentimiento"
+        };
+        html += generateInfoTableRows(data.campos, seccion4);
+        html += '</table>';
+
+        // --- SECCIÓN 5: EVALUACIÓN DE IMPACTOS EN DERECHOS ---
+        html += '<h2>5. Evaluación de Impactos en Derechos</h2>';
         html += generateTableHTML(data.tablas.tablaImpactosDerechos, "tablaImpactosDerechos");
         
-        // --- 7. SUPERVISIÓN Y TRANSPARENCIA (campos) ---
-        html += '<h2>6. Gobernanza y Transparencia</h2>';
-        html += '<h3>Supervisión Humana y Auditoría</h3>';
-        html += '<table class="info-table">';
-        const camposSupervision = {
-            "mecanismosIntervencion": "Mecanismos de Intervención Humana", "criteriosEscalamiento": "Criterios para Escalamiento (Revisión Humana)",
-            "rolesResponsables": "Roles y Responsabilidades de Supervisión", "frecuenciaRevision": "Frecuencia de Revisión Humana",
-            "procedimientoDesacuerdo": "Procedimiento en Caso de Desacuerdo"
-        };
-        html += generateInfoTableRows(data.campos, camposSupervision);
-        html += '</table>';
-        
-        html += '<h3>Transparencia y Comunicación</h3>';
-        html += '<table class="info-table">';
-        const camposTransparencia = {
-            "mensajesAviso": "Mensajes de Aviso al Ciudadano", "documentosPublicados": "Documentos Publicados",
-            "canalesConsulta": "Canales de Consulta", "canalesReporte": "Canales de Reporte de Problemas",
-            "planDivulgacion": "Plan de Divulgación"
-        };
-        html += generateInfoTableRows(data.campos, camposTransparencia);
-        html += '</table>';
-
-        // --- 8. TABLA MATRIZ DE RIESGOS ---
-        html += '<h2>7. Matriz de Riesgos Algorítmicos (ARA)</h2>';
+        // --- SECCIÓN 6: MATRIZ DE RIESGOS ALGORÍTMICOS ---
+        html += '<h2>6. Matriz de Riesgos Algorítmicos</h2>';
         html += generateTableHTML(data.tablas.tablaMatrizRiesgos, "tablaMatrizRiesgos");
 
-        // --- 9. TABLA MEDIDAS DE MITIGACIÓN ---
-        html += '<h2>8. Plan de Medidas de Mitigación</h2>';
+        // --- SECCIÓN 7: MEDIDAS DE MITIGACIÓN Y CONTROLES ---
+        html += '<h2>7. Medidas de Mitigación y Controles</h2>';
         html += generateTableHTML(data.tablas.tablaMedidasMitigacion, "tablaMedidasMitigacion");
 
-        // --- 10. TABLA MONITOREO KPIS ---
-        html += '<h2>9. Monitoreo y Evaluación (KPIs)</h2>';
-        html += generateTableHTML(data.tablas.tablaMonitoreoKPIs, "tablaMonitoreoKPIs");
+        // --- SECCIÓN 8: SUPERVISIÓN HUMANA ---
+        html += '<h2>8. Supervisión Humana</h2>';
+        html += '<table class="info-table">';
+        const seccion8 = {
+            "mecanismosIntervencion": "Mecanismos de intervención humana", "criteriosEscalamiento": "Criterios de escalamiento",
+            "rolesResponsables": "Roles responsables", "frecuenciaRevision": "Frecuencia de revisión de casos",
+            "procedimientoDesacuerdo": "Procedimiento ante desacuerdo con el sistema"
+        };
+        html += generateInfoTableRows(data.campos, seccion8);
+        html += '</table>';
         
-        // --- 11. TABLA AUDITORÍA Y ACTUALIZACIONES ---
-        html += '<h2>10. Plan de Auditoría y Actualizaciones</h2>';
+        // --- SECCIÓN 9: MONITOREO CONTINUO Y KPIs ---
+        html += '<h2>9. Monitoreo Continuo y KPIs</h2>';
+        html += generateTableHTML(data.tablas.tablaMonitoreoKPIs, "tablaMonitoreoKPIs");
+
+        // --- SECCIÓN 10: COMUNICACIÓN Y TRANSPARENCIA ---
+        html += '<h2>10. Comunicación y Transparencia</h2>';
+        html += '<table class="info-table">';
+        const seccion10 = {
+            "mensajesAviso": "Mensajes de aviso a usuarios", "documentosPublicados": "Documentos publicados",
+            "canalesConsulta": "Canales de consulta ciudadana", "canalesReporte": "Canales de reporte de problemas",
+            "planDivulgacion": "Plan de divulgación"
+        };
+        html += generateInfoTableRows(data.campos, seccion10);
+        html += '</table>';
+
+        // --- SECCIÓN 11: AUDITORÍA Y ACTUALIZACIONES ---
+        html += '<h2>11. Auditoría y Actualizaciones</h2>';
         html += generateTableHTML(data.tablas.tablaAuditoriaActualizaciones, "tablaAuditoriaActualizaciones");
 
-        // --- 12. EVALUACIONES DE RESPONSABLES ---
-        html += '<h2>11. Conclusiones de Evaluación</h2>';
-        html += '<h3>Evaluación de Protección de Datos (DPO)</h3>';
-        html += `<p>${data.campos.evaluacionDPO}</p>`;
-        html += '<h3>Evaluación del Responsable Técnico</h3>';
-        html += `<p>${data.campos.evaluacionResponsableTecnico}</p>`;
-        html += '<h3>Evaluación Jurídica</h3>';
-        html += `<p>${data.campos.evaluacionJuridica}</p>`;
+        // --- SECCIÓN 12: APROBACIONES Y DECISIÓN ---
+        html += '<h2>12. Aprobaciones y Decisión</h2>';
+        html += '<h3>Evaluaciones</h3>';
+        html += '<table class="info-table">';
+        const seccion12_evaluaciones = {
+            "evaluacionDPO": "Evaluación DPO",
+            "evaluacionResponsableTecnico": "Evaluación responsable técnico",
+            "evaluacionJuridica": "Evaluación jurídica"
+        };
+        html += generateInfoTableRows(data.campos, seccion12_evaluaciones);
+        html += '</table>';
+
+        html += '<h3>Decisión</h3>';
+        html += '<table class="info-table">';
+        const seccion12_decision = {
+            "decisionComiteIA": "Decisión del Comité de IA",
+            "fechaAprobacion": "Fecha de aprobación",
+            "condicionesReservas": "Condiciones o reservas",
+            "fechaProximaRevision": "Fecha de próxima revisión"
+        };
+        html += generateInfoTableRows(data.campos, seccion12_decision);
+        html += '</table>';
 
         // Renderizar el HTML al contenedor
         container.innerHTML = html;
 
-        // --- 13. Llenar campos de Aprobación Final ---
-        document.getElementById('decisionComiteIA').textContent = data.campos.decisionComiteIA.toUpperCase();
+        // --- Llenar campos de Aprobación Final (sección inferior) ---
+        const decisionComite = data.campos.decisionComiteIA || 'N/A';
+        document.getElementById('decisionComiteIA').textContent = decisionComite.toUpperCase().replace(/-/g, ' ');
         document.getElementById('fechaAprobacion').textContent = formatDate(data.campos.fechaAprobacion);
         document.getElementById('condicionesReservas').textContent = data.campos.condicionesReservas;
         document.getElementById('fechaProximaRevision').textContent = formatDate(data.campos.fechaProximaRevision);
     }
     
     /**
-     * Genera filas de una tabla de información (clave-valor).
+     * Genera filas de una tabla de información (etiqueta-valor).
      * @param {Object} data Objeto JSON de donde extraer valores.
-     * @param {Object} fields Mapeo de clave JSON a descripción en la tabla.
+     * @param {Object} fields Mapeo de id de campo a su etiqueta legible.
      * @returns {string} HTML de las filas de la tabla.
      */
     function generateInfoTableRows(data, fields) {
         let rows = '';
         for (const key in fields) {
-            const description = fields[key];
+            const label = fields[key];
             let value = data[key] !== undefined ? data[key] : 'N/A';
             
             // Formatear valores de tipo fecha si es aplicable
@@ -346,7 +360,7 @@
 
             rows += `
                 <tr>
-                    <th>${description}</th>
+                    <th>${label}</th>
                     <td>${value}</td>
                 </tr>
             `;

@@ -189,6 +189,16 @@
         reader.readAsText(file);
     }
 
+    // Mapeo para transformar valores de ID a texto legible.
+    const valueMap = {
+        // Diccionario de datos
+        'texto': 'Texto',
+        'numero': 'Número',
+        'fecha': 'Fecha',
+        'booleano': 'Booleano',
+        'si': 'Sí',
+        'no': 'No'
+    };
     /**
      * Función principal para renderizar todos los datos del Data Sheet.
      */
@@ -196,116 +206,142 @@
         const container = document.getElementById('data-sheet-container');
         let html = '';
 
-        // --- 1. METADATOS Y RESUMEN GENERAL ---
         document.getElementById('dataset-name').textContent = `Dataset: ${data.dsNombre}`;
 
-        // --- 2. INFORMACIÓN BÁSICA ---
-        html += '<h2>1. Identificación del Dataset</h2>';
+        // --- Sección 1: Información General del Dataset ---
+        html += '<h2>1. Información General del Dataset</h2>';
         html += '<table class="info-table">';
-        const camposBasicos = {
-            "dsEntidadPropietaria": "Entidad Propietaria", "dsAreaResponsable": "Área Responsable", "dsVersion": "Versión",
-            "dsFechaCreacion": "Fecha de Creación", "dsFechaActualizacion": "Última Actualización", "dsContacto": "Contacto",
-            "dsDescripcion": "Descripción General y Contenido", "dsFinalidad": "Propósito Principal",
-            "dsProcesosServicios": "Procesos y Servicios Soportados"
+        const seccion1 = {
+            "dsNombre": "Nombre del dataset", "dsEntidadPropietaria": "Entidad propietaria", "dsAreaResponsable": "Área responsable",
+            "dsVersion": "Versión", "dsFechaCreacion": "Fecha de creación", "dsFechaActualizacion": "Fecha de actualización",
+            "dsContacto": "Contacto institucional"
         };
-        html += generateInfoTableRows(data, camposBasicos);
+        html += generateInfoTableRows(data, seccion1);
         html += '</table>';
 
-        // --- 3. FUENTE Y VOLUMEN ---
-        html += '<h2>2. Origen y Dimensiones</h2>';
+        // --- Sección 2: Descripción y Propósito ---
+        html += '<h2>2. Descripción y Propósito</h2>';
         html += '<table class="info-table">';
-        const camposOrigen = {
-            "dsFuente": "Fuentes Originales", "dsMetodoCaptura": "Método de Captura", "dsFrecuenciaActualizacion": "Frecuencia de Actualización",
-            "dsNumeroRegistros": "Número de Registros", "dsNumeroVariables": "Número de Variables", "dsTiposDatos": "Tipos de Datos Generales",
-            "dsRepresentatividadPoblacional": "Representatividad Poblacional"
+        const seccion2 = {
+            "dsDescripcion": "Descripción del contenido", "dsFinalidad": "Finalidad del dataset",
+            "dsProcesosServicios": "Procesos o servicios públicos que soporta"
         };
-        html += generateInfoTableRows(data, camposOrigen);
+        html += generateInfoTableRows(data, seccion2);
         html += '</table>';
 
-        // --- 4. PRIVACIDAD Y LEGALIDAD ---
-        html += '<h2>3. Privacidad y Marco Legal</h2>';
+        // --- Sección 3: Origen y Método de Recolección ---
+        html += '<h2>3. Origen y Método de Recolección</h2>';
         html += '<table class="info-table">';
-        const camposPrivacidad = {
-            "dsDatosPersonales": "Datos Personales Incluidos", "dsJustificacion": "Justificación Legal (Datos Personales)",
-            "dsBaseLegal": "Base Legal de Uso y Tratamiento", "dsAnonimizacion": "Técnicas de Anonimización/Seudonimización"
+        const seccion3 = {
+            "dsFuente": "Fuente de los datos", "dsMetodoCaptura": "Método de captura",
+            "dsFrecuenciaActualizacion": "Frecuencia de actualización"
         };
-        html += generateInfoTableRows(data, camposPrivacidad);
+        html += generateInfoTableRows(data, seccion3);
         html += '</table>';
 
-        // --- 5. CALIDAD DE DATOS ---
-        html += '<h2>4. Calidad, Limpieza y Transformación</h2>';
-        html += '<h3>Evaluación de Calidad</h3>';
+        // --- Sección 4: Composición del Dataset ---
+        html += '<h2>4. Composición del Dataset</h2>';
         html += '<table class="info-table">';
-        const camposCalidad = {
-            "dsDatosFaltantes": "Datos Faltantes", "dsInconsistencias": "Inconsistencias Corregidas",
-            "dsProcesosLimpieza": "Procesos de Limpieza Aplicados", "dsControlesCalidad": "Controles de Calidad Implementados",
-            "dsValidaciones": "Validaciones/Scripts Utilizados"
+        const seccion4 = {
+            "dsNumeroRegistros": "Número de registros", "dsNumeroVariables": "Número de variables",
+            "dsTiposDatos": "Tipos de datos", "dsRepresentatividadPoblacional": "Representatividad poblacional"
         };
-        html += generateInfoTableRows(data, camposCalidad);
+        html += generateInfoTableRows(data, seccion4);
         html += '</table>';
-        
-        html += '<h3>Preparación para IA</h3>';
-        html += '<table class="info-table">';
-        const camposPreparacion = {
-            "dsNormalizacion": "Procesos de Normalización", "dsImputacion": "Estrategia de Imputación (Faltantes)",
-            "dsBalanceo": "Estrategia de Balanceo de Clases"
-        };
-        html += generateInfoTableRows(data, camposPreparacion);
-        html += '</table>';
-
-        // --- 6. SESGOS Y RIESGOS INHERENTES ---
-        html += '<h2>5. Sesgos y Riesgos del Dataset</h2>';
-        html += '<table class="info-table">';
-        const camposRiesgos = {
-            "dsSesgosIdentificados": "Sesgos Geográficos/Demográficos Identificados", "dsDistribucionVariables": "Variables Clave de Distribución",
-            "dsRiesgosPoblacionesVulnerables": "Riesgos en Poblaciones Vulnerables", "dsLimitaciones": "Limitaciones Conocidas del Dataset",
-            "dsRiesgosDiscriminacion": "Riesgos de Discriminación", "dsRiesgosReidentificacion": "Evaluación Riesgo de Re-identificación",
-            "dsRiesgosUsoIndebido": "Riesgos de Uso Indebido a Explorar", "dsRiesgosSesgosEstructurales": "Evaluación Sesgos Estructurales",
-            "dsRiesgosVulneracionDerechos": "Plan de Identificación de Vulneración de Derechos"
-        };
-        html += generateInfoTableRows(data, camposRiesgos);
-        html += '</table>';
-
-        // --- 7. USO, ACCESO Y SEGURIDAD ---
-        html += '<h2>6. Gobernanza, Acceso y Seguridad</h2>';
-        html += '<h3>Reglas de Uso</h3>';
-        html += '<table class="info-table">';
-        const camposUso = {
-            "dsCumplimientoNormativo": "Declaración de Cumplimiento Normativo", "dsFinalidadAutorizada": "Usos Específicos Autorizados",
-            "dsRestricciones": "Restricciones de Uso/Acceso", "dsUsosIndebidos": "Ejemplos de Usos No Autorizados"
-        };
-        html += generateInfoTableRows(data, camposUso);
-        html += '</table>';
-
-        html += '<h3>Custodia y Seguridad</h3>';
-        html += '<table class="info-table">';
-        const camposSeguridad = {
-            "dsCondicionesAcceso": "Condiciones de Acceso y Distribución", "dsControlesSeguridad": "Controles de Seguridad Implementados",
-            "dsCifrado": "Mecanismos de Cifrado", "dsCustodia": "Rol Responsable de la Custodia",
-            "dsPoliticasAcceso": "Políticas Internas de Acceso"
-        };
-        html += generateInfoTableRows(data, camposSeguridad);
-        html += '</table>';
-
-        // --- 8. DICCIONARIO DE DATOS ---
-        html += '<h2>7. Diccionario de Datos</h2>';
+        html += '<h3>Diccionario de Datos</h3>';
         html += generateTableHTML(data.tablaDiccionarioDatos, "tablaDiccionarioDatos");
-        
-        // --- 9. HISTORIAL DE VERSIONES ---
-        html += '<h2>8. Historial de Versiones</h2>';
+
+        // --- Sección 5: Presencia de Datos Personales y Sensibles ---
+        html += '<h2>5. Presencia de Datos Personales y Sensibles</h2>';
+        html += '<table class="info-table">';
+        const seccion5 = {
+            "dsDatosPersonales": "Identificación del tipo de datos personales/sensibles", "dsJustificacion": "Justificación",
+            "dsBaseLegal": "Base legal del tratamiento"
+        };
+        html += generateInfoTableRows(data, seccion5);
+        html += '</table>';
+
+        // --- Sección 6: Calidad del Dataset ---
+        html += '<h2>6. Calidad del Dataset</h2>';
+        html += '<table class="info-table">';
+        const seccion6 = {
+            "dsDatosFaltantes": "Datos faltantes", "dsInconsistencias": "Inconsistencias",
+            "dsProcesosLimpieza": "Procesos de limpieza aplicados", "dsControlesCalidad": "Controles de calidad",
+            "dsValidaciones": "Validaciones aplicadas"
+        };
+        html += generateInfoTableRows(data, seccion6);
+        html += '</table>';
+
+        // --- Sección 7: Evaluación de Sesgos y Representatividad ---
+        html += '<h2>7. Evaluación de Sesgos y Representatividad</h2>';
+        html += '<table class="info-table">';
+        const seccion7 = {
+            "dsSesgosIdentificados": "Sesgos identificados", "dsDistribucionVariables": "Distribución de variables sensibles",
+            "dsRiesgosPoblacionesVulnerables": "Riesgos para poblaciones vulnerables", "dsLimitaciones": "Limitaciones y riesgos identificados"
+        };
+        html += generateInfoTableRows(data, seccion7);
+        html += '</table>';
+
+        // --- Sección 8: Procesamiento y Transformaciones Aplicadas ---
+        html += '<h2>8. Procesamiento y Transformaciones Aplicadas</h2>';
+        html += '<table class="info-table">';
+        const seccion8 = {
+            "dsNormalizacion": "Normalización", "dsImputacion": "Imputación",
+            "dsBalanceo": "Balanceo", "dsAnonimizacion": "Anonimización/seudonimización"
+        };
+        html += generateInfoTableRows(data, seccion8);
+        html += '</table>';
+
+        // --- Sección 9: Riesgos Éticos y Legales ---
+        html += '<h2>9. Riesgos Éticos y Legales</h2>';
+        html += '<table class="info-table">';
+        const seccion9 = {
+            "dsRiesgosDiscriminacion": "Riesgos de discriminación", "dsRiesgosReidentificacion": "Riesgos de reidentificación",
+            "dsRiesgosUsoIndebido": "Riesgos de uso indebido", "dsRiesgosSesgosEstructurales": "Riesgos de sesgos estructurales",
+            "dsRiesgosVulneracionDerechos": "Riesgos de vulneración de derechos", "dsCumplimientoNormativo": "Cumplimiento normativo"
+        };
+        html += generateInfoTableRows(data, seccion9);
+        html += '</table>';
+
+        // --- Sección 10: Uso Permitido y No Permitido ---
+        html += '<h2>10. Uso Permitido y No Permitido</h2>';
+        html += '<table class="info-table">';
+        const seccion10 = {
+            "dsFinalidadAutorizada": "Finalidad autorizada", "dsRestricciones": "Restricciones",
+            "dsUsosIndebidos": "Usos indebidos", "dsCondicionesAcceso": "Condiciones de acceso"
+        };
+        html += generateInfoTableRows(data, seccion10);
+        html += '</table>';
+
+        // --- Sección 11: Seguridad del Dataset ---
+        html += '<h2>11. Seguridad del Dataset</h2>';
+        html += '<table class="info-table">';
+        const seccion11 = {
+            "dsControlesSeguridad": "Controles de seguridad", "dsCifrado": "Cifrado",
+            "dsCustodia": "Custodia", "dsPoliticasAcceso": "Políticas de acceso"
+        };
+        html += generateInfoTableRows(data, seccion11);
+        html += '</table>';
+
+        // --- Sección 12: Historial del Dataset ---
+        html += '<h2>12. Historial del Dataset</h2>';
         html += generateTableHTML(data.tablaHistorialDataset, "tablaHistorialDataset");
 
         // Renderizar el HTML al contenedor
         container.innerHTML = html;
 
-        // --- 10. Llenar campos de Aprobación Final ---
+        // --- Sección 13: Aprobaciones Institucionales (en la sección de aprobación final) ---
         document.getElementById('dsAprobacionEquipoDatos').textContent = data.dsAprobacionEquipoDatos;
         document.getElementById('dsAprobacionJuridica').textContent = data.dsAprobacionJuridica;
         document.getElementById('dsAprobacionComiteIA').textContent = data.dsAprobacionComiteIA;
         
         // Intentar autocompletar el responsable
-        document.getElementById('responsable-name').value = data.dsAreaResponsable || '';
-        document.getElementById('comite-name').value = data.dsAprobacionComiteIA.split('(')[0].trim() || '';
+        if (data.dsAreaResponsable) {
+            document.getElementById('responsable-name').value = data.dsAreaResponsable;
+        }
+        if (data.dsAprobacionComiteIA) {
+            document.getElementById('comite-name').value = data.dsAprobacionComiteIA.split('(')[0].trim();
+        }
 
     }
     
@@ -315,18 +351,20 @@
     function generateInfoTableRows(data, fields) {
         let rows = '';
         for (const key in fields) {
-            const description = fields[key];
-            let value = data[key] !== undefined ? data[key] : 'N/A';
+            const label = fields[key];
+            let rawValue = data[key] !== undefined ? data[key] : 'N/A';
+            // Traducir el valor usando el mapa si existe, si no, usar el valor original.
+            let displayValue = valueMap[rawValue] || rawValue;
             
             // Formatear valores de tipo fecha si es aplicable
-            if (key.toLowerCase().includes('fecha') && value !== 'N/A') {
-                value = formatDate(value);
+            if (key.toLowerCase().includes('fecha') && displayValue !== 'N/A') {
+                displayValue = formatDate(displayValue);
             }
 
             rows += `
                 <tr>
-                    <th>${description}</th>
-                    <td>${value}</td>
+                    <th>${label}</th>
+                    <td>${displayValue}</td>
                 </tr>
             `;
         }
@@ -354,14 +392,16 @@
         dataArray.forEach(row => {
             html += '<tr>';
             headers.forEach(header => {
-                let cellValue = row[header] !== undefined ? row[header] : 'N/A';
+                let rawValue = row[header] !== undefined ? row[header] : 'N/A';
+                // Traducir el valor usando el mapa si existe, si no, usar el valor original.
+                let displayValue = valueMap[rawValue] || rawValue;
                 
                 // Formateo de fechas en tablas de datos
                 if (header.toLowerCase().includes('fecha')) {
-                     cellValue = formatDate(cellValue);
+                     displayValue = formatDate(displayValue);
                 }
 
-                html += `<td>${cellValue}</td>`;
+                html += `<td>${displayValue}</td>`;
             });
             html += '</tr>';
         });

@@ -21,6 +21,12 @@
         .data-table.metrics-table td:nth-child(2) { font-weight: bold; color: #9b59b6; }
 
         /* Sección de Aprobación Final */
+        .risk-level-bajo { background-color: #d4edda; color: #155724; }
+        .risk-level-medio { background-color: #fff3cd; color: #856404; }
+        .risk-level-alto { background-color: #f8d7da; color: #721c24; }
+        .risk-table td { text-align: center; }
+        .risk-table td:nth-child(2) { text-align: left; } /* Descripción */
+
         .approval-section { margin-top: 40px; padding-top: 20px; border-top: 2px dashed #9b59b6; }
         .signature-box { border: 1px solid #333; height: 50px; margin-top: 15px; padding: 5px; text-align: center; }
         .signature-container { display: flex; justify-content: space-between; gap: 40px; margin-top: 20px; }
@@ -196,6 +202,30 @@
         reader.readAsText(file);
     }
 
+    // Mapeo para transformar valores de ID a texto legible.
+    const valueMap = {
+        // Estado del ciclo de vida
+        'desarrollo': 'En desarrollo', 'pruebas': 'En pruebas', 'produccion': 'En producción',
+        'mantenimiento': 'En mantenimiento', 'retirado': 'Retirado',
+        // Tipo de modelo
+        'clasificacion': 'Clasificación', 'regresion': 'Regresión', 'clustering': 'Clustering',
+        'nlp': 'Procesamiento de Lenguaje Natural (NLP)', 'vision': 'Visión por Computadora',
+        'recomendacion': 'Sistema de Recomendación', 'otros': 'Otros',
+        // Tipo de Riesgo
+        'tecnico': 'Técnico', 'operativo': 'Operativo', 'etico': 'Ético',
+        'social': 'Social', 'legal': 'Legal',
+        // Impacto y Probabilidad
+        'bajo': 'Bajo', 'medio': 'Medio', 'alto': 'Alto',
+        'baja': 'Baja', 'media': 'Media', 'alta': 'Alta',
+        // Tipo de Control
+        'supervision': 'Supervisión humana', 'monitoreo': 'Monitoreo continuo',
+        'alerta': 'Sistema de alertas', 'auditoria': 'Auditoría', 'reentrenamiento': 'Reentrenamiento'
+    };
+
+    function capitalize(s) {
+        if (typeof s !== 'string') return '';
+        return s.charAt(0).toUpperCase() + s.slice(1);
+    }
     /**
      * Función principal para renderizar todos los datos del Model Card.
      */
@@ -204,94 +234,135 @@
         let html = '';
 
         // --- 1. ENCABEZADO Y METADATOS ---
-        document.getElementById('model-header').textContent = `${data.modeloNombre} (${data.modeloVersion}) | Entidad: ${data.modeloEntidad} | Estado: ${data.modeloEstado.toUpperCase()}`;
+        document.getElementById('model-header').textContent = `${data.modeloNombre} (${data.modeloVersion}) | Entidad: ${data.modeloEntidad} | Estado: ${data.modeloEstado ? data.modeloEstado.toUpperCase() : 'N/A'}`;
 
-        // --- 2. INFORMACIÓN BÁSICA Y OBJETIVO ---
-        html += '<h2>1. Identificación y Objetivo</h2>';
+        // --- 1. Información General ---
+        html += '<h2>1. Información General</h2>';
         html += '<table class="info-table">';
         const camposBasicos = {
-            "modeloArea": "Área Responsable", "modeloFechaCreacion": "Fecha de Creación", "modeloFechaActualizacion": "Última Actualización",
-            "modeloObjetivo": "Objetivo Principal", "modeloCasoUso": "Caso de Uso Asociado", "modeloAlcance": "Alcance de Decisiones",
-            "modeloProcesosImpactados": "Procesos Internos Impactados", "modeloUsuariosPrevistos": "Usuarios Previstos"
+            "modeloNombre": "Nombre del modelo", "modeloVersion": "Versión", "modeloEntidad": "Entidad responsable",
+            "modeloArea": "Área usuaria", "modeloFechaCreacion": "Fecha de creación", "modeloFechaActualizacion": "Fecha de actualización",
+            "modeloEstado": "Estado del ciclo de vida"
         };
         html += generateInfoTableRows(data, camposBasicos);
         html += '</table>';
 
-        // --- 3. ESPECIFICACIONES TÉCNICAS ---
-        html += '<h2>2. Especificaciones Técnicas</h2>';
+        // --- 2. Propósito del Modelo ---
+        html += '<h2>2. Propósito del Modelo</h2>';
+        html += '<table class="info-table">';
+        const camposProposito = {
+            "modeloObjetivo": "Objetivo del modelo", "modeloCasoUso": "Caso de uso", "modeloAlcance": "Alcance",
+            "modeloProcesosImpactados": "Procesos institucionales impactados", "modeloUsuariosPrevistos": "Usuarios previstos"
+        };
+        html += generateInfoTableRows(data, camposProposito);
+        html += '</table>';
+
+        // --- 3. Descripción Técnica ---
+        html += '<h2>3. Descripción Técnica</h2>';
         html += '<table class="info-table">';
         const camposTecnicos = {
-            "modeloTipo": "Tipo de IA", "modeloAlgoritmo": "Algoritmo Principal", "modeloArquitectura": "Arquitectura",
-            "modeloTecnologias": "Stack Tecnológico", "modeloEntradas": "Entradas Requeridas", "modeloSalidas": "Salidas Generadas"
+            "modeloTipo": "Tipo de modelo", "modeloAlgoritmo": "Algoritmo principal", "modeloArquitectura": "Arquitectura",
+            "modeloTecnologias": "Tecnologías utilizadas"
         };
         html += generateInfoTableRows(data, camposTecnicos);
         html += '</table>';
 
-        // --- 4. DATASET Y ENTRENAMIENTO ---
-        html += '<h2>3. Datos y Ciclo de Vida</h2>';
+        // --- 4. Datos Utilizados ---
+        html += '<h2>4. Datos Utilizados</h2>';
         html += '<table class="info-table">';
         const camposData = {
             "modeloDatasetEntrenamiento": "Dataset de Entrenamiento", "modeloDatasetValidacion": "Dataset de Validación", 
-            "modeloDatasetPruebas": "Dataset de Pruebas", "modeloReferenciaDataSheet": "Referencia Data Sheet de Datos",
-            "modeloFrecuenciaReentrenamiento": "Frecuencia de Reentrenamiento", "modeloControlesDrift": "Controles de Drift (Deriva)"
+            "modeloDatasetPruebas": "Dataset de Pruebas", "modeloReferenciaDataSheet": "Referencia al Data Sheet"
         };
         html += generateInfoTableRows(data, camposData);
         html += '</table>';
 
-        // --- 5. RESULTADOS DE DESEMPEÑO ---
-        html += '<h2>4. Desempeño y Calidad</h2>';
+        // --- 5. Métricas de Desempeño ---
+        html += '<h2>5. Métricas de Desempeño</h2>';
         html += '<h3>Métricas Globales</h3>';
         html += generateTableHTML(data.tablaMetricasGlobales, "tablaMetricasGlobales", "metrics-table");
         
-        html += '<h3>Métricas por Subpoblación (Equidad)</h3>';
+        html += '<h3>Métricas por Subpoblaciones</h3>';
         html += generateTableHTML(data.tablaMetricasSubpoblaciones, "tablaMetricasSubpoblaciones");
 
-        // --- 6. SESGOS, EQUIDAD Y MITIGACIÓN ---
-        html += '<h2>5. Sesgos y Mitigación</h2>';
+        // --- 6. Evaluación de Sesgos ---
+        html += '<h2>6. Evaluación de Sesgos</h2>';
         html += '<table class="info-table">';
         const camposSesgos = {
-            "modeloSesgosIdentificados": "Sesgos Identificados (Modelo/Datos)", "modeloResultadosPruebasEquidad": "Resumen Resultados de Equidad",
-            "modeloMedidasMitigacionSesgos": "Medidas de Mitigación Implementadas", "modeloTecnicasExplicabilidad": "Técnicas de Explicabilidad (XAI)"
+            "modeloSesgosIdentificados": "Sesgos identificados", "modeloResultadosPruebasEquidad": "Resultados de pruebas de equidad",
+            "modeloMedidasMitigacionSesgos": "Medidas aplicadas para mitigar sesgos"
         };
         html += generateInfoTableRows(data, camposSesgos);
         html += '</table>';
 
-        // --- 7. RIESGOS INHERENTES AL MODELO ---
-        html += '<h2>6. Riesgos y Controles del Modelo</h2>';
-        html += '<h3>Riesgos Específicos del Modelo</h3>';
-        html += generateTableHTML(data.tablaRiesgosModelo, "tablaRiesgosModelo");
+        // --- 7. Riesgos del Modelo ---
+        html += '<h2>7. Riesgos del Modelo</h2>';
+        html += generateTableHTML(data.tablaRiesgosModelo, "tablaRiesgosModelo", "risk-table");
         
-        html += '<h3>Controles en Producción</h3>';
+        // --- 8. Controles Implementados ---
+        html += '<h2>8. Controles Implementados</h2>';
         html += generateTableHTML(data.tablaControlesModelo, "tablaControlesModelo");
 
-        // --- 8. USOS PERMITIDOS Y GOBERNANZA ---
-        html += '<h2>7. Gobernanza, Usos y Rendición de Cuentas</h2>';
+        // --- 9. Explicabilidad y Transparencia ---
+        html += '<h2>9. Explicabilidad y Transparencia</h2>';
         html += '<table class="info-table">';
-        const camposGobernanza = {
-            "modeloUsosPermitidos": "Usos Explícitamente Permitidos", "modeloUsosRestringidos": "Usos Restringidos (Requieren Supervisión)",
-            "modeloUsosProhibidos": "Usos Prohibidos o Desaconsejados", "modeloBuenasPracticas": "Buenas Prácticas de Gobernanza Adicionales",
-            "modeloInformacionPublica": "Plan de Divulgación Pública", "modeloMecanismosRendicionCuentas": "Mecanismos de Rendición de Cuentas"
+        const camposExplicabilidad = {
+            "modeloTecnicasExplicabilidad": "Técnicas de explicabilidad utilizadas", "modeloInformacionPublica": "Información pública disponible",
+            "modeloMecanismosRendicionCuentas": "Mecanismos de rendición de cuentas"
         };
-        html += generateInfoTableRows(data, camposGobernanza);
+        html += generateInfoTableRows(data, camposExplicabilidad);
         html += '</table>';
 
-        // --- 9. HISTORIAL DE VERSIONES ---
-        html += '<h2>8. Historial de Versiones del Modelo</h2>';
+        // --- 10. Reglas de Uso Responsable ---
+        html += '<h2>10. Reglas de Uso Responsable</h2>';
+        html += '<table class="info-table">';
+        const camposUso = {
+            "modeloUsosPermitidos": "Usos permitidos", "modeloUsosRestringidos": "Usos restringidos",
+            "modeloUsosProhibidos": "Usos prohibidos", "modeloBuenasPracticas": "Buenas prácticas operativas"
+        };
+        html += generateInfoTableRows(data, camposUso);
+        html += '</table>';
+
+        // --- 11. Entradas y Salidas del Modelo ---
+        html += '<h2>11. Entradas y Salidas del Modelo</h2>';
+        html += '<table class="info-table">';
+        const camposEntradasSalidas = {
+            "modeloEntradas": "Tipos de datos de entrada", "modeloSalidas": "Tipos de predicciones/salidas generadas"
+        };
+        html += generateInfoTableRows(data, camposEntradasSalidas);
+        html += '</table>';
+
+        // --- 12. Monitoreo y Mantenimiento ---
+        html += '<h2>12. Monitoreo y Mantenimiento</h2>';
+        html += '<table class="info-table">';
+        const camposMonitoreo = {
+            "modeloIndicadoresDesempeno": "Indicadores de desempeño", "modeloFrecuenciaReentrenamiento": "Frecuencia de reentrenamiento",
+            "modeloControlesDrift": "Controles de drift"
+        };
+        html += generateInfoTableRows(data, camposMonitoreo);
+        html += '</table>';
+
+        // --- 13. Historial de Cambios ---
+        html += '<h2>13. Historial de Cambios</h2>';
         html += generateTableHTML(data.tablaHistorialModelo, "tablaHistorialModelo");
 
 
         // Renderizar el HTML al contenedor
         container.innerHTML = html;
 
-        // --- 10. Llenar campos de Aprobación Final ---
+        // --- 14. Llenar campos de Aprobación Final ---
         document.getElementById('modeloAprobacionTecnica').textContent = data.modeloAprobacionTecnica;
         document.getElementById('modeloAprobacionJuridica').textContent = data.modeloAprobacionJuridica;
         document.getElementById('modeloAprobacionDPO').textContent = data.modeloAprobacionDPO;
         document.getElementById('modeloAprobacionComiteIA').textContent = data.modeloAprobacionComiteIA;
         
         // Intentar autocompletar el responsable
-        document.getElementById('responsable-name').value = data.modeloArea || '';
-        document.getElementById('comite-name').value = data.modeloAprobacionComiteIA.split('-')[0].trim() || '';
+        if (data.modeloArea) {
+            document.getElementById('responsable-name').value = data.modeloArea;
+        }
+        if (data.modeloAprobacionComiteIA) {
+            document.getElementById('comite-name').value = data.modeloAprobacionComiteIA.split('-')[0].trim();
+        }
     }
     
     /**
@@ -300,18 +371,20 @@
     function generateInfoTableRows(data, fields) {
         let rows = '';
         for (const key in fields) {
-            const description = fields[key];
-            let value = data[key] !== undefined ? data[key] : 'N/A';
+            const label = fields[key];
+            let rawValue = data[key] !== undefined ? data[key] : 'N/A';
+            // Traducir el valor usando el mapa si existe, si no, usar el valor original.
+            let displayValue = valueMap[rawValue] || rawValue;
             
             // Formatear valores de tipo fecha si es aplicable
-            if (key.toLowerCase().includes('fecha') && value !== 'N/A') {
-                value = formatDate(value);
+            if (key.toLowerCase().includes('fecha') && displayValue !== 'N/A') {
+                displayValue = formatDate(displayValue);
             }
 
             rows += `
                 <tr>
-                    <th>${description}</th>
-                    <td>${value}</td>
+                    <th>${label}</th>
+                    <td>${displayValue}</td>
                 </tr>
             `;
         }
@@ -339,20 +412,25 @@
         dataArray.forEach(row => {
             html += '<tr>';
             headers.forEach(header => {
-                let cellValue = row[header] !== undefined ? row[header] : 'N/A';
+                let rawValue = row[header] !== undefined ? row[header] : 'N/A';
+                // Traducir el valor usando el mapa si existe, si no, usar el valor original.
+                let displayValue = valueMap[rawValue] || rawValue;
                 let cellClass = '';
                 
                 // Formateo de fechas en tablas de datos
                 if (header.toLowerCase().includes('fecha')) {
-                     cellValue = formatDate(cellValue);
+                     displayValue = formatDate(displayValue);
                 }
 
-                // Aplicar estilos de clase basados en Impacto/Probabilidad para la tablaRiesgosModelo
-                if (tableId === 'tablaRiesgosModelo' && (header.toLowerCase() === 'impacto' || header.toLowerCase() === 'probabilidad')) {
-                    cellClass = `class="${cellValue.toLowerCase()}"`;
+                // Aplicar estilos de clase basados en Impacto/Probabilidad para la tabla de riesgos
+                const lowerHeader = header.toLowerCase();
+                if (tableId === 'tablaRiesgosModelo' && (lowerHeader === 'impacto' || lowerHeader === 'probabilidad')) {
+                    const riskClass = `risk-level-${rawValue.toLowerCase()}`;
+                    cellClass = `class="${riskClass}"`;
+                    displayValue = capitalize(displayValue); // Poner en mayúscula la primera letra
                 }
 
-                html += `<td ${cellClass}>${cellValue}</td>`;
+                html += `<td ${cellClass}>${displayValue}</td>`;
             });
             html += '</tr>';
         });

@@ -124,45 +124,121 @@
 
     // Mapeo de campos del JSON agrupados por sección lógica para el reporte
     const sectionMap = {
-        "1. Identificación y Contexto": {
-            "titulo": "Título del Caso de Uso", "entidad": "Entidad / Secretaría", "fecha": "Fecha de Elaboración (v)", 
-            "sponsor": "Sponsor Principal", "responsable": "Responsable Técnico", "propietario": "Propietario de Datos/Infraestructura", 
-            "stakeholders": "Partes Interesadas (Stakeholders)", "estrategia": "Estrategia de Implementación"
+        "1. Identificación del Caso de Uso": {
+            "titulo": "Título descriptivo del caso de uso", "entidad": "Entidad y unidad organizacional responsable",
+            "sponsor": "Sponsor de Negocio (nombre, cargo, contacto)", "responsable": "Responsable Técnico (nombre, cargo, contacto)",
+            "fecha": "Fecha de elaboración y versión"
         },
-        "2. Problema y Solución": {
-            "problema": "Problema a Resolver (Línea Base)", "lineaBase": "Estado o Rendimiento Actual (Línea Base)", 
-            "servicio": "Proceso/Servicio Impactado", "proposito": "Propósito del Sistema de IA", "tipo": "Tipo de Aplicación de IA", 
-            "justificacion": "Justificación del Uso de IA", "resultados": "Resultados Esperados (Cuantificables)", 
-            "metas": "Metas de Rendimiento a C/M Plazo"
+        "2. Contexto y Propósito": {
+            "problema": "Descripción del problema o necesidad", "servicio": "Servicio, trámite o proceso al que aplica",
+            "proposito": "Propósito específico del sistema de IA", "tipo": "Tipo de sistema de IA",
+            "resultados": "Resultados esperados (cuantificables)"
         },
-        "3. Datos, Fuentes y Calidad": {
-            "fuentes": "Fuentes de Datos", "volumen": "Volumen y Frecuencia de Actualización", "calidad": "Evaluación General de Calidad", 
-            "privacidad": "Tipo de Datos Personales Incluidos", "categoriasDatos": "Categorías de Datos Manejados", 
-            "baseLegal": "Bases Legales de Tratamiento (GDPR/LOPD)", "criteriosClasificacion": "Criterios Utilizados para la Clasificación"
+        "3. Actores Involucrados": {
+            "usuarios": "Usuarios finales del sistema", "perfil": "Perfil de usuarios",
+            "propietario": "Propietario de Datos", "stakeholders": "Stakeholders afectados por decisiones del sistema",
+            "rolesGobernanza": "Roles de gobernanza involucrados"
         },
-        "4. Marco Legal y Riesgos": {
-            "baseServicio": "Base Legal del Servicio", "normativa": "Marco Normativo Adicional (IA/Datos)", "evaluacionLegal": "Resumen de la Evaluación Legal", 
-            "juridica": "Resultado Evaluación Jurídica", "riesgosEticos": "Riesgos Éticos Identificados", "riesgosEquidad": "Riesgos de Sesgo y Equidad", 
-            "riesgosPrivacidad": "Riesgos de Privacidad", "riesgosSeguridad": "Riesgos de Seguridad", "riesgosOperativos": "Riesgos Operacionales", 
-            "riesgosReputacionales": "Riesgos Reputacionales", "mitigaciones": "Estrategias Generales de Mitigación"
+        "4. Datos Requeridos": {
+            "fuentes": "Fuentes de datos", "categoriasDatos": "Categorías de datos",
+            "volumen": "Volumen estimado y frecuencia de actualización", "calidad": "Evaluación preliminar de calidad y representatividad",
+            "privacidad": "Evaluación preliminar de privacidad"
         },
-        "5. Implementación y Monitoreo": {
-            "alcance": "Alcance de la Implementación", "cronograma": "Etapas y Plazos Principales", "tecnica": "Evaluación Técnica de Viabilidad", 
-            "planeacion": "Estado de Recursos de Planeación", "kpiTecnicos": "KPIs Técnicos del Modelo", "kpiImpacto": "KPIs de Impacto en el Servicio", 
-            "kpiCumplimiento": "KPIs de Cumplimiento/Gobernanza", "controles": "Mecanismos de Control y Monitoreo", "frecuencia": "Frecuencia de Auditorías/Revisiones", 
-            "protocolo": "Protocolos ante Incidentes o Clasificaciones Dudosas"
+        "5. Revisión Legal y Bases Jurídicas": {
+            "baseServicio": "Base legal para la prestación del servicio público", "baseLegal": "Base legal para tratamiento de datos personales",
+            "normativa": "Identificación de normativa específica aplicable", "evaluacionLegal": "Evaluación preliminar de conformidad legal por área Jurídica"
         },
-        "6. Adopción y Gobernanza": {
-            "usuarios": "Usuarios Directos del Sistema", "perfil": "Perfil del Usuario", "capacitacion": "Plan de Capacitación", 
-            "comunicacion": "Estrategia de Comunicación", "canales": "Canales de Retroalimentación", 
-            "rolesGobernanza": "Roles de Gobernanza Involucrados (DPO, TIC, Jurídica, Comité)"
+        "6. Clasificación Preliminar de Riesgo": {
+            "criteriosClasificacion": "Aplicación de criterios de clasificación (AI Act)", "nivelRiesgo": "Clasificación preliminar",
+            "justificacion": "Justificación de la clasificación"
         },
-        "7. Transición y Baja": {
-            "criterios": "Criterios para Suspensión/Baja", "planDatos": "Plan de Gestión de Datos Post-Vida Útil", 
-            "planTransicion": "Plan de Transición/Retorno a Proceso Manual"
+        "7. Identificación Preliminar de Riesgos": {
+            "riesgosEticos": "Riesgos éticos", "riesgosPrivacidad": "Riesgos de privacidad",
+            "riesgosSeguridad": "Riesgos de seguridad", "riesgosEquidad": "Riesgos de equidad",
+            "riesgosOperativos": "Riesgos operativos", "riesgosReputacionales": "Riesgos reputacionales",
+            "mitigaciones": "Mitigaciones preliminares identificadas"
+        },
+        "8. Métricas de Éxito e Indicadores de Impacto": {
+            "kpiTecnicos": "KPIs de desempeño técnico", "kpiImpacto": "KPIs de impacto en servicio",
+            "kpiCumplimiento": "KPIs de cumplimiento", "lineaBase": "Línea base actual",
+            "metas": "Metas cuantificables a 6 y 12 meses"
+        },
+        "9. Plan de Despliegue, Formación y Comunicación": {
+            "estrategia": "Estrategia de implementación", "alcance": "Alcance inicial y escalamiento planificado",
+            "capacitacion": "Necesidades de capacitación identificadas", "comunicacion": "Plan de comunicación y divulgación ciudadana",
+            "cronograma": "Cronograma estimado de implementación"
+        },
+        "10. Monitoreo, Auditoría y Respuesta a Incidentes": {
+            "controles": "Controles de monitoreo continuo propuestos", "frecuencia": "Frecuencia de revisiones y auditorías",
+            "protocolo": "Protocolo de respuesta a incidentes", "canales": "Canales de reclamación ciudadana"
+        },
+        "11. Criterios y Plan de Fin de Vida": {
+            "criterios": "Condiciones que activarían el retiro del sistema", "planDatos": "Plan preliminar de gestión de datos al final de vida",
+            "planTransicion": "Plan de transición a alternativas"
+        },
+        "12. Aprobaciones y Decisión": {
+            "tecnica": "Evaluación de viabilidad por Responsable Técnico", "juridica": "Evaluación de conformidad legal por Jurídica",
+            "dpo": "Evaluación de privacidad por DPO", "planeacion": "Evaluación presupuestal por Planeación",
+            "comite": "Decisión del Comité de IA", "firma": "Firma del Presidente del Comité y fecha"
         }
     };
 
+    // Mapeo para transformar valores de enums (ej. 'dpoAprobado') a texto legible.
+    const valueMap = {
+        // Aprobaciones Técnicas
+        'tecnicaViable': 'Viable',
+        'tecnicaCondiciones': 'Viable con condiciones',
+        'tecnicaNo': 'No viable',
+        // Aprobaciones Jurídicas
+        'juridicaConforme': 'Conforme',
+        'juridicaAjustes': 'Requiere ajustes',
+        'juridicaNo': 'No conforme',
+        // Aprobaciones DPO
+        'dpoAprobado': 'Aprobado',
+        'dpoDpia': 'Requiere DPIA',
+        'dpoNo': 'No aprobado',
+        // Aprobaciones Planeación
+        'planeacionDisponibles': 'Recursos disponibles',
+        'planeacionGestion': 'Requiere gestión',
+        'planeacionNo': 'No viable',
+        // Decisión Comité
+        'comiteAprobado': 'Aprobado para proceder a Fase 2',
+        'comiteCondiciones': 'Aprobado con condiciones',
+        'comiteRechazado': 'Rechazado',
+        'comiteInfo': 'Requiere más información',
+        // Estrategia
+        'piloto': 'Piloto',
+        'gradual': 'Despliegue gradual',
+        'bigbang': 'Big bang',
+        // Tipo de sistema de IA
+        'clasificacion': 'Clasificación',
+        'regresion': 'Regresión',
+        'generacion': 'Generación de lenguaje',
+        'recomendacion': 'Recomendación',
+        'vision': 'Visión por computadora',
+        'procesamiento': 'Procesamiento de lenguaje natural',
+        'otros': 'Otros',
+        // Roles de Gobernanza
+        'dpo': 'DPO',
+        'tic': 'TIC/Seguridad',
+        'juridica': 'Jurídica',
+        'comite': 'Comité de IA',
+        // Categorías de Datos
+        'personales': 'Personales',
+        'sensibles': 'Sensibles',
+        'publicos': 'Públicos',
+        // Base Legal
+        'consentimiento': 'Consentimiento',
+        'contrato': 'Ejecución de contrato',
+        'cumplimiento': 'Cumplimiento legal',
+        'interes': 'Interés legítimo',
+        'funcion': 'Función pública',
+        // Criterios de Clasificación de Riesgo
+        'derechos': '¿Afecta derechos fundamentales?',
+        'servicios': '¿Servicios esenciales?',
+        'decisiones': '¿Decisiones sobre personas?',
+        'biometria': '¿Biometría?'
+    };
     // Campos estrictamente necesarios para la legalización (parte del control de errores)
     const MANDATORY_FIELDS = [
         'titulo', 'responsable', 'problema', 'proposito', 'nivelRiesgo', 'comite', 'firma'
@@ -267,11 +343,14 @@
                         
                         // Formateo simple para arrays (ej. rolesGobernanza)
                         if (Array.isArray(value)) {
-                            value = value.map(v => v.charAt(0).toUpperCase() + v.slice(1)).join(', ');
+                            value = value.map(v => valueMap[v] || (v.charAt(0).toUpperCase() + v.slice(1))).join(', ');
                         } else if (typeof value === 'string') {
-                            // Capitalizar la primera letra si es un enum
-                            if (value.length > 0 && !value.includes(' ') && (value.length < 20 || key === 'estrategia')) {
-                               value = value.charAt(0).toUpperCase() + value.slice(1);
+                            // Usar el mapa para transformar el valor si existe, si no, usar el valor original.
+                            value = valueMap[value] || value;
+
+                            // Formato especial para el nivel de riesgo dentro de la sección
+                            if (key === 'nivelRiesgo' && value) {
+                                value = `Riesgo ${value.charAt(0).toUpperCase() + value.slice(1)}`;
                             }
                         }
                         
@@ -298,11 +377,16 @@
             document.getElementById('metadata-header').textContent = `Caso de Uso: ${data.titulo} | Versión: ${data.fecha.split('-')[1].trim()} | Exportado: ${data.fechaExportacion.split('T')[0]}`;
             
             // Formatear la decisión para visualización
-            const decisionText = data.comite.toUpperCase().replace('COMITE', '').replace('APROBADO', 'APROBADO').replace('RECHAZADO', 'RECHAZADO').replace('CONDICIONAL', 'CONDICIONAL').trim();
-            document.getElementById('comite-decision').textContent = `${decisionText} (${data.tecnica.toUpperCase()} / ${data.juridica.toUpperCase()})`;
+            const decisionText = valueMap[data.comite] || data.comite;
+            const tecnicaText = valueMap[data.tecnica] || data.tecnica;
+            const juridicaText = valueMap[data.juridica] || data.juridica;
+
+            document.getElementById('comite-decision').textContent = `${decisionText} (Técnica: ${tecnicaText} / Jurídica: ${juridicaText})`;
             
-            document.getElementById('nivelRiesgo').textContent = data.nivelRiesgo.toUpperCase();
-            document.getElementById('aprobacionDPO').textContent = data.dpo.toUpperCase();
+            // Formato especial para el nivel de riesgo en la sección de legalización
+            const nivelRiesgoText = data.nivelRiesgo ? `Riesgo ${data.nivelRiesgo.charAt(0).toUpperCase() + data.nivelRiesgo.slice(1)}` : '';
+            document.getElementById('nivelRiesgo').textContent = nivelRiesgoText;
+            document.getElementById('aprobacionDPO').textContent = valueMap[data.dpo] || data.dpo.toUpperCase();
             document.getElementById('firmaAprobacion').textContent = data.firma;
         } catch (error) {
             const errorMsg = `Error inesperado al renderizar los datos: ${error.message}. Esto puede deberse a un campo con un formato incorrecto que pasó la validación inicial. Revise los campos relacionados con la operación fallida.`;
