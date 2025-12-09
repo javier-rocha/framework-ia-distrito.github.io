@@ -469,32 +469,20 @@ diferentes fases del ciclo de vida.
 
 Para garantizar claridad en la ejecución del framework, se establece la
 siguiente matriz RACI que define roles por fase del ciclo de vida:
-
-Tabla 3. Capa 2: Matriz de Responsabilidad (RACI)
-
-  -------------------------------------------------------------------------------------------
-  Fase del Ciclo de Vida   Comité de   DPO           Responsable   Sponsor de   Área Jurídica
-                           IA                        Técnico       Negocio      
-  ------------------------ ----------- ------------- ------------- ------------ -------------
-  Intake y Canvas          C           C             R             A            C
-
-  Clasificación de Riesgo  A           C             R             I            C
-
-  ARA/DPIA                 A           A (voto       C             C            C
-                                       vinculante)                              
-
-  Gobierno de Datos        C           A             R             C            I
-
-  Desarrollo/Adquisición   C           C             A             C            A (contratos)
-
-  Pruebas y Validación     C           C             A             C            I
-
-  Despliegue               A (go-live) C             R             C            I
-
-  Monitoreo y Auditoría    A           C             R             I            C
-
-  Retiro                   A           A (datos)     R             C            C
-  -------------------------------------------------------------------------------------------
+ 
+**Tabla 3. Capa 2: Matriz de Responsabilidad (RACI)**
+ 
+| Fase del Ciclo de Vida | Comité de IA | DPO | Responsable Técnico | Sponsor de Negocio | Área Jurídica |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| Intake y Canvas | C | C | R | A | C |
+| Clasificación de Riesgo | A | C | R | I | C |
+| ARA/DPIA | A | A (voto vinculante) | C | C | C |
+| Gobierno de Datos | C | A | R | C | I |
+| Desarrollo/Adquisición | C | C | A | C | A (contratos) |
+| Pruebas y Validación | C | C | A | C | I |
+| Despliegue | A (go-live) | C | R | C | I |
+| Monitoreo y Auditoría | A | C | R | I | C |
+| Retiro | A (datos) | R | C | C | A |
 
 Fuente: Elaboración Propia
 
@@ -2728,33 +2716,15 @@ inteligencia artificial responsable. También considera la implementación
 de sistemas de gestión de IA, como la norma ISO/IEC 42001, y la adopción
 de procesos sistemáticos para identificar y gestionar riesgos asociados
 al uso de inteligencia artificial.
-
-Tabla 4. Checklist Evaluación Proveedores: Sección 1
-
-  -------------------------------------------------------------------------------------------
-  ID    Criterio        0 - No Cumple 1 - Cumple     2 - Cumple      Puntuación   Evidencia
-                                      Parcialmente   Plenamente                   
-  ----- --------------- ------------- -------------- --------------- ------------ -----------
-  1.1   **Conformidad   No tiene      Política       Política                     
-        con marco       política de   básica no      robusta y                    
-        regulatorio     privacidad    alineada       alineada con                 
-        colombiano**                                 Ley 1581                     
-
-  1.2   **Política de   No tiene      Borrador o     Política                     
-        IA Responsable  política      política       pública formal               
-        o Ética**       documentada   interna no     y referenciable              
-                                      formal                                      
-
-  1.3   **Sistema de    No tiene      Elementos de   Sistema                      
-        Gestión de IA   sistema de    un sistema     documentado e                
-        (AIMS)**        gestión       pero no        implementado                 
-                                      formalizado    (ej. ISO/IEC                 
-                                                     42001)                       
-
-  1.4   **Gestión de    No tiene      Evaluaciones   Proceso                      
-        Riesgos de IA** proceso       de riesgo      sistemático y                
-                        definido      ad-hoc         documentado                  
-  -------------------------------------------------------------------------------------------
+ 
+**Tabla 4. Checklist Evaluación Proveedores: Sección 1**
+ 
+| ID | Criterio | 0 - No Cumple | 1 - Cumple Parcialmente | 2 - Cumple Plenamente | Puntuación | Evidencia |
+|:---|:---|:---|:---|:---|:---:|:---|
+| 1.1 | **Conformidad con marco regulatorio colombiano** | No tiene política de privacidad | Política básica no alineada | Política robusta y alineada con Ley 1581 | | |
+| 1.2 | **Política de IA Responsable o Ética** | No tiene política documentada | Borrador o política interna no formal | Política pública formal y referenciable | | |
+| 1.3 | **Sistema de Gestión de IA (AIMS)** | No tiene sistema de gestión | Elementos de un sistema pero no formalizado | Sistema documentado e implementado (ej. ISO/IEC 42001) | | |
+| 1.4 | **Gestión de Riesgos de IA** | No tiene proceso definido | Evaluaciones de riesgo ad-hoc | Proceso sistemático y documentado | | |
 
 Fuente: Elaboración Propia
 
@@ -2766,25 +2736,14 @@ y Data Sheets con información detallada sobre los datos de
 entrenamiento. Además, se exige documentación auditable que permita
 comprender la arquitectura del sistema, los hiperparámetros utilizados y
 las decisiones clave en el diseño.
-
-Tabla 5. Checklist Evaluación Proveedores: Sección 2
-
-  ------------------------------------------------------------------------------------------------
-  ID    Criterio          0 - No Cumple   1 - Cumple      2 - Cumple      Puntuación   Evidencia
-                                          Parcialmente    Plenamente                   
-  ----- ----------------- --------------- --------------- --------------- ------------ -----------
-  2.1   **Model Card      No proporciona  Model Card      Model Card                   
-        (Ficha del        Model Card      básico, falta   completo                     
-        Modelo)**                         info clave                                   
-
-  2.2   **Data Sheet      No proporciona  Descripción     Data Sheet                   
-        (Ficha de         Data Sheet      básica de datos detallado                    
-        Datos)**                                                                       
-
-  2.3   **Documentación   No proporciona  Documentación   Documentación                
-        Técnica para      documentación   superficial     detallada y                  
-        Auditoría**                                       bitácoras                    
-  ------------------------------------------------------------------------------------------------
+ 
+**Tabla 5. Checklist Evaluación Proveedores: Sección 2**
+ 
+| ID | Criterio | 0 - No Cumple | 1 - Cumple Parcialmente | 2 - Cumple Plenamente | Puntuación | Evidencia |
+|:---|:---|:---|:---|:---|:---:|:---|
+| 2.1 | **Model Card (Ficha del Modelo)** | No proporciona Model Card | Model Card básico, falta info clave | Model Card completo | | |
+| 2.2 | **Data Sheet (Ficha de Datos)** | No proporciona Data Sheet | Descripción básica de datos | Data Sheet detallado | | |
+| 2.3 | **Documentación Técnica para Auditoría** | No proporciona documentación | Documentación superficial | Documentación detallada y bitácoras | | |
 
 Fuente: Elaboración Propia
 
@@ -2796,33 +2755,15 @@ procesamiento (DPA) alineados con la Ley 1581 y los procedimientos que
 garantizan el ejercicio de derechos de habeas data, como acceso,
 rectificación y supresión. También se revisan las políticas específicas
 de retención y eliminación de información.
-
-Tabla 6. Checklist Evaluación Proveedores: Sección 3
-
-  -----------------------------------------------------------------------------------------------
-  ID    Criterio      0 - No Cumple    1 - Cumple       2 - Cumple       Puntuación   Evidencia
-                                       Parcialmente     Plenamente                    
-  ----- ------------- ---------------- ---------------- ---------------- ------------ -----------
-  3.1   **Claridad    No hay claridad  Titularidad      Contrato define               
-        sobre         contractual      definida con     claramente la                 
-        Titularidad                    ambigüedades     titularidad                   
-        de Datos**                                                                    
-
-  3.2   **Data        No ofrece un DPA DPA básico que   DPA robusto y                 
-        Processing                     requiere ajustes alineado con Ley              
-        Agreement                                       1581                          
-        (DPA)**                                                                       
-
-  3.3   **Gestión de  No tiene         Procedimientos   Procedimientos                
-        Derechos de   procedimientos   manuales o       eficientes y                  
-        los                            lentos           canales claros                
-        Titulares**                                                                   
-
-  3.4   **Políticas   No tiene         Políticas        Políticas                     
-        de Retención  políticas        genéricas        específicas y                 
-        y Borrado de  definidas                         alineadas                     
-        Datos**                                                                       
-  -----------------------------------------------------------------------------------------------
+ 
+**Tabla 6. Checklist Evaluación Proveedores: Sección 3**
+ 
+| ID | Criterio | 0 - No Cumple | 1 - Cumple Parcialmente | 2 - Cumple Plenamente | Puntuación | Evidencia |
+|:---|:---|:---|:---|:---|:---:|:---|
+| 3.1 | **Claridad sobre Titularidad de Datos** | No hay claridad contractual | Titularidad definida con ambigüedades | Contrato define claramente la titularidad | | |
+| 3.2 | **Data Processing Agreement (DPA)** | No ofrece un DPA | DPA básico que requiere ajustes | DPA robusto y alineado con Ley 1581 | | |
+| 3.3 | **Gestión de Derechos de los Titulares** | No tiene procedimientos | Procedimientos manuales o lentos | Procedimientos eficientes y canales claros | | |
+| 3.4 | **Políticas de Retención y Borrado de Datos** | No tiene políticas definidas | Políticas genéricas | Políticas específicas y alineadas | | |
 
 Fuente: Elaboración Propia
 
@@ -2833,27 +2774,14 @@ SOC 2, la realización de pruebas de robustez frente a ataques
 adversarios y datos fuera de distribución, así como la existencia de
 protocolos actualizados y comprobados para responder ante incidentes de
 seguridad.
-
-Tabla 7. Checklist Evaluación Proveedores: Sección 4
-
-  ----------------------------------------------------------------------------------------------------
-  ID    Criterio            0 - No Cumple     1 - Cumple        2 - Cumple    Puntuación   Evidencia
-                                              Parcialmente      Plenamente                 
-  ----- ------------------- ----------------- ----------------- ------------- ------------ -----------
-  4.1   **Certificaciones   No tiene          Certificaciones   ISO 27001 o                
-        de Seguridad**      certificaciones   básicas o con     equivalente                
-                                              hallazgos         vigente                    
-
-  4.2   **Pruebas de        No ha realizado   Pruebas básicas   Pruebas de                 
-        Robustez y          pruebas de        de rendimiento    robustez y                 
-        Seguridad de IA**   robustez                            seguridad con              
-                                                                resultados                 
-
-  4.3   **Respuesta a       No tiene          Protocolo básico  Protocolo                  
-        Incidentes de       protocolo         no probado        completo,                  
-        Seguridad**         documentado                         actualizado y              
-                                                                probado                    
-  ----------------------------------------------------------------------------------------------------
+ 
+**Tabla 7. Checklist Evaluación Proveedores: Sección 4**
+ 
+| ID | Criterio | 0 - No Cumple | 1 - Cumple Parcialmente | 2 - Cumple Plenamente | Puntuación | Evidencia |
+|:---|:---|:---|:---|:---|:---:|:---|
+| 4.1 | **Certificaciones de Seguridad** | No tiene certificaciones | Certificaciones básicas o con hallazgos | ISO 27001 o equivalente vigente | | |
+| 4.2 | **Pruebas de Robustez y Seguridad de IA** | No ha realizado pruebas de robustez | Pruebas básicas de rendimiento | Pruebas de robustez y seguridad con resultados | | |
+| 4.3 | **Respuesta a Incidentes de Seguridad** | No tiene protocolo documentado | Protocolo básico no probado | Protocolo completo, actualizado y probado | | |
 
 Fuente: Elaboración Propia
 
@@ -2864,22 +2792,13 @@ que otorguen derecho a auditoría con acceso completo a documentación y
 evidencias. Asimismo, se exige la implementación de sistemas de
 trazabilidad que incluyan registros comprensivos e inmutables de todas
 las decisiones tomadas por el sistema de IA.
-
-Tabla 8. Checklist Evaluación Proveedores: Sección 5
-
-  -----------------------------------------------------------------------------------------------
-  ID    Criterio         0 - No Cumple   1 - Cumple     2 - Cumple       Puntuación   Evidencia
-                                         Parcialmente   Plenamente                    
-  ----- ---------------- --------------- -------------- ---------------- ------------ -----------
-  5.1   **Derecho a      Se niega a      Acepta         Acepta cláusulas              
-        Auditoría**      incluir         auditorías con de derecho a                  
-                         cláusulas de    limitaciones   auditoría                     
-                         auditoría                                                    
-
-  5.2   **Trazabilidad   No registra     Registra logs  Registra logs                 
-        de Decisiones**  logs o son      básicos        comprehensivos e              
-                         insuficientes                  inmutables                    
-  -----------------------------------------------------------------------------------------------
+ 
+**Tabla 8. Checklist Evaluación Proveedores: Sección 5**
+ 
+| ID | Criterio | 0 - No Cumple | 1 - Cumple Parcialmente | 2 - Cumple Plenamente | Puntuación | Evidencia |
+|:---|:---|:---|:---|:---|:---:|:---|
+| 5.1 | **Derecho a Auditoría** | Se niega a incluir cláusulas de auditoría | Acepta auditorías con limitaciones | Acepta cláusulas de derecho a auditoría | | |
+| 5.2 | **Trazabilidad de Decisiones** | No registra logs o son insuficientes | Registra logs básicos | Registra logs comprehensivos e inmutables | | |
 
 Fuente: Elaboración Propia
 
@@ -2890,27 +2809,14 @@ Finalmente, se revisa la existencia de acuerdos de nivel de servicio
 disponibilidad de soporte técnico prioritario y planes de transferencia
 de conocimiento. También se considera la transparencia en el roadmap,
 incluyendo la notificación anticipada de cambios significativos.
-
-Tabla 9. Checklist Evaluación Proveedores: Sección 6
-
-  --------------------------------------------------------------------------------------------------
-  ID    Criterio         0 - No Cumple    1 - Cumple       2 - Cumple       Puntuación   Evidencia
-                                          Parcialmente     Plenamente                    
-  ----- ---------------- ---------------- ---------------- ---------------- ------------ -----------
-  6.1   **Acuerdos de    No ofrece SLA    SLA con métricas SLA robustos con              
-        Nivel de         cuantificables   básicas sin      métricas y                    
-        Servicio (SLA)**                  penalizaciones   compensaciones                
-
-  6.2   **Soporte        No ofrece plan   Soporte estándar Soporte                       
-        Técnico y        de soporte       y documentación  prioritario y                 
-        Transferencia de                  básica           plan de                       
-        Conocimiento**                                     transferencia                 
-
-  6.3   **Gestión de     No comparte      Roadmap de alto  Roadmap                       
-        Cambios y        roadmap          nivel            detallado y                   
-        Roadmap**                                          notificaciones                
-                                                           \>30 días                     
-  --------------------------------------------------------------------------------------------------
+ 
+**Tabla 9. Checklist Evaluación Proveedores: Sección 6**
+ 
+| ID | Criterio | 0 - No Cumple | 1 - Cumple Parcialmente | 2 - Cumple Plenamente | Puntuación | Evidencia |
+|:---|:---|:---|:---|:---|:---:|:---|
+| 6.1 | **Acuerdos de Nivel de Servicio (SLA)** | No ofrece SLA cuantificables | SLA con métricas básicas sin penalizaciones | SLA robustos con métricas y compensaciones | | |
+| 6.2 | **Soporte Técnico y Transferencia de Conocimiento** | No ofrece plan de soporte | Soporte estándar y documentación básica | Soporte prioritario y plan de transferencia | | |
+| 6.3 | **Gestión de Cambios y Roadmap** | No comparte roadmap | Roadmap de alto nivel | Roadmap detallado y notificaciones >30 días | | |
 
 Fuente: Elaboración Propia
 
@@ -2983,39 +2889,18 @@ trámites y servicios públicos.
 
 En la Tabla 10 se presentan casos de uso iniciales y acotados, ajustados
 al contexto distrital:
-
-Tabla 10. Guia de Uso Interno IA: Tipología de Casos de Uso Relevantes
-
-  ------------------------------------------------------------------------------
-  Entidad /\    Caso de Uso Permitido         Nivel de     Condiciones de Uso
-  Dependencia                                 Riesgo       
-  ------------- ----------------------------- ------------ ---------------------
-  Secretaría\   Redacción de borradores de    Bajo         Supervisión humana\
-  General       documentos no sensibles                    obligatoria
-
-  Sector\       Resúmenes preliminares de     Bajo/Medio   Verificación
-  Gobierno      normativa o jurisprudencia                 jurídica\
-                                                           posterior
-
-  DTI Distrital Automatización de reportes    Medio        Validación de datos
-                técnicos o analíticos                      por\
-                                                           expertos
-
-  Secretaría    Guías informativas al         Bajo         No ingresar datos
-  de\           ciudadano                                  clínicos ni
-  Salud                                                    reservados
-
-  Secretaría    Chatbots informativos de      Medio/Alto   Pruebas piloto +
-  de\           normas y servicios                         Comité de IA
-  Movilidad                                                
-
-  Uaesp /\      Análisis preliminar de datos  Bajo         Solo usar datos
-  Ambiente      abiertos                                   públicos
-
-  Jurídica\     Borradores de conceptos no    Bajo         Revisión posterior
-  Distrital     vinculantes                                por\
-                                                           abogado
-  ------------------------------------------------------------------------------
+ 
+**Tabla 10. Guia de Uso Interno IA: Tipología de Casos de Uso Relevantes**
+ 
+| Entidad / Dependencia | Caso de Uso Permitido | Nivel de Riesgo | Condiciones de Uso |
+| :--- | :--- | :--- | :--- |
+| Secretaría General | Redacción de borradores de documentos no sensibles | Bajo | Supervisión humana obligatoria |
+| Sector Gobierno | Resúmenes preliminares de normativa o jurisprudencia | Bajo/Medio | Verificación jurídica posterior |
+| DTI Distrital | Automatización de reportes técnicos o analíticos | Medio | Validación de datos por expertos |
+| Secretaría de Salud | Guías informativas al ciudadano | Bajo | No ingresar datos clínicos ni reservados |
+| Secretaría de Movilidad | Chatbots informativos de normas y servicios | Medio/Alto | Pruebas piloto + Comité de IA |
+| Uaesp / Ambiente | Análisis preliminar de datos abiertos | Bajo | Solo usar datos públicos |
+| Jurídica Distrital | Borradores de conceptos no vinculantes | Bajo | Revisión posterior por abogado |
 
 Fuente: Elaboración Propia
 
@@ -3058,26 +2943,15 @@ Destrucción de datos una vez finalice el contrato.
 
 La siguiente matriz permite clasificar rápidamente el nivel de riesgo
 del caso de uso:
-
-Tabla 11. Guía de Uso Interno IA: Matriz de Clasificación de Riesgos
-
-  -----------------------------------------------------------------------
-  Nivel de   Características                          Requisitos
-  Riesgo                                              
-  ---------- ---------------------------------------- -------------------
-  Bajo       Borradores, textos no sensibles,         Supervisión humana
-             información pública                      
-
-  Medio      Trámites administrativos, datos          Validación
-             semisensibles                            técnica +
-                                                      supervisor
-
-  Alto       Impacto sobre derechos ciudadanos,       Piloto + Aprobación
-             automatización                           Comité IA
-
-  Muy Alto   Datos personales sensibles, decisiones   Prohibido
-             automáticas, impacto jurídico            
-  -----------------------------------------------------------------------
+ 
+**Tabla 11. Guía de Uso Interno IA: Matriz de Clasificación de Riesgos**
+ 
+| Nivel de Riesgo | Características | Requisitos |
+| :--- | :--- | :--- |
+| Bajo | Borradores, textos no sensibles, información pública | Supervisión humana |
+| Medio | Trámites administrativos, datos semisensibles | Validación técnica + supervisor |
+| Alto | Impacto sobre derechos ciudadanos, automatización | Piloto + Aprobación Comité IA |
+| Muy Alto | Datos personales sensibles, decisiones automáticas, impacto jurídico | Prohibido |
 
 Fuente: Elaboración Propia
 
