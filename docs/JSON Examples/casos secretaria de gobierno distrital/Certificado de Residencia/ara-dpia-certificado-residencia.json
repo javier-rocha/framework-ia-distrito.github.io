@@ -146,8 +146,70 @@
         "Controles": "Implementación de política de retención mínima (eliminación automática tras validación) y cifrado en reposo."
       }
     ],
-    "tablaMedidasMitigacion": [],
-    "tablaMonitoreoKPIs": [],
-    "tablaAuditoriaActualizaciones": []
+    "tablaMedidasMitigacion": [
+      {
+        "ID": "R-01",
+        "Medida": "Implementar un protocolo 'Human-in-the-loop' que prohíbe el rechazo automático y realizar pruebas de equidad comparando la tasa de error entre documentos de alta y baja calidad.",
+        "Tipo": "tecnico",
+        "Responsable": "Líder Técnico / Equipo de Desarrollo",
+        "Plazo": "2025-12-15",
+        "Estado": "en_curso",
+        "Indicador": "Diferencia en tasa de error (alta vs. baja calidad) < 5%.",
+        "Comentarios": "Medida crítica para garantizar la equidad y el acceso universal al servicio, alineada con la condición del Comité de IA."
+      },
+      {
+        "ID": "R-02",
+        "Medida": "Certificar en el Data Sheet que el dataset de entrenamiento ha sido balanceado para incluir una muestra representativa de todos los proveedores y formatos de recibos relevantes en Bogotá.",
+        "Tipo": "organizativo",
+        "Responsable": "Propietario de Datos / Data Steward",
+        "Plazo": "2025-11-30",
+        "Estado": "implementado",
+        "Indicador": "Data Sheet v1.0 aprobado con sección de balanceo de datos.",
+        "Comentarios": "Asegura que el modelo no falle sistemáticamente con formatos de recibos menos comunes."
+      },
+      {
+        "ID": "R-03",
+        "Medida": "Implementar una política de retención mínima (eliminación automática de archivos tras la validación) y exigir cifrado en reposo y en tránsito para todos los datos.",
+        "Tipo": "tecnico",
+        "Responsable": "Oficial de Seguridad de la Información (CISO)",
+        "Plazo": "2025-12-05",
+        "Estado": "implementado",
+        "Indicador": "Logs de auditoría que confirman la eliminación de archivos y configuración de cifrado validada.",
+        "Comentarios": "Control esencial para cumplir con el principio de minimización de datos de la Ley 1581."
+      }
+    ],
+    "tablaMonitoreoKPIs": [
+      {
+        "Categoría": "equidad",
+        "Indicador": "Diferencia de Tasa de Error (DRE)",
+        "Definición": "Compara la tasa de error del modelo entre documentos de alta calidad (grupo de referencia) y de baja calidad (grupo desfavorecido).",
+        "Fórmula": "| TasaError(BajaCalidad) - TasaError(AltaCalidad) |",
+        "Valor objetivo": "< 5%",
+        "Valor actual": "3.8% (en pruebas)",
+        "Frecuencia": "mensual",
+        "Responsable": "Líder Técnico"
+      },
+      {
+        "Categoría": "rendimiento",
+        "Indicador": "Tasa de Resolución Autónoma",
+        "Definición": "Porcentaje de trámites que el sistema valida exitosamente (confianza >90%) sin intervención humana.",
+        "Fórmula": "(Trámites Autónomos / Total Trámites) * 100",
+        "Valor objetivo": "> 90%",
+        "Valor actual": "N/A (pre-despliegue)",
+        "Frecuencia": "semanal",
+        "Responsable": "Sponsor de Negocio"
+      }
+    ],
+    "tablaAuditoriaActualizaciones": [
+      {
+        "Tipo": "interna",
+        "Alcance": "Auditoría de equidad y desempeño del modelo OCR, y cumplimiento de controles de privacidad (retención de datos).",
+        "Frecuencia": "semestral",
+        "Fecha próxima": "2026-05-26",
+        "Responsable": "Comité de IA / Oficina de Control Interno",
+        "Hallazgos": "N/A (primera auditoría programada post-despliegue).",
+        "Acción": "Verificar el cumplimiento de la condición de aprobación del Comité de IA sobre la diferencia de tasa de error."
+      }
+    ]
   }
 }
