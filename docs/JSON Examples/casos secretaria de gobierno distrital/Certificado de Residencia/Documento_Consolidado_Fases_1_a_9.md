@@ -21,7 +21,7 @@ Este documento simula la ejecución de la **Fase 1** del Ciclo de Vida de Gobern
 
 ---
 
-### 2. Actividad 1: Diligenciamiento del AI Use-Case Canvas
+### 2. Actividad 1: Completar AI Use-Case Canvas
 
 El Sponsor de Negocio ha liderado la creación de la propuesta, documentando las dimensiones clave del proyecto en la herramienta **AI Use-Case Canvas**.
 
@@ -47,17 +47,25 @@ Se han identificado riesgos tempranos que activan principios de gobernanza:
 
 ---
 
-### 3. Actividad 2: Valoración Preliminar Multidisciplinaria
+### 3. Actividad 2: Valoración de Viabilidad
 
 El borrador del canvas fue sometido a un "filtro de viabilidad" por los roles clave:
 
 *   **Responsable Técnico:** Confirma la viabilidad técnica de la solución (OCR/NLP) y establece KPIs técnicos (Precisión ≥ 98%).
-*   **Delegado de Protección de Datos (DPO):** Identifica la necesidad de un **ARA/DPIA** en fases posteriores debido al tratamiento masivo de datos personales y la toma de decisiones automatizada.
 *   **Área Jurídica:** Valida la base legal (Ejercicio de funciones públicas y simplificación de trámites) y la conformidad con la Ley 1581 de 2012.
 
 ---
 
-### 4. Punto de Control (Gate 1): Revisión y Decisión del Comité de IA
+### 4. Actividad 3: Identificación de Riesgos y Partes Interesadas
+
+Se realizó una identificación temprana de riesgos y actores clave.
+
+*   **Delegado de Protección de Datos (DPO):** Identifica la necesidad de un **ARA/DPIA** en fases posteriores debido al tratamiento masivo de datos personales y la toma de decisiones automatizada.
+*   **Stakeholders:** Se identificaron a los ciudadanos, funcionarios de validación y el equipo de TI como los principales actores.
+
+---
+
+### 5. Punto de Control (Gate 1): Revisión y Decisión del Comité de IA
 
 El Comité de IA evaluó la propuesta considerando la alineación estratégica, viabilidad y claridad del propósito.
 
@@ -92,7 +100,7 @@ Este documento simula la ejecución de la **Fase 2** del Ciclo de Vida de Gobern
 
 ---
 
-### 2. Actividad 1: Aplicación de la Taxonomía de Riesgo
+### 2. Actividad 1: Evaluación de Matriz de Clasificación
 
 El equipo del proyecto, liderado por el Responsable Técnico, evaluó el caso de uso contra los criterios definidos en la *Política de Gestión de Riesgos de IA* (alineada con el AI Act y CONPES 4144).
 
@@ -118,7 +126,11 @@ El equipo del proyecto, liderado por el Responsable Técnico, evaluó el caso de
 
 #### Resultado de la Clasificación
 
-> **NIVEL DE RIESGO ASIGNADO:** 🔴 **ALTO RIESGO**
+> **NIVEL DE RIESGO PRELIMINAR:** 🔴 **ALTO RIESGO**
+
+---
+
+### 3. Actividad 2: Asignación de Nivel de Riesgo
 
 #### Justificación de la Clasificación
 
@@ -135,7 +147,7 @@ Se verificó que el sistema:
 
 ---
 
-### 3. Actividad 2: Determinación de las Obligaciones de Gobernanza
+### 4. Actividad 3: Activación de Obligaciones Reforzadas
 
 Dada la clasificación de **Alto Riesgo**, se activan automáticamente las siguientes obligaciones reforzadas para las fases subsiguientes:
 
@@ -147,7 +159,7 @@ Dada la clasificación de **Alto Riesgo**, se activan automáticamente las sigui
 
 ---
 
-### 4. Punto de Control (Gate 2): Validación de la Clasificación
+### 5. Punto de Control (Gate 2): Validación de la Clasificación
 
 El Comité de IA revisó la propuesta de clasificación y la justificación presentada.
 
@@ -178,7 +190,7 @@ Este documento simula la ejecución de la **Fase 3** del Ciclo de Vida de Gobern
 
 ---
 
-### 2. Actividad 1: Ejecución del Análisis de Impacto y Riesgos
+### 2. Actividad 1: Completar Plantilla ARA/DPIA
 
 El DPO, junto con el Responsable Técnico, completó la **Plantilla ARA/DPIA** para evaluar los impactos en derechos fundamentales y privacidad.
 
@@ -187,6 +199,10 @@ El DPO, junto con el Responsable Técnico, completó la **Plantilla ARA/DPIA** p
 *   **Categoría:** Datos Personales (Ley 1581). No son datos sensibles biométricos (no se hace reconocimiento facial 1:N), pero sí datos de alto impacto administrativo.
 *   **Base Legal:** Cumplimiento de una obligación legal y ejercicio de funciones públicas (Ley 2052 de 2020 - Simplificación de trámites).
 *   **Flujo:** Carga por ciudadano -> Procesamiento en memoria (OCR) -> Validación -> Eliminación de archivo fuente -> Generación de Certificado.
+
+---
+
+### 3. Actividad 2: Análisis de Riesgos
 
 #### B. Evaluación de Impactos en Derechos (Hallazgos Clave)
 1.  **Derecho a la Igualdad (Equidad):**
@@ -201,7 +217,7 @@ El DPO, junto con el Responsable Técnico, completó la **Plantilla ARA/DPIA** p
 
 ---
 
-### 3. Actividad 2: Diseño del Plan de Mitigación de Riesgos
+### 4. Actividad 3: Propuestas de Medidas de Mitigación
 
 Para gestionar los riesgos identificados, se definieron las siguientes medidas de mitigación obligatorias que el equipo técnico debe implementar en la Fase 5 (Desarrollo):
 
@@ -218,7 +234,7 @@ Para gestionar los riesgos identificados, se definieron las siguientes medidas d
 
 ---
 
-### 4. Punto de Control (Gate 3): Aprobación Vinculante del DPO
+### 5. Punto de Control (Gate 3): Aprobación Vinculante del DPO
 
 El documento ARA/DPIA y el plan de mitigación fueron presentados al Comité de IA.
 
@@ -255,16 +271,24 @@ Este documento simula la ejecución de la **Fase 4** del Ciclo de Vida de Gobern
 
 ---
 
-### 2. Actividad 1: Evaluación de Calidad y Representatividad
+### 2. Actividad 1: Inventario y Documentación de Fuentes
 
 El Propietario de Datos (Data Steward), junto con el equipo técnico, realizó una auditoría exhaustiva del conjunto de datos denominado **RESIDENCIA_BOG_VALIDATION_V1**.
 
-#### A. Inventario y Calidad Dimensional
+*   **Fuentes:** Datos históricos de solicitudes previas anonimizadas y cargas controladas durante la fase piloto.
+
+---
+
+### 3. Actividad 2: Evaluación de Calidad Dimensional
+
 *   **Volumen:** 15,000 registros (Imágenes PDF/JPG y texto extraído).
 *   **Completitud:** Menos del 2% de datos faltantes en campos no estructurados.
 *   **Consistencia:** Se identificaron inconsistencias en formatos de dirección (ej. "Cll" vs "Calle"), las cuales fueron normalizadas.
 
-#### B. Análisis de Representatividad y Hallazgos de Sesgo
+---
+
+### 4. Actividad 3: Análisis de Representatividad y Detección de Sesgos
+
 Durante el análisis estadístico, se detectó un riesgo significativo de sesgo en la composición original del dataset:
 *   **Hallazgo:** El 80% de las facturas correspondían al proveedor **Enel** en formato nativo digital.
 *   **Riesgo:** El modelo podría fallar sistemáticamente con recibos de otros proveedores (Acueducto, Vanti) o con formatos físicos escaneados, discriminando a ciudadanos que no reciben factura digital.
@@ -272,7 +296,7 @@ Durante el análisis estadístico, se detectó un riesgo significativo de sesgo 
 
 ---
 
-### 3. Actividad 2: Elaboración de Data Sheets y Mitigación
+### 5. Actividad 4: Elaboración de Data Sheets
 
 Se documentó el conjunto de datos utilizando la plantilla estándar de **Data Sheet** del framework, asegurando transparencia sobre su origen y limitaciones.
 
@@ -286,7 +310,7 @@ Se documentó el conjunto de datos utilizando la plantilla estándar de **Data S
 
 ---
 
-### 4. Punto de Control (Gate 4): Certificación de la Calidad de los Datos
+### 6. Punto de Control (Gate 4): Certificación de la Calidad de los Datos
 
 El Propietario de Datos y el DPO realizaron la revisión final del Data Sheet y la calidad del dataset enriquecido.
 
@@ -321,11 +345,12 @@ Este documento simula la ejecución de la **Fase 5** del Ciclo de Vida de Gobern
 
 ---
 
-### 2. Actividad 1: Selección y Evaluación del Proveedor (Motor OCR)
+### 2. Camino B: Adquisición Externa
+
+#### Actividad 1: Debida Diligencia y Selección del Proveedor (Motor OCR)
 
 Dado que la entidad no cuenta con la capacidad para desarrollar un motor de OCR/NLP desde cero, se procedió a la adquisición de una solución de mercado. Se aplicó el **Checklist de Evaluación de Proveedores de IA** (versión Estándar para Alto Riesgo).
 
-#### Resumen de la Evaluación
 *   **Proveedor Evaluado:** VisionTech OCR Services.
 *   **Resultado del Checklist:** **RECOMENDADO** (Cumplimiento de criterios mandatorios).
 *   **Hallazgos Clave:**
@@ -334,9 +359,19 @@ Dado que la entidad no cuenta con la capacidad para desarrollar un motor de OCR/
     *   **Seguridad:** Cuenta con certificación ISO 27001 vigente.
     *   **Auditoría:** Aceptó la cláusula de "Derecho a Auditoría" por parte del Distrito.
 
+#### Actividad 2: Negociación del Contrato con Cláusulas de Gobernanza
+
+El Área Jurídica, con apoyo del DPO, blindó la contratación del motor OCR mediante cláusulas específicas.
+
+*   **Acuerdo de Procesamiento de Datos (DPA):** Define al Distrito como Responsable y a VisionTech como Encargado. Prohíbe el uso de los datos del Distrito para re-entrenar los modelos comerciales del proveedor.
+*   **SLA de Precisión:** Se establece un nivel de servicio donde la precisión del OCR no puede ser inferior al 95%. Penalizaciones económicas por degradación del modelo.
+*   **Portabilidad:** Obligación de devolver o destruir todos los datos al finalizar el contrato.
+
 ---
 
-### 3. Actividad 2: Desarrollo Interno e Integración con Gobernanza
+### 3. Camino A: Desarrollo Interno
+
+#### Actividad 1: Diseño e Implementación con Gobernanza Integrada
 
 El equipo de desarrollo interno de la Secretaría construyó la capa de orquestación y la interfaz de usuario (Chatbot), implementando los controles definidos en el ARA/DPIA (Fase 3).
 
@@ -352,22 +387,11 @@ El equipo de desarrollo interno de la Secretaría construyó la capa de orquesta
 
 ---
 
-### 4. Actividad 3: Formalización Contractual
-
-El Área Jurídica, con apoyo del DPO, blindó la contratación del motor OCR mediante cláusulas específicas.
-
-#### Cláusulas de Gobernanza Incluidas
-*   **Acuerdo de Procesamiento de Datos (DPA):** Define al Distrito como Responsable y a VisionTech como Encargado. Prohíbe el uso de los datos del Distrito para re-entrenar los modelos comerciales del proveedor.
-*   **SLA de Precisión:** Se establece un nivel de servicio donde la precisión del OCR no puede ser inferior al 95%. Penalizaciones económicas por degradación del modelo.
-*   **Portabilidad:** Obligación de devolver o destruir todos los datos al finalizar el contrato.
-
----
-
-### 5. Punto de Control (Gate 5): Revisión de la Solución y Contrato
+### 4. Punto de Control (Gate 5): Revisión de la Solución y Contrato
 
 El Comité Técnico y Jurídico revisó los entregables antes de autorizar el paso a pruebas.
 
-#### Decisión del Gate 5
+#### Decisión
 
 > **DECISIÓN:** ✅ **APROBADO**
 >
@@ -398,7 +422,7 @@ Este documento simula la ejecución de la **Fase 6** del Ciclo de Vida de Gobern
 
 ---
 
-### 2. Actividad 1: Pruebas Técnicas (Robustez, Seguridad y Rendimiento)
+### 2. Actividad 1: Pruebas Técnicas
 
 El equipo técnico ejecutó una batería de pruebas sobre el modelo **RESIDENCIA_BOG_OCR_VALIDATOR_V1.0** utilizando el conjunto de datos de prueba reservado (10% del dataset total, nunca visto por el modelo).
 
@@ -420,7 +444,7 @@ Se realizó un *pentesting* enfocado en riesgos de IA:
 
 ---
 
-### 3. Actividad 2: Pruebas de Equidad y No Discriminación
+### 3. Actividad 2: Pruebas de Equidad
 
 Esta fue la prueba crítica condicionada por el DPO y el Comité de IA en la Fase 3 y 4.
 
@@ -440,7 +464,7 @@ Verificar que el sistema no discrimine a ciudadanos que aportan documentos físi
 
 ---
 
-### 4. Actividad 3: Pruebas de Transparencia y Explicabilidad
+### 4. Actividad 3: Pruebas de Explicabilidad
 
 Se validó que el sistema sea transparente para el usuario final y explicable para el auditor.
 
@@ -451,15 +475,21 @@ Se validó que el sistema sea transparente para el usuario final y explicable pa
 
 ---
 
-### 5. Actividad 4: Pruebas de Usabilidad, Accesibilidad e Integración
+### 5. Actividad 4: Pruebas de Usabilidad
 
 *   **Accesibilidad:** Se auditó la interfaz web del Chatbot cumpliendo con **WCAG 2.1 Nivel AA** (compatible con lectores de pantalla).
+*   **Usabilidad:** Se realizaron pruebas con ciudadanos de diferentes perfiles para asegurar que la interacción con el chatbot fuera intuitiva.
+
+---
+
+### 6. Actividad 5: Pruebas de Integración
+
 *   **Integración:** Se verificó la correcta comunicación con la base de datos de radicación y la generación del PDF del certificado firmado digitalmente.
 *   **Prueba de Carga:** El sistema soportó 500 peticiones concurrentes sin degradación del servicio (simulando picos de demanda).
 
 ---
 
-### 6. Punto de Control (Gate 6): Aprobación para Despliegue
+### 7. Punto de Control (Gate 6): Aprobación para Despliegue
 
 El Responsable Técnico presentó el **Informe de Pruebas y Validación** y la **Model Card** actualizada al Comité de IA.
 
@@ -494,7 +524,7 @@ Este documento simula la ejecución de la **Fase 7** del Ciclo de Vida de Gobern
 
 ---
 
-### 2. Actividad 1: Capacitación y Gestión del Cambio
+### 2. Actividad 1: Capacitación de Usuarios
 
 Antes de activar el sistema, se ejecutó el plan de formación para garantizar que el componente humano del sistema ("Human-in-the-loop") fuera competente.
 
@@ -505,7 +535,7 @@ Antes de activar el sistema, se ejecutó el plan de formación para garantizar q
 
 ---
 
-### 3. Actividad 2: Configuración de Controles y Monitoreo
+### 3. Actividad 2: Configuración de Controles
 
 El equipo técnico activó la infraestructura de observabilidad definida en el ARA/DPIA:
 
@@ -517,7 +547,7 @@ El equipo técnico activó la infraestructura de observabilidad definida en el A
 
 ---
 
-### 4. Actividad 3: Estrategia de Despliegue Gradual
+### 4. Actividad 3: Despliegue Gradual
 
 Siguiendo la instrucción del Gate 6, se optó por un lanzamiento faseado para minimizar riesgos operativos.
 
@@ -529,16 +559,21 @@ Siguiendo la instrucción del Gate 6, se optó por un lanzamiento faseado para m
 
 ---
 
-### 5. Actividad 4: Comunicación y Canales de Apelación
+### 5. Actividad 4: Establecimiento de Canales de Reporte
 
 Se implementaron los mecanismos de transparencia y defensa del ciudadano:
 
-*   **Transparencia Activa:** El Chatbot inicia con el mensaje: *"Hola, soy un asistente virtual automatizado. Estoy aquí para validar tus documentos y expedir tu certificado al instante."*
 *   **Botón de Apelación:** En caso de que el sistema (o el humano supervisor) rechace la solicitud, se habilitó un botón visible: *"No estoy de acuerdo, solicitar segunda revisión"*, que escala el caso a un nivel superior.
 
 ---
 
-### 6. Punto de Control (Gate 7): Aprobación del Go-Live
+### 6. Actividad 5: Comunicación Transparente
+
+*   **Transparencia Activa:** El Chatbot inicia con el mensaje: *"Hola, soy un asistente virtual automatizado. Estoy aquí para validar tus documentos y expedir tu certificado al instante."*
+
+---
+
+### 7. Punto de Control (Gate 7): Aprobación del Go-Live
 
 El Comité de IA se reunió con el Sponsor de Negocio para la autorización final.
 
@@ -578,7 +613,7 @@ Este documento simula la ejecución de la **Fase 8** del Ciclo de Vida de Gobern
 
 ---
 
-### 2. Actividad 1: Monitoreo Técnico Continuo
+### 2. Actividad 1: Monitoreo Técnico
 
 El Responsable Técnico presentó el reporte del **Dashboard de Gobernanza** con los datos acumulados de los primeros 90 días de operación.
 
@@ -625,6 +660,13 @@ El equipo de Control Interno realizó una verificación muestral de cumplimiento
 
 ---
 
+### 5. Actividad 4: Gestión de Cambios
+
+*   **Evaluación de Impacto:** El *drift* detectado en marzo fue analizado. Se determinó que no afectaba la precisión de forma crítica, pero se agendó una actualización.
+*   **Actualización de Documentación:** Se creó una nueva versión del *Data Sheet* para incluir los nuevos formatos de factura y se planificó el reentrenamiento del modelo para la versión v1.1.
+
+---
+
 ### 5. Punto de Control (Gate 8): Revisión Trimestral de Desempeño
 
 El Comité de IA analizó la evidencia presentada para decidir el futuro del sistema.
@@ -665,12 +707,16 @@ Este documento simula la ejecución de la **Fase 9** del Ciclo de Vida de Gobern
 
 ---
 
-### 2. Actividad 1: Decisión y Planificación del Retiro
+### 2. Actividad 1: Decisión de Retiro
 
 El Comité de IA ha decidido retirar el sistema basándose en uno de los triggers definidos en la Fase 1.
 
 #### Causal de Retiro (Simulada)
 *   **Obsolescencia Técnica:** La tecnología OCR utilizada (v1.0) ha sido superada por nuevos modelos de IA Generativa Multimodal que ofrecen mayor precisión a menor costo, haciendo insostenible el mantenimiento del actual.
+
+---
+
+### 3. Actividad 2: Planificación de la Transición
 
 #### Plan de Transición (Continuidad del Servicio)
 *   **Estrategia:** Migración a nuevo sistema (v2.0).
@@ -679,7 +725,7 @@ El Comité de IA ha decidido retirar el sistema basándose en uno de los trigger
 
 ---
 
-### 3. Actividad 2: Gestión del Fin de Vida de los Datos
+### 4. Actividad 3: Gestión de Datos
 
 El Propietario de Datos y el DPO supervisaron la disposición final de los activos de información.
 
@@ -693,7 +739,7 @@ El Propietario de Datos y el DPO supervisaron la disposición final de los activ
 
 ---
 
-### 4. Actividad 3: Documentación de Lecciones Aprendidas
+### 5. Actividad 4: Documentación de Lecciones Aprendidas
 
 Se realizó una sesión de cierre ("Post-Mortem") para documentar el conocimiento adquirido.
 
@@ -704,7 +750,7 @@ Se realizó una sesión de cierre ("Post-Mortem") para documentar el conocimient
 
 ---
 
-### 5. Punto de Control (Gate 9): Aprobación Final y Cierre
+### 6. Punto de Control (Gate 9): Aprobación Final y Cierre
 
 El Comité de IA, el DPO y Auditoría Interna se reunieron para el cierre formal.
 
