@@ -41,18 +41,26 @@
                         <div class="dimension-title">Roles por Caso de Uso</div>
                         <div class="dimension-description">Responsabilidades operativas para cada iniciativa de IA</div>
                     </div>
-                    
+
                     <div class="dimension-card" onclick="showDetail(5)" data-dimension="5">
+                        <div class="dimension-icon">🛠️</div>
+                        <div class="dimension-title">Instrumentos Operativos</div>
+                        <div class="dimension-description">Registro Central y Catálogo de Proveedores</div>
+                    </div>
+
+                    <div class="dimension-card" onclick="showDetail(6)" data-dimension="6">
                         <div class="dimension-icon">🎯</div>
                         <div class="dimension-title">Alineación CONPES 4144</div>
                         <div class="dimension-description">Mecanismos de trazabilidad con los cinco ejes estratégicos</div>
                     </div>
                     
-                    <div class="dimension-card" onclick="showDetail(6)" data-dimension="6">
+                    <div class="dimension-card" onclick="showDetail(7)" data-dimension="7">
                         <div class="dimension-icon">📊</div>
                         <div class="dimension-title">Vigilancia de Cumplimiento</div>
                         <div class="dimension-description">Calendario de revisiones y mecanismos de reporte</div>
                     </div>
+                    
+                    
                 </div>
             </div>
             
@@ -154,6 +162,33 @@
                 note: "La matriz RACI (Responsible, Accountable, Consulted, Informed) del toolkit especifica las responsabilidades detalladas para cada rol en las diferentes fases del ciclo de vida."
             },
             5: {
+                title: "Instrumentos Operativos de Gobernanza",
+                description: "Para facilitar la coordinación, trazabilidad y eficiencia en la gestión del portafolio de IA, se establecen dos instrumentos operativos obligatorios:",
+                instruments: [
+                    {
+                        title: "Registro Central de Casos de Uso de IA",
+                        description: "Sistema centralizado que documenta todos los casos de uso en operación, desarrollo o evaluación.",
+                        details: [
+                            "<strong>Estructura mínima de datos:</strong> ID único, nombre del sistema, entidad responsable, clasificación de riesgo, estado del ciclo de vida, fecha de inicio, responsables (técnico, sponsor, DPO), descripción breve, datos personales tratados (Sí/No/Sensibles), fecha de última actualización.",
+                            "<strong>Actualización obligatoria:</strong> mensual para sistemas en operación, semanal para sistemas en desarrollo.",
+                            "<strong>Acceso:</strong> consulta pública (datos no sensibles) para transparencia ciudadana; acceso completo para Comité de IA, control interno y auditoría.",
+                            "<strong>Responsable:</strong> Oficial de IA Responsable (Secretaría Técnica del Comité)."
+                        ]
+                    },
+                    {
+                        title: "Catálogo Distrital de Proveedores Pre-evaluados",
+                        description: "Listado de proveedores que han superado evaluación previa mediante el Checklist de Evaluación, clasificados por nivel de riesgo y tipo de solución.",
+                        details: [
+                            "<strong>Criterios de inclusión:</strong> aprobación ≥75% en checklist estándar, cumplimiento obligatorio de Ley 1581 (2012) y Ley 2279 (2022), certificaciones de seguridad vigentes, referencias verificables en sector público.",
+                            "<strong>Beneficios:</strong> reducción de 40-60% en tiempo de evaluación para licitaciones, estandarización de cláusulas contractuales, mayor poder de negociación institucional.",
+                            "<strong>Actualización:</strong> anual con revisión semestral de certificaciones.",
+                            "<strong>Responsable:</strong> Comité de IA con soporte del área de Contratación."
+                        ]
+                    }
+                ],
+                integration: "Estos instrumentos se integran al dashboard de gobernanza mediante indicadores de cobertura de registro (objetivo: 100%) y uso del catálogo en procesos de contratación (objetivo: ≥70% para sistemas de alto riesgo)."
+            },
+            6: {
                 title: "Alineación con CONPES 4144",
                 description: "El modelo de gobierno establece mecanismos específicos de trazabilidad y reporte que garantizan la alineación estratégica con los cinco ejes del CONPES 4144.",
                 alignments: [
@@ -179,7 +214,7 @@
                     }
                 ]
             },
-            6: {
+            7: {
                 title: "Vigilancia de Cumplimiento",
                 description: "Para vigilancia de cumplimiento regulatorio, el Comité establece un calendario de revisiones que incluye:",
                 compliance: [
@@ -448,6 +483,45 @@
                     html += `
                         <div class="detail-section">
                             <p><strong>Conclusión:</strong> ${detail.conclusion}</p>
+                        </div>
+                    `;
+                }
+            }
+            
+            // Instruments (for dimension 7)
+            if (detail.instruments) {
+                html += `
+                    <div class="detail-section">
+                        <h3>🛠️ Instrumentos Operativos</h3>
+                        <div class="compliance-list">
+                `;
+                
+                detail.instruments.forEach(inst => {
+                    html += `
+                        <div class="compliance-item">
+                            <div class="compliance-title">${inst.title}</div>
+                            <div class="compliance-description">${inst.description}</div>
+                            <ul style="margin-top: 10px; padding-left: 20px;">
+                    `;
+                    inst.details.forEach(det => {
+                        html += `<li style="margin-bottom: 5px;">${det}</li>`;
+                    });
+                    html += `
+                            </ul>
+                        </div>
+                    `;
+                });
+                
+                html += `
+                        </div>
+                    </div>
+                `;
+
+                if (detail.integration) {
+                    html += `
+                        <div class="detail-section">
+                            <h3>📊 Integración con Dashboard</h3>
+                            <p>${detail.integration}</p>
                         </div>
                     `;
                 }
