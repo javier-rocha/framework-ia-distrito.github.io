@@ -41,18 +41,6 @@
                         <div class="dimension-title">Política de Compras y Proveedores</div>
                         <div class="dimension-description">Requisitos para debida diligencia y contratación de proveedores de soluciones de IA</div>
                     </div>
-                    
-                    <div class="dimension-card" onclick="showDetail(5)" data-dimension="5">
-                        <div class="dimension-icon">🏢</div>
-                        <div class="dimension-title">Modelo de Gobierno</div>
-                        <div class="dimension-description">Estructura organizacional y mecanismos de decisión para gobernanza de IA</div>
-                    </div>
-                    
-                    <div class="dimension-card" onclick="showDetail(6)" data-dimension="6">
-                        <div class="dimension-icon">🔗</div>
-                        <div class="dimension-title">Alineación CONPES 4144</div>
-                        <div class="dimension-description">Mecanismos de trazabilidad y reporte para alineación con política nacional</div>
-                    </div>
                 </div>
             </div>
             
@@ -184,82 +172,6 @@
                         title: "Requisitos de auditoría y mejora continua",
                         description: "Los contratos incorporarán: cláusulas de derecho a auditoría; implementación de sistemas de telemetría para detectar desviaciones; Acuerdos de Niveles de Servicio (SLA) con compromisos de disponibilidad; roadmap de producto, gestión de versiones y control de cambios con procesos de notificación."
                     }
-                ]
-            },
-            5: {
-                title: "Modelo de Gobierno",
-                description: "Estructura organizacional y mecanismos de decisión para implementar la gobernanza de IA en el Distrito Capital, reconociendo las diferentes capacidades institucionales.",
-                committee: {
-                    title: "Comité de IA Distrital o por Entidad",
-                    description: "Máxima instancia de gobernanza para la inteligencia artificial en el Distrito Capital, responsable de la dirección estratégica, supervisión y coordinación de todas las iniciativas en esta materia.",
-                    composition: [
-                        "Alta Dirección (Presidente del Comité): Secretario, Director o nivel directivo equivalente",
-                        "Oficial de IA Responsable (Secretaría Técnica): Rol dedicado responsable de coordinación operativa",
-                        "Representante de Tecnologías de Información (TIC) y Seguridad: Perspectiva técnica sobre arquitectura y ciberseguridad",
-                        "Data Protection Officer (DPO) o Responsable de Habeas Data: Asegura cumplimiento de Ley 1581",
-                        "Representante Jurídico: Evalúa bases legales y conformidad regulatoria",
-                        "Representante de Planeación: Asegura alineación con plan estratégico institucional",
-                        "Representante de Control Interno: Perspectiva de gestión de riesgos institucionales",
-                        "Representante de Atención al Ciudadano o Área de Negocio: Comprensión del contexto de uso"
-                    ],
-                    functions: [
-                        "Aprobar o rechazar implementación de casos de uso de IA",
-                        "Supervisar el portafolio de iniciativas de IA",
-                        "Establecer y actualizar políticas institucionales de IA",
-                        "Revisar y aprobar ARA/DPIA para casos de alto riesgo",
-                        "Monitorear KPIs agregados y gestionar incidentes significativos",
-                        "Aprobar contratos con proveedores de IA",
-                        "Coordinar capacitación y gestión del cambio organizacional"
-                    ]
-                },
-                roles: [
-                    {
-                        title: "Sponsor de Negocio (Product Owner)",
-                        description: "Líder del área usuaria que impulsa la iniciativa de IA, definiendo su propósito estratégico y requisitos funcionales. Responsable último de los resultados."
-                    },
-                    {
-                        title: "Responsable Técnico (Technical Lead)",
-                        description: "Lidera desarrollo o implementación técnica, asegura calidad del sistema, supervisa pruebas, coordina con proveedores externos y es responsable del monitoreo técnico continuo."
-                    },
-                    {
-                        title: "Propietario de Datos (Data Steward)",
-                        description: "Gestiona integralmente el ciclo de vida de los datos utilizados por el sistema, garantizando su calidad, disponibilidad y gobierno."
-                    },
-                    {
-                        title: "Usuarios Finales y Representantes de Ciudadanía",
-                        description: "Participan activamente en diseño, validación y mejora continua del sistema, aportando perspectivas basadas en la experiencia real de uso."
-                    }
-                ]
-            },
-            6: {
-                title: "Alineación con CONPES 4144",
-                description: "Mecanismos específicos de trazabilidad y reporte que garantizan la alineación estratégica con los cinco ejes del CONPES 4144, integrando la gobernanza de IA con los sistemas de gestión existentes en el Distrito.",
-                alignment: [
-                    {
-                        title: "Eje de Ética y Gobernanza",
-                        description: "El Comité de IA supervisa la implementación de la Carta de IA Responsable y reporta trimestralmente el estado del portafolio, incidentes éticos y lecciones aprendidas, integrando estos indicadores al Sistema de Seguimiento a Metas del MIPG."
-                    },
-                    {
-                        title: "Eje de Datos e Infraestructura",
-                        description: "El DPO y el área TIC reportan trimestralmente sobre la madurez de la gobernanza de datos, calidad de conjuntos de datos utilizados y estado de la infraestructura tecnológica, información que se incorpora a los indicadores de gestión del MIPG."
-                    },
-                    {
-                        title: "Eje de Gestión de Riesgos",
-                        description: "Se mantiene un registro corporativo de riesgos de IA actualizado trimestralmente, el cual se articula con la matriz de riesgos del sistema de control interno, reportando riesgos materializados, efectividad de controles y necesidades de mejora."
-                    },
-                    {
-                        title: "Eje de Talento",
-                        description: "El área de Gestión Humana reporta semestralmente los avances del programa de capacitación en IA responsable, cobertura de formación y desarrollo de capacidades internas, integrando estas métricas al plan de desarrollo del talento humano."
-                    },
-                    {
-                        title: "Eje de Uso y Adopción",
-                        description: "Se cuantifica y reporta trimestralmente el avance en adopción mediante indicadores de casos de uso por fase del ciclo de vida, servicios transformados, beneficiarios impactados y resultados en eficiencia y calidad del servicio."
-                    }
-                ],
-                compliance: [
-                    "Cumplimiento de Ley 1581 y normativa SIC: revisión mensual de ARA/DPIA vigentes, atención de derechos de habeas data",
-                    "Conformidad con políticas de gobierno digital y transparencia: publicación de inventario de sistemas de IA, divulgaciones ciudadanas requeridas",
-                    "Seguimiento al plan de acción derivado del CONPES 4144 a nivel institucional, con reporte anual de avances al nivel distrital correspondiente"
                 ]
             }
         };
